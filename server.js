@@ -1,7 +1,7 @@
 (function() {
   var PORT, app, db, dbconfig, express, flash, handlebars, hbs, helpers, log, mongoose, passport, wrench;
 
-  PORT = 3000;
+  PORT = process.env.PORT || 3000;
 
   express = require("express");
 
@@ -64,7 +64,7 @@
 
   app.use(express["static"]("www/"));
 
-  app.listen(process.env.PORT || PORT);
+  app.listen(PORT);
 
   console.log("Running on: " + PORT);
 

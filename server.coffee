@@ -1,5 +1,4 @@
-
-PORT = 3000
+PORT = process.env.PORT || 3000
 
 express = require "express"
 mongoose = require "mongoose"
@@ -50,6 +49,6 @@ app.configure () ->
 	router(app, passport)
 	
 app.use(express.static("www/"))
-app.listen(process.env.PORT || PORT)
+app.listen(PORT)
 
 console.log("Running on: #{PORT}");
