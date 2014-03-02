@@ -1,3 +1,5 @@
+passport = require "../../config/Passport"
+
 module.exports = (app) ->
 	app.post('/login', (req, res, next) ->
 		if req.body.rememberme?
@@ -29,7 +31,7 @@ module.exports = (app) ->
 			lastName: body.familyname
 			email: body.email
 			password: body.password
-			authLevel: 0
+			authLevel: passport.AUTH_LEVEL.CRAFTSMAN
 		)
 		
 		user.save (err) ->

@@ -1,4 +1,8 @@
 (function() {
+  var passport;
+
+  passport = require("../../config/Passport");
+
   module.exports = function(app) {
     app.post('/login', function(req, res, next) {
       if (req.body.rememberme != null) {
@@ -31,7 +35,7 @@
         lastName: body.familyname,
         email: body.email,
         password: body.password,
-        authLevel: 0
+        authLevel: passport.AUTH_LEVEL.CRAFTSMAN
       });
       return user.save(function(err) {
         if (err != null) {

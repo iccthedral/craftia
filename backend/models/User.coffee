@@ -28,7 +28,7 @@ schema = mongoose.Schema
 		type: String
 		required: true
 
-	authorization:
+	authLevel:
 		type: String
 		required: true
 
