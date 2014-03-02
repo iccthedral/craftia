@@ -28,6 +28,10 @@ schema = mongoose.Schema
 		type: String
 		required: true
 
+	authorization:
+		type: String
+		required: true
+
 schema.pre "save", (next) ->
 	user = @
 	if not user.isModified("password")

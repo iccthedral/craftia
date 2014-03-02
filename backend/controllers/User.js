@@ -22,7 +22,7 @@
         });
       })(req, res, next);
     });
-    return app.post('/register', function(req, res, next) {
+    return app.post('/register-craftsman', function(req, res, next) {
       var body, user;
       body = req.body;
       user = new UserModel({
@@ -31,8 +31,7 @@
         lastName: body.familyname,
         email: body.email,
         password: body.password,
-        faction: body.faction,
-        architecture: body.architecture
+        authLevel: 0
       });
       return user.save(function(err) {
         if (err != null) {

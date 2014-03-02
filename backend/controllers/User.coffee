@@ -1,11 +1,10 @@
-
 module.exports = (app) ->
 	app.post('/login', (req, res, next) ->
 		if req.body.rememberme?
-			req.session.cookie.maxAge = 30*24*60*60*1000 #30 dana
+			req.session.cookie.maxAge = 30*24*60*60*1000
 		else
 			req.session.cookie.expires = false
-	
+
 		passport.authenticate("local",
 			(err, user, info) ->
 				if err
@@ -21,7 +20,8 @@ module.exports = (app) ->
 		)(req, res, next)
 	)
 
-	app.post('/register', (req, res, next) ->
+	app.post('/register-craftsman
+		', (req, res, next) ->
 		body = req.body
 		user = new UserModel(
 			username: body.username
@@ -29,6 +29,7 @@ module.exports = (app) ->
 			lastName: body.familyname
 			email: body.email
 			password: body.password
+			authLevel: 0
 		)
 		
 		user.save (err) ->

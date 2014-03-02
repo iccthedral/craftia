@@ -44,3 +44,9 @@ module.exports = (passport) ->
 	)
 	
 	passport.use(strat)
+
+module.exports.AUTH_LEVEL =
+	admin: 0
+	craftsman: 1
+	customer: 2
+

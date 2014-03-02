@@ -30,6 +30,10 @@
     lastName: {
       type: String,
       required: true
+    },
+    authorization: {
+      type: String,
+      required: true
     }
   });
 
