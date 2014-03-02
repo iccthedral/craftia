@@ -4,7 +4,7 @@
     urlArgs: Math.random(),
     baseUrl: "js",
     paths: {
-      "jquery": "../vendor/jquery/jquery.min",
+      "jquery": "../vendor/jquery/dist/jquery.min",
       "handlebars": "../vendor/handlebars/handlebars.min",
       "requireLib": "../vendor/requirejs/require"
     },

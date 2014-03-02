@@ -5,6 +5,7 @@
     "dependencies": {
     	"angular": null,
         "requirejs": null,
-		"jquery": null
+		"jquery": null,
+		"handlebars": null
 	}
 }

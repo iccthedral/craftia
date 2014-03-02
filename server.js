@@ -25,7 +25,7 @@
 
   log = console.log;
 
-  mongoose.connect(process.env.MONGOLAB_URI || PROCESS.env.MONGOHQ_URL || dbconfig.url);
+  mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || dbconfig.url);
 
   db = mongoose.connection;
 

@@ -15,7 +15,7 @@ app = express()
 log = console.log
 
 #connect to database
-mongoose.connect(process.env.MONGOLAB_URI || PROCESS.env.MONGOHQ_URL || dbconfig.url)
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || dbconfig.url)
 db = mongoose.connection
 db.on "error", console.error.bind(console, "Connection error: ")
 db.once "open", () ->
