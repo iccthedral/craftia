@@ -3,6 +3,7 @@
     "name": "craftia",
     "version": "0.0.1",
     "dependencies": {
+    	"angular": null,
         "requirejs": null,
 		"jquery": null
 	}
