@@ -11,6 +11,10 @@
     "name": "Goran & Sale",
     "url": "http://craftia.herokuapp.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@heroku.com:craftia.git"
+  },
   "dependencies": {
     "bower": "*",
     "express": "*",
