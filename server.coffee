@@ -50,6 +50,6 @@ app.configure () ->
 	router(app, passport)
 	
 app.use(express.static("www/"))
-app.listen(PORT)
+app.listen(process.env.PORT || PORT)
 
 console.log("Running on: #{PORT}");
