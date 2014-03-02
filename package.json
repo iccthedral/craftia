@@ -1,0 +1,35 @@
+
+{
+  "name": "craftia",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
+  "author": {
+    "name": "Goran & Sale",
+    "url": "http://craftia.herokuapp.com"
+  },
+  "dependencies": {
+    "bower": "*",
+    "express": "*",
+    "express3-handlebars": "*",
+    "express-validator": "*",
+    "mongoose": "*",
+    "mongodb": "*",
+    "coffee-script": "*",
+    "colors": "*",
+    "wrench": "*",
+    "grunt": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-coffee": "*",    
+    "passport" : "latest",
+    "passport-local" : "latest", 
+    "bcrypt-nodejs" : "latest",
+    "connect-flash": "*"
+  },
+  "devDependencies": {
+
+  }
+}
