@@ -1,0 +1,65 @@
+<section class="mainbar" data-ng-controller="login as vm">
+  <section class="matter">
+    <div class="container">
+      <div class="row">
+        <div class="widget wcyan">
+          <div data-cc-widget-header title="{{vm.title}}"></div>
+          <div class="widget-content user">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="widget wcyan">
+                  <div class="profile-details-widget fluid-container">
+
+                    <form class="form-horizontal" ng-submit="vm.login()">
+                      <fieldset>
+
+                        <!-- Form Name -->
+                        <h3>Login details</h3>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="username">Username</label>  
+                          <div class="col-md-6">
+                            <input ng-model="vm.loginDetails.username" id="username" name="username" type="text" placeholder="" class="form-control input-md" required="">
+
+                          </div>
+                        </div>
+
+                        <!-- Password input-->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="password">Password</label>
+                          <div class="col-md-6">
+                            <input ng-model="vm.loginDetails.password" id="password" name="password" type="password" placeholder="" class="form-control input-md" required="">
+
+                          </div>
+                        </div>
+
+                        <!-- Multiple Checkboxes (inline) -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="checkboxes">Remember me</label>
+                          <div class="col-md-4">
+                            <label class="checkbox-inline" for="checkboxes-0">
+                              <input ng-model="vm.loginDetails.rememberme" type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
+                            </label>
+                          </div>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for=""></label>
+                          <div class="col-md-4">
+                            <button id="" name="" class="btn btn-success">Login</button>
+                          </div>
+                        </div>
+
+                      </fieldset>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>

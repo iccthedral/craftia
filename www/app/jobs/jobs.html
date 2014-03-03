@@ -1,0 +1,48 @@
+﻿<section class="mainbar" data-ng-controller="jobs as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="widget wcyan">
+                    <div data-cc-widget-header title="{{vm.title}}"></div>
+                    <div class="widget-content user">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="widget wcyan">
+                                    <div data-cc-widget-header title="Current jobs"
+                                         allow-collapse="true"></div>
+                                    <div class="widget-content text-center text-info">
+                                        <table class="table table-condensed table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <th>Author</th>
+                                                    <th>Skills</th>
+                                                    <th>Starting date</th>
+                                                    <th>Engding date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-repeat="p in vm.jobs">
+                                                    <td>{{p.title}}</td>
+                                                    <td>{{p.author}}</td>
+                                                    <td>{{p.skills[0]}}</td>
+                                                    <td>{{p.startingDate}}</td>
+                                                    <td>{{p.endingDate}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="widget-foot">
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </section>
+</section>

@@ -8,7 +8,8 @@ require.config
 		"jquery": "../vendor/jquery/dist/jquery.min"
 		"handlebars": "../vendor/handlebars/handlebars.min"
 		"requireLib" : "../vendor/requirejs/require"
-
+		"angular": "../vendor/"
+		
 	shim:
 		"jquery":
 			exports: "$"

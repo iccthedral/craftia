@@ -72,9 +72,9 @@
   };
 
   module.exports.AUTH_LEVEL = {
-    ADMIN: 0,
-    CRAFTSMAN: 1,
-    CUSTOMER: 2
+    ADMIN: "Admin",
+    CRAFTSMAN: "Craftsman",
+    CUSTOMER: "Customer"
   };
 
 }).call(this);

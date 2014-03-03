@@ -21,15 +21,15 @@ db.once "open", () ->
 	console.log "Connected to DB"
 
 #create and configure handlebars
-hbs = handlebars.create
-	helpers: helpers
-	partialsDir: [
+hbs = handlebars.create({})
+	# helpers: helpers
+###	partialsDir: [
 		 "views/hbpartials/"
-	]
+	]###
 
 #load utils and prototypes
 wrench.readdirSyncRecursive("utils/")
-.filter (file) -> 
+.filter (file) ->
 	return file.lastIndexOf(".js") isnt -1 
 .forEach (util) ->
 	require("./utils/#{util}")()

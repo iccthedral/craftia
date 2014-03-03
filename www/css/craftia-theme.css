@@ -1,0 +1,14 @@
+.profile-details-widget {
+	width: 100%;
+	display: block;
+	margin-bottom: 50px;
+}
+
+.profile-details-widget  {
+    margin: 0 auto;
+}
+
+.profile-details-widget input {
+	float: right;
+    clear: both;
+}

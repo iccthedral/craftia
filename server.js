@@ -35,10 +35,13 @@
     return console.log("Connected to DB");
   });
 
-  hbs = handlebars.create({
-    helpers: helpers,
-    partialsDir: ["views/hbpartials/"]
-  });
+  hbs = handlebars.create({});
+
+
+  /*	partialsDir: [
+  		 "views/hbpartials/"
+  	]
+   */
 
   wrench.readdirSyncRecursive("utils/").filter(function(file) {
     return file.lastIndexOf(".js") !== -1;

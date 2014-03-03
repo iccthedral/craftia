@@ -23,15 +23,19 @@
     accessToken: {
       type: String
     },
-    firstName: {
+    name: {
       type: String,
       required: true
     },
-    lastName: {
+    surname: {
       type: String,
       required: true
     },
-    authLevel: {
+    type: {
+      type: String,
+      required: true
+    },
+    telephone: {
       type: String,
       required: true
     }
