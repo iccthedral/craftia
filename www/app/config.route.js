@@ -120,6 +120,14 @@
                     templateUrl: 'app/login/login.html',
                     resolve: authenticate(true),
                 }
+            },
+            {
+                url: '/login',
+                config: {
+                    title: 'login',
+                    templateUrl: 'app/login/login.html',
+                    resolve: authenticate(false),
+                }
             }
         ];
     }
