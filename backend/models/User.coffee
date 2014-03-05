@@ -28,12 +28,12 @@ schema = mongoose.Schema
 		required: true
 
 	type:
-    type: String
-    required: true
+    	type: String
+    	required: true
 
-  telephone:
-    type: String
-    required: true
+	telephone:
+		type: String
+		required: true
 
 schema.pre "save", (next) ->
 	user = @
