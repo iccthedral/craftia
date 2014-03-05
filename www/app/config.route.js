@@ -9,9 +9,15 @@
 
     app.run(["$rootScope", "$location", "$route", "authService", 
         function($rootScope, $location, $route, authService) {
-            // $rootScope.$on("$routeChangeSuccess", function(event, next, current) {
+            $rootScope.$on("$routeChangeSuccess", function(event, next, current) {
 
-            // })
+            })
+
+            $rootScope.$on("$routeChangeError", function(event, next, current) {
+                if(!$rootScope.isAuthenticated) {
+                    $location.path("/login");
+                }
+            })
     }]);
 
     // Configure the routes and route resolvers
@@ -31,29 +37,26 @@
             auth: ['$q', '$rootScope', '$location',
                 function($q, $rootScope, $location) {
                     var defer = $q.defer();
-                    if(access) {
-                        if ($rootScope.isAuthenticated) {
-                            if ($location.path() === "/login") {
-                                $location.path("/")
-                            }
-                            defer.reject()
-                        } else {
-                            $location.path("/login");
+                    var isLogin = $location.path() === "/login"
+                    if($rootScope.isAuthenticated && access) {
+                        if (isLogin) {
+                            $location.path("/");
                         }
-                    } else {
                         defer.resolve();
                     }
-                }
-            ],
-            load: ['$q', 
-                function($q) {
-                  if (access) {
-                    var deferred = $q.defer();
-                    deferred.resolve();
-                    return deferred.promise;
-                  } else {
-                    $q.reject("/login");
-                  }
+                    else if ($rootScope.isAuthenticated && !access) {
+                        if (isLogin) {
+                            $location.path("/");
+                        }
+                        defer.resolve()
+                    } else {
+                        if (access) {
+                            defer.reject()
+                        } else {
+                            defer.resolve()
+                        }
+                    }
+                    return defer.promise;
                 }
             ]
           }
@@ -65,7 +68,7 @@
                 config: {
                     templateUrl: 'app/dashboard/dashboard.html',
                     title: 'dashboard',
-                    resolve: authenticate(true),
+                    resolve: authenticate(false),
                     settings: {
                         nav: 1,
                         content: '<i class="fa fa-dashboard"></i> Dashboard'
@@ -118,7 +121,7 @@
                 config: {
                     title: 'login',
                     templateUrl: 'app/login/login.html',
-                    resolve: authenticate(true),
+                    resolve: authenticate(false),
                 }
             }
         ];
