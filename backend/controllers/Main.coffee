@@ -9,16 +9,16 @@ module.exports = (app) ->
     else
       res.send(403)
   
- title: "Blabla",
- description: "Ovo je description",
- materialProvider: "Customer",
- budget: 50000,
- address: {
- 	zip: 11000,
- 	line1: "Holy Shit",
- 	line2: "True Det"
- },
- category: "Cars",
- subcategory: "Driver",
- dateFrom: new Date(),
- dateTo: new Date()
+ # title: "Blabla",
+ # description: "Ovo je description",
+ # materialProvider: "Customer",
+ # budget: 50000,
+ # address: {
+ # 	zip: 11000,
+ # 	line1: "Holy Shit",
+ # 	line2: "True Det"
+ # },
+ # category: "Cars",
+ # subcategory: "Driver",
+ # dateFrom: new Date(),
+ # dateTo: new Date()

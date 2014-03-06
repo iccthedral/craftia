@@ -10,18 +10,6 @@ CategoryModel = require ("../models/Category")
 
 module.exports = (app) ->
 
-    cities = CityModel
-    .find()
-    .exec (err, res) ->
-        console.dir(res)
-    
-    address_ = AddressModel
-    .find()
-    .populate({path: "city", model: "City"})
-    .exec (err, res) ->
-        console.dir(res)
-        console.debug();
-
     app.get("/logout", (req, res, next) ->
         # req.user = null
         # req.session.cookie.expires = false

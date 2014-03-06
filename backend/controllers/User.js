@@ -18,17 +18,7 @@
   CategoryModel = require("../models/Category");
 
   module.exports = function(app) {
-    var address_, cities, saveJob, saveUser;
-    cities = CityModel.find().exec(function(err, res) {
-      return console.dir(res);
-    });
-    address_ = AddressModel.find().populate({
-      path: "city",
-      model: "City"
-    }).exec(function(err, res) {
-      console.dir(res);
-      return console.debug();
-    });
+    var saveJob, saveUser;
     app.get("/logout", function(req, res, next) {
       req.logout();
       return res.redirect(200, "/");

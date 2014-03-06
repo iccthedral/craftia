@@ -8,7 +8,7 @@
     return app.get("/isAuthenticated", function(req, res) {
       console.dir(req.user);
       if (req.user != null) {
-        return res.status(200).send(req.user);
+        return res.status(200).send(req.user.populate("createdJobs"));
       } else {
         return res.send(403);
       }
