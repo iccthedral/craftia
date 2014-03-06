@@ -4,7 +4,6 @@ schema = mongoose.Schema
 	category:
 		type: String
 		required: true
-		unique: true
 
 	subcategories:
 		type: Array

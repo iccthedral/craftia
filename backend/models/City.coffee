@@ -4,6 +4,7 @@ schema = mongoose.Schema
 	zip: 
 		type: Number
 		required: true
+	
 	name: 
 		type: String
 		required: true

@@ -1,18 +1,33 @@
 wrench = require "wrench"
 mongoose = require "mongoose"
 CategoryModel = require "../backend/models/Category"
+CityModel = require "../backend/models/City"
+colors = require "colors"
 
 module.exports = () ->
-	categoriesURI = "./backend/categories/"
+	### Put categories in ###
+	resourcesURI = "./backend/resources/"
+	categoriesURI = "#{resourcesURI}categories/"
 	CategoryModel
 	.find()
 	.remove()
-	.exec (err, res) ->
-		wrench.readdirSyncRecursive(categoriesURI)
+	.exec () ->
+		data = wrench.readdirSyncRecursive(categoriesURI)
 		.filter (file) ->
 			return file.lastIndexOf(".json") isnt -1 
-		.forEach (util) ->
+		.map (util) ->
 			jsonData = require(".#{categoriesURI}#{util}")
-			cat = new CategoryModel(jsonData)
-			cat.save()
+			return jsonData
 
+		CategoryModel.create(data)
+
+	CityModel
+	.find()
+	.remove()
+	.exec () ->
+		jsonCities = require(".#{resourcesURI}cities.json")
+		for city in jsonCities
+			try
+				(new CityModel(city)).save()
+			catch e
+				console.error(e.message.red)

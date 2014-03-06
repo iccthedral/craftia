@@ -1,6 +1,6 @@
 mongoose = require "mongoose"
-AddressModel = require "Address"
-CategoryModel = require "Category"
+AddressModel = require "./Address"
+CategoryModel = require "./Category"
 
 schema = mongoose.Schema
 	title:
@@ -15,17 +15,19 @@ schema = mongoose.Schema
 	materialProvider:
 		type: String
 		required: true
+		enum: ["Customer", "Craftsman"]
 
 	budget:
 		type: Number
 		required: true
 
 	address:
-		type: mongoose.Schema.ObjectId
-		ref: AddressModel
+		type: mongoose.Schema.Types.ObjectId
+		ref: "Address"
+		required: true
 
 	category:
-		type: CategoryModel
+		type: String
 		required: true
 
 	subcategory:
@@ -39,4 +41,9 @@ schema = mongoose.Schema
 	dateTo:
 		type: Date
 		required: true
-	
+
+JobModel = mongoose.model("Job", schema)
+
+module.exports = JobModel
+
+

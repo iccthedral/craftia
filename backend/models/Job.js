@@ -1,11 +1,11 @@
 (function() {
-  var AddressModel, CategoryModel, mongoose, schema;
+  var AddressModel, CategoryModel, JobModel, mongoose, schema;
 
   mongoose = require("mongoose");
 
-  AddressModel = require("Address");
+  AddressModel = require("./Address");
 
-  CategoryModel = require("Category");
+  CategoryModel = require("./Category");
 
   schema = mongoose.Schema({
     title: {
@@ -19,18 +19,20 @@
     },
     materialProvider: {
       type: String,
-      required: true
+      required: true,
+      "enum": ["Customer", "Craftsman"]
     },
     budget: {
       type: Number,
       required: true
     },
     address: {
-      type: mongoose.Schema.ObjectId,
-      ref: AddressModel
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Address",
+      required: true
     },
     category: {
-      type: CategoryModel,
+      type: String,
       required: true
     },
     subcategory: {
@@ -46,5 +48,9 @@
       required: true
     }
   });
+
+  JobModel = mongoose.model("Job", schema);
+
+  module.exports = JobModel;
 
 }).call(this);

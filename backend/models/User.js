@@ -1,9 +1,11 @@
 (function() {
-  var bcrypt, mongoose, schema;
+  var JobModel, bcrypt, mongoose, schema;
 
   mongoose = require("mongoose");
 
   bcrypt = require("bcrypt-nodejs");
+
+  JobModel = require("./Job");
 
   schema = mongoose.Schema({
     username: {
@@ -38,7 +40,13 @@
     telephone: {
       type: String,
       required: true
-    }
+    },
+    createdJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job"
+      }
+    ]
   });
 
   schema.pre("save", function(next) {
@@ -81,8 +89,6 @@
     }
     return token;
   };
-
-  schema.methods.createNewJob = function(job) {};
 
   module.exports = mongoose.model("User", schema);
 
