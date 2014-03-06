@@ -1,7 +1,7 @@
 passport = require "passport"
 AuthLevel = require("../../config/Passport").AUTH_LEVEL
 mongoose = require "mongoose"
-
+colors = require "colors"
 UserModel = require ("../models/User")
 CityModel = require ("../models/City")
 JobModel = require ("../models/Job")
@@ -9,6 +9,29 @@ AddressModel = require ("../models/Address")
 CategoryModel = require ("../models/Category")
 
 module.exports = (app) ->
+
+    UserModel
+    .find()
+    .populate("createdJobs")
+    .exec (err, result) ->
+        usr = result[0]
+        AddressModel.populate(usr.createdJobs, path: "address")
+        .then (job, res) ->
+            console.dir job
+
+        # return if result.length is 0
+        # usr = result[0]
+        # ind = 0
+        # for job in usr.createdJobs
+        #     AddressModel
+        #     .findOne(_id: job.address)
+        #     .populate("city")
+        #     .exec (err, address) ->
+        #         job = usr.createdJobs[ind]
+        #         console.dir(address)
+        #         usr.createdJobs[ind].address = address
+        #         ind++
+        #         console.dir usr
 
     app.get("/logout", (req, res, next) ->
         # req.user = null

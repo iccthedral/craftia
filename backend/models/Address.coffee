@@ -3,8 +3,8 @@ CityModel = require "./City"
 
 schema = mongoose.Schema
 	city:
-		type: mongoose.Schema.Types.ObjectId
-		ref: "City"
+		type: Object
+		required: true
 
 	addressLine1:
 		type: String
@@ -19,10 +19,10 @@ schema.methods.newAddress = (address) ->
 	.findOne(zip: address.zip)
 	.exec (err, city) =>
 		throw new Error(err) if err?
-		@city = city._id
+		console.dir "City", city
+		@city = city.toObject()
 		@addressLine1 = address.line1
 		@addressLine2 = address.line2
 		@save()
 
 module.exports = mongoose.model("Address", schema)
-

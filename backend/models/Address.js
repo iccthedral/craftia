@@ -7,8 +7,8 @@
 
   schema = mongoose.Schema({
     city: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "City"
+      type: Object,
+      required: true
     },
     addressLine1: {
       type: String,
@@ -28,7 +28,8 @@
         if (err != null) {
           throw new Error(err);
         }
-        _this.city = city._id;
+        console.dir("City", city);
+        _this.city = city.toObject();
         _this.addressLine1 = address.line1;
         _this.addressLine2 = address.line2;
         return _this.save();

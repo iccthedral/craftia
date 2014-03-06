@@ -10,8 +10,9 @@ module.exports = () ->
 	categoriesURI = "#{resourcesURI}categories/"
 	CategoryModel
 	.find()
-	.remove()
-	.exec () ->
+	.exec (err, res) ->
+		if res.length > 0
+			return
 		data = wrench.readdirSyncRecursive(categoriesURI)
 		.filter (file) ->
 			return file.lastIndexOf(".json") isnt -1 
@@ -23,11 +24,13 @@ module.exports = () ->
 
 	CityModel
 	.find()
-	.remove()
-	.exec () ->
+	.exec (err, res) ->
+		if res.length > 0
+			return
 		jsonCities = require(".#{resourcesURI}cities.json")
 		for city in jsonCities
 			try
 				(new CityModel(city)).save()
+				console.log "City saved".red
 			catch e
 				console.error(e.message.red)
