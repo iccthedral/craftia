@@ -6,18 +6,46 @@
 
     app.factory(serviceId, ['$http','$rootScope', '$location', 'datacontext',
         function authService($http, $rootScope, $location, datacontext) {
-            var user = {}
-            
+            var user = {};
+            var userType = "";
+            var isCustomer = false;
+            var isCraftsman = false;
+            var job = {
+                title: 'Refurnish old furniture',
+                author: 'John',
+                skills: ['Carpenter'],
+                startingDate: new Date(),
+                endingDate: new Date()
+            };
             $rootScope.isAuthenticated = false;
+
+
             var _service = {
                 getUser: function() {
-                    return user;
+                    return user;                    
+                },
+
+                getUserType: function () {
+                    if (user != undefined) { userType = user.type;}
+                    return userType;
                 },
 
                 setUser: function(newUser) {
                     user = newUser;
                     $rootScope.isAuthenticated = (user != null);
-                   
+                },
+
+                getJob: function(){
+                    return job();
+                },
+
+                updateJob: function(){
+                    datacontext.postUpdateJob(job).then(function (data) {
+                        job = data.job;
+                        logSuccess(data.msg)
+                    }).fail(function (error) {
+                        logError(error);
+                    })
                 },
 
                 checkAuth: function() {
@@ -25,7 +53,7 @@
                     // @TODO Ako bude trebalo da se osvezi
                     // return $http.get("/isAuthenticated", function() {
                     // });
-                },
+                },       
 
                 updateUser: function () {
                     datacontext.postUpdateUser(user).then(function (data) {

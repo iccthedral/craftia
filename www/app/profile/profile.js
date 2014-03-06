@@ -13,17 +13,6 @@
         vm.as = authService;
         vm.user = authService.getUser();
         vm.backup = angular.copy(vm.user);
-
-        vm.profile = {
-            username: "Djuka",
-            fullName: "Djuka Petric",
-            isAuthor: true,
-            isCraftsman: false,
-            mail: "djuka@djuka.com",
-            city: "Novisaidanda",
-            address: "Krakak Rototo 27",
-            hasChanges: false
-        }
         vm.leftPartial = "app/profile/leftProfile.html";
         vm.rightPartial = "app/profile/rightProfile.html";
 
@@ -42,9 +31,9 @@
         }
     
 
-       
         function activate() {
-            common.activateController([], controllerId)
+            
+           common.activateController([], controllerId)
                 .then(function () { log('Activated Profile View'); });
         }
     }

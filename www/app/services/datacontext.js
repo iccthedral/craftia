@@ -68,5 +68,10 @@
             var url = "/update-user";
             return $.post(url, user);
         }
+
+        function postUpdateJob(job) {
+            var url = "/update-job";
+            return $.post(url, job);
+        }
     }
 })();

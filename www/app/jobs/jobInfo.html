@@ -1,0 +1,71 @@
+﻿<div class="widget wcyan">
+    <div data-cc-widget-header title="Private details"
+         allow-collapse="true"></div>
+    <div class="widget-content right-partial-view fluid-container">
+        <div>
+            <form class="form-horizontal" ng-submit="vm.save()">
+                <fieldset>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="email">Title</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.dummyJob.title" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="username">Author</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.user.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+                        </div>
+                    </div>
+
+                    <!-- Password input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="password">Skills</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.dummyJob.skills" id="password" name="text" type="password" placeholder="skills" class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+
+                    <!-- Password input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="rep-password">Starting date</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.dummyJob.startingDate" id="rep-password" name="rep-password" type="starting date" placeholder="repeat password" class="form-control input-md" required="">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="name">Ending date</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.dummyJob.endingDate" id="name" name="name" type="text" placeholder="ending date" class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="surname">Surname</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.dummyJob.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="telephone">Telephone</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.dummyJob.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+

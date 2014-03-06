@@ -7,18 +7,18 @@
     // Collect the routes
     app.constant('routes', getRoutes());
 
-    app.run(["$rootScope", "$location", "$route", "authService", 
-        function($rootScope, $location, $route, authService) {
-            $rootScope.$on("$routeChangeSuccess", function(event, next, current) {
+    app.run(["$rootScope", "$location", "$route", "authService",
+        function ($rootScope, $location, $route, authService) {
+            $rootScope.$on("$routeChangeSuccess", function (event, next, current) {
 
             })
 
-            $rootScope.$on("$routeChangeError", function(event, next, current) {
-                if(!$rootScope.isAuthenticated) {
+            $rootScope.$on("$routeChangeError", function (event, next, current) {
+                if (!$rootScope.isAuthenticated) {
                     $location.path("/login");
                 }
             })
-    }]);
+        }]);
 
     // Configure the routes and route resolvers
     app.config(['$routeProvider', 'routes', routeConfigurator]);
@@ -32,36 +32,36 @@
 
     // Define the routes 
     function getRoutes() {
-        var authenticate = function(access) {
-          return {
-            auth: ['$q', '$rootScope', '$location',
-                function($q, $rootScope, $location) {
-                    var defer = $q.defer();
-                    var isLogin = $location.path() === "/login"
+        var authenticate = function (access) {
+            return {
+                auth: ['$q', '$rootScope', '$location',
+                    function ($q, $rootScope, $location) {
+                        var defer = $q.defer();
+                        var isLogin = $location.path() === "/login"
 
-                    if($rootScope.isAuthenticated && access) {
-                        if (isLogin) {
-                            $location.path("/");
+                        if ($rootScope.isAuthenticated && access) {
+                            if (isLogin) {
+                                $location.path("/");
+                            }
+                            defer.resolve();
                         }
-                        defer.resolve();
-                    }
-                    else if ($rootScope.isAuthenticated && !access) {
-     
-                        if (isLogin) {
-                            $location.path("/");
-                        }
-                        defer.resolve()
-                    } else {
-                        if (access) {
-                            defer.reject()
-                        } else {
+                        else if ($rootScope.isAuthenticated && !access) {
+
+                            if (isLogin) {
+                                $location.path("/");
+                            }
                             defer.resolve()
+                        } else {
+                            if (access) {
+                                defer.reject()
+                            } else {
+                                defer.resolve()
+                            }
                         }
+                        return defer.promise;
                     }
-                    return defer.promise;
-                }
-            ]
-          }
+                ]
+            }
         }
 
         return [
@@ -121,6 +121,17 @@
                     }
                 }
             }, {
+                url: '/job',
+                config: {
+                    title: 'job',
+                    templateUrl: 'app/jobs/job.html',
+                    resolve: authenticate(true),
+                    settings: {
+                        nav: 5,
+                        content: '<i class="fa fa-wrench"></i> Job'
+                    }
+                }
+            }, {
                 url: '/register',
                 config: {
                     title: 'craftsmen',
@@ -134,7 +145,7 @@
                     templateUrl: 'app/login/login.html',
                     resolve: authenticate(false)
                 }
-            }        
+            }
         ];
     }
 })();

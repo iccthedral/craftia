@@ -1,4 +1,4 @@
-﻿<section class="mainbar" data-ng-controller="profile as vm">
+﻿<section class="mainbar" data-ng-controller="job as vm">
     <section class="matter">
         <div class="container">
             <div class="widget wcyan">
@@ -12,7 +12,7 @@
                     <button ng-disabled="!vm.editable" type="button" class="btn btn-lg" ng-click="vm.save()">
                         <span class="fa fa-save"></span> Save changes
                     </button><button type="button" class="btn btn-lg" ng-click="vm.delete()">
-                        <span class="fa fa-trash-o"></span> Delete profile
+                        <span class="fa fa-trash-o"></span> Delete job
                     </button>
                     <!--Need ng-hide for show/hide animations-->
                     <span ng-if="vm.user!==vm.backup" class="dissolve-animation ng-hide flag-haschanges">
@@ -21,9 +21,9 @@
                 </div>
                 <div class="widget-content user">
                     <div class="row">
-                        <div class="col-md-6" ng-include="vm.leftPartial">
+                        <div class="col-md-6" ng-include="vm.jobInfo">
                         </div>
-                        <div class="col-md-6" ng-include="vm.rightPartial">
+                        <div class="col-md-6" ng-include="vm.jobBids">
                         </div>
                     </div>
                 </div>
