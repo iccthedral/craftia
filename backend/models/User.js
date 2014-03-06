@@ -82,6 +82,8 @@
     return token;
   };
 
+  schema.methods.createNewJob = function(job) {};
+
   module.exports = mongoose.model("User", schema);
 
 }).call(this);
