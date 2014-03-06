@@ -1,0 +1,71 @@
+﻿<div class="widget wcyan">
+    <div data-cc-widget-header title="Private details"
+         allow-collapse="true"></div>
+    <div class="widget-content right-partial-view fluid-container">
+        <div>
+            <form class="form-horizontal" ng-submit="vm.save()">
+                <fieldset>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="email">E-mail</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.user.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="username">Username</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.user.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+                        </div>
+                    </div>
+
+                    <!-- Password input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="password">Password</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.user.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+
+                    <!-- Password input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="rep-password">Repeat password</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" id="rep-password" name="rep-password" type="password" placeholder="repeat password" class="form-control input-md" required="">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="name">Name</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.user.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="surname">Surname</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.user.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-8 control-label" for="telephone">Telephone</label>
+                        <div class="col-md-8">
+                            <input ng-disabled="!vm.editable" ng-model="vm.user.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -1,83 +1,31 @@
-﻿<section class="matter">
-    <div class="container">
-        <div>
-            <button class="btn btn-info btn-form-md" data-ng-click="vm.profile.goBack()">
-                <i class="fa fa-hand-o-left"></i>Back
-            </button>
-            <button class="btn btn-info btn-form-md" data-ng-click="vm.profile.cancel()" data-ng-disabled="!vm.profile.canSave">
-                <i class="fa fa-undo"></i>Cancel
-            </button>
-            <button class="btn btn-info btn-form-md" data-ng-click="vm.profile.save()" data-ng-disabled="!vm.profile.canSave">
-                <i class="fa fa-save"></i>Save
-            </button>
-            <button class="btn btn-danger btn-form-md" data-ng-click="vm.profile.delete()">
-                <i class="fa fa-trash-o"></i>Delete profile
-            </button>
-
-            <!--Need ng-hide for show/hide animations-->
-            <span data-ng-show="vm.profile.hasChanges" class="dissolve-animation ng-hide flag-haschanges">
-                <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
-            </span>
-        </div>
-        <div class="widget wgreen">
-            <div data-cc-widget-header="" title="Edit {{vm.profile.fullName}}">
-                <div class="page-title pull-left">{{title}}</div>
-                <small class="page-title-subtle" data-ng-show="subtitle">({{subtitle}})</small>
-                <!-- ngIf: allowCollapse -->
-                <small class="pull-right page-title-subtle" data-ng-show="rightText">{{rightText}}</small>
-                <div class="clearfix"></div>
-            </div>
-            <div class="widget-content user">
-                <div class="form-group">
-                    <label class="control-label">Username</label>
-                    <div>
-                        <input class="form-control ng-scope" data-ng-model="vm.profile.username" data-z-validate="" placeholder="User name">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <h2>Contact</h2>>
-                    <div>
-                        <input ng-readonly="!vm.profile.isAuthor" class="form-control ng-scope" data-ng-model="vm.profile.city" data-z-validate="" placeholder="City">
-                    </div>
-                    <div data-ng-show="vm.profile.isCraftsman" >
-                        <input ng-readonly="!vm.profile.isAuthor" class="form-control ng-scope" data-ng-model="vm.profile.address" data-z-validate="" placeholder="Address">
-                    </div>
-                    <div data-ng-show="vm.profile.isCraftsman" >
-                        <input ng-readonly="!vm.profile.isAuthor" class="form-control ng-scope" data-ng-model="vm.profile.telephone" data-z-validate="" placeholder="Telephone">
-                    </div>
-                    <div data-ng-show="vm.profile.isCraftsman" >
-                        <input ng-readonly="!vm.profile.isAuthor" class="form-control ng-scope" data-ng-model="vm.profile.mail" data-z-validate="" placeholder="Mail">
-                    </div>
-                </div>
-                
-                <div>
-                    <h2>Reputation</h2>
-                    <span class="stars">
-                        <span></span>
+﻿<section class="mainbar" data-ng-controller="profile as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="widget wcyan">
+                <div class="widget-head" title="">
+                    <button type="button" class="btn btn-lg" ng-click="vm.edit()">
+                        <span class="fa fa-edit"></span> Edit
+                    </button>
+                    <button type="button" class="btn btn-lg" ng-click="vm.cancel()">
+                        <span class="fa fa-undo"></span> Cancel
+                    </button>
+                    <button ng-disabled="!vm.editable" type="button" class="btn btn-lg" ng-click="vm.save()">
+                        <span class="fa fa-save"></span> Save changes
+                    </button><button type="button" class="btn btn-lg" ng-click="vm.delete()">
+                        <span class="fa fa-trash-o"></span> Delete profile
+                    </button>
+                    <!--Need ng-hide for show/hide animations-->
+                    <span ng-if="vm.user!==vm.backup" class="dissolve-animation ng-hide flag-haschanges">
+                        <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
                     </span>
                 </div>
-
-                <div>
-                    <h2>Proffession</h2>
-                </div>
-
-                <div>
-                    <h2>Finished jobs</h2>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">Bio</label>
-                    <div>
-                        <textarea class="form-control ng-scope" data-ng-model="vm.profile.portfolio" data-z-validate="" placeholder="Enter speaker bio"></textarea>
+                <div class="widget-content user">
+                    <div class="row">
+                        <div class="col-md-6" ng-include="vm.leftPartial">
+                        </div>
+                        <div class="col-md-6" ng-include="vm.rightPartial">
+                        </div>
                     </div>
-                </div>
-                             
-                <div class="form-group">
-                    <img data-cc-img-person="{{vm.profile.profileImage}}" class="img-thumbnail">
-                </div>
-                
             </div>
-        </div>
-    </div>
-</section>
+    </section>
 </section>

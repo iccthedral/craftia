@@ -4,9 +4,10 @@
     var serviceId = 'authService';
     var app = angular.module("app");
 
-    app.factory(serviceId, ['$http', '$rootScope', '$location',
-        function authService($http, $rootScope, $location) {
+    app.factory(serviceId, ['$http','$rootScope', '$location', 'datacontext',
+        function authService($http, $rootScope, $location, datacontext) {
             var user = {}
+            
             $rootScope.isAuthenticated = false;
             var _service = {
                 getUser: function() {
@@ -16,6 +17,7 @@
                 setUser: function(newUser) {
                     user = newUser;
                     $rootScope.isAuthenticated = (user != null);
+                   
                 },
 
                 checkAuth: function() {
@@ -23,7 +25,17 @@
                     // @TODO Ako bude trebalo da se osvezi
                     // return $http.get("/isAuthenticated", function() {
                     // });
+                },
+
+                updateUser: function () {
+                    datacontext.postUpdateUser(user).then(function (data) {
+                        user = data.user;
+                        logSuccess(data.msg)
+                    }).fail(function (error) {
+                        logError(error);
+                    })
                 }
+
             }
 
 
