@@ -10,12 +10,14 @@
         var vm = this;
         vm.title = 'Jobs';
         vm.jobs = [];
+        vm.rightPartial = "";
+        vm.currentTitle = "";
 
         activate();
 
-        function activate() {
-            common.activateController([getJobs()], controllerId)
-                .then(function () { log('Activated Jobs View'); });
+        vm.newJob = function() {
+            vm.currentTitle = "Create job";
+            vm.rightPartial = "app/jobs/post_job.html";
         }
 
         function getJobs() {
@@ -23,5 +25,11 @@
                 return vm.jobs = data;
             });
         }
+
+        function activate() {
+            common.activateController([getJobs()], controllerId)
+                .then(function () { log('Activated Jobs View'); });
+        }
+
     }
 })();
