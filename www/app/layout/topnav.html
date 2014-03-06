@@ -10,6 +10,9 @@
     <div class="navbar-collapse collapse">
         <div class="pull-right navbar-logo">
             <ul class="nav navbar-nav pull-right">
+                <li ng-show="isAjaxHappening">
+                    <i style="font-size: 3.4em" class="glyphicon glyphicon-refresh"></i>
+                </li>
                 <li cr-auth>
                     <a href="" ng-click="vm.logout()">
                         Log out

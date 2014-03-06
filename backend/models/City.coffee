@@ -2,7 +2,7 @@ mongoose = require "mongoose"
 
 schema = mongoose.Schema
 	zip: 
-		type: Number
+		type: String
 		required: true
 	
 	name: 

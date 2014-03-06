@@ -1,11 +1,13 @@
 (function() {
-  var AddressModel, AuthLevel, CategoryModel, CityModel, JobModel, UserModel, mongoose, passport;
+  var AddressModel, AuthLevel, CategoryModel, CityModel, JobModel, UserModel, colors, mongoose, passport;
 
   passport = require("passport");
 
   AuthLevel = require("../../config/Passport").AUTH_LEVEL;
 
   mongoose = require("mongoose");
+
+  colors = require("colors");
 
   UserModel = require("../models/User");
 
@@ -19,6 +21,15 @@
 
   module.exports = function(app) {
     var saveJob, saveUser;
+    UserModel.find().populate("createdJobs").exec(function(err, result) {
+      var usr;
+      usr = result[0];
+      return AddressModel.populate(usr.createdJobs, {
+        path: "address"
+      }).then(function(job, res) {
+        return console.dir(job);
+      });
+    });
     app.get("/logout", function(req, res, next) {
       req.logout();
       return res.redirect(200, "/");

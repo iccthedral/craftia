@@ -13,7 +13,9 @@
             getJobs: getJobs,
             getCraftsmen: getCraftsmen,
             postRegister: postRegister,
-            postUpdateUser: postUpdateUser
+            postUpdateUser: postUpdateUser,
+            getCategories: getCategories,
+            getSubcategories: getSubcategories
         };
 
         return service;
@@ -67,6 +69,16 @@
         function postUpdateUser(user) {
             var url = "/update-user";
             return $.post(url, user);
+        }
+
+        function getCategories() {
+            var url = "/categories";
+            return $.get(url)
+        }
+
+        function getSubcategories(category) {
+            var url = "/category/" + category;
+            return $.get(url)
         }
     }
 })();

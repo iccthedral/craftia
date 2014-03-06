@@ -7,7 +7,8 @@
     app.factory(serviceId, ['$http','$rootScope', '$location', 'datacontext',
         function authService($http, $rootScope, $location, datacontext) {
             var user = {}
-            
+            $rootScope.isAjaxHappening = false;
+
             $rootScope.isAuthenticated = false;
             var _service = {
                 getUser: function() {
@@ -17,7 +18,6 @@
                 setUser: function(newUser) {
                     user = newUser;
                     $rootScope.isAuthenticated = (user != null);
-                   
                 },
 
                 checkAuth: function() {
@@ -35,9 +35,7 @@
                         logError(error);
                     })
                 }
-
             }
-
 
             // Object.defineProperty(_service, "isAuthenticated", {
             //     get: function () {

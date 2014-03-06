@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="widget wcyan">
                     <div class="widget-head" title="">
-                    <button type="button" class="btn btn-secondary btn-lg" ng-click="vm.newJob()">
+                    <button type="button" class="btn btn-secondary btn-lg" ng-click="vm.newjob.init()">
                       <span class="glyphicon glyphicon-plus"></span> Add new job
                     </button>
                     <button type="button" class="btn btn-secondary btn-lg">
@@ -44,7 +44,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6" ng-include="vm.rightPartial">
+                            <div class="col-md-6" ng-include="vm.rightPartial" onload="vm.partialInit()">
                             </div>
                         </div>
                         <div class="widget-foot">
