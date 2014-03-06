@@ -1,7 +1,7 @@
 mongoose = require "mongoose"
 
 schema = mongoose.Schema
-	title:
+	category:
 		type: String
 		required: true
 		unique: true
@@ -9,3 +9,6 @@ schema = mongoose.Schema
 	subcategories:
 		type: Array
 		default: []
+		required: true
+
+module.exports = mongoose.model("Category", schema)

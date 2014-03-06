@@ -1,5 +1,6 @@
 mongoose = require "mongoose"
 bcrypt = require "bcrypt-nodejs"
+JobModel = require "Job"
 
 schema = mongoose.Schema
 	username:
@@ -34,6 +35,11 @@ schema = mongoose.Schema
 	telephone:
 		type: String
 		required: true
+
+	createdJobs: [ 
+		type: mongoose.Schema.ObjectId
+		ref: JobModel
+	]
 
 schema.pre "save", (next) ->
 	user = @
@@ -74,5 +80,9 @@ schema.methods.generateRandomToken = () ->
 		i = Math.floor(Math.random() * 62)
 		token += chars.charAt(i)
 	return token
+
+schema.methods.createNewJob = (job) ->
+	job = new JobModel(job)
+	this.jobs = 
 
 module.exports = mongoose.model("User", schema)
