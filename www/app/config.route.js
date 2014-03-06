@@ -38,6 +38,7 @@
                 function($q, $rootScope, $location) {
                     var defer = $q.defer();
                     var isLogin = $location.path() === "/login"
+
                     if($rootScope.isAuthenticated && access) {
                         if (isLogin) {
                             $location.path("/");
@@ -45,6 +46,7 @@
                         defer.resolve();
                     }
                     else if ($rootScope.isAuthenticated && !access) {
+     
                         if (isLogin) {
                             $location.path("/");
                         }
@@ -92,7 +94,7 @@
                     templateUrl: 'app/jobs/jobs.html',
                     resolve: authenticate(true),
                     settings: {
-                        nav: 2,
+                        nav: 3,
                         content: '<i class="fa fa-wrench"></i> Jobs'
                     }
                 }
@@ -103,35 +105,36 @@
                     templateUrl: 'app/craftsmen/craftsmen.html',
                     resolve: authenticate(true),
                     settings: {
-                        nav: 2,
+                        nav: 4,
                         content: '<i class="fa fa-user"></i> Craftsmen'
                     }
                 }
-            },
-            {
+            }, {
+                url: '/profile',
+                config: {
+                    title: 'profile',
+                    templateUrl: 'app/profile/profile.html',
+                    resolve: authenticate(true),
+                    settings: {
+                        nav: 5,
+                        content: '<i class="fa fa-book"></i> Profile settings'
+                    }
+                }
+            }, {
                 url: '/register',
                 config: {
                     title: 'craftsmen',
                     templateUrl: 'app/register/register.html',
-                    resolve: authenticate(false),
+                    resolve: authenticate(false)
                 }
-            },
-            {
+            }, {
                 url: '/login',
                 config: {
                     title: 'login',
                     templateUrl: 'app/login/login.html',
-                    resolve: authenticate(false),
+                    resolve: authenticate(false)
                 }
-            },
-            {
-                url: '/login',
-                config: {
-                    title: 'login',
-                    templateUrl: 'app/login/login.html',
-                    resolve: authenticate(false),
-                }
-            }
+            }        
         ];
     }
 })();

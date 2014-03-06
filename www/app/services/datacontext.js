@@ -12,7 +12,8 @@
             getMessageCount: getMessageCount,
             getJobs: getJobs,
             getCraftsmen: getCraftsmen,
-            postRegister: postRegister
+            postRegister: postRegister,
+            postUpdateUser: postUpdateUser
         };
 
         return service;
@@ -60,6 +61,11 @@
             if(user.type === "Customer") {
                 url = "/register-customer"
             }
+            return $.post(url, user);
+        }
+
+        function postUpdateUser(user) {
+            var url = "/update-user";
             return $.post(url, user);
         }
     }
