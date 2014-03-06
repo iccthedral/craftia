@@ -10,7 +10,8 @@
         'common',           // common functions, logger, spinner
         'common.bootstrap', // bootstrap dialog wrapper functions
         // 3rd Party Modules
-        'ui.bootstrap'      // ui-bootstrap (ex: carousel, pagination, dialog)
+        'ui.bootstrap',      // ui-bootstrap (ex: carousel, pagination, dialog)
+        'ui.date'
     ])
 
     app.run(["logger", function(logger) {

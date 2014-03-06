@@ -12,3 +12,19 @@
 	float: right;
     clear: both;
 }
+
+.right-partial-view {
+    width: 100%;
+    display: block;
+}
+
+.right-partial-view label {
+  width: 30% !important;
+  text-align: left !important;
+}
+
+.right-partial-view input, textarea, select {
+  float: right;
+  clear: both;
+  width: 100% !important;
+}

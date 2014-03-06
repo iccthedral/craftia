@@ -3,7 +3,14 @@
         <div class="container">
             <div class="row">
                 <div class="widget wcyan">
-                    <div data-cc-widget-header title="{{vm.title}}"></div>
+                    <div class="widget-head" title="">
+                    <button type="button" class="btn btn-secondary btn-lg" ng-click="vm.newJob()">
+                      <span class="glyphicon glyphicon-plus"></span> Add new job
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-lg">
+                      <span class="glyphicon glyphicon-list"></span> List your jobs
+                    </button>
+                    </div>
                     <div class="widget-content user">
                         <div class="row">
                             <div class="col-md-6">
@@ -36,6 +43,8 @@
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6" ng-include="vm.rightPartial">
                             </div>
                         </div>
                         <div class="widget-foot">

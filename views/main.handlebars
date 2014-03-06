@@ -30,10 +30,10 @@
     <link href="css/customtheme.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/craftia-theme.css" rel="stylesheet" />
-    
+    <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css"/>
+
 </head>
 <body>
-    <p>{{user.name}}</p>
     <div>
         <div data-ng-include="'/app/layout/shell.html'"></div>
         <div id="splash-page" data-ng-show="false">
@@ -62,6 +62,9 @@
     <script src="vendor/angular/ui-bootstrap-tpls-0.10.0.js"></script>
     <script src="vendor/angular/spin.js"></script>
 
+    <script type="text/javascript" src="vendor/jquery-ui/ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="vendor/angular-ui-date/src/date.js"></script>
+
     <!-- Bootstrapping -->
     <script src="app/app.js"></script>
     <script src="app/config.js"></script>
@@ -85,7 +88,7 @@
     <script src="app/layout/sidebar.js"></script>
     <script src="app/jobs/jobs.js"></script>
     <script src="app/craftsmen/craftsmen.js"></script>
-        
+    <script src="app/profile/profile.js"></script>
     <script src="app/layout/topnav.js"></script>
 
     {{#unless user}}
