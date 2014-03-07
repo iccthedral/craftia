@@ -9,8 +9,6 @@
 
             var user = {};
             var userType = "";
-            var isCustomer = false;
-            var isCraftsman = false;
             var job = {
                 title: 'Refurnish old furniture',
                 author: 'John',
@@ -18,6 +16,19 @@
                 startingDate: new Date(),
                 endingDate: new Date()
             };
+            var bids = [{
+                    author: "John",
+                    subscribtionDate: new Date(),
+                    comment: "I can do this in a day",
+                    reputation: 4.67
+                }, {
+                    author: "George",
+                    subscribtionDate: new Date(),
+                    comment: "I can do this in an hour, but your wife is mine",
+                    reputation: 5.00
+                }
+            ]
+
 
             var user = {}
             $rootScope.isAjaxHappening = false;
@@ -54,6 +65,10 @@
                         logError(error);
                     })
 
+                },
+
+                getBids : function(){
+                    return bids;
                 },
 
                 checkAuth: function() {

@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+﻿<div data-ng-repeat="bid in vm.bids">
+    <div class="widget wcyan">
+        <div data-cc-widget-header title="Job bid"
+             allow-collapse="true">
+        </div>
+        <div class="widget-content right-partial-view fluid-container">
+            <ul>
+                <li><span>Author: {{bid.author}}</span></li>
+                <li><span>Date of subscribtion: {{bid.subscribtionDate}}</span></li>
+                <li><span>Comment: {{bid.comment}}</span></li>
+                <li><span>Reputation: {{bid.reputation}}</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
