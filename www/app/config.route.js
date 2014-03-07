@@ -88,13 +88,25 @@
                     }
                 }
             }, {
+                url: '/job',
+                config: {
+                    title: 'job',
+                    templateUrl: 'app/jobs/job.html',
+                    resolve: authenticate(true),
+                    settings: {
+                        nav: 3,
+                        content: '<i class="fa fa-wrench"></i> Job'
+                    }
+                }
+            },
+            {
                 url: '/jobs',
                 config: {
                     title: 'jobs',
                     templateUrl: 'app/jobs/jobs.html',
                     resolve: authenticate(true),
                     settings: {
-                        nav: 3,
+                        nav: 6,
                         content: '<i class="fa fa-wrench"></i> Jobs'
                     }
                 }
@@ -120,7 +132,7 @@
                         content: '<i class="fa fa-book"></i> Profile settings'
                     }
                 }
-            }, {
+            },{
                 url: '/kjob',
                 config: {
                     title: 'kjob',
@@ -131,14 +143,14 @@
                         content: '<i class="fa fa-wrench"></i> Job'
                     }
                 }
-            }, {
+            },{
                 url: '/register',
                 config: {
                     title: 'craftsmen',
                     templateUrl: 'app/register/register.html',
                     resolve: authenticate(false)
                 }
-            }, {
+            },{
                 url: '/login',
                 config: {
                     title: 'login',
