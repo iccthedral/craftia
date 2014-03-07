@@ -71,11 +71,11 @@
             return $.post(url, user);
         }
 
-<<<<<<< HEAD
         function postUpdateJob(job) {
             var url = "/update-job";
             return $.post(url, job);
-=======
+        }
+
         function getCategories() {
             var url = "/categories";
             return $.get(url)
@@ -84,7 +84,6 @@
         function getSubcategories(category) {
             var url = "/category/" + category;
             return $.get(url)
->>>>>>> 1ccd4635686bd1429fe4d13cd6fa3ac2dafc438b
         }
     }
 })();

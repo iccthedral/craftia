@@ -6,7 +6,7 @@
 
     app.factory(serviceId, ['$http','$rootScope', '$location', 'datacontext',
         function authService($http, $rootScope, $location, datacontext) {
-<<<<<<< HEAD
+
             var user = {};
             var userType = "";
             var isCustomer = false;
@@ -18,11 +18,11 @@
                 startingDate: new Date(),
                 endingDate: new Date()
             };
-=======
+
             var user = {}
             $rootScope.isAjaxHappening = false;
 
->>>>>>> 1ccd4635686bd1429fe4d13cd6fa3ac2dafc438b
+
             $rootScope.isAuthenticated = false;
 
 
@@ -39,7 +39,7 @@
                 setUser: function(newUser) {
                     user = newUser;
                     $rootScope.isAuthenticated = (user != null);
-<<<<<<< HEAD
+
                 },
 
                 getJob: function(){
@@ -53,8 +53,7 @@
                     }).fail(function (error) {
                         logError(error);
                     })
-=======
->>>>>>> 1ccd4635686bd1429fe4d13cd6fa3ac2dafc438b
+
                 },
 
                 checkAuth: function() {
