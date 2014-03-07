@@ -1,9 +1,9 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'jobs';
-    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', jobs]);
+    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', jobs]);
 
-    function jobs($scope, $rootScope, common, datacontext) {
+    function jobs($scope, $rootScope, common, datacontext, authService) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
 
@@ -14,7 +14,8 @@
         vm.currentTitle = "";
         vm.partialInit = function() { };
         vm.cities = []
-
+        vm.usr = authService.getUser();
+        
         vm.newjob = {
             categories: [],
             subcategories: [],
@@ -29,11 +30,12 @@
             description: "",
             budget: "",
             materialProvider: "",
+            address: "",
 
             init: function() {
                 var me = vm.newjob
                 vm.currentTitle = "Create job";
-                vm.rightPartial = "app/jobs/post_job.html";
+                vm.rightPartial = "app/jobs/jobCreate.html";
 
                 vm.partialInit = function () {
                     console.debug("Partial init happened");
@@ -48,28 +50,52 @@
                         me.selectedCategory.subcategory = me.subcategories[0];
                         $scope.$digest();
                         $rootScope.isAjaxHappening = false;
-                        $rootScope.$digest()
+                        $rootScope.$digest();
                     });
                 }
             },
-            
+            resetModel: function() {
+                var me = vm.newjob;
+                me.categories = [];
+                me.subcategories = [];
+                me.selectedCategory = {
+                    category: me.categories[0],
+                    subcategory: me.subcategories[0]
+                };
+                me.city = "";
+                me.dateFrom = "";
+                me.dateTo = "";
+                me.title = "";
+                me.description = "";
+                me.budget = "";
+                me.materialProvider = "";
+                me.address = "";
+            },
             create: function() {
                 var me = vm.newjob;
-                $.post("job/new", {
-                    title: "Blabla",
-                    description: "Ovo je description",
-                    materialProvider: "Customer",
-                    budget: 50000,
+                var jobData = {
+                    title: vm.newjob.title,
+                    description: vm.newjob.description,
+                    materialProvider: vm.newjob.materialProvider,
+                    budget: vm.newjob.budget,
                     address: {
-                        zip: 11000,
-                        line1: "Holy Shit",
+                        name: vm.newjob.city,
+                        line1: vm.newjob.address,
                         line2: ""
                     },
-                    category: "Cars",
-                    subcategory: "Driver",
-                    dateFrom: new Date(),
-                    dateTo: new Date()
-                })
+                    category: vm.newjob.selectedCategory.category.name,
+                    subcategory: vm.newjob.selectedCategory.subcategory.name,
+                    dateFrom: vm.newjob.dateFrom,
+                    dateTo: vm.newjob.dateTo,
+                    bidders: []
+                }
+                $.post("job/new", jobData)
+                .success(function(job) {
+                    console.debug(job);
+                    vm.usr.createdJobs.push(job);
+                    me.resetModel();
+                    $rootScope.$digest();
+                });
             }
         }
 
@@ -94,16 +120,18 @@
         }
 
         function getJobs() {
-            return datacontext.getJobs().then(function (data) {
-                return vm.jobs = data;
-            });
+            console.debug(vm.usr);
+            return vm.usr.createdJobs;
         }
 
+        function getAllJobs() {
+            return vm.usr.createdJobs;
+        }
 
         activate();
 
         function activate() {
-            common.activateController([getJobs(), getCategories(vm.newjob)], controllerId)
+            common.activateController([getCategories(vm.newjob)], controllerId)
                 .then(function () { log('Activated Jobs View'); });
         }
     }

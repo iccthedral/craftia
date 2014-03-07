@@ -18,23 +18,21 @@
                                     <div data-cc-widget-header title="Current jobs"
                                          allow-collapse="true"></div>
                                     <div class="widget-content text-center text-info">
-                                        <table class="table table-condensed table-striped">
+                                        <table class="table table-condensed table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Title</th>
-                                                    <th>Author</th>
-                                                    <th>Skills</th>
+                                                    <th>Category</th>
                                                     <th>Starting date</th>
                                                     <th>Engding date</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr data-ng-repeat="p in vm.jobs">
-                                                    <td>{{p.title}}</td>
-                                                    <td>{{p.author}}</td>
-                                                    <td>{{p.skills[0]}}</td>
-                                                    <td>{{p.startingDate}}</td>
-                                                    <td>{{p.endingDate}}</td>
+                                                <tr data-ng-repeat="p in vm.usr.createdJobs">
+                                                    <td class="text-left">{{p.title}}</td>
+                                                    <td class="text-left">{{p.category}}</td>
+                                                    <td class="text-left"><span cr-date="{{p.dateFrom}}"></span></td>
+                                                    <td class="text-left"><span cr-date="{{p.dateTo}}"></span></td>
                                                 </tr>
                                             </tbody>
                                         </table>

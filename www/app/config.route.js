@@ -121,9 +121,9 @@
                     }
                 }
             }, {
-                url: '/job',
+                url: '/kjob',
                 config: {
-                    title: 'job',
+                    title: 'kjob',
                     templateUrl: 'app/jobs/job.html',
                     resolve: authenticate(true),
                     settings: {

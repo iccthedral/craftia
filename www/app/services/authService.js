@@ -11,6 +11,7 @@
             var userType = "";
             var isCustomer = false;
             var isCraftsman = false;
+
             var job = {
                 title: 'Refurnish old furniture',
                 author: 'John',
@@ -21,11 +22,7 @@
 
             var user = {}
             $rootScope.isAjaxHappening = false;
-
-
-            $rootScope.isAuthenticated = false;
-
-
+            
             var _service = {
                 getUser: function() {
                     return user;                    
@@ -53,7 +50,6 @@
                     }).fail(function (error) {
                         logError(error);
                     })
-
                 },
 
                 checkAuth: function() {

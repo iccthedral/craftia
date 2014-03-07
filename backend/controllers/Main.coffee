@@ -1,24 +1,48 @@
-module.exports = (app) ->
-  app.get "/", (req, res) ->
-    res.render("main", user: req.user)
+UserModel = require ("../models/User")
+AddressModel = require ("../models/Address")
+JobModel = require ("../models/Job")
+async = require "async"
 
-  app.get "/isAuthenticated", (req, res) ->
-    console.dir(req.user)
-    if req.user?
-      res.status(200).send(req.user.populate("createdJobs"))
-    else
-      res.send(403)
-  
- # title: "Blabla",
- # description: "Ovo je description",
- # materialProvider: "Customer",
- # budget: 50000,
- # address: {
- # 	zip: 11000,
- # 	line1: "Holy Shit",
- # 	line2: "True Det"
- # },
- # category: "Cars",
- # subcategory: "Driver",
- # dateFrom: new Date(),
- # dateTo: new Date()
+module.exports = (app) ->
+    app.get "/", (req, res) ->
+        res.render("main", user: req.user)
+
+    app.get "/isAuthenticated", (req, res) ->
+        user = req.user
+        if user?
+            UserModel
+            .find(_id: user._id)
+            .populate("createdJobs")
+            .exec (err, result) ->
+                usr = result[0]
+                AddressModel.populate(usr.createdJobs, path: "address")
+                .then (job, address) ->
+                    job.address = address
+                    res.send(usr)
+        else
+          res.send(403)
+
+    populateAddress = (j, callback) ->
+        return AddressModel
+        .populate(j, path: "address")
+        .then (job, address) ->
+            o = j.toObject()
+            callback(null, o)
+
+    app.get "/listjobs", (req, res) ->
+        UserModel
+        .find()
+        .populate("createdJobs")
+        .exec (err, results) ->
+            out = []
+            for r in results
+                async.map(r.createdJobs, populateAddress, (err, results) ->
+                    results = results.map (job) -> 
+                        author = {
+                            id: r._id
+                            name: r.name
+                        }
+                        job.author = author
+                        return job
+                    res.send(results)
+                )
