@@ -43,7 +43,7 @@
                 },
 
                 getJob: function(){
-                    return job();
+                    return job;
                 },
 
                 updateJob: function(){

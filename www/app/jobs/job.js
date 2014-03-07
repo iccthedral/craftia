@@ -13,8 +13,8 @@
         vm.user = authService.getUser();
         vm.dummyJob = authService.getJob();
         vm.backup = angular.copy(vm.dummyJob);
-        vm.leftPartial = "app/jobs/jobInfo.html";
-        vm.rightPartial = "app/profile/jobBids.html";
+        vm.jobInfo = "app/jobs/jobInfo.html";
+        vm.jobBids = "app/profile/jobBids.html";
 
         activate();
 
