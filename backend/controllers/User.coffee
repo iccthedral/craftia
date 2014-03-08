@@ -115,6 +115,18 @@ module.exports = (app) ->
             res.send(200)
     )
 
+    app.post("/user/update", (req, res) ->
+        usr = req.user
+        if not usr?
+            res.status(422).send "You're not logged in"
+            return
+        UserModel
+        .findByIdAndUpdate(req.user._id, { $set: req.body })
+        .exec (err, user) ->
+            user.save(req.body)
+            res.send(200)
+    )
+
     app.post("/job/:id/bid", (req, res) ->
         usr = req.user
         console.dir usr

@@ -119,6 +119,20 @@
         return res.send(200);
       });
     });
+    app.post("/user/update", function(req, res) {
+      var usr;
+      usr = req.user;
+      if (usr == null) {
+        res.status(422).send("You're not logged in");
+        return;
+      }
+      return UserModel.findByIdAndUpdate(req.user._id, {
+        $set: req.body
+      }).exec(function(err, user) {
+        user.save(req.body);
+        return res.send(200);
+      });
+    });
     app.post("/job/:id/bid", function(req, res) {
       var usr;
       usr = req.user;
