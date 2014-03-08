@@ -10,7 +10,7 @@
   async = require("async");
 
   module.exports = function(app) {
-    var populateAddress;
+    var fetchJobs, populateAddress;
     app.get("/", function(req, res) {
       return res.render("main", {
         user: req.user
@@ -45,27 +45,29 @@
         return callback(null, o);
       });
     };
+    fetchJobs = function(user, callback) {
+      return async.map(user.createdJobs, populateAddress, function(err, results) {
+        results = results.map(function(job) {
+          var author;
+          author = {
+            id: user._id,
+            name: user.name
+          };
+          job.author = author;
+          return job;
+        });
+        return callback(null, results);
+      });
+    };
     return app.get("/listjobs", function(req, res) {
       return UserModel.find().populate("createdJobs").exec(function(err, results) {
-        var out, r, _i, _len, _results;
+        var out;
         out = [];
-        _results = [];
-        for (_i = 0, _len = results.length; _i < _len; _i++) {
-          r = results[_i];
-          _results.push(async.map(r.createdJobs, populateAddress, function(err, results) {
-            results = results.map(function(job) {
-              var author;
-              author = {
-                id: r._id,
-                name: r.name
-              };
-              job.author = author;
-              return job;
-            });
-            return res.send(results);
-          }));
-        }
-        return _results;
+        return async.map(results, fetchJobs, function(err, results) {
+          out = [];
+          out = out.concat.apply(out, results);
+          return res.send(out);
+        });
       });
     });
   };

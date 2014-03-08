@@ -7,13 +7,11 @@ CityModel = require ("../models/City")
 JobModel = require ("../models/Job")
 AddressModel = require ("../models/Address")
 CategoryModel = require ("../models/Category")
+util = require "util"
 
 module.exports = (app) ->
 
-    app.get("/logout", (req, res, next) ->
-        # req.user = null
-        # req.session.cookie.expires = false
-        # passport.deserializeUser()
+    app.get("/logout", (req, res) ->
         req.logout()
         res.redirect(200, "/")
     )
@@ -47,14 +45,16 @@ module.exports = (app) ->
         )(req, res, next)
     )
 
-    app.post('/register-craftsman', (req, res, next) ->
+    app.post('/register-craftsman', (req, res) ->
         data = req.body
         data.type = AuthLevel.CRAFTSMAN
+        data.rating = 0
+        data.numVotes = 0
         user = new UserModel(data)
         saveUser(user, res)
     )
 
-    app.post('/register-customer', (req, res, next) ->
+    app.post('/register-customer', (req, res) ->
         data = req.body
         data.type = AuthLevel.CUSTOMER
         user = new UserModel(data)
@@ -64,21 +64,80 @@ module.exports = (app) ->
         )
     )
 
-    app.post("/job/new", (req, res, next) ->
+    # app.post("user/:id/rate/:rating", (req, res) ->
+    #     UserModel
+    #     .findOne(_id: req.params.id)
+    #     .exec (err, user) ->
+    #         rate = req.params.rating
+    #         try
+    #             throw Error("Not a number") if not util.isNumber(rate)
+    #             rate = rate.clamp(1, 5)
+    #             numvotes = user.numVotes
+    #             user.numVotes += 1
+    #         catch e
+    #             res.status(422)
+    # )
+
+    app.post("/job/new", (req, res) ->
         jobData = req.body
         usr = req.user
         if not usr?
-            console.log("You're nog logged in")
             res.send(422)
         else
             try
                 saveJob(usr, jobData, res)
             catch e
-                console.error e.message.red
+                console.log e.message
                 res.status(422).send(e.message)
     )
 
+    app.post("/job/:id/delete", (req, res) ->
+        usr = req.user
+        if not usr? or usr.type isnt AuthLevel.CUSTOMER 
+            res.send(422)
+            return
+        JobModel
+        .findOne(_id: req.params.id)
+        .remove()
+        .exec (err, result) ->
+            res.send(200)
+    )
+
+    app.post("/job/:id/update", (req, res) ->
+        usr = req.user
+        if not usr? or usr.type isnt AuthLevel.CUSTOMER 
+            res.send(422)
+            return
+        JobModel
+        .findByIdAndUpdate(req.params.id, { $set: req.body })
+        .exec (err, job) ->
+            job.save(req.body)
+            res.send(200)
+    )
+
+    app.post("/job/:id/bid", (req, res) ->
+        usr = req.user
+        console.dir usr
+        if not usr? or usr.type isnt AuthLevel.CRAFTSMAN 
+            res.send(422)
+            return
+        JobModel
+        .findOne(_id: req.params.id)
+        .exec (err, job) ->
+            job.bidders.push(
+                id: usr._id,
+                username: usr.username
+                name: usr.name
+                surname: usr.surname
+                email: usr.email
+            )
+            job.save()
+            res.send(200)
+    )
+
     saveJob = (usr, jobData, res) ->
+        if usr.type isnt AuthLevel.CUSTOMER
+            throw new Error("You don't have permissions to create a new job")
         address = new AddressModel()
         job = new JobModel()
         address.newAddress(jobData.address)
@@ -100,7 +159,6 @@ module.exports = (app) ->
             job.description = jobData.description
             job.save()
             job.populate("address")
-            console.dir job
             usr.createdJobs.push(job._id)
             usr.save()
             res.send(job)

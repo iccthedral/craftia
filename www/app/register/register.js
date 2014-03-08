@@ -30,10 +30,10 @@
             datacontext.postRegister(vm.user).then(function(data) {
                 vm.user = data.user;
                 logSuccess(data.msg);
-                $location.path("/login");
             }).fail(function(error) {
                 logError(error);
             });
+            $location.path("/login")
         }
 
         function activate() {
