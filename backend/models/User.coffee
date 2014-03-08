@@ -42,6 +42,17 @@ schema = mongoose.Schema
 		ref: "Job"
 	]
 
+	rating:
+		type: Number
+		min: 0
+		max: 5
+		default: 0
+	
+	numVotes:
+		type: Number
+		min: 0
+		default: 0
+
 schema.pre "save", (next) ->
 	user = @
 	if not user.isModified("password")

@@ -46,6 +46,10 @@
     dateTo: {
       type: Date,
       required: true
+    },
+    bidders: {
+      type: Array,
+      "default": []
     }
   });
 

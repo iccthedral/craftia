@@ -29,20 +29,29 @@ module.exports = (app) ->
             o = j.toObject()
             callback(null, o)
 
+    fetchJobs = (user, callback) ->
+        return async.map(
+            user.createdJobs, 
+            populateAddress, 
+            (err, results) ->
+                results = results.map (job) -> 
+                    author = {
+                        id: user._id
+                        name: user.name
+                    }
+                    job.author = author
+                    return job
+                callback(null, results)
+        )
+
     app.get "/listjobs", (req, res) ->
         UserModel
         .find()
         .populate("createdJobs")
         .exec (err, results) ->
             out = []
-            for r in results
-                async.map(r.createdJobs, populateAddress, (err, results) ->
-                    results = results.map (job) -> 
-                        author = {
-                            id: r._id
-                            name: r.name
-                        }
-                        job.author = author
-                        return job
-                    res.send(results)
-                )
+            async.map(results, fetchJobs, (err, results) ->
+                out = []
+                out = out.concat.apply(out, results)
+                res.send out
+            )

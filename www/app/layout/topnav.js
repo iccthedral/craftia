@@ -3,9 +3,9 @@
     
     var controllerId = 'topnav';
     angular.module('app').controller(controllerId,
-        ['datacontext', 'common', 'authService','$http', topnav]);
+        ['datacontext', 'common', 'authService','$http', "$location", topnav]);
 
-    function topnav(datacontext, common, authService, $http) {
+    function topnav(datacontext, common, authService, $http, $location) {
         var vm = this;
         vm.title = "Logout";
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
@@ -16,6 +16,7 @@
             .success(function(data) {
               logSuccess(goodbyeGreeting);
               authService.setUser(null);
+              $location.path("#")
             })
             .error(function(err) {
               throw new Error(err);

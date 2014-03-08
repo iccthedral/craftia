@@ -1,5 +1,5 @@
 (function() {
-  var AddressModel, AuthLevel, CategoryModel, CityModel, JobModel, UserModel, colors, mongoose, passport;
+  var AddressModel, AuthLevel, CategoryModel, CityModel, JobModel, UserModel, colors, mongoose, passport, util;
 
   passport = require("passport");
 
@@ -19,9 +19,11 @@
 
   CategoryModel = require("../models/Category");
 
+  util = require("util");
+
   module.exports = function(app) {
     var saveJob, saveUser;
-    app.get("/logout", function(req, res, next) {
+    app.get("/logout", function(req, res) {
       req.logout();
       return res.redirect(200, "/");
     });
@@ -58,39 +60,106 @@
         });
       })(req, res, next);
     });
-    app.post('/register-craftsman', function(req, res, next) {
+    app.post('/register-craftsman', function(req, res) {
       var data, user;
       data = req.body;
       data.type = AuthLevel.CRAFTSMAN;
+      data.rating = 0;
+      data.numVotes = 0;
       user = new UserModel(data);
       return saveUser(user, res);
     });
-    app.post('/register-customer', function(req, res, next) {
+    app.post('/register-customer', function(req, res) {
       var data, user;
       data = req.body;
       data.type = AuthLevel.CUSTOMER;
       user = new UserModel(data);
       return saveUser(user.populate("createdJobs"), res);
     });
-    app.post("/job/new", function(req, res, next) {
+    app.post("/job/new", function(req, res) {
       var e, jobData, usr;
       jobData = req.body;
       usr = req.user;
       if (usr == null) {
-        console.log("You're nog logged in");
         return res.send(422);
       } else {
         try {
           return saveJob(usr, jobData, res);
         } catch (_error) {
           e = _error;
-          console.error(e.message.red);
+          console.log(e.message);
           return res.status(422).send(e.message);
         }
       }
     });
+    app.post("/job/:id/delete", function(req, res) {
+      var usr;
+      usr = req.user;
+      if ((usr == null) || usr.type !== AuthLevel.CUSTOMER) {
+        res.send(422);
+        return;
+      }
+      return JobModel.findOne({
+        _id: req.params.id
+      }).remove().exec(function(err, result) {
+        return res.send(200);
+      });
+    });
+    app.post("/job/:id/update", function(req, res) {
+      var usr;
+      usr = req.user;
+      if ((usr == null) || usr.type !== AuthLevel.CUSTOMER) {
+        res.send(422);
+        return;
+      }
+      return JobModel.findByIdAndUpdate(req.params.id, {
+        $set: req.body
+      }).exec(function(err, job) {
+        job.save(req.body);
+        return res.send(200);
+      });
+    });
+    app.post("/user/update", function(req, res) {
+      var usr;
+      usr = req.user;
+      if (usr == null) {
+        res.status(422).send("You're not logged in");
+        return;
+      }
+      return UserModel.findByIdAndUpdate(req.user._id, {
+        $set: req.body
+      }).exec(function(err, user) {
+        user.save(req.body);
+        return res.send(200);
+      });
+    });
+    app.post("/job/:id/bid", function(req, res) {
+      var usr;
+      usr = req.user;
+      console.dir(usr);
+      if ((usr == null) || usr.type !== AuthLevel.CRAFTSMAN) {
+        res.send(422);
+        return;
+      }
+      return JobModel.findOne({
+        _id: req.params.id
+      }).exec(function(err, job) {
+        job.bidders.push({
+          id: usr._id,
+          username: usr.username,
+          name: usr.name,
+          surname: usr.surname,
+          email: usr.email
+        });
+        job.save();
+        return res.send(200);
+      });
+    });
     saveJob = function(usr, jobData, res) {
       var address, job;
+      if (usr.type !== AuthLevel.CUSTOMER) {
+        throw new Error("You don't have permissions to create a new job");
+      }
       address = new AddressModel();
       job = new JobModel();
       address.newAddress(jobData.address).then(function() {
@@ -112,7 +181,6 @@
         job.description = jobData.description;
         job.save();
         job.populate("address");
-        console.dir(job);
         usr.createdJobs.push(job._id);
         usr.save();
         return res.send(job);

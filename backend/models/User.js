@@ -47,7 +47,18 @@
         type: mongoose.Schema.Types.ObjectId,
         ref: "Job"
       }
-    ]
+    ],
+    rating: {
+      type: Number,
+      min: 0,
+      max: 5,
+      "default": 0
+    },
+    numVotes: {
+      type: Number,
+      min: 0,
+      "default": 0
+    }
   });
 
   schema.pre("save", function(next) {

@@ -42,6 +42,10 @@ schema = mongoose.Schema
 		type: Date
 		required: true
 
+	bidders:
+		type: Array
+		default: []
+
 JobModel = mongoose.model("Job", schema)
 
 module.exports = JobModel
