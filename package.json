@@ -33,6 +33,6 @@
     "connect-flash": "*"
   },
   "devDependencies": {
-
+   "async": "*"
   }
 }

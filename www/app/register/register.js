@@ -1,9 +1,9 @@
 (function () {
     'use strict';
     var controllerId = 'register';
-    angular.module('app').controller(controllerId, ['common', 'datacontext', register]);
+    angular.module('app').controller(controllerId, ['common', 'datacontext', '$location', register]);
 
-    function register(common, datacontext) {
+    function register(common, datacontext, $location) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
         var logSuccess = getLogFn(controllerId, "success")
@@ -29,7 +29,8 @@
             console.debug(vm.user);
             datacontext.postRegister(vm.user).then(function(data) {
                 vm.user = data.user;
-                logSuccess(data.msg)
+                logSuccess(data.msg);
+                $location.path("/login");
             }).fail(function(error) {
                 logError(error);
             });

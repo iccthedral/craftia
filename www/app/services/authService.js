@@ -69,12 +69,6 @@
                 }
             }
 
-            // Object.defineProperty(_service, "isAuthenticated", {
-            //     get: function () {
-            //         return this.checkAuth();
-            //     }
-            // });
-
             return _service;
         }
     ]);
