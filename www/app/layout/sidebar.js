@@ -7,9 +7,9 @@
 
     function sidebar($route, config, routes) {
         var vm = this;
-
+        vm.navRoutes = [];
         vm.isCurrent = isCurrent;
-
+        vm.isAllowed = false;
         activate();
 
         function activate() { getNavRoutes(); }
@@ -20,6 +20,10 @@
             }).sort(function(r1, r2) {
                 return r1.config.settings.nav - r2.config.settings.nav;
             });
+        }
+
+        function checkPermission(permissions) {
+
         }
         
         function isCurrent(route) {

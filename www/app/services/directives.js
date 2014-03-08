@@ -286,4 +286,37 @@
          }
        };
     });
+
+    app.directive("checkPermissions", function () {
+        return {
+            require: "ngModel",
+            scope: {
+                checkPermissions: '='
+            },
+            link: function (scope, element, attrs, ctrl) {
+                scope.$watch(function () {
+                    var combined;
+
+                    if (scope.checkPermissions || ctrl.$viewValue) {
+                        combined = scope.checkPermissions + '_' + ctrl.$viewValue;
+                    }
+                    return combined;
+                }, function (value) {
+                    if (value) {
+                        ctrl.$parsers.unshift(function (viewValue) {
+                            var origin = scope.checkPermissions;
+                            if (origin !== viewValue) {
+                                ctrl.$setValidity("checkPermissions", false);
+                                return undefined;
+                            } else {
+                                ctrl.$setValidity("checkPermissions", true);
+                                return viewValue;
+                            }
+                        });
+                    }
+                });
+            }
+        };
+    });
+
 })();

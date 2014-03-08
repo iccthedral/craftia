@@ -2,8 +2,9 @@
     'use strict';
     var controllerId = 'profile';
     angular.module('app').controller(controllerId, ['common', 'authService', profile]);
-
+  
     function profile(common, authService) {
+
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
 
@@ -23,6 +24,7 @@
             vm.editable = false;
             vm.user = angular.copy(vm.backup);
         }
+
         vm.edit= function () {
             vm.editable = true;
         }
@@ -33,7 +35,7 @@
 
         function activate() {
             
-           common.activateController([], controllerId)
+            common.activateController(controllerId)
                 .then(function () { log('Activated Profile View'); });
         }
     }
