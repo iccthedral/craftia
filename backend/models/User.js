@@ -35,6 +35,7 @@
     },
     type: {
       type: String,
+      "enum": ["Admin", "Craftsman", "Customer"],
       required: true
     },
     telephone: {

@@ -15,7 +15,7 @@
         vm.backup = angular.copy(vm.dummyJob);
         vm.jobInfo = "app/jobs/jobInfo.html";
         vm.jobBids = "app/jobs/jobBids.html";
-        vm.bids = authService.getBids();
+        vm.bids = []; //authService.getBids();
         vm.isCraftsman = (authService.getUserType() == 'Craftsman');
         vm.isCustomer = (authService.getUserType() == 'Customer');
 
