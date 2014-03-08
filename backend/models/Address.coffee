@@ -16,11 +16,11 @@ schema = mongoose.Schema
 
 schema.methods.newAddress = (address) ->
 	CityModel
-	.findOne(zip: address.zip)
+	.findOne(name: address.name)
 	.exec (err, city) =>
 		throw new Error(err) if err?
 		console.dir "City", city
-		@city = city.toObject()
+		@city = city.toObject(address)
 		@addressLine1 = address.line1
 		@addressLine2 = address.line2
 		@save()

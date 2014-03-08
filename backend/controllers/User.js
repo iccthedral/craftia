@@ -21,21 +21,11 @@
 
   module.exports = function(app) {
     var saveJob, saveUser;
-    UserModel.find().populate("createdJobs").exec(function(err, result) {
-      var usr;
-      usr = result[0];
-      return AddressModel.populate(usr.createdJobs, {
-        path: "address"
-      }).then(function(job, res) {
-        return console.dir(job);
-      });
-    });
     app.get("/logout", function(req, res, next) {
       req.logout();
       return res.redirect(200, "/");
     });
     app.post('/login', function(req, res, next) {
-      console.dir(req.body);
       if (req.body.rememberme) {
         req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
       } else {
@@ -53,16 +43,18 @@
           if (err) {
             return next(err);
           }
-          user.populate({
-            "path": "createdJobs"
-          }).populate({
-            "path": "createdJobs.address",
-            "model": "Address"
-          }).populate({
-            "path": "createdJobs.address.city",
-            "model": "City"
+          return UserModel.find({
+            _id: user._id
+          }).populate("createdJobs").exec(function(err, result) {
+            var usr;
+            usr = result[0];
+            return AddressModel.populate(usr.createdJobs, {
+              path: "address"
+            }).then(function(job, address) {
+              job.address = address;
+              return res.send(usr);
+            });
           });
-          return res.send(user);
         });
       })(req, res, next);
     });
@@ -107,7 +99,7 @@
       return CategoryModel.findOne({
         category: jobData.category
       }).exec(function(err, cat) {
-        if ((cat != null ? cat.subcategories[jobData.subcategory] : void 0) != null) {
+        if (((cat != null ? cat.subcategories[jobData.subcategory] : void 0) != null) || (err != null)) {
           throw new Error("No such subcategory in category " + job.category);
         }
         job.category = jobData.category;
@@ -119,9 +111,10 @@
         job.title = jobData.title;
         job.description = jobData.description;
         job.save();
+        job.populate("address");
+        console.dir(job);
         usr.createdJobs.push(job._id);
         usr.save();
-        job.populate("address");
         return res.send(job);
       });
     };

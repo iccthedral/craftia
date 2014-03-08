@@ -15,7 +15,8 @@
             postRegister: postRegister,
             postUpdateUser: postUpdateUser,
             getCategories: getCategories,
-            getSubcategories: getSubcategories
+            getSubcategories: getSubcategories,
+            getAllJobs: getAllJobs
         };
 
         return service;
@@ -83,6 +84,11 @@
 
         function getSubcategories(category) {
             var url = "/category/" + category;
+            return $.get(url)
+        }
+
+        function getAllJobs() {
+            var url = "/listjobs"
             return $.get(url)
         }
     }

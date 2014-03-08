@@ -10,29 +10,6 @@ CategoryModel = require ("../models/Category")
 
 module.exports = (app) ->
 
-    UserModel
-    .find()
-    .populate("createdJobs")
-    .exec (err, result) ->
-        usr = result[0]
-        AddressModel.populate(usr.createdJobs, path: "address")
-        .then (job, res) ->
-            console.dir job
-
-        # return if result.length is 0
-        # usr = result[0]
-        # ind = 0
-        # for job in usr.createdJobs
-        #     AddressModel
-        #     .findOne(_id: job.address)
-        #     .populate("city")
-        #     .exec (err, address) ->
-        #         job = usr.createdJobs[ind]
-        #         console.dir(address)
-        #         usr.createdJobs[ind].address = address
-        #         ind++
-        #         console.dir usr
-
     app.get("/logout", (req, res, next) ->
         # req.user = null
         # req.session.cookie.expires = false
@@ -42,7 +19,6 @@ module.exports = (app) ->
     )
 
     app.post('/login', (req, res, next) ->
-        console.dir req.body
         if req.body.rememberme
             req.session.cookie.maxAge = 30*24*60*60*1000
         else
@@ -58,16 +34,15 @@ module.exports = (app) ->
                 req.logIn(user, (err) ->
                     if err
                         return next(err)
-                    user.populate({
-                        "path": "createdJobs"
-                    }).populate({
-                        "path": "createdJobs.address",
-                        "model": "Address",
-                    }).populate({
-                        "path": "createdJobs.address.city",
-                        "model": "City",
-                    })
-                    return res.send(user)
+                    UserModel
+                    .find(_id: user._id)
+                    .populate("createdJobs")
+                    .exec (err, result) ->
+                        usr = result[0]
+                        AddressModel.populate(usr.createdJobs, path: "address")
+                        .then (job, address) ->
+                            job.address = address
+                            return res.send(usr)
                 )
         )(req, res, next)
     )
@@ -113,7 +88,7 @@ module.exports = (app) ->
         CategoryModel
         .findOne(category: jobData.category)
         .exec (err, cat) ->
-            if cat?.subcategories[jobData.subcategory]?
+            if cat?.subcategories[jobData.subcategory]? or err?
                 throw new Error("No such subcategory in category #{job.category}")
             job.category = jobData.category
             job.subcategory = jobData.subcategory
@@ -124,9 +99,10 @@ module.exports = (app) ->
             job.title = jobData.title
             job.description = jobData.description
             job.save()
+            job.populate("address")
+            console.dir job
             usr.createdJobs.push(job._id)
             usr.save()
-            job.populate("address")
             res.send(job)
 
     saveUser = (user, res) ->
