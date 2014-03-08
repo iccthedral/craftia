@@ -11,6 +11,8 @@
         var events = config.events;
         vm.busyMessage = 'Please wait ...';
         vm.isBusy = true;
+        vm.getAuth = getAuth;
+
         vm.spinnerOptions = {
             radius: 40,
             lines: 7,
@@ -23,6 +25,10 @@
         };
 
         activate();
+
+        function getAuth() {
+            return $rootScope.isAuthenticated
+        }
 
         function activate() {
             logSuccess('Hot Towel Angular loaded!', null, true);

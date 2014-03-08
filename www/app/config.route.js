@@ -68,6 +68,7 @@
             {
                 url: '/',
                 config: {
+                    visibility: ["Craftsman"],
                     templateUrl: 'app/dashboard/dashboard.html',
                     title: 'dashboard',
                     resolve: authenticate(false),
@@ -79,6 +80,7 @@
             }, {
                 url: '/admin',
                 config: {
+                    visibility: ["Customer"],
                     title: 'admin',
                     templateUrl: 'app/admin/admin.html',
                     resolve: authenticate(true),
@@ -88,20 +90,9 @@
                     }
                 }
             }, {
-                url: '/job',
-                config: {
-                    title: 'job',
-                    templateUrl: 'app/jobs/job.html',
-                    resolve: authenticate(true),
-                    settings: {
-                        nav: 3,
-                        content: '<i class="fa fa-wrench"></i> Job'
-                    }
-                }
-            },
-            {
                 url: '/jobs',
                 config: {
+                    visibility: ["Craftsman"],
                     title: 'jobs',
                     templateUrl: 'app/jobs/jobs.html',
                     resolve: authenticate(true),
@@ -113,6 +104,7 @@
             }, {
                 url: '/craftsmen',
                 config: {
+                    visibility: ["Customer"],
                     title: 'craftsmen',
                     templateUrl: 'app/craftsmen/craftsmen.html',
                     resolve: authenticate(true),
@@ -124,6 +116,7 @@
             }, {
                 url: '/profile',
                 config: {
+                    visibility: ["Craftsman", "Customer"],
                     title: 'profile',
                     templateUrl: 'app/profile/profile.html',
                     resolve: authenticate(true),
@@ -135,6 +128,7 @@
             },{
                 url: '/kjob',
                 config: {
+                    visibility: ["Customer"],
                     title: 'kjob',
                     templateUrl: 'app/jobs/job.html',
                     resolve: authenticate(true),

@@ -1,13 +1,11 @@
 ﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboard as vm">
     <section class="matter">
         <div class="widget-content user">
-            <div class="row">
-                <div ng-show="!vm.isAuth" class="col-md-6" ng-include="vm.anonDash">
-                </div>
-                <div ng-show="vm.isCustomer" class="col-md-6" ng-include="vm.custDash">
-                </div>
-                <div ng-show="vm.isCraftsman" class="col-md-6" ng-include="vm.craftDash">
-                </div>
+            <div ng-show="!vm.isAuth" ng-include="vm.anonDash">
+            </div>
+            <div ng-show="vm.isCustomer" ng-include="vm.custDash">
+            </div>
+            <div ng-show="vm.isCraftsman" ng-include="vm.craftDash">
             </div>
         </div>
     </section>
