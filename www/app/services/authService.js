@@ -4,9 +4,9 @@
     var serviceId = 'authService';
     var app = angular.module("app");
 
-    app.factory(serviceId, ['$http','$rootScope', '$location', 'datacontext',
+    app.service(serviceId, ['$http','$rootScope', '$location', 'datacontext',
         function authService($http, $rootScope, $location, datacontext) {
-
+            console.debug("auth service called")
             var user = {};
             var userType = "";
             var isCustomer = false;
@@ -35,6 +35,7 @@
                 },
 
                 setUser: function (newUser) {
+                    console.debug("set User called", newUser)
                     user = newUser;
                     isAuthenticated = (user != null)
                     $rootScope.isAuthenticated = (user != null);
@@ -75,11 +76,4 @@
             return _service;
         }
     ]);
-
-    app.run(['$http', '$rootScope', 'authService', function($http, $rootScope, authService){ 
-        $http.get("/isAuthenticated")
-        .success(function(user) { authService.setUser(user); })
-        .error(function() { authService.setUser(null); });
-    }]);
-
 })();

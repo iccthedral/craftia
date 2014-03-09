@@ -86,7 +86,7 @@
         }
     });
 
-    app.directive('crAuth', ['$rootScope', 'authService', function ($rootScope) {
+    app.directive('crAuth', ['$rootScope', function ($rootScope) {
         function link($scope, element, attrs) {
             var expr = $rootScope.isAuthenticated;
 

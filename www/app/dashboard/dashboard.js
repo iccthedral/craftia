@@ -6,6 +6,8 @@
     function dashboard(common, datacontext, authService) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
+        
+        console.debug(authService);
 
         var vm = this;
         vm.news = {

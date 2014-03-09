@@ -6,22 +6,23 @@
 
     // Collect the routes
     app.constant('routes', getRoutes());
+    app.value("isAuthenticated", false);
 
     app.run(["$rootScope", "$location", "$route",
-        function ($rootScope, $location, $route) {
-            $rootScope.$on("$routeChangeSuccess", function (event, next, current) {
+    function ($rootScope, $location, $route) {
+        console.debug("config.route called");
+        $rootScope.$on("$routeChangeSuccess", function (event, next, current) {
 
-            })
+        })
 
-            $rootScope.$on("$routeChangeError", function (event, next, current) {
-                if (!$rootScope.isAuthenticated) {
-                    $location.path("/");
-                }
-            })
-        }]);
+        $rootScope.$on("$routeChangeError", function (event, next, current) {
+            if (!$rootScope.isAuthenticated) {
+                $location.path("/");
+            }
+        })
+    }]);
 
-    // Configure the routes and route resolvers
-    app.config(['$routeProvider', 'routes', routeConfigurator]);
+    app.constant('routeConfigurator', routeConfigurator);
 
     function routeConfigurator($routeProvider, routes) {
         routes.forEach(function (r) {
@@ -38,24 +39,19 @@
                     function ($q, $rootScope, $location) {
                         var defer = $q.defer();
                         var isLogin = $location.path() === "/login"
-
-                        if ($rootScope.isAuthenticated && access) {
+                        if ($rootScope.isAuthenticated) {
                             if (isLogin) {
                                 $location.path("/");
                             }
-                            defer.resolve();
-                        }
-                        else if ($rootScope.isAuthenticated && !access) {
-
-                            if (isLogin) {
-                                $location.path("/");
+                            else {
+                                defer.resolve();
                             }
-                            defer.resolve()
                         } else {
+                            console.debug("Ahoj here");
                             if (access) {
-                                defer.reject()
+                                defer.reject();
                             } else {
-                                defer.resolve()
+                                defer.resolve();
                             }
                         }
                         return defer.promise;
@@ -154,4 +150,21 @@
             }
         ];
     }
+
+    app.config(["$routeProvider", "routes", routeConfigurator]);
+
+    app.run(['$http', '$rootScope', 'authService', '$route', 'routeConfigurator', function($http, $rootScope, authService){ 
+        console.debug("main called");
+        $http.get("/isAuthenticated")
+        .success(function(user) { 
+            authService.setUser(user); 
+            // Configure the routes and route resolvers
+            app.config(['$routeProvider', 'routes', routeConfigurator]);
+        })
+        .error(function() { 
+            authService.setUser(null); 
+            app.config(['$routeProvider', 'routes', routeConfigurator]);
+        })
+    }]);
+
 })();

@@ -19,9 +19,20 @@
         }
     }]);
 
-    app.run(['$route',  function ($route) {
-        $.getJSON("app/translations/en.json").then(function(lang) {
-            window.LANG = lang
-        });
-    }]);
+    // app.run(['$route',  function ($route) {
+    //     $.getJSON("app/translations/en.json").then(function(lang) {
+    //         window.LANG = lang
+    //     });
+    // }]);
+    // app.run(['',  function (_) {
+    //     console.debug(_);
+    //     _.then(function(bla) {
+    //         app.factory('authService', ['$timeout', '$http','$rootScope', '$location', '$q', 'datacontext', (function(bla) {
+    //             return function() {
+    //                 bla.clb($timeout, $http, $rootScope, $location, $q, datacontext, bla.user);
+    //             }
+    //         }(bla))]);
+    //     });
+    // }]);
+
 })();
