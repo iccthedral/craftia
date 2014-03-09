@@ -9,9 +9,17 @@
 
         var vm = this;
         vm.news = {
-            title: 'Hot Towel Angular',
-            description: 'Hot Towel Angular is a SPA template for Angular developers.'
+            title: 'This is the Craftia homepage for visitors who are not signed in. '+
+                 "\n" +'This is where all the teaser images will be and where the visitor will be able to '+
+                 'see all the instructions on how the site works!',
+            description: "These widgets won't end up looking exactly like this, but they will be collapsible for ease of use on mobile devices"
         };
+
+        vm.craftsManNews = {
+            title: 'This widget will greet the craftsman when they log in',
+            description: 'Some content may or may not end up here, well see how it goes'
+        };
+
         vm.messageCount = 0;
         vm.people = [];
         vm.title = 'Dashboard';

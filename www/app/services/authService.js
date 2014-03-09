@@ -33,7 +33,7 @@
                     return userType;
                 },
 
-                setUser: function(newUser) {
+                setUser: function (newUser) {
                     user = newUser;
                     $rootScope.isAuthenticated = (user != null);
 
