@@ -15,7 +15,8 @@
         vm.partialInit = function() { };
         vm.cities = []
         vm.usr = authService.getUser();
-        
+        vm.isCraftsman = (authService.getUserType() == 'Craftsman');
+        vm.isCustomer = (authService.getUserType() == 'Customer');
         vm.newjob = {
             categories: [],
             subcategories: [],

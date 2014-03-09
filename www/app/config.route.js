@@ -68,7 +68,7 @@
             {
                 url: '/',
                 config: {
-                    visibility: ["Craftsman"],
+                    visibility: ["Craftsman", "Customer"],
                     templateUrl: 'app/dashboard/dashboard.html',
                     title: 'dashboard',
                     resolve: authenticate(false),
@@ -80,7 +80,7 @@
             }, {
                 url: '/admin',
                 config: {
-                    visibility: ["Customer"],
+                    visibility: ["Admin"],
                     title: 'admin',
                     templateUrl: 'app/admin/admin.html',
                     resolve: authenticate(true),
@@ -92,7 +92,7 @@
             }, {
                 url: '/jobs',
                 config: {
-                    visibility: ["Craftsman"],
+                    visibility: ["Craftsman", "Customer"],
                     title: 'jobs',
                     templateUrl: 'app/jobs/jobs.html',
                     resolve: authenticate(true),
