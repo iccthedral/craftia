@@ -47,6 +47,9 @@
     };
     fetchJobs = function(user, callback) {
       return async.map(user.createdJobs, populateAddress, function(err, results) {
+        if (results == null) {
+          results = [];
+        }
         results = results.map(function(job) {
           var author;
           author = {
