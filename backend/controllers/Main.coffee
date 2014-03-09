@@ -34,6 +34,7 @@ module.exports = (app) ->
             user.createdJobs, 
             populateAddress, 
             (err, results) ->
+                results = [] if not results?
                 results = results.map (job) -> 
                     author = {
                         id: user._id
