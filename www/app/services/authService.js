@@ -11,6 +11,7 @@
             var userType = "";
             var isCustomer = false;
             var isCraftsman = false;
+            var isAuthenticated = false;
 
             var job = {
                 title: 'Refurnish old furniture',
@@ -26,7 +27,7 @@
             var _service = {
                 getUser: function() {
                     return user;                    
-                },
+                },  
 
                 getUserType: function () {
                     if (user != undefined) { userType = user.type;}
@@ -35,8 +36,9 @@
 
                 setUser: function (newUser) {
                     user = newUser;
+                    isAuthenticated = (user != null)
                     $rootScope.isAuthenticated = (user != null);
-
+                    return isAuthenticated;
                 },
 
                 getJob: function(){
@@ -52,8 +54,9 @@
                     })
                 },
 
-                checkAuth: function() {
-                    return user != null; 
+                checkAuth: function () {
+                    
+                    return (user != null);
                     // @TODO Ako bude trebalo da se osvezi
                     // return $http.get("/isAuthenticated", function() {
                     // });

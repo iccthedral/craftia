@@ -15,10 +15,16 @@
             description: "These widgets won't end up looking exactly like this, but they will be collapsible for ease of use on mobile devices"
         };
 
-        vm.craftsManNews = {
+        vm.craftsmenNews = {
             title: 'This widget will greet the craftsman when they log in',
             description: 'Some content may or may not end up here, well see how it goes'
         };
+
+        vm.customerNews = {
+            title: 'This widget will greet the customer when they log in',
+            description: 'Some content may or may not end up here, well see how it goes'
+        };
+
 
         vm.messageCount = 0;
         vm.people = [];

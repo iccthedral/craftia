@@ -163,7 +163,7 @@ a.btn {
     font-size: 13px;
 }
 
-.control-label{
+.control-label {
     font-weight: 400 !important;
     font-size: 14px;
 }
@@ -257,6 +257,7 @@ a.btn {
     color: #fff !important;
     border: 0 !important;
 }
+
 .bcyan {
     background: #60c2ac !important;
     color: #fff !important;
@@ -444,7 +445,7 @@ form {
     background: #fff;
 }
 
-.dropdown-big .dropdown-menu p {
+    .dropdown-big .dropdown-menu p {
         margin: 1px 0;
         padding: 1px 0;
         font-size: 12px;
@@ -495,7 +496,7 @@ form {
     border-bottom: 1px solid #ddd;
 }
 
-.dropdown-menu li {
+    .dropdown-menu li {
         color: #777;
         font-size: 13px;
         line-height: 18px;
@@ -705,7 +706,7 @@ form {
         transition: background 0.5s ease;
     }
 
-/* Sidebar dropdown */
+    /* Sidebar dropdown */
 
     .sidebar .sidebar-dropdown* {
         text-decoration: none;
@@ -787,6 +788,13 @@ form {
 .mainbar {
     position: relative;
     margin-left: 230px;
+    margin-right: 0;
+    width: auto;
+    background: #fff;
+    min-height: 900px;
+}
+.mainbarHidden {
+    position: relative;
     margin-right: 0;
     width: auto;
     background: #fff;

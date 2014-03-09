@@ -31,7 +31,7 @@
         }
 
         function activate() {
-            logSuccess('Hot Towel Angular loaded!', null, true);
+            logSuccess('Craftia loaded!', null, true);
             common.activateController([], controllerId);
         }
 

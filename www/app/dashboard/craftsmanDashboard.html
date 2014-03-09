@@ -1,26 +1,30 @@
-﻿<div class="widget-content right-partial-view fluid-container">
-    <div class="row">
+﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboard as vm">
+    <div class="fluid-container">
+        <div class="widget-content right-partial-view fluid-container">
+            <div class="row">
 
-        <ul class="today-datas">
-            <li class="bcyan">
-                <div class="pull-left"><i class="fa fa-envelope"></i></div>
-                <div class="datas-text pull-right">
-                    <span class="bold">{{vm.messageCount}}</span> Messages
+                <ul class="today-datas">
+                    <li class="bcyan">
+                        <div class="pull-left"><i class="fa fa-envelope"></i></div>
+                        <div class="datas-text pull-right">
+                            <span class="bold">{{vm.messageCount}}</span> Messages
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                </ul>
+
+
+                <div class="widget wcyan">
+                    <div data-cc-widget-header title="{{vm.craftsmenNews.title}}"
+                         allow-collapse="true"></div>
+                    <div class="widget-content text-center text-info">
+                        <small>{{vm.craftsmenNews.description}}</small>
+                    </div>
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-                <div class="clearfix"></div>
-            </li>
-        </ul>
-
-
-        <div class="widget wcyan">
-            <div data-cc-widget-header title="{{vm.craftsManNews.title}}"
-                 allow-collapse="true"></div>
-            <div class="widget-content text-center text-info">
-                <small>{{vm.news.description}}</small>
-            </div>
-            <div class="widget-foot">
-                <div class="clearfix"></div>
             </div>
         </div>
     </div>
-</div>
+</section>

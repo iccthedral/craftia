@@ -7,15 +7,15 @@
     // Collect the routes
     app.constant('routes', getRoutes());
 
-    app.run(["$rootScope", "$location", "$route", "authService",
-        function ($rootScope, $location, $route, authService) {
+    app.run(["$rootScope", "$location", "$route",
+        function ($rootScope, $location, $route) {
             $rootScope.$on("$routeChangeSuccess", function (event, next, current) {
 
             })
 
             $rootScope.$on("$routeChangeError", function (event, next, current) {
                 if (!$rootScope.isAuthenticated) {
-                    $location.path("/login");
+                    $location.path("/");
                 }
             })
         }]);
