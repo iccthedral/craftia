@@ -2,9 +2,9 @@
     'use strict';
 
     var serviceId = 'datacontext';
-    angular.module('app').factory(serviceId, ['common', datacontext]);
+    angular.module('app').factory(serviceId, ['common', '$http', datacontext]);
 
-    function datacontext(common) {
+    function datacontext(common, $http) {
         var $q = common.$q;
 
         var service = {
@@ -16,7 +16,8 @@
             postUpdateUser: postUpdateUser,
             getCategories: getCategories,
             getSubcategories: getSubcategories,
-            getAllJobs: getAllJobs
+            getAllJobs: getAllJobs,
+            deleteJobById: deleteJob
         };
 
         return service;
@@ -85,6 +86,10 @@
         function getSubcategories(category) {
             var url = "/category/" + category;
             return $.get(url)
+        }
+
+        function deleteJob(id) {
+            return $http.post("/job/"+id+"/delete")
         }
 
         function getAllJobs() {

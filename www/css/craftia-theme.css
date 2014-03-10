@@ -38,3 +38,16 @@ span.stars, span.stars span {
 span.stars span {
     background-position: 0 0;
 }
+
+.inline-float {
+  display: inline-block;
+}
+
+.inline-float ul:first-child {
+  float: left;
+  clear: both;
+}
+
+.bcyan:hover {
+    background-color: blue !important;
+};

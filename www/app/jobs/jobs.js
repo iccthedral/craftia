@@ -9,7 +9,6 @@
 
         var vm = this;
         vm.title = 'Jobs';
-        vm.jobs = [];
         vm.rightPartial = "";
         vm.currentTitle = "";
         vm.partialInit = function() { };
@@ -17,6 +16,9 @@
         vm.usr = authService.getUser();
         vm.isCraftsman = (authService.getUserType() == 'Craftsman');
         vm.isCustomer = (authService.getUserType() == 'Customer');
+        vm.jobs = [];
+        vm.currentView = '';
+
         vm.newjob = {
             categories: [],
             subcategories: [],
@@ -100,13 +102,37 @@
             }
         }
 
-        vm.getCities = function(id) {
-            $rootScope.isAjaxHappening = true;
-            return $.get('/cities/' + id).then(function(res) {
-                $rootScope.isAjaxHappening = false;
-                return res
-            });
+        var tempJob = {};
+        vm.viewjob = {
+            editable: false,
+            backup: tempJob,
+            currentJob: tempJob,
+            cancel: function () {
+                vm.viewjob.editable = false;
+                vm.viewjob.currentJob = angular.copy(vm.viewjob.backup);
+            },
+            edit: function () {
+                alert('hi')
+                vm.viewjob.editable = true;
+            },
+            save: function () {
+                //sauthService.updateJob();
+                alert("save");
+            },
+            isChanged: function() {
+                console.debug(angular.equals(vm.viewjob.currentJob, vm.viewjob.backup));
+                return !angular.equals(vm.viewjob.currentJob, vm.viewjob.backup);
+            },
+            delete: function() {
+                datacontext.deleteJobById(vm.viewjob.currentJob._id)
+                .success(function() {
+                    var ind = vm.usr.createdJobs.indexOf(vm.viewjob.currentJob);
+                    vm.usr.createdJobs.splice(ind, 1);
+                    vm.viewjob.currentJob = vm.viewjob.backup = {}
+                });
+            }
         }
+
 
         function getCategories(me) {
             datacontext.getCategories().success(function(catdata) {
@@ -126,13 +152,30 @@
         }
 
         function getAllJobs() {
-            return vm.usr.createdJobs;
+            return datacontext.getAllJobs().success(function(data) {
+                vm.jobs = data;
+            });
+        }
+
+        vm.getCities = function(id) {
+            $rootScope.isAjaxHappening = true;
+            return $.get('/cities/' + id).then(function(res) {
+                $rootScope.isAjaxHappening = false;
+                return res
+            });
+        }
+
+        vm.viewJob = function(job) {
+            vm.currentView = 'viewjob';
+            vm.rightPartial = "app/jobs/jobInfo.html";
+            vm.viewjob.currentJob = job;
+            vm.viewjob.backup = angular.copy(vm.viewjob.currentJob);
         }
 
         activate();
 
         function activate() {
-            common.activateController([getCategories(vm.newjob)], controllerId)
+            common.activateController([getCategories(vm.newjob), getAllJobs()], controllerId)
                 .then(function () { log('Activated Jobs View'); });
         }
     }

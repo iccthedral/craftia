@@ -19,11 +19,13 @@
 
         vm.craftsmenNews = {
             title: 'This widget will greet the craftsman when they log in',
+            contentPartial: 'app/jobs/jobList.html',
             description: 'Some content may or may not end up here, well see how it goes'
         };
 
         vm.customerNews = {
             title: 'This widget will greet the customer when they log in',
+            contentPartial: 'app/jobs/jobList.html',
             description: 'Some content may or may not end up here, well see how it goes'
         };
 
@@ -37,8 +39,6 @@
         vm.craftDash = "app/dashboard/craftsmanDashboard.html";
         vm.custDash = "app/dashboard/customerDashboard.html";
         vm.anonDash = "app/dashboard/anonDashboard.html"
-
-
 
         activate();
         

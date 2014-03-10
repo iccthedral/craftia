@@ -26,6 +26,8 @@
       return {
         restrict:'A',
         link: function(scope, element, attrs){
+          var crDate = attrs["crDate"];
+          console.debug (crDate);
           attrs.$observe("crDate", function(){
             element.text(moment().format("MMMM Do YYYY", attrs["crDate"]));
           });

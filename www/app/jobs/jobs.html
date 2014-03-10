@@ -1,55 +1,6 @@
-﻿<section class="mainbar" data-ng-controller="jobs as vm">
-    <section class="matter">
-        <div class="container">
-            <div class="row">
-                <div class="widget wcyan">
-                    <div class="widget-head" title="">
-                        <button ng-show="vm.isCustomer" type="button" class="btn btn-secondary btn-lg" ng-click="vm.newjob.init()">
-                            <span class="glyphicon glyphicon-plus"></span> Add new job
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-lg">
-                            <span class="glyphicon glyphicon-list"></span> List your jobs
-                        </button>
-                    </div>
-                    <div class="widget-content user">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="widget wcyan">
-                                    <div data-cc-widget-header title="Current jobs"
-                                         allow-collapse="true"></div>
-                                    <div class="widget-content text-center text-info">
-                                        <table class="table table-condensed table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Title</th>
-                                                    <th>Category</th>
-                                                    <th>Starting date</th>
-                                                    <th>Engding date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr data-ng-repeat="p in vm.usr.createdJobs">
-                                                    <td class="text-left">{{p.title}}</td>
-                                                    <td class="text-left">{{p.category}}</td>
-                                                    <td class="text-left"><span cr-date="{{p.dateFrom}}"></span></td>
-                                                    <td class="text-left"><span cr-date="{{p.dateTo}}"></span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="widget-foot">
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6" ng-include="vm.rightPartial" onload="vm.partialInit()">
-                            </div>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+﻿<div data-ng-controller="jobs as vm">
+    <section ng-if="vm.isCraftsman" class="mainbar" ng-include="'app/jobs/jobList.html'">
     </section>
-</section>
+    <section ng-if="vm.isCustomer" class="mainbar" ng-include="'app/jobs/myJobs.html'">
+    </section>
+</div>
