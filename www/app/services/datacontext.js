@@ -84,6 +84,7 @@
         }
 
         function getSubcategories(category) {
+            debugger;
             var url = "/category/" + category;
             return $.get(url)
         }

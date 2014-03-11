@@ -10,7 +10,7 @@
         var logError = getLogFn(controllerId, "error")
 
         var vm = this;
-        vm.lang = LANG.register;
+        //vm.lang = LANG.register;
         vm.title = 'Register';  
         
         vm.user = {

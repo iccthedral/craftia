@@ -11,7 +11,7 @@
         vm.title = 'Jobs';
         vm.rightPartial = "";
         vm.currentTitle = "";
-        vm.partialInit = function() { };
+        vm.partialInit = function () { };
         vm.cities = []
         vm.usr = authService.getUser();
         vm.isCraftsman = (authService.getUserType() == 'Craftsman');
@@ -35,7 +35,7 @@
             materialProvider: "",
             address: "",
 
-            init: function() {
+            init: function () {
                 var me = vm.newjob
                 vm.currentTitle = "Create job";
                 vm.rightPartial = "app/jobs/jobCreate.html";
@@ -48,7 +48,7 @@
 
                 me.changeCategory = function () {
                     $rootScope.isAjaxHappening = true;
-                    datacontext.getSubcategories(me.selectedCategory.category.id).success(function(data) {
+                    datacontext.getSubcategories(me.selectedCategory.category.id).success(function (data) {
                         me.subcategories = data;
                         me.selectedCategory.subcategory = me.subcategories[0];
                         $scope.$digest();
@@ -57,7 +57,7 @@
                     });
                 }
             },
-            resetModel: function() {
+            resetModel: function () {
                 var me = vm.newjob;
                 me.categories = [];
                 me.subcategories = [];
@@ -74,7 +74,7 @@
                 me.materialProvider = "";
                 me.address = "";
             },
-            create: function() {
+            create: function () {
                 var me = vm.newjob;
                 var jobData = {
                     title: vm.newjob.title,
@@ -93,7 +93,7 @@
                     bidders: []
                 }
                 $.post("job/new", jobData)
-                .success(function(job) {
+                .success(function (job) {
                     console.debug(job);
                     vm.usr.createdJobs.push(job);
                     me.resetModel();
@@ -107,6 +107,7 @@
             editable: false,
             backup: tempJob,
             currentJob: tempJob,
+
             cancel: function () {
                 vm.viewjob.editable = false;
                 vm.viewjob.currentJob = angular.copy(vm.viewjob.backup);
@@ -119,24 +120,57 @@
                 //sauthService.updateJob();
                 alert("save");
             },
-            isChanged: function() {
+            isChanged: function () {
                 console.debug(angular.equals(vm.viewjob.currentJob, vm.viewjob.backup));
                 return !angular.equals(vm.viewjob.currentJob, vm.viewjob.backup);
             },
-            delete: function() {
+            delete: function () {
                 datacontext.deleteJobById(vm.viewjob.currentJob._id)
-                .success(function() {
+                .success(function () {
                     var ind = vm.usr.createdJobs.indexOf(vm.viewjob.currentJob);
                     vm.usr.createdJobs.splice(ind, 1);
                     vm.viewjob.currentJob = vm.viewjob.backup = {}
                 });
+            },
+            changeCategory: function () {
+                $rootScope.isAjaxHappening = true;
+                datacontext.getSubcategories(vm.viewjob.selectedCategory.category.id).success(function (data) {
+                    me.subcategories = data;
+                    me.selectedCategory.subcategory = me.subcategories[0];
+                    $scope.$digest();
+                    $rootScope.isAjaxHappening = false;
+                    $rootScope.$digest();
+                });
             }
+        }
+
+        vm.showJob = function (job) {
+            debugger;
+            vm.viewjob.currentJob = angular.copy(job);
+            vm.viewjob.backup = angular.copy(vm.viewjob.currentJob);           
+            var catName = job.category;
+            datacontext.getCategories().success(function (catdata) {
+                var catI;
+                for (catI = 0; catdata.length; catI++) { if (catdata[catI].name == catName) break }
+                datacontext.getSubcategories(catdata[catI].id).success(function (subcatdata) {
+                    vm.viewjob.currentJob.subcategories = subcatdata;
+                    vm.viewjob.currentJob.categories = catdata;
+                    $scope.$digest();
+                });
+            });
+            vm.viewjob.currentJob.selectedCategory = {
+                category: vm.viewjob.currentJob.category,
+                subcategory: vm.viewjob.currentJob.subcategory
+            }
+            vm.currentView = 'viewjob';
+            vm.rightPartial = "app/jobs/jobInfo.html";
+            return vm.viewjob.currentJob;
         }
 
 
         function getCategories(me) {
-            datacontext.getCategories().success(function(catdata) {
-                datacontext.getSubcategories(catdata[0].id).success(function(subcatdata) {
+            datacontext.getCategories().success(function (catdata) {
+                datacontext.getSubcategories(catdata[0].id).success(function (subcatdata) {
                     me.subcategories = subcatdata;
                     me.categories = catdata;
                     me.selectedCategory.category = me.categories[0];
@@ -152,24 +186,17 @@
         }
 
         function getAllJobs() {
-            return datacontext.getAllJobs().success(function(data) {
+            return datacontext.getAllJobs().success(function (data) {
                 vm.jobs = data;
             });
         }
 
-        vm.getCities = function(id) {
+        vm.getCities = function (id) {
             $rootScope.isAjaxHappening = true;
-            return $.get('/cities/' + id).then(function(res) {
+            return $.get('/cities/' + id).then(function (res) {
                 $rootScope.isAjaxHappening = false;
                 return res
             });
-        }
-
-        vm.viewJob = function(job) {
-            vm.currentView = 'viewjob';
-            vm.rightPartial = "app/jobs/jobInfo.html";
-            vm.viewjob.currentJob = job;
-            vm.viewjob.backup = angular.copy(vm.viewjob.currentJob);
         }
 
         activate();

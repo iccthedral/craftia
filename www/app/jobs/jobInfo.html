@@ -9,45 +9,40 @@
                     <div class="form-group">
                         <label class="col-md-8 control-label" for="">Title</label>
                         <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.title" id="" name="" type="text" placeholder="" class="form-control input-md" required="">
+                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.title"
+                             type="text" placeholder="" class="form-control input-md" required="">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-8 control-label" for="">Title</label>
+                        <label class="col-md-8 control-label" for="category">Category</label>
                         <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.description" id="email" name="email" type="text" placeholder="" class="form-control input-md" required="">
+                            <select ng-disabled="!vm.viewjob.editable" id="category" name="category" class="form-control"
+                                    ng-model="vm.viewjob.currentJob.selectedCategory.category"
+                                    ng-options="cat.name for cat in vm.viewjob.currentJob.categories"
+                                    ng-change="vm.viewjob.changeCategory()"
+                                    ng-init="vm.viewjob.currentJob.selectedCategory.category=vm.viewjob.currentJob.category"></select>
                         </div>
                     </div>
 
-                    <!-- Text input-->
-<!--                     <div class="form-group">
-                        <label class="col-md-8 control-label" for="username">Author</label>
-                        <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.usr.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
-                        </div>
-                    </div> -->
-
-                    <!-- Password input-->
+                    <!-- Select Basic -->
                     <div class="form-group">
-                        <label class="col-md-8 control-label" for="password">Category</label>
+                        <label class="col-md-8 control-label" for="subcategory">Subcategory</label>
                         <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.category" id="password" name="text" type="text" placeholder="" class="form-control input-md" required="">
+                            <select ng-disabled="!vm.viewjob.editable" id="subcategory" name="subcategory" class="form-control"
+                                    ng-model="vm.viewjob.currentJob.selectedCategory.category"
+                                    ng-options="cat.name for cat in vm.viewjob.currentJob.subcategories"
+                                    ng-init="vm.viewjob.currentJob.selectedCategory.subcategory=vm.viewjob.currentJob.subcategory"></select>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-8 control-label" for="password">Subcategory</label>
-                        <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.subcategory" id="password" name="text" type="text" placeholder="" class="form-control input-md" required="">
-                        </div>
-                    </div>
 
                     <!-- Password input-->
                     <div class="form-group">
                         <label class="col-md-8 control-label" for="">Starting date</label>
                         <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.dateFrom" id="" name="" type="starting date" placeholder="" class="form-control input-md" required="">
+                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.dateFrom" id="" 
+                                   type="starting date" placeholder="" class="form-control input-md" required="">
                         </div>
                     </div>
 
@@ -55,26 +50,11 @@
                     <div class="form-group">
                         <label class="col-md-8 control-label" for="name">Ending date</label>
                         <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.dateTo" id="name" name="name" type="text" placeholder="ending date" class="form-control input-md" required="">
+                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.dateTo" 
+                                    type="text" placeholder="ending date" class="form-control input-md" required="">
                         </div>
                     </div>
 
-<!--                     <div class="form-group">
-                        <label class="col-md-8 control-label" for="surname">Surname</label>
-                        <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
-
-                        </div>
-                    </div> -->
-
-                    <!-- Text input-->
-<!--                     <div class="form-group">
-                        <label class="col-md-8 control-label" for="telephone">Telephone</label>
-                        <div class="col-md-8">
-                            <input ng-disabled="!vm.viewjob.editable" ng-model="vm.viewjob.currentJob.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
-                        </div>
-                    </div> -->
-                    
                 </fieldset>
             </form>
         </div>
