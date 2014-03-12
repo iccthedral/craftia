@@ -9,6 +9,9 @@
 
     function Jobs($scope, $rootScope, common, datacontext, authService, dialogs) {
         
+        var getLogFn = common.logger.getLogFn;
+        var log = getLogFn(controllerId);
+
         $scope.currentJob = createJobModel($scope);
         $scope.backup = $scope.currentJob;
         $scope.title = 'Jobs';
@@ -21,6 +24,10 @@
         $scope.currentView = '';
         $scope.categories = [];
         $scope.subcategories = [];
+
+        $scope.JobList = JobList();
+        $scope.ViewJob = ViewJob();
+        $scope.JobPanel = JobPanel();
 
 
         function attachSubcategories(that) {
@@ -183,37 +190,9 @@
 
             resetModel()
             return panel;
-            // function delete() {
-            //     datacontext.deleteJobById($scope.currentJob._id)
-            //     .success(function () {
-            //         var ind = $scope.user.createdJobs.indexOf(currentJob);
-            //         $scope.usr.createdJobs.splice(ind, 1);
-            //         currentJob = backup = {}
-            //     });
-            // }
         }
 
-        var getLogFn = common.logger.getLogFn;
-        var log = getLogFn(controllerId);
 
-        // var catName = job.category;
-        // datacontext.getCategories().success(function (catdata) {
-        //     var catI;
-        //     for (catI = 0; catdata.length; catI++) { if (catdata[catI].name == catName) break }
-        //     datacontext.getSubcategories(catdata[catI].id).success(function (subcatdata) {
-        //         $scope.viewjob.currentJob.subcategories = subcatdata;
-        //         $scope.viewjob.currentJob.categories = catdata;
-        //         $scope.$digest();
-        //     });                                                                   
-        // });                                                                       
-        // $scope.viewjob.currentJob.selectedCategory = {                                
-        //     category: $scope.viewjob.currentJob.category,                             
-        //     subcategory: $scope.viewjob.currentJob.subcategory                        
-        // }      
-
-        // $scope.currentView = 'viewjob';                                               
-        // $scope.rightPartial = "app/jobs/jobInfo.html";                                
-        // return $scope.viewjob.currentJob;
 
         function JobList () {
             return {
@@ -312,11 +291,7 @@
                 $rootScope.isAjaxHappening = false;
                 return res
             });
-        }
-
-        $scope.JobList = JobList();
-        $scope.ViewJob = ViewJob();
-        $scope.JobPanel = JobPanel();
+        }        
 
         activate();
         function activate() {

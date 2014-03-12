@@ -122,18 +122,6 @@
                     }
                 }
             },{
-                url: '/kjob',
-                config: {
-                    visibility: ["Customer"],
-                    title: 'kjob',
-                    templateUrl: 'app/jobs/job.html',
-                    resolve: authenticate(true),
-                    settings: {
-                        nav: 5,
-                        content: '<i class="fa fa-wrench"></i> Job'
-                    }
-                }
-            },{
                 url: '/register',
                 config: {
                     title: 'craftsmen',
