@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="textinput">Job title</label>
                     <div class="col-md-8">
-                        <input ng-model="vm.newjob.title" id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
+                        <input ng-model="currentJob.title" id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
                     </div>
                 </div>
 
@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="textarea">Job description</label>
                     <div class="col-md-8">
-                        <textarea ng-model="vm.newjob.description" class="form-control" id="textarea" name="textarea"></textarea>
+                        <textarea ng-model="currentJob.description" class="form-control" id="textarea" name="textarea"></textarea>
                     </div>
                 </div>
 
@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="selectbasic">Who provides the material?</label>
                     <div class="col-md-8">
-                        <select ng-model="vm.newjob.materialProvider" id="selectbasic" name="selectbasic" class="form-control">
+                        <select ng-model="currentJob.materialProvider" id="selectbasic" name="selectbasic" class="form-control">
                             <option ng-selected="selected" value="Customer">Customer</option>
                             <option value="Craftsman">Craftsman</option>
                         </select>
@@ -37,7 +37,7 @@
                     <label class="col-md-8 control-label" for="appendedtext">Desired budget:</label>
                     <div class="col-md-8">
                         <div class="input-group">
-                            <input ng-model="vm.newjob.budget" id="appendedtext" name="appendedtext" class="form-control" placeholder="" type="text" required="">
+                            <input ng-model="currentJob.budget" id="appendedtext" name="appendedtext" class="form-control" placeholder="" type="text" required="">
                             <span class="input-group-addon">RSD</span>
                         </div>
 
@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="textinput">ZIP/City</label>
                     <div class="col-md-8">
-                        <input type="text" ng-model="vm.newjob.city" placeholder="" typeahead="address.name for address in vm.getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
+                        <input type="text" ng-model="currentJob.city" placeholder="" typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
                     </div>
                 </div>
 
@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="textinput">Address</label>
                     <div class="col-md-8">
-                        <input ng-model="vm.newjob.address" id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
+                        <input ng-model="currentJob.address" id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
                     </div>
                 </div>
 
@@ -64,8 +64,8 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="category">Category</label>
                     <div class="col-md-8">
-                        <select id="category" name="category" class="form-control" ng-model="vm.newjob.selectedCategory.category"
-                        ng-options="cat.name for cat in vm.newjob.categories" ng-change="vm.newjob.changeCategory()">
+                        <select id="category" name="category" class="form-control" ng-model="currentJob.selectedCategory.category"
+                        ng-options="cat.name for cat in categories" ng-change="currentJob.changeCategory()">
                         </select>
                     </div>
                 </div>
@@ -74,8 +74,8 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="subcategory">Subcategory</label>
                     <div class="col-md-8">
-                        <select id="subcategory" name="subcategory" class="form-control" ng-model="vm.newjob.selectedCategory.subcategory"
-                        ng-options="cat.name for cat in vm.newjob.subcategories">
+                        <select id="subcategory" name="subcategory" class="form-control" ng-model="currentJob.selectedCategory.subcategory"
+                        ng-options="cat.name for cat in subcategories">
                         </select>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="textinput">From</label>
                     <div class="col-md-8">
-                        <input id="datefrom" name="textinput" type="text" ng-model="vm.newjob.dateFrom" placeholder="" class="form-control input-md" required="">
+                        <input id="datefrom" name="textinput" type="text" ng-model="currentJob.dateFrom" placeholder="" class="form-control input-md" required="">
                     </div>
                 </div>
 
@@ -92,7 +92,7 @@
                 <div class="form-group">
                     <label class="col-md-8 control-label" for="textinput">To</label>
                     <div class="col-md-8">
-                        <input id="dateto" ng-model="vm.newjob.dateTo" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
+                        <input id="dateto" ng-model="currentJob.dateTo" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
 
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                 <!-- Button -->
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-5">
-                        <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="vm.newjob.create()">Create</button>
+                        <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="JobPanel.create()">Create</button>
                     </div>
                 </div>
             </fieldset>

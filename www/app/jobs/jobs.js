@@ -77,10 +77,21 @@
             return new JobModel(scope);
         }
 
+
+        function resetModel() {
+            $scope.currentJob = createJobModel($scope);
+            $scope.backup = $scope.currentJob;
+        }   
+
         function JobPanel() {
             $scope.editable = false;
 
             var panel = {
+                addNewJob: function() {
+                    $scope.rightPartial = "app/jobs/jobCreate.html";
+                    resetModel();
+                },
+
                 editJob: function(job) {
                     $scope.rightPartial = "app/jobs/jobEdit.html";
                     $scope.currentView = "jobpanel";
@@ -106,11 +117,11 @@
                     });
                 },
 
-                resetModel: function() {
-                    $scope.currentJob = createJobModel($scope);
-                    $scope.backup = $scope.currentJob;
+                partialInit: function() {
+                    $("#datefrom").datepicker({ minDate: 0 });
+                    $("#dateto").datepicker({ minDate: 0 });
                 },
-            
+
                 cancel: function() {
                     $scope.editable = false;
                     $scope.currentJob = angular.copy($scope.backup);
@@ -119,7 +130,28 @@
                 edit: function() {
                     $scope.editable = true;
                 },
+                create: function() {
+                    var curjob = $scope.currentJob;
+                    var jobData = JSON.parse(JSON.stringify(curjob));
+                    jobData.address = {
+                        name: curjob.city,
+                        line1: curjob.address,
+                        line2: "test"
+                    }
+                    jobData.category = curjob.selectedCategory.category.name
+                    jobData.subcategory = curjob.selectedCategory.subcategory.name
 
+                    $.post("job/new", jobData)
+                    .success(function(job) {
+                        console.debug(job);
+                        var jobic = createJobModel($scope);
+                        jobic.populate(job);
+                        $scope.user.createdJobs.push(job);
+                        $scope.ownJobs.push(jobic);
+                        resetModel();
+                        $rootScope.$digest();
+                    });
+                },
                 save: function() {
                     var data = JSON.parse(JSON.stringify($scope.currentJob));
                     // delete data.address;
@@ -137,10 +169,19 @@
                 isChanged: function() {
                     console.debug(angular.equals($scope.currentJob, $scope.backup));
                     return !angular.equals($scope.currentJob, $scope.backup);
+                },
+                
+                delete: function() {
+                    datacontext.deleteJobById($scope.currentJob._id)
+                    .success(function() {
+                        var ind = $scope.ownJobs.indexOf($scope.currentJob);
+                        $scope.ownJobs.splice(ind, 1);
+                        resetModel();
+                    });
                 }
             }
 
-            panel.resetModel()
+            resetModel()
             return panel;
             // function delete() {
             //     datacontext.deleteJobById($scope.currentJob._id)
@@ -276,10 +317,6 @@
         $scope.JobList = JobList();
         $scope.ViewJob = ViewJob();
         $scope.JobPanel = JobPanel();
-
-        // function addNewJob() {
-        //     $scope.rightPartial = "bla.html";
-        // }
 
         activate();
         function activate() {
