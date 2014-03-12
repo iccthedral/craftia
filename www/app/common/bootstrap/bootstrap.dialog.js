@@ -36,19 +36,22 @@
             return confirmationDialog(title, msg);
         }
 
-        function confirmationDialog(title, msg, okText, cancelText) {
+        function confirmationDialog(title, msg, okText, cancelText, scope) {
 
             var modalOptions = {
                 templateUrl: 'modalDialog.tpl.html',
                 controller: ModalInstance,
                 keyboard: true,
+                scope: scope,
                 resolve: {
                     options: function () {
                         return {
                             title: title,
                             message: msg,
                             okText: okText,
-                            cancelText: cancelText
+                            cancelText: cancelText,
+                            okclb: scope.ok,
+                            cancelclb: scope.cancel
                         };
                     }
                 }
@@ -64,7 +67,13 @@
             $scope.message = options.message || '';
             $scope.okText = options.okText || 'OK';
             $scope.cancelText = options.cancelText || 'Cancel';
-            $scope.ok = function () { $modalInstance.close('ok'); };
-            $scope.cancel = function () { $modalInstance.dismiss('cancel'); };
+            $scope.ok = function() {
+                 $modalInstance.close('ok'); 
+                 options.okclb.call(); 
+            }
+            $scope.cancel = function() {
+                $modalInstance.dismiss('cancel');
+                options.cancelclb.call();
+            }
         }];
 })();

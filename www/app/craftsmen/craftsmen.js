@@ -39,11 +39,11 @@
             that.filteredItems = that.getJobs();
         };
 
-        function getAllJobs() {
-            return datacontext.getAllJobs().then(function(data) {
+        function getAllCraftsmen() {
+            return datacontext.getAllCraftsmen().then(function(data) {
                 that.items = data;
                 that.totalItems = that.items.length;
-                that.filteredItems = that.getJobs();
+                that.filteredItems = that.items;
                 // console.debug(that.numPages());
                 that.$digest();
             }).promise();
@@ -51,7 +51,7 @@
 
         activate();
         function activate() {
-            common.activateController([getAllJobs()], controllerId)
+            common.activateController([getAllCraftsmen()], controllerId)
                 .then(function () { log('Activated Craftsmen View'); });
         }
     }

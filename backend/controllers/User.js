@@ -92,6 +92,16 @@
         }
       }
     });
+    app.get("/listcraftsmen", function(req, res) {
+      return UserModel.find({
+        type: AuthLevel.CRAFTSMAN
+      }).exec(function(err, out) {
+        if (err != null) {
+          return res.send(422, err.message);
+        }
+        return res.send(out);
+      });
+    });
     app.post("/job/:id/delete", function(req, res) {
       var usr;
       usr = req.user;
@@ -106,17 +116,35 @@
       });
     });
     app.post("/job/:id/update", function(req, res) {
-      var usr;
+      var jobData, usr;
       usr = req.user;
+      jobData = req.body;
       if ((usr == null) || usr.type !== AuthLevel.CUSTOMER) {
         res.send(422);
         return;
       }
-      return JobModel.findByIdAndUpdate(req.params.id, {
-        $set: req.body
+      return JobModel.findOne({
+        _id: req.params.id
       }).exec(function(err, job) {
-        job.save(req.body);
-        return res.send(200);
+        if (((typeof cat !== "undefined" && cat !== null ? cat.subcategories[jobData.subcategory] : void 0) != null) || (err != null)) {
+          throw new Error("No such subcategory in category " + job.category);
+        }
+        job.category = jobData.category;
+        job.subcategory = jobData.subcategory;
+        job.budget = jobData.budget;
+        job.dateFrom = jobData.dateFrom;
+        job.dateTo = jobData.dateTo;
+        job.materialProvider = jobData.materialProvider;
+        job.title = jobData.title;
+        job.description = jobData.description;
+        job.save();
+        job.populate("address");
+        return usr.save(function(err) {
+          if (err != null) {
+            return res.send(422, err.message);
+          }
+          return res.send(job);
+        });
       });
     });
     app.post("/user/update", function(req, res) {
@@ -151,8 +179,39 @@
           surname: usr.surname,
           email: usr.email
         });
-        job.save();
-        return res.send(200);
+        return job.save(function(err) {
+          if (err != null) {
+            return res.status(422).send(err.message);
+          }
+          return res.send(job);
+        });
+      });
+    });
+    app.post("/job/:id/:uid/cancelbid", function(req, res) {
+      var usr;
+      usr = req.user;
+      console.dir(usr);
+      if ((usr == null) || usr.type !== AuthLevel.CRAFTSMAN) {
+        res.send(422);
+        return;
+      }
+      return JobModel.findOne({
+        _id: req.params.id
+      }).exec(function(err, job) {
+        var bidder, ind;
+        bidder = (job.bidders.filter((function(_this) {
+          return function(el) {
+            return el.id === req.params.uid;
+          };
+        })(this)))[0];
+        ind = job.bidders.indexOf(bidder);
+        job.bidders.splice(ind, 1);
+        return job.save(function(err) {
+          if (err != null) {
+            return res.status(422).send(err.message);
+          }
+          return res.send(job);
+        });
       });
     });
     saveJob = function(usr, jobData, res) {
@@ -162,28 +221,29 @@
       }
       address = new AddressModel();
       job = new JobModel();
-      address.newAddress(jobData.address).then(function() {
+      return address.newAddress(jobData.address).then(function() {
         return job.address = address._id;
-      }).then(function() {});
-      return CategoryModel.findOne({
-        category: jobData.category
-      }).exec(function(err, cat) {
-        if (((cat != null ? cat.subcategories[jobData.subcategory] : void 0) != null) || (err != null)) {
-          throw new Error("No such subcategory in category " + job.category);
-        }
-        job.category = jobData.category;
-        job.subcategory = jobData.subcategory;
-        job.budget = jobData.budget;
-        job.dateFrom = jobData.dateFrom;
-        job.dateTo = jobData.dateTo;
-        job.materialProvider = jobData.materialProvider;
-        job.title = jobData.title;
-        job.description = jobData.description;
-        job.save();
-        job.populate("address");
-        usr.createdJobs.push(job._id);
-        usr.save();
-        return res.send(job);
+      }).then(function() {
+        return CategoryModel.findOne({
+          category: jobData.category
+        }).exec(function(err, cat) {
+          if (((cat != null ? cat.subcategories[jobData.subcategory] : void 0) != null) || (err != null)) {
+            throw new Error("No such subcategory in category " + job.category);
+          }
+          job.category = jobData.category;
+          job.subcategory = jobData.subcategory;
+          job.budget = jobData.budget;
+          job.dateFrom = jobData.dateFrom;
+          job.dateTo = jobData.dateTo;
+          job.materialProvider = jobData.materialProvider;
+          job.title = jobData.title;
+          job.description = jobData.description;
+          job.save();
+          job.populate("address");
+          usr.createdJobs.push(job._id);
+          usr.save();
+          return res.send(job);
+        });
       });
     };
     return saveUser = function(user, res) {

@@ -9,48 +9,48 @@
                             <div class="col-md-6">
                                 <div class="widget wcyan">
                                     <div data-cc-widget-header title="Craftsmen"
-                                         allow-collapse="true"></div>
+                                    allow-collapse="true"></div>
                                     <div class="widget-content text-center text-info">
                                         <table class="table table-condensed table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Title</th>
-                                                    <th>Author</th>
-                                                    <th>Category</th>
-                                                    <th>Starting date</th>
-                                                    <th>Engding date</th>
+                                                    <th>E-mail</th>
+                                                    <th>Username</th>
+                                                    <th>Name</th>
+                                                    <th>Surname</th>
+                                                    <th>Rating</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr data-ng-repeat="p in filteredItems">
-                                                    <td class="text-left">{{p.title}}</td>
-                                                    <td class="text-left">{{p.author.name}}</td>
-                                                    <td class="text-left">{{p.category}}-{{p.subcategory}}</td>
-                                                    <td class="text-left"><span cr-date="{{p.dateFrom}}"></span></td>
-                                                    <td class="text-left"><span cr-date="{{p.dateTo}}"></span></td>
+                                                    <td class="text-left">{{p.email}}</td>
+                                                    <td class="text-left">{{p.username}}</td>
+                                                    <td class="text-left">{{p.name}}</td> 
+                                                    <td class="text-left">{{p.surname}}</td>
+                                                    <td class="text-left">{{p.rating}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="widget-foot">
- <div class="clearfix"></div>
-    <pagination
-        total-items="totalItems"
-        boundary-links="true"
-        num-pages="numPages"
-        on-select-page="setPage(page)"
-    >
-    </pagination>
- <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="widget-foot">
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
+                                       <div class="clearfix"></div>
+                                       <pagination
+                                       total-items="totalItems"
+                                       boundary-links="true"
+                                       num-pages="numPages"
+                                       on-select-page="setPage(page)"
+                                       >
+                                   </pagination>
+                                   <div class="clearfix"></div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="widget-foot">
+                    <div class="clearfix"></div>
                 </div>
             </div>
-    </section>
+        </div>
+    </div>
+</section>
 </section>

@@ -1,6 +1,6 @@
-﻿<div data-ng-controller="jobs as vm">
-    <section ng-if="vm.isCraftsman" class="mainbar" ng-include="'app/jobs/jobList.html'">
+﻿<div data-ng-controller="Jobs">
+    <section ng-if="user.isCustomer" class="mainbar" ng-include="'app/jobs/myJobs.html'">
     </section>
-    <section ng-if="vm.isCustomer" class="mainbar" ng-include="'app/jobs/myJobs.html'">
+    <section ng-if="user.isCraftsman" class="mainbar" ng-include="'app/jobs/jobList.html'">
     </section>
 </div>

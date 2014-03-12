@@ -91,6 +91,14 @@ module.exports = (app) ->
                 res.status(422).send(e.message)
     )
 
+    app.get("/listcraftsmen", (req, res) ->
+        UserModel
+        .find(type: AuthLevel.CRAFTSMAN)
+        .exec (err, out) ->
+            return res.send(422, err.message) if err?
+            res.send(out);
+    )
+    
     app.post("/job/:id/delete", (req, res) ->
         usr = req.user
         if not usr? or usr.type isnt AuthLevel.CUSTOMER 
@@ -105,14 +113,30 @@ module.exports = (app) ->
 
     app.post("/job/:id/update", (req, res) ->
         usr = req.user
+        jobData = req.body
         if not usr? or usr.type isnt AuthLevel.CUSTOMER 
             res.send(422)
             return
         JobModel
-        .findByIdAndUpdate(req.params.id, { $set: req.body })
+        .findOne(_id: req.params.id)
         .exec (err, job) ->
-            job.save(req.body)
-            res.send(200)
+            if cat?.subcategories[jobData.subcategory]? or err?
+                throw new Error("No such subcategory in category #{job.category}")
+            job.category = jobData.category
+            job.subcategory = jobData.subcategory
+            # job.address = jobData.address;
+            job.budget = jobData.budget
+            job.dateFrom = jobData.dateFrom
+            job.dateTo = jobData.dateTo
+            job.materialProvider = jobData.materialProvider
+            job.title = jobData.title
+            job.description = jobData.description
+            job.save()
+            job.populate("address")
+            # usr.createdJobs.push(job._id)
+            usr.save (err) ->
+                return res.send(422, err.message) if err? 
+                res.send(job)
     )
 
     app.post("/user/update", (req, res) ->
@@ -143,8 +167,26 @@ module.exports = (app) ->
                 surname: usr.surname
                 email: usr.email
             )
-            job.save()
-            res.send(200)
+            job.save (err) ->
+                return res.status(422).send(err.message) if err?
+                res.send(job)
+    )
+
+    app.post("/job/:id/:uid/cancelbid", (req, res) ->
+        usr = req.user
+        console.dir usr
+        if not usr? or usr.type isnt AuthLevel.CRAFTSMAN 
+            res.send(422)
+            return
+        JobModel
+        .findOne(_id: req.params.id)
+        .exec (err, job) ->
+            bidder = (job.bidders.filter (el) => return el.id is req.params.uid)[0]
+            ind = job.bidders.indexOf(bidder)
+            job.bidders.splice(ind, 1)
+            job.save (err) ->
+                return res.status(422).send(err.message) if err?
+                res.send(job)
     )
 
     saveJob = (usr, jobData, res) ->
@@ -156,24 +198,24 @@ module.exports = (app) ->
         .then () ->
             job.address = address._id
         .then () ->
-        CategoryModel
-        .findOne(category: jobData.category)
-        .exec (err, cat) ->
-            if cat?.subcategories[jobData.subcategory]? or err?
-                throw new Error("No such subcategory in category #{job.category}")
-            job.category = jobData.category
-            job.subcategory = jobData.subcategory
-            job.budget = jobData.budget
-            job.dateFrom = jobData.dateFrom
-            job.dateTo = jobData.dateTo
-            job.materialProvider = jobData.materialProvider
-            job.title = jobData.title
-            job.description = jobData.description
-            job.save()
-            job.populate("address")
-            usr.createdJobs.push(job._id)
-            usr.save()
-            res.send(job)
+            CategoryModel
+            .findOne(category: jobData.category)
+            .exec (err, cat) ->
+                if cat?.subcategories[jobData.subcategory]? or err?
+                    throw new Error("No such subcategory in category #{job.category}")
+                job.category = jobData.category
+                job.subcategory = jobData.subcategory
+                job.budget = jobData.budget
+                job.dateFrom = jobData.dateFrom
+                job.dateTo = jobData.dateTo
+                job.materialProvider = jobData.materialProvider
+                job.title = jobData.title
+                job.description = jobData.description
+                job.save()
+                job.populate("address")
+                usr.createdJobs.push(job._id)
+                usr.save()
+                res.send(job)
 
     saveUser = (user, res) ->
         user.save (err) ->

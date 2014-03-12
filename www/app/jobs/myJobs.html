@@ -2,63 +2,63 @@
     <div class="container">
         <div class="row">
             <div class="widget wcyan">
-                 <div class="widget-head" title="">
-                    <button type="button" class="btn btn-secondary btn-lg" ng-click="vm.newjob.init()">
-                        <span class="glyphicon glyphicon-plus"></span> Add new job
-                    </button>
+               <div class="widget-head" title="">
+                <button type="button" class="btn btn-secondary btn-lg" ng-click="JobPanel.addNewJob()">
+                    <span class="glyphicon glyphicon-plus"></span> Add new job
+                </button>
 
-                    <button ng-disabled="vm.currentView != 'viewjob'" type="button" class="btn btn-lg" ng-click="vm.viewjob.edit()">
-                        <span class="fa fa-edit"></span> Edit
-                    </button>
+                <button ng-disabled="currentView != 'jobpanel'" type="button" class="btn btn-lg" ng-click="JobPanel.edit()">
+                    <span class="fa fa-edit"></span> Edit
+                </button>
 
-                    <button ng-disabled="vm.currentView != 'viewjob'" type="button" class="btn btn-lg" ng-click="vm.viewjob.cancel()">
-                        <span class="fa fa-undo"></span> Cancel
-                    </button>
+                <button ng-disabled="currentView != 'jobpanel'" type="button" class="btn btn-lg" ng-click="JobPanel.cancel()">
+                    <span class="fa fa-undo"></span> Cancel
+                </button>
 
-                    <button ng-disabled="!vm.viewjob.editable" type="button" class="btn btn-lg" ng-click="vm.viewjob.save()">
-                        <span class="fa fa-save"></span> Save changes
-                    </button>
+                <button ng-disabled="!editable" type="button" class="btn btn-lg" ng-click="JobPanel.save()">
+                    <span class="fa fa-save"></span> Save changes
+                </button>
 
-                    <button ng-disabled="vm.currentView != 'viewjob'" type="button" class="btn btn-lg" ng-click="vm.viewjob.delete()">
-                        <span class="fa fa-trash-o"></span> Delete job
-                    </button>
+                <button ng-disabled="currentView != 'jobpanel'" type="button" class="btn btn-lg" ng-click="JobPanel.delete()">
+                    <span class="fa fa-trash-o"></span> Delete job
+                </button>
 
-                    <!--Need ng-hide for show/hide animations-->
-                    <span ng-show="vm.viewjob.isChanged()" class="dissolve-animation flag-haschanges ng-hide">
-                        <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
-                    </span>
+                <!--Need ng-hide for show/hide animations-->
+                <span ng-show="JobPanel.isChanged()" class="dissolve-animation flag-haschanges ng-hide">
+                    <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
+                </span>
 
-                </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="widget wcyan">
-                                <div data-cc-widget-header title="Current jobs"
-                                     allow-collapse="true"></div>
-                                <div class="widget-content text-center text-info">
-                                    <table class="table table-condensed table-striped table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Category</th>
-                                                <th>Starting date</th>
-                                                <th>Engding date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr id="{{$index}}" data-ng-repeat="p in vm.usr.createdJobs" ng-click="vm.showJob(vm.usr.createdJobs[$index])">
-                                                <td class="text-left">{{p.title}}</td>
-                                                <td class="text-left">{{p.category}}</td>
-                                                <td class="text-left"><span>{{p.dateFrom}}</span></td>
-                                                <td class="text-left"><span>{{p.dateTo}}</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6" ng-include="vm.rightPartial" onload="vm.partialInit()">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget wcyan">
+                        <div data-cc-widget-header title="Current jobs"
+                        allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                            <table class="table table-condensed table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Starting date</th>
+                                        <th>Engding date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="{{$index}}" data-ng-repeat="p in ownJobs" ng-click="JobPanel.editJob(ownJobs[$index])">
+                                        <td class="text-left">{{p.title}}</td>
+                                        <td class="text-left">{{p.category}}</td>
+                                        <td class="text-left"><span>{{p.dateFrom}}</span></td>
+                                        <td class="text-left"><span>{{p.dateTo}}</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-6" ng-include="rightPartial" onload="JobPanel.partialInit()">
+                </div>
             </div>
         </div>
+    </div>
 </section>  

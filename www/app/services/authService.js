@@ -7,21 +7,9 @@
     app.service(serviceId, ['$http','$rootScope', '$location', 'datacontext',
         function authService($http, $rootScope, $location, datacontext) {
             console.debug("auth service called")
-            var user = {};
             var userType = "";
-            var isCustomer = false;
-            var isCraftsman = false;
-            var isAuthenticated = false;
-
-            var job = {
-                title: 'Refurnish old furniture',
-                author: 'John',
-                skills: ['Carpenter'],
-                startingDate: new Date(),
-                endingDate: new Date()
-            };
-
             var user = {}
+
             $rootScope.isAjaxHappening = false;
             
             var _service = {
@@ -30,16 +18,27 @@
                 },  
 
                 getUserType: function () {
-                    if (user != undefined) { userType = user.type;}
+                    if (user != undefined) { }
                     return userType;
                 },
 
                 setUser: function (newUser) {
                     console.debug("set User called", newUser)
                     user = newUser;
-                    isAuthenticated = (user != null)
-                    $rootScope.isAuthenticated = (user != null);
-                    return isAuthenticated;
+                    if (user) {
+                        userType = user.type;
+                        Object.defineProperty(user, "isCraftsman", {
+                            get: function () {
+                                return userType == 'Craftsman'
+                            }
+                        });
+                        Object.defineProperty(user, "isCustomer", {
+                            get: function () {
+                                return userType == 'Customer'
+                            }
+                        });
+                    }
+                    return $rootScope.isAuthenticated = (user != null);
                 },
 
                 getJob: function(){
@@ -56,11 +55,7 @@
                 },
 
                 checkAuth: function () {
-                    
                     return (user != null);
-                    // @TODO Ako bude trebalo da se osvezi
-                    // return $http.get("/isAuthenticated", function() {
-                    // });
                 },       
 
                 updateUser: function () {
@@ -72,7 +67,6 @@
                     })
                 }
             }
-
             return _service;
         }
     ]);

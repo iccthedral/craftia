@@ -17,7 +17,8 @@
             getCategories: getCategories,
             getSubcategories: getSubcategories,
             getAllJobs: getAllJobs,
-            deleteJobById: deleteJob
+            deleteJobById: deleteJob,
+            getAllCraftsmen: getAllCraftsmen
         };
 
         return service;
@@ -84,7 +85,6 @@
         }
 
         function getSubcategories(category) {
-            debugger;
             var url = "/category/" + category;
             return $.get(url)
         }
@@ -96,6 +96,11 @@
         function getAllJobs() {
             var url = "/listjobs"
             return $.get(url)
+        }
+
+        function getAllCraftsmen() {
+            var url = "/listcraftsmen";
+            return $.get(url);
         }
     }
 })();

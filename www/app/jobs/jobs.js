@@ -1,197 +1,271 @@
 ﻿(function () {
     'use strict';
-    var controllerId = 'jobs';
-    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', jobs]);
+    var controllerId = 'Jobs';
+    var CONTROLLERS = {};
 
-    function jobs($scope, $rootScope, common, datacontext, authService) {
+    // angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', jobs]);
+    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', 'bootstrap.dialog', Jobs]);
+
+
+    function Jobs($scope, $rootScope, common, datacontext, authService, dialogs) {
+        
+        $scope.currentJob = createJobModel($scope);
+        $scope.backup = $scope.currentJob;
+        $scope.title = 'Jobs';
+        $scope.rightPartial = "";
+        $scope.currentTitle = "";
+        $scope.user = authService.getUser();
+        $scope.cities = []
+        $scope.allJobs = [];
+        $scope.ownJobs = [];
+        $scope.currentView = '';
+        $scope.categories = [];
+        $scope.subcategories = [];
+
+
+        function attachSubcategories(that) {
+            console.debug(that);
+            $rootScope.isAjaxHappening = true;
+            datacontext.getSubcategories(that.selectedCategory.category.id).success(function (data) {
+                $scope.subcategories = data;
+                that.selectedCategory.subcategory = $scope.subcategories[0];
+                $rootScope.isAjaxHappening = false;
+                $rootScope.$digest();
+            });
+        }
+
+        function createJobModel (scope) {
+            var JobModel = function JobModel() {
+                this.selectedCategory = {
+                    category: "",
+                    subcategory: ""
+                };
+                this._id = "";
+                this.city = "";
+                this.dateFrom = "";
+                this.dateTo = "";
+                this.title = "";
+                this.description = "";
+                this.budget = "";
+                this.materialProvider = "";
+                this.address = "";
+                this.author = {};
+                this.bidders = [];
+                this.subcategory = "";
+                this.category = "";
+            }
+
+            JobModel.prototype.populate = function(jobData) {
+                for(var key in jobData) {
+                    if (this.hasOwnProperty(key)) {
+                        this[key] = jobData[key]
+                    }
+                }
+            }
+
+            JobModel.prototype.isBidder = function() {
+                return this.bidders.filter(function(bidder) {
+                    return (bidder.id === $scope.user._id)
+                }).length > 0
+            }
+
+            JobModel.prototype.changeCategory = function() {
+                console.debug(this);
+                attachSubcategories(this);
+            }
+
+            return new JobModel(scope);
+        }
+
+        function JobPanel() {
+            $scope.editable = false;
+
+            var panel = {
+                editJob: function(job) {
+                    $scope.rightPartial = "app/jobs/jobEdit.html";
+                    $scope.currentView = "jobpanel";
+                    $scope.currentJob = job;
+                    $scope.backup = job;
+                    datacontext.getCategories().success(function (catdata) {
+                        $scope.categories =  catdata;
+                        var curcat = $scope.currentJob.category;
+                        var curscat = $scope.currentJob.subcategories;
+                        console.debug (curcat)
+
+                        var fcat = catdata.filter(function(cat) { return cat.name === curcat})[0]
+                        console.debug (fcat)
+                        $scope.currentJob.selectedCategory.category = fcat;
+                        $scope.$digest();
+                        datacontext.getSubcategories(fcat.id).success(function(subcats) {
+                            $scope.subcategories = subcats;
+                            var curscat = $scope.currentJob.subcategory;
+                            var fcat = subcats.filter(function(cat) { return cat.name === curscat})[0]
+                            $scope.currentJob.selectedCategory.subcategory = fcat;
+                            $rootScope.$digest();
+                        });
+                    });
+                },
+
+                resetModel: function() {
+                    $scope.currentJob = createJobModel($scope);
+                    $scope.backup = $scope.currentJob;
+                },
+            
+                cancel: function() {
+                    $scope.editable = false;
+                    $scope.currentJob = angular.copy($scope.backup);
+                },
+
+                edit: function() {
+                    $scope.editable = true;
+                },
+
+                save: function() {
+                    var data = JSON.parse(JSON.stringify($scope.currentJob));
+                    // delete data.address;
+                    delete data._id;
+                    console.debug (data);
+                    data.category = data.selectedCategory.category.name;
+                    data.subcategory = data.selectedCategory.subcategory.name;
+
+                    $.post("/job/"+$scope.currentJob._id+"/update", data)
+                    .done(function() {
+                        log("Job successfuly updated")
+                    });
+                },
+
+                isChanged: function() {
+                    console.debug(angular.equals($scope.currentJob, $scope.backup));
+                    return !angular.equals($scope.currentJob, $scope.backup);
+                }
+            }
+
+            panel.resetModel()
+            return panel;
+            // function delete() {
+            //     datacontext.deleteJobById($scope.currentJob._id)
+            //     .success(function () {
+            //         var ind = $scope.user.createdJobs.indexOf(currentJob);
+            //         $scope.usr.createdJobs.splice(ind, 1);
+            //         currentJob = backup = {}
+            //     });
+            // }
+        }
+
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
 
-        var vm = this;
-        vm.title = 'Jobs';
-        vm.rightPartial = "";
-        vm.currentTitle = "";
-        vm.partialInit = function () { };
-        vm.cities = []
-        vm.usr = authService.getUser();
-        vm.isCraftsman = (authService.getUserType() == 'Craftsman');
-        vm.isCustomer = (authService.getUserType() == 'Customer');
-        vm.jobs = [];
-        vm.currentView = '';
+        // var catName = job.category;
+        // datacontext.getCategories().success(function (catdata) {
+        //     var catI;
+        //     for (catI = 0; catdata.length; catI++) { if (catdata[catI].name == catName) break }
+        //     datacontext.getSubcategories(catdata[catI].id).success(function (subcatdata) {
+        //         $scope.viewjob.currentJob.subcategories = subcatdata;
+        //         $scope.viewjob.currentJob.categories = catdata;
+        //         $scope.$digest();
+        //     });                                                                   
+        // });                                                                       
+        // $scope.viewjob.currentJob.selectedCategory = {                                
+        //     category: $scope.viewjob.currentJob.category,                             
+        //     subcategory: $scope.viewjob.currentJob.subcategory                        
+        // }      
 
-        vm.newjob = {
-            categories: [],
-            subcategories: [],
-            selectedCategory: {
-                category: "",
-                subcategory: ""
-            },
-            city: "",
-            dateFrom: "",
-            dateTo: "",
-            title: "",
-            description: "",
-            budget: "",
-            materialProvider: "",
-            address: "",
+        // $scope.currentView = 'viewjob';                                               
+        // $scope.rightPartial = "app/jobs/jobInfo.html";                                
+        // return $scope.viewjob.currentJob;
 
-            init: function () {
-                var me = vm.newjob
-                vm.currentTitle = "Create job";
-                vm.rightPartial = "app/jobs/jobCreate.html";
-
-                vm.partialInit = function () {
-                    console.debug("Partial init happened");
-                    $("#datefrom").datepicker({ minDate: 0 });
-                    $("#dateto").datepicker({ minDate: 0 });
+        function JobList () {
+            return {
+                getJobs: function() {
+                    console.debug($scope.allJobs);
+                    return $scope.allJobs;
+                },
+                showJob: function(jobIndex) {
+                    $scope.rightPartial = "app/jobs/jobInfo.html";
+                    $scope.currentJob.populate($scope.allJobs[jobIndex]);
+                    attachSubcategories($scope.currentJob);
                 }
-
-                me.changeCategory = function () {
-                    $rootScope.isAjaxHappening = true;
-                    datacontext.getSubcategories(me.selectedCategory.category.id).success(function (data) {
-                        me.subcategories = data;
-                        me.selectedCategory.subcategory = me.subcategories[0];
-                        $scope.$digest();
-                        $rootScope.isAjaxHappening = false;
-                        $rootScope.$digest();
-                    });
-                }
-            },
-            resetModel: function () {
-                var me = vm.newjob;
-                me.categories = [];
-                me.subcategories = [];
-                me.selectedCategory = {
-                    category: me.categories[0],
-                    subcategory: me.subcategories[0]
-                };
-                me.city = "";
-                me.dateFrom = "";
-                me.dateTo = "";
-                me.title = "";
-                me.description = "";
-                me.budget = "";
-                me.materialProvider = "";
-                me.address = "";
-            },
-            create: function () {
-                var me = vm.newjob;
-                var jobData = {
-                    title: vm.newjob.title,
-                    description: vm.newjob.description,
-                    materialProvider: vm.newjob.materialProvider,
-                    budget: vm.newjob.budget,
-                    address: {
-                        name: vm.newjob.city,
-                        line1: vm.newjob.address,
-                        line2: ""
-                    },
-                    category: vm.newjob.selectedCategory.category.name,
-                    subcategory: vm.newjob.selectedCategory.subcategory.name,
-                    dateFrom: vm.newjob.dateFrom,
-                    dateTo: vm.newjob.dateTo,
-                    bidders: []
-                }
-                $.post("job/new", jobData)
-                .success(function (job) {
-                    console.debug(job);
-                    vm.usr.createdJobs.push(job);
-                    me.resetModel();
-                    $rootScope.$digest();
-                });
             }
-        }
+        }                             
 
-        var tempJob = {};
-        vm.viewjob = {
-            editable: false,
-            backup: tempJob,
-            currentJob: tempJob,
-
-            cancel: function () {
-                vm.viewjob.editable = false;
-                vm.viewjob.currentJob = angular.copy(vm.viewjob.backup);
-            },
-            edit: function () {
-                alert('hi')
-                vm.viewjob.editable = true;
-            },
-            save: function () {
-                //sauthService.updateJob();
-                alert("save");
-            },
-            isChanged: function () {
-                console.debug(angular.equals(vm.viewjob.currentJob, vm.viewjob.backup));
-                return !angular.equals(vm.viewjob.currentJob, vm.viewjob.backup);
-            },
-            delete: function () {
-                datacontext.deleteJobById(vm.viewjob.currentJob._id)
-                .success(function () {
-                    var ind = vm.usr.createdJobs.indexOf(vm.viewjob.currentJob);
-                    vm.usr.createdJobs.splice(ind, 1);
-                    vm.viewjob.currentJob = vm.viewjob.backup = {}
-                });
-            },
-            changeCategory: function () {
-                $rootScope.isAjaxHappening = true;
-                datacontext.getSubcategories(vm.viewjob.selectedCategory.category.id).success(function (data) {
-                    me.subcategories = data;
-                    me.selectedCategory.subcategory = me.subcategories[0];
-                    $scope.$digest();
-                    $rootScope.isAjaxHappening = false;
-                    $rootScope.$digest();
-                });
+        function ViewJob (job) {
+            return {
+                bid: function() {
+                    var modalScope = $scope;
+                    modalScope.ok = function() {
+                        $.post("job/"+$scope.currentJob._id+"/bid")
+                        .success(function(updatedJob) {
+                            $scope.allJobs.filter(function(job) {
+                                if (job._id === updatedJob._id) {
+                                    var ind = $scope.allJobs.indexOf(job)
+                                    $scope.allJobs[ind] = updatedJob;
+                                }
+                            });
+                            $scope.currentJob.populate(updatedJob);
+                            $rootScope.$digest()
+                            log("You bidded successfully")
+                        });
+                    };
+                    dialogs
+                    .confirmationDialog(
+                        "Confirm", 
+                        "Are you sure you want to bid for this job?", 
+                        "Ok", 
+                        "Cancel",
+                        modalScope
+                    )
+                },
+                cancelBid: function() {
+                    var modalScope = $scope;
+                    modalScope.ok = function() {
+                        $.post("job/"+$scope.currentJob._id+"/"+$scope.user._id+"/cancelbid")
+                        .success(function(updatedJob) {
+                            $scope.allJobs.filter(function(job) {
+                                if (job._id === updatedJob._id) {
+                                    var ind = $scope.allJobs.indexOf(job)
+                                    $scope.allJobs[ind] = updatedJob;
+                                }
+                            });
+                            $scope.currentJob.populate(updatedJob);
+                            $rootScope.$digest()
+                            log("You canceled the bid successfully")
+                        });
+                    };
+                    dialogs
+                    .confirmationDialog(
+                        "Confirm", 
+                        "Are you sure you want to cancel this bid?", 
+                        "Ok", 
+                        "Cancel",
+                        modalScope
+                    )
+                }
             }
-        }
-
-        vm.showJob = function (job) {
-            debugger;
-            vm.viewjob.currentJob = angular.copy(job);
-            vm.viewjob.backup = angular.copy(vm.viewjob.currentJob);           
-            var catName = job.category;
+        }                                                
+        
+        function getCategories (clb) {
             datacontext.getCategories().success(function (catdata) {
-                var catI;
-                for (catI = 0; catdata.length; catI++) { if (catdata[catI].name == catName) break }
-                datacontext.getSubcategories(catdata[catI].id).success(function (subcatdata) {
-                    vm.viewjob.currentJob.subcategories = subcatdata;
-                    vm.viewjob.currentJob.categories = catdata;
-                    $scope.$digest();
-                });
+                $scope.categories =  catdata;
+                $scope.currentJob.selectedCategory.category = catdata[0];
+                attachSubcategories($scope.currentJob);
             });
-            vm.viewjob.currentJob.selectedCategory = {
-                category: vm.viewjob.currentJob.category,
-                subcategory: vm.viewjob.currentJob.subcategory
-            }
-            vm.currentView = 'viewjob';
-            vm.rightPartial = "app/jobs/jobInfo.html";
-            return vm.viewjob.currentJob;
-        }
-
-
-        function getCategories(me) {
-            datacontext.getCategories().success(function (catdata) {
-                datacontext.getSubcategories(catdata[0].id).success(function (subcatdata) {
-                    me.subcategories = subcatdata;
-                    me.categories = catdata;
-                    me.selectedCategory.category = me.categories[0];
-                    me.selectedCategory.subcategory = me.subcategories[0];
-                    $scope.$digest();
-                });
-            });
-        }
-
-        function getJobs() {
-            console.debug(vm.usr);
-            return vm.usr.createdJobs;
         }
 
         function getAllJobs() {
             return datacontext.getAllJobs().success(function (data) {
-                vm.jobs = data;
+                $scope.allJobs = data;
             });
         }
 
-        vm.getCities = function (id) {
+        function getUserJobs() {
+            $scope.ownJobs = $scope.user.createdJobs.map(function(job) {
+                var jobic = createJobModel($scope);
+                jobic.populate(job);
+                return jobic;
+            });
+        }
+
+        $scope.getCities = function (id) {
             $rootScope.isAjaxHappening = true;
             return $.get('/cities/' + id).then(function (res) {
                 $rootScope.isAjaxHappening = false;
@@ -199,10 +273,17 @@
             });
         }
 
-        activate();
+        $scope.JobList = JobList();
+        $scope.ViewJob = ViewJob();
+        $scope.JobPanel = JobPanel();
 
+        // function addNewJob() {
+        //     $scope.rightPartial = "bla.html";
+        // }
+
+        activate();
         function activate() {
-            common.activateController([getCategories(vm.newjob), getAllJobs()], controllerId)
+            common.activateController([getCategories(), getAllJobs(), getUserJobs()], controllerId)
                 .then(function () { log('Activated Jobs View'); });
         }
     }
