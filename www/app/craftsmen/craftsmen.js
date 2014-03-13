@@ -45,8 +45,8 @@
                                 }
                             });
                             $scope.currentCraftsman.populate(updatedCraftsman);
-                            $rootScope.$digest()
-                            log("You rated successfully")
+                            $rootScope.$digest();
+                            log("You rated successfully");
                         });
                     };
                     dialogs
@@ -109,7 +109,7 @@
         function CraftsmanList() {
             return {
                 getCraftsmen: function () {
-
+                    return $scope.allJobs;
                 },
                 showCraftsman: function (craftsmanIndex) {
                     $scope.rightPartial = "app/craftsmen/craftsmanProfile",
@@ -120,9 +120,9 @@
 
         function getAllCraftsmen() {
             return datacontext.getAllCraftsmen().then(function (data) {
-                $scope.items = data;
-                $scope.totalItems = $scope.items.length;
-                $scope.filteredItems = $scope.items;
+                $scope.allCraftsmen = data;
+                $scope.totalCraftsmen = $scope.allCraftsmen.length;
+                $scope.filteredItems = $scope.allCraftsmen;
                 // console.debug(that.numPages());
                 $scope.$digest();
             }).promise();

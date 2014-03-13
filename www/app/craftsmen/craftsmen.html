@@ -9,7 +9,7 @@
                             <div class="col-md-6">
                                 <div class="widget wcyan">
                                     <div data-cc-widget-header title="Craftsmen"
-                                    allow-collapse="true"></div>
+                                         allow-collapse="true"></div>
                                     <div class="widget-content text-center text-info">
                                         <table class="table table-condensed table-striped">
                                             <thead>
@@ -22,10 +22,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr id="{{$index}}" data-ng-repeat="p in allCraftsmen" ng-click="CraftsmanList.showCraftsman($index)">
+                                                <tr id="{{$index}}" data-ng-repeat="p in CraftsmanList.getCraftsmen" ng-click="CraftsmanList.showCraftsman($index)">
                                                     <td class="text-left">{{p.email}}</td>
                                                     <td class="text-left">{{p.username}}</td>
-                                                    <td class="text-left">{{p.name}}</td> 
+                                                    <td class="text-left">{{p.name}}</td>
                                                     <td class="text-left">{{p.surname}}</td>
                                                     <td class="text-left">{{p.rating}}</td>
                                                 </tr>
@@ -33,24 +33,37 @@
                                         </table>
                                     </div>
                                     <div class="widget-foot">
-                                       <div class="clearfix"></div>
-                                       <pagination
-                                       total-items="totalItems"
-                                       boundary-links="true"
-                                       num-pages="numPages"
-                                       on-select-page="setPage(page)"
-                                       >
-                                   </pagination>
-                                   <div class="clearfix"></div>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-                   <div class="widget-foot">
-                    <div class="clearfix"></div>
+                                        <div class="clearfix"></div>
+                                        <!--<pagination total-items="totalItems"
+                                                    boundary-links="true"
+                                                    num-pages="numPages"
+                                                    on-select-page="setPage(page)">
+
+                                        </pagination>-->
+                                        <div class="clearfix"></div>
+                                        <ul class="pagination-small pagination ng-isolate-scope" boundary-links="true" on-select-page="pageChanged(page)" total-items="attendeeFilteredCount" items-per-page="paging.pageSize" page="paging.currentPage" max-size="paging.maxPagesToShow" previous-text="Prev" next-text="Next" first-text="First" last-text="Last">
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope disabled"><a ng-click="selectPage(page.number)" class="ng-binding">First</a></li>
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope disabled"><a ng-click="selectPage(page.number)" class="ng-binding">Prev</a></li><
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope active"><a ng-click="selectPage(page.number)" class="ng-binding">1</a></li>
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope"><a ng-click="selectPage(page.number)" class="ng-binding">2</a></li>
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope"><a ng-click="selectPage(page.number)" class="ng-binding">3</a></li>
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope"><a ng-click="selectPage(page.number)" class="ng-binding">4</a></li>
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope"><a ng-click="selectPage(page.number)" class="ng-binding">5</a></li>
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope"><a ng-click="selectPage(page.number)" class="ng-binding">Next</a></li>
+                                            <li ng-repeat="page in pages" ng-class="{active: page.active, disabled: page.disabled}" class="ng-scope"><a ng-click="selectPage(page.number)" class="ng-binding">Last</a></li>
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget-foot">
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </section>
