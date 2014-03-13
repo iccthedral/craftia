@@ -1,4 +1,4 @@
-﻿<section class="mainbar" data-ng-controller="craftsmen">
+﻿<section class="mainbar" data-ng-controller="Craftsmen">
     <section class="matter">
         <div class="container">
             <div class="row">
@@ -22,7 +22,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr id="{{$index}}" data-ng-repeat="p in allCraftsmen" ng-click="CraftsmanList($index)">
+                                                <tr id="{{$index}}" data-ng-repeat="p in allCraftsmen" ng-click="CraftsmanList.showCraftsman($index)">
                                                     <td class="text-left">{{p.email}}</td>
                                                     <td class="text-left">{{p.username}}</td>
                                                     <td class="text-left">{{p.name}}</td> 

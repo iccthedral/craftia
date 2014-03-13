@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'Craftsmen';
-    angular.module('app').controller(controllerId, ['$scope', 'authService', 'datacontext', 'common', craftsmen]);
+    angular.module('app').controller(controllerId, ['$scope', 'authService', 'datacontext', 'common', Craftsmen]);
 
     function Craftsmen($scope, authService, datacontext, common) {
 
@@ -19,125 +19,17 @@
         $scope.backup = $scope.currentCraftsman;
         $scope.usr = authService.getUser();
         $scope.title = 'Craftsmen';
+        $scope.CraftsmanList = CraftsmanList;
+        $scope.ViewCraftsman = ViewCraftsman;
+        
+        $scope.setPage = function (pageNo) {
+            $scope.totalItems = $scope.items.length;
+            $scope.filteredItems = $scope.getJobs();
+        };
 
-
-
-        function createCraftsmanModel(scope) {
-            var CraftsmanModel = function CraftsmanModel() {
-                this.selectedCategories = [];
-                this._id = "";
-                this.city = "";
-                this.dateFrom = "";
-                this.dateTo = "";
-                this.title = "";
-                this.description = "";
-                this.budget = "";
-                this.materialProvider = "";
-                this.address = "";
-                this.author = {};
-                this.bidders = [];
-                this.subcategory = "";
-                this.category = "";
-            }
-
-            JobModel.prototype.populate = function (craftsmanData) {
-                for (var key in craftsmanData) {
-                    if (this.hasOwnProperty(key)) {
-                        this[key] = craftsmanData[key]
-                    }
-                }
-            }
-
-            JobModel.prototype.isRater = function () {
-                return this.raters.filter(function (rater) {
-                    return (rater.id === $scope.user._id)
-                }).length > 0
-            }
-
-            JobModel.prototype.changeCategory = function () {
-                console.debug(this);
-                attachSubcategories(this);
-            }
-
-            return new CraftsmanModel(scope);
+        $scope.numPages = function () {
+            return Math.ceil($scope.items.length / that.itemsPerPage);
         }
-
-
-        function CraftsmanPanel() {
-            $scope.editable = false;
-
-            var panel = {
-                editCraftsman: function (craftsman) {
-                    $scope.rightPartial = "app/profile/craftsmanEdit.html";
-                    $scope.currentView = "craftsmanpanel";
-                    $scope.currentCraftsman = craftsman;
-                    $scope.backup = craftsman;
-                    //datacontext.getCategories().success(function (catdata) {
-                    //    $scope.categories = catdata;
-                    //    var curcat = $scope.currentJob.category;
-                    //    var curscat = $scope.currentJob.subcategories;
-                    //    console.debug(curcat)
-
-                    //    var fcat = catdata.filter(function (cat) { return cat.name === curcat })[0]
-                    //    console.debug(fcat)
-                    //    $scope.currentJob.selectedCategory.category = fcat;
-                    //    $scope.$digest();
-                    //    datacontext.getSubcategories(fcat.id).success(function (subcats) {
-                    //        $scope.subcategories = subcats;
-                    //        var curscat = $scope.currentJob.subcategory;
-                    //        var fcat = subcats.filter(function (cat) { return cat.name === curscat })[0]
-                    //        $scope.currentJob.selectedCategory.subcategory = fcat;
-                    //        $rootScope.$digest();
-                    //    });
-                    //});
-                },
-
-                partialInit: function () {
-                    $("#datefrom").datepicker({ minDate: 0 });
-                    $("#dateto").datepicker({ minDate: 0 });
-                },
-
-                cancel: function () {
-                    $scope.editable = false;
-                    $scope.currentCraftsman = angular.copy($scope.backup);
-                },
-
-                edit: function () {
-                    $scope.editable = true;
-                },  
-                save: function () {
-                    var data = JSON.parse(JSON.stringify($scope.currentCraftsman));
-                    // delete data.address;
-                    delete data._id;
-                    console.debug(data);
-                    data.category = data.selectedCategory.category.name;
-                    data.subcategory = data.selectedCategory.subcategory.name;
-
-                    $.post("/job/" + $scope.currentJob._id + "/update", data)
-                    .done(function () {
-                        log("Job successfuly updated")
-                    });
-                },
-
-                isChanged: function () {
-                    console.debug(angular.equals($scope.currentCraftsman, $scope.backup));
-                    return !angular.equals($scope.currentCraftsman, $scope.backup);
-                },
-
-                //delete: function () {
-                //    datacontext.deleteJobById($scope.currentJob._id)
-                //    .success(function () {
-                //        var ind = $scope.ownJobs.indexOf($scope.currentJob);
-                //        $scope.ownJobs.splice(ind, 1);
-                //        resetModel();
-                //    });
-                //}
-            }
-
-            resetModel()
-            return panel;
-        }
-
 
         function ViewCraftsman(craftsman) {
             return {
@@ -169,34 +61,50 @@
             }
         }
 
+        function createCraftsmanModel(scope) {
+            var CraftsmanModel = function CraftsmanModel() {
+                this.selectedCategories = [];
+                this._id = "";
+                this.city = "";
+                this.dateFrom = "";
+                this.dateTo = "";
+                this.title = "";
+                this.description = "";
+                this.budget = "";
+                this.materialProvider = "";
+                this.address = "";
+                this.author = {};
+                this.bidders = [];
+                this.subcategory = "";
+                this.category = "";
+            }
 
+            CraftsmanModel.prototype.populate = function (craftsmanData) {
+                for (var key in craftsmanData) {
+                    if (this.hasOwnProperty(key)) {
+                        this[key] = craftsmanData[key]
+                    }
+                }
+            }
 
-        function resetModel() {
-            $scope.currentCraftsman = createCraftsmanModel($scope);
-            $scope.backup = $scope.currentCraftsman;
+            CraftsmanModel.prototype.isRater = function () {
+                return this.raters.filter(function (rater) {
+                    return (rater.id === $scope.user._id)
+                }).length > 0
+            }
+
+            CraftsmanModel.prototype.changeCategory = function () {
+                console.debug(this);
+                attachSubcategories(this);
+            }
+
+            function resetModel() {
+                $scope.currentCraftsman = createCraftsmanModel($scope);
+                $scope.backup = $scope.currentCraftsman;
+            }
+
+            return new CraftsmanModel(scope);
         }
-
-        $scope.numPages = function () {
-            return Math.ceil($scope.items.length / that.itemsPerPage);
-        }
-
-        //that.getJobs = function() {
-        //    var from = (that.page-1)*that.itemsPerPage;
-        //    var out = [];
-        //    for(var i = from; i < from + that.itemsPerPage; ++i) {
-        //        var job = that.items[i];
-        //        if (job != null) {
-        //            out.push(job);
-        //        }
-        //    }
-        //    return out;
-        //}
-
-        $scope.setPage = function (pageNo) {
-            $scope.totalItems = $scope.items.length;
-            $scope.filteredItems = $scope.getJobs();
-        };
-
 
         function CraftsmanList() {
             return {
@@ -210,15 +118,11 @@
             }
         }
 
-
-
-
-
         function getAllCraftsmen() {
-            return datacontext.getAllCraftsmen().then(function(data) {
+            return datacontext.getAllCraftsmen().then(function (data) {
                 $scope.items = data;
-                $scope.totalItems = that.items.length;
-                $scope.filteredItems = that.items;
+                $scope.totalItems = $scope.items.length;
+                $scope.filteredItems = $scope.items;
                 // console.debug(that.numPages());
                 $scope.$digest();
             }).promise();
@@ -229,5 +133,7 @@
             common.activateController([getAllCraftsmen()], controllerId)
                 .then(function () { log('Activated Craftsmen View'); });
         }
+
+      
     }
 })();
