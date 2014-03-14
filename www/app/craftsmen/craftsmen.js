@@ -17,8 +17,8 @@
         $scope.backup = $scope.currentCraftsman;
         $scope.usr = authService.getUser();
         $scope.title = 'Craftsmen';
-        $scope.CraftsmanList = CraftsmanList;
-        $scope.ViewCraftsman = ViewCraftsman;
+        $scope.CraftsmanList = CraftsmanList();
+        $scope.ViewCraftsman = ViewCraftsman();
         
 
         //paging settings
@@ -111,17 +111,9 @@
                 this.selectedCategories = [];
                 this._id = "";
                 this.city = "";
-                this.dateFrom = "";
-                this.dateTo = "";
-                this.title = "";
                 this.description = "";
-                this.budget = "";
-                this.materialProvider = "";
                 this.address = "";
-                this.author = {};
-                this.bidders = [];
-                this.subcategory = "";
-                this.category = "";
+
             }
 
             CraftsmanModel.prototype.populate = function (craftsmanData) {
@@ -152,18 +144,20 @@
         }
 
         function getAllCraftsmen() {
-            return datacontext.getAllCraftsmen($scope.paging.currentPage ,$scope.paging.pageSize, $scope.craftsmanSearch).then(function (data) {
-                $scope.allCraftsmen = data;
-                $scope.getCraftsmenFilterCount();
-                if (!$scope.craftsmanCount) {
-                    $scope.getCraftsmenCount();
-                }
+            
+            return datacontext.getAllCraftsmen($scope.paging.currentPage, $scope.paging.pageSize, $scope.craftsmanSearch)
+                .success(function (data) {
+                    $scope.allCraftsmen = data;
+                    $scope.getCraftsmenFilterCount();
+                    if (!$scope.craftsmanCount) {
+                        $scope.getCraftsmenCount();
+                    }
 
-                //$scope.totalCraftsmen = $scope.allCraftsmen.length;
-                //$scope.filteredItems = $scope.allCraftsmen;
-                // console.debug(that.numPages());
-                $scope.$digest();
-            }).promise();
+                    //$scope.totalCraftsmen = $scope.allCraftsmen.length;
+                    //$scope.filteredItems = $scope.allCraftsmen;
+                    // console.debug(that.numPages());
+                    $scope.$digest();
+            });
         }
 
         activate();

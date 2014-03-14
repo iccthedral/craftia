@@ -194,9 +194,11 @@
 
 
 
-        function JobList () {
+        function JobList() {
+            debugger;
             return {
                 getJobs: function() {
+
                     console.debug($scope.allJobs);
                     return $scope.allJobs;
                 },
