@@ -98,7 +98,9 @@
             return $.get(url)
         }
 
-        function getAllCraftsmen() {
+        function getAllCraftsmen(page, size, filter) {
+            var take = size || 20;
+            var skip = page ? (page - 1) * size : 0;
             var url = "/listcraftsmen";
             return $.get(url);
         }
