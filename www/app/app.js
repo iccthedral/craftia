@@ -12,6 +12,20 @@
         // 3rd Party Modules
         'ui.bootstrap',      // ui-bootstrap (ex: carousel, pagination, dialog)
     ])
+    
+    Array.prototype.chunk = function(csize) {
+     var out = [];
+     var i = 0;
+     var copy = this.slice();
+     var len = copy.length;
+     for(i = 0; i < len; i++) {
+      if((i % csize) == 0) {
+       var howMany = Math.min(copy.length, csize);
+       out.push(copy.splice(0, howMany));
+      }
+     }
+     return out;
+    };
 
     app.run(["logger", function(logger) {
         window.onerror = function(msg) {

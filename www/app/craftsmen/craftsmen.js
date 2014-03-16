@@ -8,10 +8,10 @@
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
 
-       
+
         $scope.allCraftsmen = [];
         $scope.craftsmanCount = 0;
-        $scope.filterCount = 0;
+        $scope.pagedItems = [];
         $scope.craftsmanSearch = '';
         $scope.currentCraftsman = createCraftsmanModel($scope);
         $scope.backup = $scope.currentCraftsman;
@@ -20,34 +20,19 @@
         $scope.CraftsmanList = CraftsmanList();
         $scope.ViewCraftsman = ViewCraftsman();
         
+        $scope.sizePerPage = 3;
+        $scope.totalItems = 0;
+        $scope.currentPage = 1;
+        // $scope.numOfPages = 5;
+        $scope.items = []
 
-        //paging settings
-    
 
-        $scope.pageChanged = function(page) {
-            if (!page) { return; }
-            $scope.paging.currentPage = page;
-            getAllCraftsmen;
+        $scope.pageSelected = function(page) {
+            $scope.pagedItems = $scope.items[page.page - 1]
         };
 
-        $scope.paging = {
-            currentPage: 1,
-            maxPagesToShow: 5,
-            pageSize: 15
-        };
 
-        Object.defineProperty($scope.paging, 'pageCount', {
-            get: function () {
-                return Math.floor($scope.filterCount / $scope.pageSize) + 1;
-            },
-            set: function (count) {
-                return count;
-            }
-        });
-        $scope.paging.pageCount = 3;
-
-
-        $scope.getCraftsmenCount = function() {
+        $scope.getCraftsmenCount = function () {
             //TODO: create bla
             //return datacontext.getCraftsmenCount().then(function (data) {
             //    return $scope.craftsmanCount = data;
@@ -55,7 +40,7 @@
             return 10;
         }
 
-        $scope.getCraftsmenFilterCount = function() {
+        $scope.getCraftsmenFilterCount = function () {
             //$scope.filterCount = datacontext.getFilterCount($scope.craftsmanSearch);
             return 10;
         }
@@ -72,8 +57,8 @@
             }
         }
 
-        $scope.search = function($event) {
-            getAllCraftsmen();
+        $scope.search = function ($event) {
+            getFilteredItems(craftsmanSearch);
         }
 
         function ViewCraftsman(craftsman) {
@@ -144,20 +129,40 @@
         }
 
         function getAllCraftsmen() {
-            
-            return datacontext.getAllCraftsmen($scope.paging.currentPage, $scope.paging.pageSize, $scope.craftsmanSearch)
+            return datacontext.getAllCraftsmen($scope.page, $scope.sizePerPage, $scope.craftsmanSearch)
                 .success(function (data) {
-                    $scope.allCraftsmen = data;
-                    $scope.getCraftsmenFilterCount();
-                    if (!$scope.craftsmanCount) {
-                        $scope.getCraftsmenCount();
-                    }
+                    $scope.items = data.chunk($scope.sizePerPage);
+                    $scope.pagedItems = $scope.items[0];
+                    $scope.totalItems = data.length;
 
-                    //$scope.totalCraftsmen = $scope.allCraftsmen.length;
-                    //$scope.filteredItems = $scope.allCraftsmen;
-                    // console.debug(that.numPages());
+                    // console.debug($scope.page)
+                    // console.debug(data);
+                    // $scope.totalItems = data.length;
+                    // console.debug($scope.totalItems);
+                    // $scope.$digest();
+                    // $scope.allCraftsmen = data;
+                    // $scope.getCraftsmenFilterCount();
+                    // if (!$scope.craftsmanCount) {
+                    //     $scope.getCraftsmenCount();
+                    // }
+
+                    // //$scope.totalCraftsmen = $scope.allCraftsmen.length;
+                    // //$scope.filteredItems = $scope.allCraftsmen;
+                    // // console.debug(that.numPages());
+
+                    // $scope.pagedItems = [];
+
+                    // for (var i = 0; i < $scope.allCraftsmen.length; i++) {
+                    //     if (i % $scope.sizePerPage === 0) {
+                    //         $scope.pagedItems[Math.floor(i / $scope.sizePerPage)] = [$scope.allCraftsmen[i]];
+                    //     } else {
+                    //         $scope.pagedItems[Math.floor(i / $scope.sizePerPage)].push($scope.allCraftsmen[i]);
+                    //     }
+                    // }
+
+
                     $scope.$digest();
-            });
+                });
         }
 
         activate();
@@ -166,6 +171,6 @@
                 .then(function () { log('Activated Craftsmen View'); });
         }
 
-      
+
     }
 })();
