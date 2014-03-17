@@ -1,5 +1,5 @@
 (function() {
-  var AddressModel, AuthLevel, CategoryModel, CityModel, JobModel, UserModel, colors, mongoose, passport, util;
+  var AuthLevel, CategoryModel, CityModel, JobModel, UserModel, async, colors, fs, mongoose, passport, util;
 
   passport = require("passport");
 
@@ -15,14 +15,16 @@
 
   JobModel = require("../models/Job");
 
-  AddressModel = require("../models/Address");
-
   CategoryModel = require("../models/Category");
 
   util = require("util");
 
+  async = require("async");
+
+  fs = require("fs");
+
   module.exports = function(app) {
-    var saveJob, saveUser;
+    var findCategory, findCity, saveJob, saveUser;
     app.get("/logout", function(req, res) {
       req.logout();
       return res.redirect(200, "/");
@@ -50,12 +52,7 @@
           }).populate("createdJobs").exec(function(err, result) {
             var usr;
             usr = result[0];
-            return AddressModel.populate(usr.createdJobs, {
-              path: "address"
-            }).then(function(job, address) {
-              job.address = address;
-              return res.send(usr);
-            });
+            return res.send(usr);
           });
         });
       })(req, res, next);
@@ -116,34 +113,31 @@
       });
     });
     app.post("/job/:id/update", function(req, res) {
-      var jobData, usr;
+      var checkCity, findCat, jobData, usr, _ref, _ref1;
       usr = req.user;
       jobData = req.body;
       if ((usr == null) || usr.type !== AuthLevel.CUSTOMER) {
-        res.send(422);
-        return;
+        return res.send(422);
       }
-      return JobModel.findOne({
-        _id: req.params.id
-      }).exec(function(err, job) {
-        if (((typeof cat !== "undefined" && cat !== null ? cat.subcategories[jobData.subcategory] : void 0) != null) || (err != null)) {
-          throw new Error("No such subcategory in category " + job.category);
-        }
-        job.category = jobData.category;
-        job.subcategory = jobData.subcategory;
-        job.budget = jobData.budget;
-        job.dateFrom = jobData.dateFrom;
-        job.dateTo = jobData.dateTo;
-        job.materialProvider = jobData.materialProvider;
-        job.title = jobData.title;
-        job.description = jobData.description;
-        job.save();
-        job.populate("address");
-        return usr.save(function(err) {
-          if (err != null) {
-            return res.send(422, err.message);
+      checkCity = ((_ref = jobData.address) != null ? _ref.city : void 0) != null ? findCity(jobData.address.city) : function(clb) {
+        return clb(null, null);
+      };
+      findCat = ((_ref1 = jobData.category) != null ? _ref1.subcategory : void 0) != null ? findCategory(jobData) : function(clb) {
+        return clb(null, null);
+      };
+      return async.series([checkCity, findCat], function(err, results) {
+        var id;
+        id = req.params.id;
+        return JobModel.findByIdAndUpdate(id, jobData).exec(function(err, results) {
+          if ((err != null) || results < 1) {
+            return res.send(422);
           }
-          return res.send(job);
+          return JobModel.findById(id).exec(function(err, job) {
+            if (err != null) {
+              return res.status(422).send(err.message);
+            }
+            return res.send(job);
+          });
         });
       });
     });
@@ -151,14 +145,40 @@
       var usr;
       usr = req.user;
       if (usr == null) {
-        res.status(422).send("You're not logged in");
-        return;
+        return res.status(422).send("You're not logged in");
       }
       return UserModel.findByIdAndUpdate(req.user._id, {
         $set: req.body
       }).exec(function(err, user) {
         user.save(req.body);
         return res.send(200);
+      });
+    });
+    app.post("/user/uploadpicture", function(req, res) {
+      var usr;
+      usr = req.user;
+      if (usr == null) {
+        return res.status(422).send("You're not logged in");
+      }
+      return UserModel.findById(req.user._id).exec(function(err, user) {
+        var file;
+        file = req.files.file;
+        return fs.readFile(file.path, function(err, data) {
+          var imguri, newPath;
+          imguri = "img/" + usr.username + ".png";
+          newPath = "www/" + imguri;
+          return fs.writeFile(newPath, data, (function(_this) {
+            return function(err) {
+              console.log(err);
+              if (err != null) {
+                return res.send(422);
+              }
+              user.profilePic = imguri;
+              user.save();
+              return res.send(imguri);
+            };
+          })(this));
+        });
       });
     });
     app.post("/job/:id/bid", function(req, res) {
@@ -215,38 +235,23 @@
       });
     });
     saveJob = function(usr, jobData, res) {
-      var address, job;
       if (usr.type !== AuthLevel.CUSTOMER) {
         throw new Error("You don't have permissions to create a new job");
       }
-      address = new AddressModel();
-      job = new JobModel();
-      return address.newAddress(jobData.address).then(function() {
-        return job.address = address._id;
-      }).then(function() {
-        return CategoryModel.findOne({
-          category: jobData.category
-        }).exec(function(err, cat) {
-          if (((cat != null ? cat.subcategories[jobData.subcategory] : void 0) != null) || (err != null)) {
-            throw new Error("No such subcategory in category " + job.category);
-          }
-          job.category = jobData.category;
-          job.subcategory = jobData.subcategory;
-          job.budget = jobData.budget;
-          job.dateFrom = jobData.dateFrom;
-          job.dateTo = jobData.dateTo;
-          job.materialProvider = jobData.materialProvider;
-          job.title = jobData.title;
-          job.description = jobData.description;
-          job.save();
-          job.populate("address");
-          usr.createdJobs.push(job._id);
-          usr.save();
-          return res.send(job);
-        });
+      return async.series([findCity(jobData.address.city), findCategory(jobData)], function(err, results) {
+        var job;
+        job = new JobModel(jobData);
+        if (err != null) {
+          res.status(422);
+        }
+        job.save();
+        job.populate("address");
+        usr.createdJobs.push(job._id);
+        usr.save();
+        return res.send(job);
       });
     };
-    return saveUser = function(user, res) {
+    saveUser = function(user, res) {
       return user.save(function(err) {
         if (err != null) {
           return res.status(422).send("Registering failed!");
@@ -257,6 +262,27 @@
           });
         }
       });
+    };
+    findCity = function(city) {
+      return function(clb) {
+        return CityModel.findOne({
+          name: city
+        }).exec(function(err, city) {
+          return clb(err, city);
+        });
+      };
+    };
+    return findCategory = function(jobdata) {
+      return function(clb) {
+        return CategoryModel.findOne({
+          category: jobdata.category
+        }).exec(function(err, cat) {
+          if (((cat != null ? cat.subcategories[jobdata.subcategory] : void 0) != null) || (err != null)) {
+            clb(new Error("No such subcategory in category " + jobdata.category), null);
+          }
+          return clb(err, cat);
+        });
+      };
     };
   };
 

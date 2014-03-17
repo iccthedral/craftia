@@ -4,11 +4,12 @@
     <div class="widget-content right-partial-view fluid-container">
         <div class="fileinput fileinput-new" data-provides="fileinput">
             <div class="fileinput-new thumbnail">
-                <img src="img/default_user.jpg" />
+                <img ng-src="{{user.profilePic}}"/>
             </div>
             <div class="fileinput-preview fileinput-exists thumbnail"></div>
             <div>
-                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+                <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                <input ng-file-select="uploadPicture($files)" type="file" name="image"></span>
                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
             </div>
         </div>
@@ -17,7 +18,3 @@
         <rating readonly="vm.isCraftsman" value="x"></rating>
     </div>
 </div>
-
-
-
-

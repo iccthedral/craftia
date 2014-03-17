@@ -1,9 +1,9 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'profile';
-    angular.module('app').controller(controllerId, ['common', 'authService', profile]);
+    angular.module('app').controller(controllerId, ['$rootScope', '$scope', '$upload', 'common', 'authService', profile]);
   
-    function profile(common, authService) {
+    function profile($rootScope, $scope, $upload, common, authService) {
 
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
@@ -12,12 +12,24 @@
         vm.title = 'Profile';
         vm.editable = false;
         vm.as = authService;
-        vm.user = authService.getUser();
+        $scope.user = authService.getUser();
         vm.backup = angular.copy(vm.user);
         vm.leftPartial = "app/profile/leftProfile.html";
         vm.rightPartial = "app/profile/rightProfile.html";
 
-
+        $scope.uploadPicture = function(files) {
+            $scope.upload = $upload.upload({
+                url: "user/uploadpicture",
+                file: files[0]
+            }).success(function(picurl) {
+                console.debug(picurl);
+                $scope.user.profilePic = "";
+                setTimeout(function() {
+                    $scope.user.profilePic = picurl;
+                    $rootScope.$digest();
+                }, 100);
+            });
+        }
 
         //function CraftsmanPanel() {
         //    $scope.editable = false;
@@ -95,9 +107,6 @@
         //}
 
         
-
-
-
 
         activate();
 

@@ -22,6 +22,14 @@
                     return userType;
                 },
 
+                getUID: function() {
+                    return user._id;
+                },
+
+                getProfilePicture: function() {
+                    return (user.profilePic || "img/default_user.jpg")
+                },
+
                 setUser: function (newUser) {
                     console.debug("set User called", newUser)
                     user = newUser;

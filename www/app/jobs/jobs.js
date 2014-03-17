@@ -195,7 +195,6 @@
 
 
         function JobList() {
-            debugger;
             return {
                 getJobs: function() {
 

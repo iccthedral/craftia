@@ -49,15 +49,20 @@
       }
     ],
     rating: {
-      type: Number,
-      min: 0,
-      max: 5,
-      "default": 0
+      totalVotes: {
+        type: Number,
+        "default": 0
+      },
+      avgRate: {
+        type: Number,
+        "default": 0,
+        min: 0,
+        max: 5
+      }
     },
-    numVotes: {
-      type: Number,
-      min: 0,
-      "default": 0
+    profilePic: {
+      type: String,
+      "default": "img/default_user.jpg"
     }
   });
 

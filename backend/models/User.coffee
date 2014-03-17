@@ -42,16 +42,14 @@ schema = mongoose.Schema
 		ref: "Job"
 	]
 
-	rating:
-		type: Number
-		min: 0
-		max: 5
-		default: 0
-	
-	numVotes:
-		type: Number
-		min: 0
-		default: 0
+	rating: {
+		totalVotes: { type: Number, default: 0 }
+		avgRate: { type: Number, default: 0, min: 0, max: 5 }
+	}
+
+	profilePic: 
+		type: String
+		default: "img/default_user.jpg"
 
 schema.pre "save", (next) ->
 	user = @

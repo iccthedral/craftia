@@ -1,9 +1,9 @@
 (function() {
-  var AddressModel, CategoryModel, JobModel, mongoose, schema;
+  var CategoryModel, CityModel, JobModel, mongoose, schema;
 
   mongoose = require("mongoose");
 
-  AddressModel = require("./Address");
+  CityModel = require("./City");
 
   CategoryModel = require("./Category");
 
@@ -27,9 +27,10 @@
       required: true
     },
     address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
-      required: true
+      city: String,
+      zip: String,
+      line1: String,
+      line2: String
     },
     category: {
       type: String,

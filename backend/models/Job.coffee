@@ -1,5 +1,5 @@
 mongoose = require "mongoose"
-AddressModel = require "./Address"
+CityModel = require "./City"
 CategoryModel = require "./Category"
 
 schema = mongoose.Schema
@@ -21,10 +21,11 @@ schema = mongoose.Schema
 		type: Number
 		required: true
 
-	address:
-		type: mongoose.Schema.Types.ObjectId
-		ref: "Address"
-		required: true
+	address: 
+		city: String
+		zip: String
+		line1: String
+		line2: String
 
 	category:
 		type: String
