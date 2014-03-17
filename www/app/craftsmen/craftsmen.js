@@ -11,7 +11,7 @@
 
         $scope.allCraftsmen = [];
         $scope.craftsmanCount = 0;
-        $scope.pagedItems = [];
+        
         $scope.craftsmanSearch = '';
         $scope.currentCraftsman = createCraftsmanModel($scope);
         $scope.backup = $scope.currentCraftsman;
@@ -19,31 +19,17 @@
         $scope.title = 'Craftsmen';
         $scope.CraftsmanList = CraftsmanList();
         $scope.ViewCraftsman = ViewCraftsman();
-        
+        //paging
         $scope.sizePerPage = 3;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
-        // $scope.numOfPages = 5;
+        $scope.pagedItems = [];
         $scope.items = []
 
 
         $scope.pageSelected = function(page) {
             $scope.pagedItems = $scope.items[page.page - 1]
         };
-
-
-        $scope.getCraftsmenCount = function () {
-            //TODO: create bla
-            //return datacontext.getCraftsmenCount().then(function (data) {
-            //    return $scope.craftsmanCount = data;
-            //});
-            return 10;
-        }
-
-        $scope.getCraftsmenFilterCount = function () {
-            //$scope.filterCount = datacontext.getFilterCount($scope.craftsmanSearch);
-            return 10;
-        }
 
         function CraftsmanList() {
             return {
@@ -71,8 +57,6 @@
             $scope.items = result.chunk($scope.sizePerPage);
             $scope.pagedItems = $scope.items[0];
             $scope.totalItems = result.length;
-
-            return $scope.pagedItems;
         }
 
         function ViewCraftsman(craftsman) {
@@ -149,33 +133,6 @@
                     $scope.items = data.chunk($scope.sizePerPage);
                     $scope.pagedItems = $scope.items[0];
                     $scope.totalItems = data.length;
-
-                    // console.debug($scope.page)
-                    // console.debug(data);
-                    // $scope.totalItems = data.length;
-                    // console.debug($scope.totalItems);
-                    // $scope.$digest();
-                    // $scope.allCraftsmen = data;
-                    // $scope.getCraftsmenFilterCount();
-                    // if (!$scope.craftsmanCount) {
-                    //     $scope.getCraftsmenCount();
-                    // }
-
-                    // //$scope.totalCraftsmen = $scope.allCraftsmen.length;
-                    // //$scope.filteredItems = $scope.allCraftsmen;
-                    // // console.debug(that.numPages());
-
-                    // $scope.pagedItems = [];
-
-                    // for (var i = 0; i < $scope.allCraftsmen.length; i++) {
-                    //     if (i % $scope.sizePerPage === 0) {
-                    //         $scope.pagedItems[Math.floor(i / $scope.sizePerPage)] = [$scope.allCraftsmen[i]];
-                    //     } else {
-                    //         $scope.pagedItems[Math.floor(i / $scope.sizePerPage)].push($scope.allCraftsmen[i]);
-                    //     }
-                    // }
-
-
                     $scope.$digest();
                 });
         }

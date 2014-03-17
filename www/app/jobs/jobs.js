@@ -15,6 +15,7 @@
         $scope.currentJob = createJobModel($scope);
         $scope.backup = $scope.currentJob;
         $scope.title = 'Jobs';
+        $scope.jobSearch = '';
         $scope.rightPartial = "";
         $scope.currentTitle = "";
         $scope.user = authService.getUser();
@@ -28,6 +29,33 @@
         $scope.JobList = JobList();
         $scope.ViewJob = ViewJob();
         $scope.JobPanel = JobPanel();
+        //paging
+        $scope.items = []
+        $scope.sizePerPage = 2;
+        $scope.totalItems = 0;
+        $scope.currentPage = 1;
+        
+
+        $scope.pageSelected = function(page) {
+            $scope.pagedItems = $scope.items[page.page - 1]
+        };
+
+        $scope.search = function ($event) {
+          //  debugger;
+            if($scope.jobSearch == '') return getAllJobs();
+
+            var result = $scope.allJobs.filter(function( obj ) {
+                 return (obj.title.indexOf($scope.jobSearch) != -1 ||
+                    obj.description.indexOf($scope.jobSearch) != -1 ||
+                    obj.author.name.indexOf($scope.jobSearch) != -1);
+            });
+
+
+            $scope.items = result.chunk($scope.sizePerPage);
+            $scope.pagedItems = $scope.items[0];
+            $scope.totalItems = result.length;
+        }
+
 
 
         function attachSubcategories(that) {
@@ -195,7 +223,6 @@
 
 
         function JobList() {
-            debugger;
             return {
                 getJobs: function() {
 
@@ -276,6 +303,10 @@
         function getAllJobs() {
             return datacontext.getAllJobs().success(function (data) {
                 $scope.allJobs = data;
+                $scope.items = data.chunk($scope.sizePerPage);
+                $scope.pagedItems = $scope.items[0];
+                $scope.totalItems = data.length;
+                $scope.$digest();
             });
         }
 

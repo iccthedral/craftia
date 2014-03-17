@@ -16,7 +16,7 @@
             .success(function(data) {
               logSuccess(goodbyeGreeting);
               authService.setUser(null);
-              $location.path("#");
+              $location.path("/#");
             })
             .error(function(err) {
               throw new Error(err);
