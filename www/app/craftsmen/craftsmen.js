@@ -58,7 +58,21 @@
         }
 
         $scope.search = function ($event) {
-            getFilteredItems(craftsmanSearch);
+              //  debugger;
+            if($scope.craftsmanSearch == '') return getAllCraftsmen();
+
+            var result = $scope.allCraftsmen.filter(function( obj ) {
+                 return (obj.username.indexOf($scope.craftsmanSearch) != -1 ||
+                    obj.name.indexOf($scope.craftsmanSearch) != -1 ||
+                    obj.email.indexOf($scope.craftsmanSearch) != -1);
+            });
+
+
+            $scope.items = result.chunk($scope.sizePerPage);
+            $scope.pagedItems = $scope.items[0];
+            $scope.totalItems = result.length;
+
+            return $scope.pagedItems;
         }
 
         function ViewCraftsman(craftsman) {
@@ -131,6 +145,7 @@
         function getAllCraftsmen() {
             return datacontext.getAllCraftsmen($scope.page, $scope.sizePerPage, $scope.craftsmanSearch)
                 .success(function (data) {
+                    $scope.allCraftsmen = data;
                     $scope.items = data.chunk($scope.sizePerPage);
                     $scope.pagedItems = $scope.items[0];
                     $scope.totalItems = data.length;
