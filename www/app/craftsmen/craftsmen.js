@@ -11,7 +11,7 @@
 
         $scope.allCraftsmen = [];
         $scope.craftsmanCount = 0;
-        
+        $scope.rightPartial = "";
         $scope.craftsmanSearch = '';
         $scope.currentCraftsman = createCraftsmanModel($scope);
         $scope.backup = $scope.currentCraftsman;
@@ -37,7 +37,8 @@
                     return $scope.allCraftsmen;
                 },
                 showCraftsman: function (craftsmanIndex) {
-                    $scope.rightPartial = "app/craftsmen/craftsmanProfile",
+                    alert(craftsmanIndex);
+                    $scope.rightPartial = "app/craftsmen/craftsmanInfo.html";
                     $scope.currentCraftsman.populate($scope.allCraftsmen[craftsmanIndex]);
                 }
             }
@@ -96,6 +97,8 @@
                 this.city = "";
                 this.description = "";
                 this.address = "";
+                this.name = "";
+                this.surname = "";
 
             }
 

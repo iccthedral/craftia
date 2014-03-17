@@ -56,7 +56,20 @@
             $scope.totalItems = result.length;
         }
 
+        function JobList() {
+            return {
+                getJobs: function() {
 
+                    console.debug($scope.allJobs);
+                    return $scope.allJobs;
+                },
+                showJob: function(jobIndex) {
+                    $scope.rightPartial = "app/jobs/jobInfo.html";
+                    $scope.currentJob.populate($scope.pagedItems[jobIndex]);
+                    attachSubcategories($scope.currentJob);
+                }
+            }
+        }   
 
         function attachSubcategories(that) {
             console.debug(that);
@@ -117,6 +130,9 @@
             $scope.currentJob = createJobModel($scope);
             $scope.backup = $scope.currentJob;
         }   
+
+
+
 
         function JobPanel() {
             $scope.editable = false;
@@ -222,20 +238,7 @@
 
 
 
-        function JobList() {
-            return {
-                getJobs: function() {
-
-                    console.debug($scope.allJobs);
-                    return $scope.allJobs;
-                },
-                showJob: function(jobIndex) {
-                    $scope.rightPartial = "app/jobs/jobInfo.html";
-                    $scope.currentJob.populate($scope.allJobs[jobIndex]);
-                    attachSubcategories($scope.currentJob);
-                }
-            }
-        }                             
+                          
 
         function ViewJob (job) {
             return {
