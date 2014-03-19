@@ -25,7 +25,7 @@
         $scope.currentView = '';
         $scope.categories = [];
         $scope.subcategories = [];
-
+        $scope.bidders = [];
         $scope.JobList = JobList();
         $scope.ViewJob = ViewJob();
         $scope.JobPanel = JobPanel();
