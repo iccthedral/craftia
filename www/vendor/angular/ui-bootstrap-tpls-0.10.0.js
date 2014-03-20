@@ -1768,7 +1768,10 @@ angular.module('ui.bootstrap.pagination', [])
   };
 
   this.calculateTotalPages = function() {
-    var totalPages = this.itemsPerPage < 1 ? 1 : Math.ceil($scope.totalItems / this.itemsPerPage);
+    var totalPages = this.itemsPerPage < 1 ? 1 : Math.ceil($scope.$parent.totalItems / this.itemsPerPage);
+    console.debug(this.itemsPerPage);
+    console.debug($scope.$parent.totalItems);
+    console.debug(totalPages);
     return Math.max(totalPages || 0, 1);
   };
 
@@ -1794,13 +1797,12 @@ angular.module('ui.bootstrap.pagination', [])
     self.render();
   });
 
-  $scope.$watch('totalItems', function() {
+  $scope.$parent.$watch('totalItems', function() {
     $scope.totalPages = self.calculateTotalPages();
   });
 
   $scope.$watch('totalPages', function(value) {
     setNumPages($scope.$parent, value); // Readonly variable
-
     if ( self.page > value ) {
       $scope.selectPage(value);
     } else {
@@ -1825,8 +1827,7 @@ angular.module('ui.bootstrap.pagination', [])
     restrict: 'EA',
     scope: {
       page: '=',
-      totalItems: '=',
-      onSelectPage:' &'
+      onSelectPage:'&',
     },
     controller: 'PaginationController',
     templateUrl: 'template/pagination/pagination.html',
@@ -1844,6 +1845,10 @@ angular.module('ui.bootstrap.pagination', [])
       rotate         = paginationCtrl.getAttributeValue(attrs.rotate,         config.rotate);
 
       paginationCtrl.init(config.itemsPerPage);
+
+      if (attrs.onSelectPage) {
+        scope.onSelectPage = scope.$parent[attrs.onSelectPage];
+      }
 
       if (attrs.maxSize) {
         scope.$parent.$watch($parse(attrs.maxSize), function(value) {
@@ -1945,7 +1950,6 @@ angular.module('ui.bootstrap.pagination', [])
     restrict: 'EA',
     scope: {
       page: '=',
-      totalItems: '=',
       onSelectPage:' &'
     },
     controller: 'PaginationController',

@@ -1,11 +1,15 @@
 (function() {
-  var JobModel, bcrypt, mongoose, schema;
+  var JobModel, MessageModel, UserModel, async, bcrypt, mongoose, schema;
 
   mongoose = require("mongoose");
 
   bcrypt = require("bcrypt-nodejs");
 
   JobModel = require("./Job");
+
+  MessageModel = require("./Message");
+
+  async = require("async");
 
   schema = mongoose.Schema({
     username: {
@@ -49,6 +53,13 @@
       }
     ],
     rating: {
+      comments: [
+        {
+          jobId: mongoose.Schema.Types.ObjectId({
+            message: String
+          })
+        }
+      ],
       totalVotes: {
         type: Number,
         "default": 0
@@ -63,6 +74,32 @@
     profilePic: {
       type: String,
       "default": "img/default_user.jpg"
+    },
+    inbox: {
+      system: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Message"
+        }
+      ],
+      job: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Message"
+        }
+      ],
+      contact: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Message"
+        }
+      ],
+      sent: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Message"
+        }
+      ]
     }
   });
 
@@ -107,6 +144,25 @@
     return token;
   };
 
-  module.exports = mongoose.model("User", schema);
+  UserModel = mongoose.model("User", schema);
+
+  schema.statics.sendMessage = function(type, msg, fromId, toId, callb) {
+    return UserModel.findById(fromId).exec(function(err, sender) {
+      return UserModel.findById(toId).exec(function(err, receiver) {
+        msg = new MessageModel({
+          type: type,
+          msg: msg,
+          from: myself
+        });
+        receiver.inbox[type].push(msg);
+        sender.inbox.sent.push(msg);
+        return async.series([receiver.save().exec, sender.save().exec], function(err, res) {
+          return callb(err, res);
+        });
+      });
+    });
+  };
+
+  module.exports = UserModel;
 
 }).call(this);

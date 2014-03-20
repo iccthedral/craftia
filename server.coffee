@@ -19,15 +19,11 @@ db = mongoose.connection
 db.on "error", console.error.bind(console, "Connection error: ")
 db.once "open", () ->
 	console.log "Connected to DB"
+	require("./backend/modules/JobUpdate")()
 
 #create and configure handlebars
 hbs = handlebars.create({})
-	# helpers: helpers
-###	partialsDir: [
-		 "views/hbpartials/"
-	]###
 
-#load utils and prototypes
 wrench.readdirSyncRecursive("utils/")
 .filter (file) ->
 	return file.lastIndexOf(".js") isnt -1 

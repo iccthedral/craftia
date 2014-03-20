@@ -63,6 +63,26 @@
                 </fieldset>
             </form>
         </div>
+        <div class="widget-content text-center text-info">
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>E-mail</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="{{$index}}" data-ng-repeat="p in currentJob.bidders" ng-click="JobList.showBidder($index)">
+                        <td class="text-left">{{p.name}}</td>
+                        <td class="text-left">{{p.surname}}</td>
+                        <td class="text-left"><span>{{p.email}}</span></td>
+                        <td class="text-left"><span>{{p.rating}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

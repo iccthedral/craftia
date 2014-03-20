@@ -1,20 +1,37 @@
 ﻿<div class="widget wcyan">
     <div data-cc-widget-header title="Public details"
-         allow-collapse="true"></div>
+         allow-collapse="true">
+    </div>
     <div class="widget-content right-partial-view fluid-container">
         <div class="fileinput fileinput-new" data-provides="fileinput">
             <div class="fileinput-new thumbnail">
                 <img ng-src="{{user.profilePic}}"/>
             </div>
+<!-- <<<<<<< HEAD
             <div class="fileinput-preview fileinput-exists thumbnail"></div>
             <div>
                 <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
                 <input ng-file-select="uploadPicture($files)" type="file" name="image"></span>
                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
             </div>
+======= -->
+            <form class="form-horizontal" display= "inline">
+                <fieldset>
+                    <div class="row form-group" >                     
+                        <div class="col-md-7">
+                             <div class="fileUpload btn btn-primary">
+                                <span>Upload</span>
+                                <input id="uploadBtn" type="file" class="upload" />
+                            </div>
+                            <input class="form-control input-md" id="uploadFile" placeholder="Choose File" disabled="disabled" />      
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            
         </div>
     </div>
     <div ng-init="x=3.4">
-        <rating readonly="vm.isCraftsman" value="x"></rating>
+        <rating readonly="isCraftsman" value="x"></rating>
     </div>
 </div>

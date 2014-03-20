@@ -202,6 +202,38 @@ module.exports = (app) ->
                 res.send(job)
     )
 
+    app.post("/job/:id/rate/:mark", (req, res) ->
+        user = req.user
+        if user.type isnt AuthLevel.CUSTOMER
+            throw new Error("You don't have permissions to rate")
+        JobModel.findById(req.params.id)
+        .exec (err, job) ->
+            return res.send(422) if job.status isnt "finished" or not job.winner? or err?
+            UserModel.findById(job.winner)
+            .exec (err, winner) ->
+                return res.send(422) if err?
+                winner.rating.totalVotes++
+                winner.rating.avgRate += req.params.mark
+                winner.rating.avgRate /= winner.rating.totalVotes
+                res.send(winner)
+    )
+
+    app.post("/job/:id/pickawinner/:winner", (req, res) ->
+        user = req.user
+        winnerId = req.params.winner
+        if user.type isnt AuthLevel.CUSTOMER
+            throw new Error("You don't have permissions to rate")
+        UserModel.findById(req.params.winner)
+        .exec (err, winner) ->
+            return res.send(422) if err?
+            JobModel.findById(req.params.id)
+            .exec (err, job) ->
+                return res.send(422) if err?
+                job.winner = winnerId
+                job.status = "closed"
+                res.send(job)
+    )
+    
     saveJob = (usr, jobData, res) ->
         if usr.type isnt AuthLevel.CUSTOMER
             throw new Error("You don't have permissions to create a new job")
@@ -210,6 +242,7 @@ module.exports = (app) ->
             findCategory(jobData),
         ], (err, results) ->
             job = new JobModel(jobData)
+            job.author = usr._id
             res.status(422) if err?
             job.save()
             job.populate("address")

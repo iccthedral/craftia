@@ -122,6 +122,18 @@
                     }
                 }
             },{
+                url: '/messages',
+                config: {
+                    visibility: ["Craftsman", "Customer"],
+                    title: 'messages',
+                    templateUrl: 'app/messages/messages.html',
+                    resolve: authenticate(true),
+                    settings: {
+                        nav: 6,
+                        content: '<i class="fa fa-book"></i> Messages'
+                    }
+                }
+            },{
                 url: '/register',
                 config: {
                     title: 'craftsmen',

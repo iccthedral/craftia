@@ -1,6 +1,8 @@
 mongoose = require "mongoose"
 bcrypt = require "bcrypt-nodejs"
 JobModel = require "./Job"
+MessageModel = require "./Message"
+async = require "async"
 
 schema = mongoose.Schema
 	username:
@@ -42,14 +44,39 @@ schema = mongoose.Schema
 		ref: "Job"
 	]
 
-	rating: {
+	rating:
+		comments: [{
+			jobId: mongoose.Schema.Types.ObjectId
+		 	message: String
+		}]
+
 		totalVotes: { type: Number, default: 0 }
 		avgRate: { type: Number, default: 0, min: 0, max: 5 }
-	}
 
 	profilePic: 
 		type: String
 		default: "img/default_user.jpg"
+
+	inbox:
+		system: [
+			type: mongoose.Schema.Types.ObjectId
+			ref: "Message"
+		]
+
+		job: [
+			type: mongoose.Schema.Types.ObjectId
+			ref: "Message"
+		]
+
+		contact: [
+			type: mongoose.Schema.Types.ObjectId
+			ref: "Message"
+		]
+
+		sent: [
+			type: mongoose.Schema.Types.ObjectId
+			ref: "Message"
+		]
 
 schema.pre "save", (next) ->
 	user = @
@@ -91,6 +118,28 @@ schema.methods.generateRandomToken = () ->
 		token += chars.charAt(i)
 	return token
 
+UserModel = mongoose.model("User", schema)
+
+schema.statics.sendMessage = (type, msg, fromId, toId, callb) ->
+	UserModel.findById(fromId)
+	.exec (err, sender) ->
+		UserModel.findById(toId)
+		.exec (err, receiver) ->
+			msg = new MessageModel(
+				type: type
+				msg: msg
+				from: myself
+			)
+			receiver.inbox[type].push(msg)
+			sender.inbox.sent.push(msg)
+
+			async.series([
+				receiver.save().exec
+				sender.save().exec
+			], (err, res) ->
+				callb(err, res)
+			)
+
 # schema.methods.createNewJob = (job) ->
 # 	try
 # 		@createdJobs.push(JobModel.newJob(job))
@@ -98,4 +147,4 @@ schema.methods.generateRandomToken = () ->
 # 	catch e
 # 		throw new Error(e)
 
-module.exports = mongoose.model("User", schema)
+module.exports = UserModel

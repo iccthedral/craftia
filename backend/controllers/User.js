@@ -234,6 +234,48 @@
         });
       });
     });
+    app.post("/job/:id/rate/:mark", function(req, res) {
+      var user;
+      user = req.user;
+      if (user.type !== AuthLevel.CUSTOMER) {
+        throw new Error("You don't have permissions to rate");
+      }
+      return JobModel.findById(req.params.id).exec(function(err, job) {
+        if (job.status !== "finished" || (job.winner == null) || (err != null)) {
+          return res.send(422);
+        }
+        return UserModel.findById(job.winner).exec(function(err, winner) {
+          if (err != null) {
+            return res.send(422);
+          }
+          winner.rating.totalVotes++;
+          winner.rating.avgRate += req.params.mark;
+          winner.rating.avgRate /= winner.rating.totalVotes;
+          return res.send(winner);
+        });
+      });
+    });
+    app.post("/job/:id/pickawinner/:winner", function(req, res) {
+      var user, winnerId;
+      user = req.user;
+      winnerId = req.params.winner;
+      if (user.type !== AuthLevel.CUSTOMER) {
+        throw new Error("You don't have permissions to rate");
+      }
+      return UserModel.findById(req.params.winner).exec(function(err, winner) {
+        if (err != null) {
+          return res.send(422);
+        }
+        return JobModel.findById(req.params.id).exec(function(err, job) {
+          if (err != null) {
+            return res.send(422);
+          }
+          job.winner = winnerId;
+          job.status = "closed";
+          return res.send(job);
+        });
+      });
+    });
     saveJob = function(usr, jobData, res) {
       if (usr.type !== AuthLevel.CUSTOMER) {
         throw new Error("You don't have permissions to create a new job");
@@ -241,6 +283,7 @@
       return async.series([findCity(jobData.address.city), findCategory(jobData)], function(err, results) {
         var job;
         job = new JobModel(jobData);
+        job.author = usr._id;
         if (err != null) {
           res.status(422);
         }

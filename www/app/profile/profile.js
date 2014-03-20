@@ -1,21 +1,37 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'profile';
+// <<<<<<< HEAD
     angular.module('app').controller(controllerId, ['$rootScope', '$scope', '$upload', 'common', 'authService', profile]);
   
     function profile($rootScope, $scope, $upload, common, authService) {
+// =======
+    // angular.module('app').controller(controllerId, ['common','$scope', 'authService', profile]);
+  
+    // function profile(common, $scope, authService) {
+// >>>>>>> 0076d8c842a6371d206d7128420683dfa681cfb3
 
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
 
-        var vm = this;
-        vm.title = 'Profile';
-        vm.editable = false;
-        vm.as = authService;
+// <<<<<<< HEAD
+//         var vm = this;
+//         vm.title = 'Profile';
+//         vm.editable = false;
+//         vm.as = authService;
+//         $scope.user = authService.getUser();
+//         vm.backup = angular.copy(vm.user);
+//         vm.leftPartial = "app/profile/leftProfile.html";
+//         vm.rightPartial = "app/profile/rightProfile.html";
+// =======
+        $scope.title = 'Profile';
+        $scope.editable = false;
+        $scope.as = authService;
         $scope.user = authService.getUser();
-        vm.backup = angular.copy(vm.user);
-        vm.leftPartial = "app/profile/leftProfile.html";
-        vm.rightPartial = "app/profile/rightProfile.html";
+        $scope.backup = angular.copy($scope.user);
+        $scope.leftPartial = "app/profile/leftProfile.html";
+        $scope.rightPartial = "app/profile/rightProfile.html";
+// >>>>>>> 0076d8c842a6371d206d7128420683dfa681cfb3
 
         $scope.uploadPicture = function(files) {
             $scope.upload = $upload.upload({
@@ -31,6 +47,7 @@
             });
         }
 
+// <<<<<<< HEAD
         //function CraftsmanPanel() {
         //    $scope.editable = false;
 
@@ -107,18 +124,21 @@
         //}
 
         
+// =======
+     
+// >>>>>>> 0076d8c842a6371d206d7128420683dfa681cfb3
 
         activate();
 
-        vm.cancel = function () {
-            vm.editable = false;
-            vm.user = angular.copy(vm.backup);
+        $scope.cancel = function () {
+            $scope.editable = false;
+            $scope.user = angular.copy($scope.backup);
         }
 
-        vm.edit= function () {
-            vm.editable = true;
+        $scope.edit= function () {
+            $scope.editable = true;
         }
-        vm.save= function () {
+        $scope.save= function () {
             authService.updateUser();
         }
     

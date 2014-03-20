@@ -1,30 +1,30 @@
-﻿<section class="mainbar" data-ng-controller="profile as vm">
+﻿<section class="mainbar" data-ng-controller="profile">
     <section class="matter">
         <div class="container">
             <div class="widget wcyan">
                 <div class="widget-head" title="">
-                    <button type="button" class="btn btn-lg" ng-click="vm.edit()">
+                    <button type="button" class="btn btn-lg" ng-click="edit()">
                         <span class="fa fa-edit"></span> Edit
                     </button>
-                    <button type="button" class="btn btn-lg" ng-click="vm.cancel()">
+                    <button type="button" class="btn btn-lg" ng-click="cancel()">
                         <span class="fa fa-undo"></span> Cancel
                     </button>
-                    <button ng-disabled="!vm.editable" type="button" class="btn btn-lg" ng-click="vm.save()">
+                    <button ng-disabled="!editable" type="button" class="btn btn-lg" ng-click="save()">
                         <span class="fa fa-save"></span> Save changes
                     </button>
-                    <button type="button" class="btn btn-lg" ng-click="vm.delete()">
+                    <button type="button" class="btn btn-lg" ng-click="delete()">
                         <span class="fa fa-trash-o"></span> Delete profile
                     </button>
                     <!--Need ng-hide for show/hide animations-->
-                    <span ng-if="vm.user!==vm.backup" class="dissolve-animation ng-hide flag-haschanges">
+                    <span ng-if="user!==backup" class="dissolve-animation ng-hide flag-haschanges">
                         <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
                     </span>
                 </div>
                 <div class="widget-content user">
                     <div class="row">
-                        <div class="col-md-6" ng-include="vm.leftPartial">
+                        <div class="col-md-6" ng-include="leftPartial">
                         </div>
-                        <div class="col-md-6" ng-include="vm.rightPartial">
+                        <div class="col-md-6" ng-include="rightPartial">
                         </div>
                     </div>
                 </div>

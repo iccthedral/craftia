@@ -24,7 +24,8 @@
     },
     budget: {
       type: Number,
-      required: true
+      required: true,
+      min: 0
     },
     address: {
       city: String,
@@ -47,6 +48,19 @@
     dateTo: {
       type: Date,
       required: true
+    },
+    status: {
+      type: String,
+      "default": "open",
+      "enum": ["open", "closed"]
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    winner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     },
     bidders: {
       type: Array,

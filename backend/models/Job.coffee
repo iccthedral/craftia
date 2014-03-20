@@ -20,6 +20,7 @@ schema = mongoose.Schema
 	budget:
 		type: Number
 		required: true
+		min: 0
 
 	address: 
 		city: String
@@ -42,6 +43,19 @@ schema = mongoose.Schema
 	dateTo:
 		type: Date
 		required: true
+
+	status:
+		type: String
+		default: "open"
+		enum: ["open", "closed"]
+
+	author:
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
+
+	winner:
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
 
 	bidders:
 		type: Array

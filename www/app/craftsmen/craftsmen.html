@@ -4,7 +4,7 @@
             <div class="row">
                 <input class="input-medium search-query"
                        data-ng-model="craftsmanSearch"
-                       data-ng-keyup="vm.search($event)"
+                       data-ng-keyup="search($event)"
                        placeholder="live search...">
                 <div class="widget wcyan">
                     <div data-cc-widget-header title="{{title}}"></div>
@@ -14,11 +14,11 @@
                                 <div class="widget wcyan">
                                     <div data-cc-widget-header title="Craftsmen table"
                                          allow-collapse="true"
-                                         subtitle="{{filterCount}} / {{craftsmanCount}}"
-                                         right-text="Page {{paging.currentPage}} of {{paging.pageCount}}">
+                                         subtitle="{{pagedItems.length}} / {{totalItems}}"
+                                         right-text="Page {{currentPage}} of {{items.length}}">
                                     </div>
                                     <div class="widget-content text-center text-info">
-                                        <table class="table table-condensed table-striped">
+                                        <table class="table table-condensed table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>E-mail</th>
@@ -29,7 +29,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr id="{{$index}}" data-ng-repeat="p in CraftsmanList.getCraftsmen()" ng-click="CraftsmanList.showCraftsman($index)">
+                                                <tr id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="CraftsmanList.showCraftsman($index)">
                                                     <td class="text-left">{{p.email}}</td>
                                                     <td class="text-left">{{p.username}}</td>
                                                     <td class="text-left">{{p.name}}</td>
@@ -42,27 +42,19 @@
                                     <div class="widget-foot">
                                         <div class="clearfix"></div>
 
-                                        <pagination boundary-links="true"
-                                                    on-select-page="pageChanged(page)"
-                                                    total-items="allCraftsmen.length"
-                                                    items-per-page="paging.pageSize"
-                                                    max-size="paging.maxPagesToShow"
-                                                    class="pagination-small"
-                                                    direction-links="true">
-
-                                        </pagination>
+                                        <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
 
 
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6" ng-include="rightPartial">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="widget-foot">
-                        <div class="clearfix"></div>
                     </div>
+                     
                 </div>
             </div>
         </div>
