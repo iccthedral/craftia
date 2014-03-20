@@ -1,6 +1,6 @@
 JobModel = require "../models/Job"
 async = require "async"
-Messaging = require "Messaging"
+Messaging = require "./Messaging"
 
 JOB_FINISHED_MESSAGE = """
 Job with the <a href="id:{0}">{0}</> finished.
@@ -14,7 +14,8 @@ module.exports = () ->
 		JobModel.find {}, (err, results) ->
 			async.map(results,
 				(job, clb) ->
-					d = new Date(JSON.parse(job.dateTo))
+					console.log job.dateTo
+					d = job.dateTo
 					if job.status in ["open", "finished"]
 						return clb(null, null)
 

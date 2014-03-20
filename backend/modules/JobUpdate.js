@@ -5,7 +5,7 @@
 
   async = require("async");
 
-  Messaging = require("Messaging");
+  Messaging = require("./Messaging");
 
   JOB_FINISHED_MESSAGE = "Job with the <a href=\"id:{0}\">{0}</> finished.\nWould you like to give Damir a kiss?";
 
@@ -17,7 +17,8 @@
       return JobModel.find({}, function(err, results) {
         return async.map(results, function(job, clb) {
           var d, _ref;
-          d = new Date(JSON.parse(job.dateTo));
+          console.log(job.dateTo);
+          d = job.dateTo;
           if ((_ref = job.status) === "open" || _ref === "finished") {
             return clb(null, null);
           }

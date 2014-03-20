@@ -1272,24 +1272,30 @@ form {
     line-height: 20px !important;
 }
 
-    .user img {
-        max-width: 70px;
-        margin-top: 10px;
-    }
+.user img {
+    max-width: 70px;
+    min-height: 70px;
+    margin-top: 10px;
+    border: 2px dashed #cccccc;
+}
 
-    .user .user-pic {
-        float: left;
-        width: 80px;
-    }
+.user .user-pic {
+    float: left;
+    width: 80px;
+}
 
-    .user .user-details {
-        margin-left: 85px;
-    }
+.user .user-details {
+    margin-left: 85px;
+}
 
-    .user .btn {
-        font-size: 11px !important;
-    }
+.user .btn {
+    font-size: 11px !important;
+}
 
+.user .glyphicon {
+    width: 1.5em;
+    color: goldenrod;
+}
 /* Users ends */
 
 

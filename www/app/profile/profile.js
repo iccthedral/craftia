@@ -2,9 +2,9 @@
     'use strict';
     var controllerId = 'profile';
 // <<<<<<< HEAD
-    angular.module('app').controller(controllerId, ['$rootScope', '$scope', '$upload', 'common', 'authService', profile]);
+    angular.module('app').controller(controllerId, ['$rootScope', '$scope', '$upload', 'common', 'authService', 'config', profile]);
   
-    function profile($rootScope, $scope, $upload, common, authService) {
+    function profile($rootScope, $scope, $upload, common, authService, config) {
 // =======
     // angular.module('app').controller(controllerId, ['common','$scope', 'authService', profile]);
   
@@ -31,9 +31,18 @@
         $scope.backup = angular.copy($scope.user);
         $scope.leftPartial = "app/profile/leftProfile.html";
         $scope.rightPartial = "app/profile/rightProfile.html";
-// >>>>>>> 0076d8c842a6371d206d7128420683dfa681cfb3
 
+        // >>>>>>> 0076d8c842a6371d206d7128420683dfa681cfb3
+        // window.shell = shell;
+        // console.debug(spinner);
+        // spinner.spinnerShow();
+        // // shell.isBusy = true
+        // $rootScope.$apply(function() {
+        // });
+
+        window.scope = $rootScope
         $scope.uploadPicture = function(files) {
+            $rootScope.$broadcast(config.events.spinnerToggle, {show: true});
             $scope.upload = $upload.upload({
                 url: "user/uploadpicture",
                 file: files[0]
@@ -43,8 +52,11 @@
                 setTimeout(function() {
                     $scope.user.profilePic = picurl;
                     $rootScope.$digest();
+                    // spinner.spinnerHide();
                 }, 100);
-            });
+            }).then(function() {
+                $rootScope.$broadcast(config.events.spinnerToggle, {show: false});
+            })
         }
 
 // <<<<<<< HEAD

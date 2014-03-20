@@ -30,6 +30,7 @@ module.exports = (passport) ->
   strat = new LocalStrategy(
     (username, password, done) ->
       UserModel.findOne "username": username, (err, user) ->
+        console.dir "Hahahahaza"
         return done(err) if err?    
         if not user
           return done(null, false, message: "User doesn't exist")

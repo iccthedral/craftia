@@ -33,6 +33,7 @@ module.exports = (app) ->
                 req.logIn(user, (err) ->
                     if err
                         return next(err)
+                    console.log "what the fuck"
                     UserModel
                     .find(_id: user._id)
                     .populate("createdJobs")
@@ -229,7 +230,7 @@ module.exports = (app) ->
             JobModel.findById(req.params.id)
             .exec (err, job) ->
                 return res.send(422) if err?
-                job.winner = winnerId
+                job.winner = winner._id
                 job.status = "closed"
                 res.send(job)
     )
@@ -241,14 +242,16 @@ module.exports = (app) ->
             findCity(jobData.address.city),
             findCategory(jobData),
         ], (err, results) ->
+            delete jobData._id
             job = new JobModel(jobData)
-            job.author = usr._id
-            res.status(422) if err?
-            job.save()
-            job.populate("address")
-            usr.createdJobs.push(job._id)
-            usr.save()
-            res.send(job)
+            job.author = usr
+            job.address.zip = results[0].zip
+            return res.send(422, err.message) if err?
+            job.save (err, job) ->
+                return res.status(422).send(err.messsage) if err?
+                usr.createdJobs.push(mongoose.Types.ObjectId(job._id))
+                usr.save()
+                res.send(job)
         )
 
     saveUser = (user, res) ->

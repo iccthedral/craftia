@@ -47,6 +47,7 @@
           if (err) {
             return next(err);
           }
+          console.log("what the fuck");
           return UserModel.find({
             _id: user._id
           }).populate("createdJobs").exec(function(err, result) {
@@ -270,7 +271,7 @@
           if (err != null) {
             return res.send(422);
           }
-          job.winner = winnerId;
+          job.winner = winner._id;
           job.status = "closed";
           return res.send(job);
         });
@@ -282,16 +283,21 @@
       }
       return async.series([findCity(jobData.address.city), findCategory(jobData)], function(err, results) {
         var job;
+        delete jobData._id;
         job = new JobModel(jobData);
-        job.author = usr._id;
+        job.author = usr;
+        job.address.zip = results[0].zip;
         if (err != null) {
-          res.status(422);
+          return res.send(422, err.message);
         }
-        job.save();
-        job.populate("address");
-        usr.createdJobs.push(job._id);
-        usr.save();
-        return res.send(job);
+        return job.save(function(err, job) {
+          if (err != null) {
+            return res.status(422).send(err.messsage);
+          }
+          usr.createdJobs.push(mongoose.Types.ObjectId(job._id));
+          usr.save();
+          return res.send(job);
+        });
       });
     };
     saveUser = function(user, res) {

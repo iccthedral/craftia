@@ -6,7 +6,24 @@
         <div class="fileinput fileinput-new" data-provides="fileinput">
             <div class="fileinput-new thumbnail">
                 <img ng-src="{{user.profilePic}}"/>
+                <br>
+                <div class="col-md-offset-5">
+                    <rating readonly="isCraftsman" value="user.rating.avgRate"></rating>
+                </div>
+                <form class="form-horizontal" display="inline">
+                    <fieldset>
+                        <div class="row form-group">                     
+                            <div class="col-md-offset-5">
+                                 <div class="fileUpload btn btn-primary">
+                                    <span>Upload</span>
+                                    <input ng-file-select="uploadPicture($files)" id="uploadBtn" type="file" class="upload" />
+                                </div>    
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
             </div>
+            
 <!-- <<<<<<< HEAD
             <div class="fileinput-preview fileinput-exists thumbnail"></div>
             <div>
@@ -15,23 +32,8 @@
                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
             </div>
 ======= -->
-            <form class="form-horizontal" display= "inline">
-                <fieldset>
-                    <div class="row form-group" >                     
-                        <div class="col-md-7">
-                             <div class="fileUpload btn btn-primary">
-                                <span>Upload</span>
-                                <input id="uploadBtn" type="file" class="upload" />
-                            </div>
-                            <input class="form-control input-md" id="uploadFile" placeholder="Choose File" disabled="disabled" />      
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-            
+
+        
         </div>
-    </div>
-    <div ng-init="x=3.4">
-        <rating readonly="isCraftsman" value="x"></rating>
     </div>
 </div>

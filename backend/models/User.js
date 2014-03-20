@@ -49,15 +49,15 @@
     createdJobs: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Job"
+        ref: "Job",
+        "default": []
       }
     ],
     rating: {
       comments: [
         {
-          jobId: mongoose.Schema.Types.ObjectId({
-            message: String
-          })
+          jobId: mongoose.Schema.Types.ObjectId,
+          message: String
         }
       ],
       totalVotes: {

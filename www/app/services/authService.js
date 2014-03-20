@@ -45,6 +45,7 @@
                                 return userType == 'Customer'
                             }
                         });
+                        window.user = user;
                     }
                     return $rootScope.isAuthenticated = (user != null);
                 },

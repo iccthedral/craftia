@@ -52,7 +52,7 @@
     status: {
       type: String,
       "default": "open",
-      "enum": ["open", "closed"]
+      "enum": ["open", "closed", "finished"]
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

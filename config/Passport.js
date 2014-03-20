@@ -46,6 +46,7 @@
       return UserModel.findOne({
         "username": username
       }, function(err, user) {
+        console.dir("Hahahahaza");
         if (err != null) {
           return done(err);
         }

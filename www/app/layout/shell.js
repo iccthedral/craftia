@@ -35,7 +35,7 @@
             common.activateController([], controllerId);
         }
 
-        function toggleSpinner(on) { vm.isBusy = on; }
+        function toggleSpinner(on) { vm.isBusy = on; console.debug(vm); }
 
         $rootScope.$on('$routeChangeStart',
             function (event, next, current) { toggleSpinner(true); }
@@ -46,7 +46,10 @@
         );
 
         $rootScope.$on(events.spinnerToggle,
-            function (data) { toggleSpinner(data.show); }
+            function (_, data) { 
+                console.debug(data);
+                toggleSpinner(data.show); 
+            }
         );
     };
 })();
