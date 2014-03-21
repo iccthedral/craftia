@@ -5,9 +5,10 @@ colors = require "colors"
 UserModel = require ("../models/User")
 CityModel = require ("../models/City")
 JobModel = require ("../models/Job")
-AddressModel = require ("../models/Address")
 CategoryModel = require ("../models/Category")
 util = require "util"
+async = require "async"
+fs = require "fs"
 
 module.exports = (app) ->
 
@@ -32,15 +33,13 @@ module.exports = (app) ->
                 req.logIn(user, (err) ->
                     if err
                         return next(err)
+                    console.log "what the fuck"
                     UserModel
                     .find(_id: user._id)
                     .populate("createdJobs")
                     .exec (err, result) ->
                         usr = result[0]
-                        AddressModel.populate(usr.createdJobs, path: "address")
-                        .then (job, address) ->
-                            job.address = address
-                            return res.send(usr)
+                        return res.send(usr)
                 )
         )(req, res, next)
     )
@@ -115,40 +114,55 @@ module.exports = (app) ->
         usr = req.user
         jobData = req.body
         if not usr? or usr.type isnt AuthLevel.CUSTOMER 
-            res.send(422)
-            return
-        JobModel
-        .findOne(_id: req.params.id)
-        .exec (err, job) ->
-            if cat?.subcategories[jobData.subcategory]? or err?
-                throw new Error("No such subcategory in category #{job.category}")
-            job.category = jobData.category
-            job.subcategory = jobData.subcategory
-            # job.address = jobData.address;
-            job.budget = jobData.budget
-            job.dateFrom = jobData.dateFrom
-            job.dateTo = jobData.dateTo
-            job.materialProvider = jobData.materialProvider
-            job.title = jobData.title
-            job.description = jobData.description
-            job.save()
-            job.populate("address")
-            # usr.createdJobs.push(job._id)
-            usr.save (err) ->
-                return res.send(422, err.message) if err? 
-                res.send(job)
+            return res.send(422)
+        checkCity = if jobData.address?.city? then findCity(jobData.address.city) else (clb) -> clb(null, null)
+        findCat = if jobData.category?.subcategory? then findCategory(jobData) else (clb) -> clb(null, null)
+        async.series([
+            checkCity,
+            findCat
+        ], (err, results) ->
+            id = req.params.id
+            JobModel.findByIdAndUpdate(id, jobData)
+            .exec (err, results) ->
+                return res.send(422) if err? or results < 1
+                JobModel
+                .findById(id)
+                .exec (err, job) ->
+                    return res.status(422).send(err.message) if err?
+                    res.send(job)
+        )
     )
 
     app.post("/user/update", (req, res) ->
         usr = req.user
         if not usr?
-            res.status(422).send "You're not logged in"
-            return
+            return res.status(422).send "You're not logged in"
         UserModel
         .findByIdAndUpdate(req.user._id, { $set: req.body })
         .exec (err, user) ->
             user.save(req.body)
             res.send(200)
+    )
+
+    app.post("/user/uploadpicture", (req, res) ->
+        usr = req.user
+        if not usr?
+            return res.status(422).send "You're not logged in"
+        UserModel
+        .findById(req.user._id)
+        .exec (err, user) ->
+            file = req.files.file
+            fs.readFile(file.path, (err, data) ->
+                imguri = "img/#{usr.username}.png"
+                newPath = "www/#{imguri}"
+                fs.writeFile(newPath, data, (err) =>
+                    console.log err
+                    return res.send(422) if err?
+                    user.profilePic = imguri
+                    user.save()
+                    res.send(imguri)
+                )
+            )
     )
 
     app.post("/job/:id/bid", (req, res) ->
@@ -189,33 +203,56 @@ module.exports = (app) ->
                 res.send(job)
     )
 
+    app.post("/job/:id/rate/:mark", (req, res) ->
+        user = req.user
+        if user.type isnt AuthLevel.CUSTOMER
+            throw new Error("You don't have permissions to rate")
+        JobModel.findById(req.params.id)
+        .exec (err, job) ->
+            return res.send(422) if job.status isnt "finished" or not job.winner? or err?
+            UserModel.findById(job.winner)
+            .exec (err, winner) ->
+                return res.send(422) if err?
+                winner.rating.totalVotes++
+                winner.rating.avgRate += req.params.mark
+                winner.rating.avgRate /= winner.rating.totalVotes
+                res.send(winner)
+    )
+
+    app.post("/job/:id/pickawinner/:winner", (req, res) ->
+        user = req.user
+        winnerId = req.params.winner
+        if user.type isnt AuthLevel.CUSTOMER
+            throw new Error("You don't have permissions to rate")
+        UserModel.findById(req.params.winner)
+        .exec (err, winner) ->
+            return res.send(422) if err?
+            JobModel.findById(req.params.id)
+            .exec (err, job) ->
+                return res.send(422) if err?
+                job.winner = winner._id
+                job.status = "closed"
+                res.send(job)
+    )
+    
     saveJob = (usr, jobData, res) ->
         if usr.type isnt AuthLevel.CUSTOMER
             throw new Error("You don't have permissions to create a new job")
-        address = new AddressModel()
-        job = new JobModel()
-        address.newAddress(jobData.address)
-        .then () ->
-            job.address = address._id
-        .then () ->
-            CategoryModel
-            .findOne(category: jobData.category)
-            .exec (err, cat) ->
-                if cat?.subcategories[jobData.subcategory]? or err?
-                    throw new Error("No such subcategory in category #{job.category}")
-                job.category = jobData.category
-                job.subcategory = jobData.subcategory
-                job.budget = jobData.budget
-                job.dateFrom = jobData.dateFrom
-                job.dateTo = jobData.dateTo
-                job.materialProvider = jobData.materialProvider
-                job.title = jobData.title
-                job.description = jobData.description
-                job.save()
-                job.populate("address")
-                usr.createdJobs.push(job._id)
+        async.series([
+            findCity(jobData.address.city),
+            findCategory(jobData),
+        ], (err, results) ->
+            delete jobData._id
+            job = new JobModel(jobData)
+            job.author = usr
+            job.address.zip = results[0].zip
+            return res.send(422, err.message) if err?
+            job.save (err, job) ->
+                return res.status(422).send(err.messsage) if err?
+                usr.createdJobs.push(mongoose.Types.ObjectId(job._id))
                 usr.save()
                 res.send(job)
+        )
 
     saveUser = (user, res) ->
         user.save (err) ->
@@ -231,3 +268,18 @@ module.exports = (app) ->
                     msg: "Registering succeeded!"
                 )
 
+    findCity = (city) ->
+        return (clb) ->
+            CityModel
+            .findOne(name: city)
+            .exec (err, city) ->
+                clb(err, city)
+
+    findCategory = (jobdata) ->
+        return (clb) ->
+            CategoryModel
+            .findOne(category: jobdata.category)
+            .exec (err, cat) ->
+                if cat?.subcategories[jobdata.subcategory]? or err?
+                    clb(new Error("No such subcategory in category #{jobdata.category}"), null)
+                clb(err, cat)

@@ -21,6 +21,14 @@
                     return userType;
                 },
 
+                getUID: function() {
+                    return user._id;
+                },
+
+                getProfilePicture: function() {
+                    return (user.profilePic || "img/default_user.jpg")
+                },
+
                 setUser: function (newUser) {
                     user = newUser;
                     if (user) {
@@ -35,6 +43,7 @@
                                 return userType == 'Customer'
                             }
                         });
+                        window.user = user;
                     }
                     return $rootScope.isAuthenticated = (user != null);
                 },

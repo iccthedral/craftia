@@ -210,7 +210,7 @@
                     var curjob = $scope.currentJob;
                     var jobData = JSON.parse(JSON.stringify(curjob));
                     jobData.address = {
-                        name: curjob.city,
+                        city: curjob.city,
                         line1: curjob.address,
                         line2: "test"
                     }
@@ -259,12 +259,8 @@
 
             resetModel()
             return panel;
-        }
-
-
-
-
-
+        }                    
+        
         function ViewJob(job) {
             return {
                 bid: function () {

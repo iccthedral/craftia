@@ -32,16 +32,11 @@
   db.on("error", console.error.bind(console, "Connection error: "));
 
   db.once("open", function() {
-    return console.log("Connected to DB");
+    console.log("Connected to DB");
+    return require("./backend/modules/JobUpdate")();
   });
 
   hbs = handlebars.create({});
-
-
-  /*	partialsDir: [
-  		 "views/hbpartials/"
-  	]
-   */
 
   wrench.readdirSyncRecursive("utils/").filter(function(file) {
     return file.lastIndexOf(".js") !== -1;

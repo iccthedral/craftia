@@ -1,9 +1,9 @@
 (function() {
-  var AddressModel, CategoryModel, JobModel, mongoose, schema;
+  var CategoryModel, CityModel, JobModel, mongoose, schema;
 
   mongoose = require("mongoose");
 
-  AddressModel = require("./Address");
+  CityModel = require("./City");
 
   CategoryModel = require("./Category");
 
@@ -24,12 +24,14 @@
     },
     budget: {
       type: Number,
-      required: true
+      required: true,
+      min: 0
     },
     address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
-      required: true
+      city: String,
+      zip: String,
+      line1: String,
+      line2: String
     },
     category: {
       type: String,
@@ -46,6 +48,19 @@
     dateTo: {
       type: Date,
       required: true
+    },
+    status: {
+      type: String,
+      "default": "open",
+      "enum": ["open", "closed", "finished"]
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    winner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     },
     bidders: {
       type: Array,
