@@ -10,7 +10,6 @@
 
     app.run(["$rootScope", "$location", "$route",
     function ($rootScope, $location, $route) {
-        console.debug("config.route called");
         $rootScope.$on("$routeChangeSuccess", function (event, next, current) {
 
         })
@@ -47,7 +46,6 @@
                                 defer.resolve();
                             }
                         } else {
-                            console.debug("Ahoj here");
                             if (access) {
                                 defer.reject();
                             } else {
@@ -154,7 +152,6 @@
     app.config(["$routeProvider", "routes", routeConfigurator]);
 
     app.run(['$http', '$rootScope', 'authService', '$route', 'routeConfigurator', function($http, $rootScope, authService){ 
-        console.debug("main called");
         $http.get("/isAuthenticated")
         .success(function(user) { 
             authService.setUser(user); 

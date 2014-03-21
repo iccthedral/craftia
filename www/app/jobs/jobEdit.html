@@ -71,14 +71,17 @@
                         <th>Surname</th>
                         <th>E-mail</th>
                         <th>Rating</th>
+                        <th>Accept</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr id="{{$index}}" data-ng-repeat="p in currentJob.bidders" ng-click="JobList.showBidder($index)">
+                    <tr id="{{$index}}" data-ng-repeat="p in currentJob.bidders" ng-mouseenter="JobList.toggleFocus($index)" ng-mouseleave="JobList.toggleFocus($index)" ng-click="JobList.showBidder($index)">
                         <td class="text-left">{{p.name}}</td>
                         <td class="text-left">{{p.surname}}</td>
                         <td class="text-left"><span>{{p.email}}</span></td>
                         <td class="text-left"><span>{{p.rating}}</span></td>
+                        <td class="text-left"><button class="btn btn-primary" ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)"><strong>Accept</strong></button></td>
+
                     </tr>
                 </tbody>
             </table>

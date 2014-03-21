@@ -18,7 +18,8 @@
             getSubcategories: getSubcategories,
             getAllJobs: getAllJobs,
             deleteJobById: deleteJob,
-            getAllCraftsmen: getAllCraftsmen
+            getAllCraftsmen: getAllCraftsmen,
+            chooseWinner: chooseWinner
         };
 
         return service;
@@ -98,11 +99,15 @@
             return $.get(url)
         }
 
-        function getAllCraftsmen(page, size, filter) {
-            var take = size || 20;
-            var skip = page ? (page - 1) * size : 0;
+        function getAllCraftsmen() {
             var url = "/listcraftsmen";
             return $.get(url)
         }
+
+        function chooseWinner(jobId, winnerId) {
+            var url = "/job/" + jobId + "/pickawinner/" + winnerId;
+            return $.post(url);
+        }
+
     }
 })();

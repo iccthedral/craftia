@@ -1,4 +1,4 @@
-﻿<div data-ng-repeat="bid in vm.bids">
+﻿<div data-ng-repeat="bid in bids">
     <div class="widget wcyan">
         <div data-cc-widget-header title="Job bid"
              allow-collapse="true">
@@ -9,6 +9,7 @@
                 <li><span>Date of subscribtion: {{bid.subscribtionDate}}</span></li>
                 <li><span>Comment: {{bid.comment}}</span></li>
                 <li><span>Reputation: {{bid.reputation}}</span></li>
+
             </ul>
         </div>
     </div>
