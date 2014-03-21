@@ -6,7 +6,6 @@
 
     app.service(serviceId, ['$http','$rootScope', '$location', 'datacontext',
         function authService($http, $rootScope, $location, datacontext) {
-            console.debug("auth service called")
             var userType = "";
             var user = {}
 
@@ -23,7 +22,6 @@
                 },
 
                 setUser: function (newUser) {
-                    console.debug("set User called", newUser)
                     user = newUser;
                     if (user) {
                         userType = user.type;
