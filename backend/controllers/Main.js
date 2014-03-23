@@ -42,7 +42,9 @@
       return callback(null, jobs);
     };
     return app.get("/listjobs", function(req, res) {
-      return UserModel.find().populate("createdJobs").exec(function(err, results) {
+      return UserModel.find({
+        status: "open"
+      }).populate("createdJobs").exec(function(err, results) {
         var out;
         out = [];
         return async.map(results, fetchJobs, function(err, results) {

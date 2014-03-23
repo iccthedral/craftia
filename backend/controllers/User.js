@@ -273,7 +273,9 @@
           }
           job.winner = winner._id;
           job.status = "closed";
-          return res.send(job);
+          return job.save(function(err, job) {
+            return res.send(job);
+          });
         });
       });
     });
@@ -283,18 +285,21 @@
       }
       return async.series([findCity(jobData.address.city), findCategory(jobData)], function(err, results) {
         var job;
+        console.log(err);
         delete jobData._id;
         job = new JobModel(jobData);
-        job.author = usr;
+        job.author = usr._id;
+        job.status = "open";
         job.address.zip = results[0].zip;
         if (err != null) {
           return res.send(422, err.message);
         }
         return job.save(function(err, job) {
+          console.log(err);
           if (err != null) {
             return res.status(422).send(err.messsage);
           }
-          usr.createdJobs.push(mongoose.Types.ObjectId(job._id));
+          usr.createdJobs.push(job._id);
           usr.save();
           return res.send(job);
         });

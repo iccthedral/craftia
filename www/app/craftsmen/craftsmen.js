@@ -26,7 +26,6 @@
         $scope.pagedItems = [];
         $scope.items = []
 
-
         $scope.pageSelected = function(page) {
             $scope.pagedItems = $scope.items[page.page - 1]
         };
@@ -37,7 +36,6 @@
                     return $scope.allCraftsmen;
                 },
                 showCraftsman: function (craftsmanIndex) {
-                    alert(craftsmanIndex);
                     $scope.rightPartial = "app/craftsmen/craftsmanInfo.html";
                     $scope.currentCraftsman.populate($scope.allCraftsmen[craftsmanIndex]);
                 }

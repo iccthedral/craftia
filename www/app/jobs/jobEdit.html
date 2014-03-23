@@ -32,7 +32,6 @@
                         </div>
                     </div>
 
-                    <!-- Select Basic -->
                     <div class="form-group">
                         <label class="col-md-8 control-label" for="subcategory">Subcategory</label>
                         <div class="col-md-8">
@@ -43,7 +42,6 @@
                     </div>
 
 
-                    <!-- Password input-->
                     <div class="form-group">
                         <label class="col-md-8 control-label" for="">Starting date</label>
                         <div class="col-md-8">
@@ -52,7 +50,7 @@
                         </div>
                     </div>
 
-                    <!-- Text input-->
+
                     <div class="form-group">
                         <label class="col-md-8 control-label" for="name">Ending date</label>
                         <div class="col-md-8">
@@ -80,7 +78,9 @@
                         <td class="text-left">{{p.surname}}</td>
                         <td class="text-left"><span>{{p.email}}</span></td>
                         <td class="text-left"><span>{{p.rating}}</span></td>
-                        <td class="text-left"><button class="btn btn-primary" ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)"><strong>Accept</strong></button></td>
+                        <td class="text-left"><button class="btn btn-primary" ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)"><strong>Accept</strong></button>
+                        <i ng-show="currentJob.status == 'closed'"class="fa fa-check fa-4"></i>
+                        </td>
 
                     </tr>
                 </tbody>

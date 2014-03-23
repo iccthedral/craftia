@@ -232,7 +232,8 @@ module.exports = (app) ->
                 return res.send(422) if err?
                 job.winner = winner._id
                 job.status = "closed"
-                res.send(job)
+                job.save (err, job) ->
+                    res.send(job)
     )
     
     saveJob = (usr, jobData, res) ->
@@ -242,14 +243,17 @@ module.exports = (app) ->
             findCity(jobData.address.city),
             findCategory(jobData),
         ], (err, results) ->
+            console.log(err)
             delete jobData._id
             job = new JobModel(jobData)
-            job.author = usr
+            job.author = usr._id
+            job.status = "open"
             job.address.zip = results[0].zip
             return res.send(422, err.message) if err?
             job.save (err, job) ->
+                console.log(err)
                 return res.status(422).send(err.messsage) if err?
-                usr.createdJobs.push(mongoose.Types.ObjectId(job._id))
+                usr.createdJobs.push(job._id)
                 usr.save()
                 res.send(job)
         )

@@ -129,6 +129,7 @@
                 this.bidders = [];
                 this.subcategory = "";
                 this.category = "";
+                this.status = "";
             }
 
             JobModel.prototype.populate = function (jobData) {

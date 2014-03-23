@@ -36,7 +36,7 @@ module.exports = (app) ->
 
     app.get "/listjobs", (req, res) ->
         UserModel
-        .find()
+        .find(status: "open")
         .populate("createdJobs")
         .exec (err, results) ->
             out = []
