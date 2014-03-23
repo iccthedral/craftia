@@ -164,6 +164,17 @@
             $scope.editable = false;
 
             var panel = {
+
+                prevView: function() {
+                     $scope.rightPartial = "app/jobs/jobCreate.html";
+                 },
+
+                nextView: function() {
+                    $scope.rightPartial = "app/jobs/jobCreate2.html";
+                },
+
+
+
                 addNewJob: function () {
                     $scope.rightPartial = "app/jobs/jobCreate.html";
                     resetModel();

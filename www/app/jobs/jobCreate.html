@@ -13,13 +13,7 @@
                     </div>
                 </div>
 
-                <!-- Textarea -->
-                <div class="form-group">
-                    <label class="col-md-8 control-label" for="textarea">Job description</label>
-                    <div class="col-md-8">
-                        <textarea ng-model="currentJob.description" class="form-control" id="textarea" name="textarea"></textarea>
-                    </div>
-                </div>
+                
 
                 <!-- Select Basic -->
                 <div class="form-group">
@@ -97,10 +91,18 @@
                     </div>
                 </div>
 
+                <!-- Textarea -->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="textarea">Job description</label>
+                    <div class="col-md-8">
+                        <textarea ng-model="currentJob.description" class="form-control" id="textarea" name="textarea"></textarea>
+                    </div>
+                </div>
+
                 <!-- Button -->
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-5">
-                        <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="JobPanel.create()">Create</button>
+                        <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="JobPanel.nextView()"><i class="fa fa-arrow-right"></i> Next</button>
                     </div>
                 </div>
             </fieldset>
