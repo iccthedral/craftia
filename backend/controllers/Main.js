@@ -35,14 +35,15 @@
         return job.status === "open";
       }).map(function(job) {
         var author;
+        job = job.toObject();
         author = {
           id: user._id,
           name: user.name
         };
         job.author = author;
+        console.log(author);
         return job;
       });
-      console.log(jobs);
       return callback(null, jobs);
     };
     return app.get("/listjobs", function(req, res) {

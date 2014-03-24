@@ -30,13 +30,15 @@ module.exports = (app) ->
             (job) ->
                 return job.status is "open"
         ).map (job) ->
+            job = job.toObject()
             author = {
                 id: user._id
                 name: user.name
             }
             job.author = author
+            console.log(author)
+            # console.log(job)
             return job
-        console.log(jobs);
         callback(null, jobs)
 
     app.get "/listjobs", (req, res) ->
