@@ -61,7 +61,7 @@
                 </fieldset>
             </form>
         </div>
-        <div class="widget-content text-center text-info">
+        <div ng-show="currentJob.bidders" class="widget-content text-center text-info">
             <table class="table table-condensed table-striped table-hover">
                 <thead>
                     <tr>
@@ -77,7 +77,7 @@
                         <td class="text-left">{{p.name}}</td>
                         <td class="text-left">{{p.surname}}</td>
                         <td class="text-left"><span>{{p.email}}</span></td>
-                        <td class="text-left"><span>{{p.rating}}</span></td>
+                        <td class="text-left"><span>{{p.rating.avgRate}}</span></td>
                         <td class="text-left"><button class="btn btn-primary" ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)"><strong>Accept</strong></button>
                         <i ng-show="currentJob.status == 'closed'"class="fa fa-check fa-4"></i>
                         </td>
@@ -88,4 +88,4 @@
         </div>
     </div>
 </div>
-
+ 

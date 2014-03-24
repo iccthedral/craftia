@@ -26,17 +26,22 @@ module.exports = (app) ->
     #         callback(null, o)
 
     fetchJobs = (user, callback) ->
-        jobs = user.createdJobs.map (job) ->
+        jobs = user.createdJobs.filter(
+            (job) ->
+                return job.status is "open"
+        ).map (job) ->
             author = {
                 id: user._id
                 name: user.name
             }
             job.author = author
+            return job
+        console.log(jobs);
         callback(null, jobs)
 
     app.get "/listjobs", (req, res) ->
         UserModel
-        .find(status: "open")
+        .find()
         .populate("createdJobs")
         .exec (err, results) ->
             out = []

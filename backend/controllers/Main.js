@@ -31,20 +31,22 @@
     });
     fetchJobs = function(user, callback) {
       var jobs;
-      jobs = user.createdJobs.map(function(job) {
+      jobs = user.createdJobs.filter(function(job) {
+        return job.status === "open";
+      }).map(function(job) {
         var author;
         author = {
           id: user._id,
           name: user.name
         };
-        return job.author = author;
+        job.author = author;
+        return job;
       });
+      console.log(jobs);
       return callback(null, jobs);
     };
     return app.get("/listjobs", function(req, res) {
-      return UserModel.find({
-        status: "open"
-      }).populate("createdJobs").exec(function(err, results) {
+      return UserModel.find().populate("createdJobs").exec(function(err, results) {
         var out;
         out = [];
         return async.map(results, fetchJobs, function(err, results) {
