@@ -1,0 +1,76 @@
+<section class="matter" >
+    <div class="container">
+        <div class="row">
+            <div class="widget wcyan">
+               <div class="widget-head" title="">
+                <button type="button" class="btn btn-secondary btn-lg" ng-click="JobPanel.addNewJob()">
+                    <span class="glyphicon glyphicon-plus"></span> Add new job
+                </button>
+
+                <button ng-disabled="currentView != 'jobpanel'" type="button" class="btn btn-lg" ng-click="JobPanel.edit()">
+                    <span class="fa fa-edit"></span> Edit
+                </button>
+
+                <button ng-disabled="currentView != 'jobpanel'" type="button" class="btn btn-lg" ng-click="JobPanel.cancel()">
+                    <span class="fa fa-undo"></span> Cancel
+                </button>
+
+                <button ng-disabled="!editable" type="button" class="btn btn-lg" ng-click="JobPanel.save()">
+                    <span class="fa fa-save"></span> Save changes
+                </button>
+
+                <button ng-disabled="currentView != 'jobpanel'" type="button" class="btn btn-lg" ng-click="JobPanel.delete()">
+                    <span class="fa fa-trash-o"></span> Delete job
+                </button>
+
+                <!--Need ng-hide for show/hide animations-->
+                <span ng-show="JobPanel.isChanged()" class="dissolve-animation flag-haschanges ng-hide">
+                    <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
+                </span>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget wcyan">
+                        <div data-cc-widget-header title="Current jobs"
+                        allow-collapse="true"></div>
+                        <div class="widget-content text-center text-info">
+                               <ul style="list-style: none;" >
+                                    <li id="{{$index}}" data-ng-repeat="p in ownJobs" ng-click="JobPanel.editJob(ownJobs[$index])">
+                                        <div class="row-container">
+                                            <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
+                                            
+                                            <div class="jobDetail text-left">
+                                                <span class="my-job-detail text-left">{{p.title}}</span>
+                                                <img class="job-cancel pull-right" src="/img/pokit_8e8a773dbf9524b9c37c127d50ec4d26.jpg">
+                                            </div>
+                                            <div class="jobDetail text-left">
+                                                <span class="my-job-detail text-left">{{p.description}}</span>
+                                            </div>
+
+                                            <div class="text-left">
+                                                <span class="count-icon">
+                                                    <i class="fa fa-3x fa-comment-o"></i>
+                                                    <span class="count"><sup>33</sup></span>
+                                                </span>
+                                            </div>
+
+
+                                            <span class="text-left">{{p.category}}</span>
+                                            <span class="text-left">{{p.dateFrom}}</span>
+                                            <span class="text-left">{{p.dateTo}}</span>
+                                           
+                                        </div>
+                                        
+                                    </li>
+                                </ul>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" ng-include="rightPartial" onload="JobPanel.partialInit()">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>  

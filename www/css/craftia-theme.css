@@ -68,3 +68,36 @@ span.stars span {
 .jobDetail {
   background-color: #ddf2ed;
 }
+ .my-job-detail {
+  
+  padding-left: 15px;
+ }
+
+ .job-cancel{
+  width: auto;
+  height: auto;
+  max-height: 46px;
+ }
+
+.count-icon {
+    display: inline-block;
+    position: relative;
+    padding-left: 15px;
+}
+
+.count {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+
+    height: 16px;
+    width: 16px;
+
+    background: #f13934;
+    border-radius: 8px;
+
+    font-size: 13px;    
+    text-align: center;
+    color : #fff;
+}
