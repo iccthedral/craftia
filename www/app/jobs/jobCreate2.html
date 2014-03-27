@@ -10,7 +10,7 @@
                 </header>
                 <style>
                     #holder { border: 10px dashed #ccc; width: 300px; min-height: 300px; margin: 20px auto;}
-                    #holder.hover { border: 10px dashed #0c0; }
+                    #holder.hover { border: 10px dashed #60c2ac; }
                     #holder img { display: block; margin: 10px auto; width: 250px;}
                     #holder p { margin: 10px; font-size: 14px; }
                     progress { width: 100%; }
@@ -25,8 +25,6 @@
                   <p id="filereader">File API & FileReader API not supported</p>
                   <p id="formdata">XHR2's FormData is not supported</p>
                   <p id="progress">XHR2's upload progress isn't supported</p>
-                  <p>Upload progress: <progress id="uploadprogress" min="0" max="100" value="0">0</progress></p>
-                  <p>Drag an image from your desktop on to the drop zone above to see the browser both render the preview, but also upload automatically to this server.</p>
                 </article>
                 <!-- Button -->
                 <div class="btn-group col-md-12 text-center">
@@ -58,6 +56,7 @@ var holder = document.getElementById('holder'),
     acceptedTypes = {
       'image/png': true,
       'image/jpeg': true,
+      'image/jpg': true,
       'image/gif': true
     },
     progress = document.getElementById('uploadprogress'),
@@ -81,7 +80,7 @@ function previewfile(file) {
     reader.onload = function (event) {
       var image = new Image();
       var bla = event.target.result.substring(22);
-      if(atob(bla).length > 22*1024) {
+      if(atob(bla).length > 1206*1024) {
         alert("Fuck offf")
         return;
       }

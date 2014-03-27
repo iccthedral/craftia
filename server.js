@@ -33,7 +33,7 @@
 
   db.once("open", function() {
     console.log("Connected to DB");
-    return require("./backend/modules/JobUpdate")();
+    return //require("./backend/modules/JobUpdate")();
   });
 
   hbs = handlebars.create({});

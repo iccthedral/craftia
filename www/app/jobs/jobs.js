@@ -41,7 +41,7 @@
         };
 
         $scope.search = function ($event) {
-            //  debugger;
+            
             if ($scope.jobSearch == '') return getAllJobs();
 
             var result = $scope.allJobs.filter(function (obj) {
@@ -68,6 +68,7 @@
                     $scope.rightPartial = "app/jobs/bidForJob.html";
                     $scope.currentJob.populate($scope.pagedItems[jobIndex]);
                     attachSubcategories($scope.currentJob);
+                    $scope.$digest();
                 },
 
                 toggleFocus: function (bidderIndex) {
@@ -193,10 +194,7 @@
                         $scope.categories = catdata;
                         var curcat = $scope.currentJob.category;
                         var curscat = $scope.currentJob.subcategories;
-                        console.debug(curcat)
-
                         var fcat = catdata.filter(function (cat) { return cat.name === curcat })[0]
-                        console.debug(fcat)
                         $scope.currentJob.selectedCategory.category = fcat;
                         $scope.$digest();
                         datacontext.getSubcategories(fcat.id).success(function (subcats) {
@@ -259,7 +257,6 @@
                 },
 
                 isChanged: function () {
-                    console.debug(angular.equals($scope.currentJob, $scope.backup));
                     return !angular.equals($scope.currentJob, $scope.backup);
                 },
 

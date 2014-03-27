@@ -60,6 +60,16 @@
                     </div>
                 </fieldset>
             </form>
+
+            <button ng-hide="!editable" type="button" class="btn btn-lg" ng-click="JobPanel.save()">
+                <span class="fa fa-save"></span> Save changes
+            </button>
+
+            <button ng-hide="!editable" type="button" class="btn btn-lg" ng-click="JobPanel.cancel()">
+                       <span class="fa fa-undo"></span> Cancel
+            </button>
+            
+
         </div>
         <div ng-show="currentJob.bidders" class="widget-content text-center text-info">
             <table class="table table-condensed table-striped table-hover">
