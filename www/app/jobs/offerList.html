@@ -23,14 +23,15 @@
                                         </tr>
                                     </thead> -->
                                     <tbody>
-
-
-                                        <tr>
-                                            <td id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobList.showJob($index)">
+                                        <tr id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobList.showJob($index)">
+                                            <td >
                                                 <div class="row-container ">
                                                     <div class="row-container my-offer col-md-11">
                                                         <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
-                                                        
+                                                        <div class="jobDetail text-left" ng-show="pagedItems[$index].isBidder()">
+                                                            <span class="my-job-detail text-left">Title: {{p.title}}</span>
+                                                            <a ng-hide="ownJobs[$index].status == 'closed'" class="boxclose pull-right" ng-click="ViewJob.cancelBid()" id="boxclose" title="Delete job"> </a>
+                                                        </div>
                                                         <div class="jobDetail text-left">
                                                             <span class="my-job-detail text-left">Title: {{p.title}}</span>
                                                             
@@ -47,16 +48,11 @@
 
                                                         <div class="jobDetail text-left">
                                                             <span class="my-job-detail text-left">To: {{p.dateTo}}</span>
-                                                        </div>
-
-                                                      
-                                                        
+                                                        </div>                
                                                     </div>
-
-
-                                                    <div class="boxbookmark col-md-1">
-                                                        <a ng-hide="ownJobs[$index].status == 'closed'" class="custom-icon boxbookmark pull-right" ng-click="JobPanel.bookmark()" id="boxbookmark" title="Bookmark this job">
-                                                            <i class="fa fa-star"></i>
+                                                    <div class="boxbookmark col-md-1" ng-hide="pagedItems[$index].isBidder()">
+                                                        <a ng-hide="ownJobs[$index].status == 'closed'" class="custom-icon boxbookmark pull-right" ng-click="ViewJob.bid()" id="boxbookmark" title="Bookmark this job">
+                                                            <i class="fa fa-star-o"></i>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -72,13 +68,6 @@
                                                        
                                                     </span>
                                                 </div>
-                                                
-                                                    
-
-                                            <!-- <td class="text-left">{{p.title}}</td>
-                                            <td class="text-left">{{p.category}}</td>
-                                            <td class="text-left"><span>{{p.dateFrom}}</span></td>
-                                            <td class="text-left"><span>{{p.dateTo}}</span></td> -->
                                             </td>
                                         </tr>
                                     </tbody>

@@ -31,7 +31,7 @@
         $scope.JobPanel = JobPanel();
         //paging
         $scope.items = []
-        $scope.sizePerPage = 2;
+        $scope.sizePerPage = 3;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
 
@@ -145,6 +145,7 @@
             }
 
             JobModel.prototype.isBidder = function () {
+                debugger;
                 return this.bidders.filter(function (bidder) {
                     return (bidder.id === $scope.user._id)
                 }).length > 0
