@@ -68,7 +68,6 @@
                     $scope.rightPartial = "app/jobs/bidForJob.html";
                     $scope.currentJob.populate($scope.pagedItems[jobIndex]);
                     attachSubcategories($scope.currentJob);
-                    $scope.$digest();
                 },
 
                 toggleFocus: function (bidderIndex) {

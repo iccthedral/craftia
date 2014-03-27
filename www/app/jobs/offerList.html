@@ -12,24 +12,77 @@
                             <div data-cc-widget-header title="All jobs"
                             allow-collapse="true"></div>
                             <div class="widget-content text-center text-info">
+                            
                                 <table class="table table-condensed table-striped table-hover">
-                                    <thead>
+                                    <!-- <thead>
                                         <tr>
                                             <th>Title</th>
                                             <th>Category</th>
                                             <th>Starting date</th>
                                             <th>Engding date</th>
                                         </tr>
-                                    </thead>
+                                    </thead> -->
                                     <tbody>
-                                        <tr id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobList.showJob($index)">
-                                            <td class="text-left">{{p.title}}</td>
+
+
+                                        <tr>
+                                            <td id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobList.showJob($index)">
+                                                <div class="row-container ">
+                                                    <div class="row-container my-offer col-md-11">
+                                                        <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
+                                                        
+                                                        <div class="jobDetail text-left">
+                                                            <span class="my-job-detail text-left">Title: {{p.title}}</span>
+                                                            
+                                                        </div>
+                                                        <div class="jobDetail text-left">
+                                                            <span class="my-job-detail text-left">Description: {{p.description}}</span>
+                                                        </div>
+                                                        <div class="jobDetail text-left">
+                                                            <span class="my-job-detail text-left">Category: {{p.category}}</span>
+                                                        </div>
+                                                        <div class="jobDetail text-left">
+                                                            <span class="my-job-detail text-left">From: {{p.dateFrom}}</span>
+                                                        </div>
+
+                                                        <div class="jobDetail text-left">
+                                                            <span class="my-job-detail text-left">To: {{p.dateTo}}</span>
+                                                        </div>
+
+                                                      
+                                                        
+                                                    </div>
+
+
+                                                    <div class="boxbookmark col-md-1">
+                                                        <a ng-hide="ownJobs[$index].status == 'closed'" class="custom-icon boxbookmark pull-right" ng-click="JobPanel.bookmark()" id="boxbookmark" title="Bookmark this job">
+                                                            <i class="fa fa-star"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="jobDetail text-left">
+                                                    <a title="Contact author" href="/#/messages">
+                                                        <span class="custom-icon">
+                                                            <i class="fa fa-3x fa-envelope-o"></i>
+                                                           
+                                                        </span>
+                                                    </a>
+                                                    <span class="custom-icon">
+                                                        <i class="fa fa-3x fa-print"></i>
+                                                       
+                                                    </span>
+                                                </div>
+                                                
+                                                    
+
+                                            <!-- <td class="text-left">{{p.title}}</td>
                                             <td class="text-left">{{p.category}}</td>
                                             <td class="text-left"><span>{{p.dateFrom}}</span></td>
-                                            <td class="text-left"><span>{{p.dateTo}}</span></td>
+                                            <td class="text-left"><span>{{p.dateTo}}</span></td> -->
+                                            </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> 
                             </div>
                             <div class="widget-foot">
                                 <div class="clearfix"></div>
