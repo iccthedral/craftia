@@ -28,10 +28,7 @@
                                                 <div class="row-container ">
                                                     <div class="row-container my-offer col-md-11">
                                                         <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
-                                                        <div class="jobDetail text-left" ng-show="pagedItems[$index].isBidder()">
-                                                            <span class="my-job-detail text-left">Title: {{p.title}}</span>
-                                                            <a ng-hide="ownJobs[$index].status == 'closed'" class="boxclose pull-right" ng-click="ViewJob.cancelBid()" id="boxclose" title="Delete job"> </a>
-                                                        </div>
+                                                        
                                                         <div class="jobDetail text-left">
                                                             <span class="my-job-detail text-left">Title: {{p.title}}</span>
                                                             
@@ -50,20 +47,24 @@
                                                             <span class="my-job-detail text-left">To: {{p.dateTo}}</span>
                                                         </div>                
                                                     </div>
-                                                    <div class="boxbookmark col-md-1" ng-hide="pagedItems[$index].isBidder()">
-                                                        <a ng-hide="ownJobs[$index].status == 'closed'" class="custom-icon boxbookmark pull-right" ng-click="ViewJob.bid()" id="boxbookmark" title="Bookmark this job">
+                                                    <div class="boxbookmark col-md-1" ng-hide="isBidder($index)">
+                                                        <a ng-hide="ownJobs[$index].status == 'closed'" class="custom-icon boxbookmark pull-right" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
                                                             <i class="fa fa-star-o"></i>
                                                         </a>
                                                     </div>
+
+                                                   
+                                                    <a ng-show="isBidder($index)" class="boxclose pull-right" ng-click="ViewJob.cancelBid()" id="boxclose" title="Cancel bid"> </a>
                                                 </div>
-                                                <div class="jobDetail text-left">
-                                                    <a title="Contact author" href="/#/messages">
+
+                                                <div class="jobDetail pull-left">
+                                                    <a class="pull-left" title="Contact author" href="/#/messages">
                                                         <span class="custom-icon">
                                                             <i class="fa fa-3x fa-envelope-o"></i>
                                                            
                                                         </span>
                                                     </a>
-                                                    <span class="custom-icon">
+                                                    <span class="pull-left custom-icon">
                                                         <i class="fa fa-3x fa-print"></i>
                                                        
                                                     </span>

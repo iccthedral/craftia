@@ -56,6 +56,12 @@
             $scope.totalItems = result.length;
         }
 
+        $scope.isBidder = function(jobIndex) {
+            return $scope.pagedItems[jobIndex].bidders.filter(function (bidder) {
+                return (bidder.id === $scope.user._id)
+            }).length > 0
+        }
+
         function JobList() {
             $scope.focusedMap = {};
             return {
@@ -145,7 +151,6 @@
             }
 
             JobModel.prototype.isBidder = function () {
-                debugger;
                 return this.bidders.filter(function (bidder) {
                     return (bidder.id === $scope.user._id)
                 }).length > 0
