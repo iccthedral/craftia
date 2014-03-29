@@ -31,7 +31,7 @@
         $scope.JobPanel = JobPanel();
         //paging
         $scope.items = []
-        $scope.sizePerPage = 2;
+        $scope.sizePerPage = 3;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
 
@@ -41,7 +41,7 @@
         };
 
         $scope.search = function ($event) {
-            //  debugger;
+            
             if ($scope.jobSearch == '') return getAllJobs();
 
             var result = $scope.allJobs.filter(function (obj) {
@@ -54,6 +54,12 @@
             $scope.items = result.chunk($scope.sizePerPage);
             $scope.pagedItems = $scope.items[0];
             $scope.totalItems = result.length;
+        }
+
+        $scope.isBidder = function(jobIndex) {
+            return $scope.pagedItems[jobIndex].bidders.filter(function (bidder) {
+                return (bidder.id === $scope.user._id)
+            }).length > 0
         }
 
         function JobList() {
@@ -111,6 +117,9 @@
         }
 
         function createJobModel(scope) {
+            console.debug("created job model");
+            console.debug($scope.rightPartial);
+
             var JobModel = function JobModel() {
                 this.selectedCategory = {
                     category: "",
@@ -135,7 +144,8 @@
             JobModel.prototype.populate = function (jobData) {
                 for (var key in jobData) {
                     if (this.hasOwnProperty(key)) {
-                        this[key] = jobData[key]
+                        console.debug(key);
+                        this[key] = angular.copy(jobData[key])
                     }
                 }
             }
@@ -164,6 +174,17 @@
             $scope.editable = false;
 
             var panel = {
+
+                prevView: function() {
+                     $scope.rightPartial = "app/jobs/jobCreate.html";
+                 },
+
+                nextView: function() {
+                    $scope.rightPartial = "app/jobs/jobCreate2.html";
+                },
+
+
+
                 addNewJob: function () {
                     $scope.rightPartial = "app/jobs/jobCreate.html";
                     resetModel();
@@ -178,10 +199,7 @@
                         $scope.categories = catdata;
                         var curcat = $scope.currentJob.category;
                         var curscat = $scope.currentJob.subcategories;
-                        console.debug(curcat)
-
                         var fcat = catdata.filter(function (cat) { return cat.name === curcat })[0]
-                        console.debug(fcat)
                         $scope.currentJob.selectedCategory.category = fcat;
                         $scope.$digest();
                         datacontext.getSubcategories(fcat.id).success(function (subcats) {
@@ -244,7 +262,6 @@
                 },
 
                 isChanged: function () {
-                    console.debug(angular.equals($scope.currentJob, $scope.backup));
                     return !angular.equals($scope.currentJob, $scope.backup);
                 },
 
@@ -269,13 +286,14 @@
                     modalScope.ok = function () {
                         $.post("job/" + $scope.currentJob._id + "/bid")
                         .success(function (updatedJob) {
-                            $scope.allJobs.filter(function (job) {
+                            $scope.pagedItems.filter(function (job) {
                                 if (job._id === updatedJob._id) {
-                                    var ind = $scope.allJobs.indexOf(job)
-                                    $scope.allJobs[ind] = updatedJob;
+                                    var ind = $scope.pagedItems.indexOf(job)
+                                    $scope.pagedItems[ind] = updatedJob;
                                 }
                             });
                             $scope.currentJob.populate(updatedJob);
+                            console.debug($scope.currentJob);
                             $rootScope.$digest()
                             log("You bidded successfully")
                         });
@@ -294,12 +312,13 @@
                     modalScope.ok = function () {
                         $.post("job/" + $scope.currentJob._id + "/" + $scope.user._id + "/cancelbid")
                         .success(function (updatedJob) {
-                            $scope.allJobs.filter(function (job) {
+                            $scope.pagedItems.filter(function (job) {
                                 if (job._id === updatedJob._id) {
-                                    var ind = $scope.allJobs.indexOf(job)
-                                    $scope.allJobs[ind] = updatedJob;
+                                    var ind = $scope.pagedItems.indexOf(job)
+                                    $scope.pagedItems[ind] = updatedJob;
                                 }
                             });
+                            console.debug(updatedJob);
                             $scope.currentJob.populate(updatedJob);
                             $rootScope.$digest()
                             log("You canceled the bid successfully")

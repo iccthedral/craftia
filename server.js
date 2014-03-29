@@ -32,8 +32,7 @@
   db.on("error", console.error.bind(console, "Connection error: "));
 
   db.once("open", function() {
-    console.log("Connected to DB");
-    return require("./backend/modules/JobUpdate")();
+    return console.log("Connected to DB");
   });
 
   hbs = handlebars.create({});

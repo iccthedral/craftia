@@ -65,3 +65,115 @@ span.stars span {
   filter: alpha(opacity=0);
 }
 
+.jobDetail {
+  background-color: #ddf2ed;
+  
+  width: 100%;
+}
+ .my-job-detail {
+  
+  padding-left: 15px;
+ }
+
+ .job-cancel{
+  width: auto;
+  height: auto;
+  max-height: 46px;
+ }
+
+.count-icon {
+    display: inline-block;
+    position: relative;
+    padding-left: 15px;
+}
+.custom-icon:hover {
+    color: #245269;
+    cursor: pointer;
+}
+
+.custom-icon {
+    padding-left: 5px;
+    color :#31708f;
+}
+
+.count {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+
+    height: 16px;
+    width: 16px;
+
+    background: #f13934;
+    border-radius: 8px;
+
+    font-size: 13px;    
+    text-align: center;
+    color : #fff;
+}
+
+.my-job {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border:2px solid transparent;
+}
+
+.my-offer {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  border:2px solid transparent;
+}
+
+.my-job:hover {
+  border:2px solid #60c2ac;;
+}
+
+a.boxclose{
+    float:right;
+    cursor:pointer;
+    color: #fff;
+    border: 2px solid transparent;
+    background: red;
+    font-size: 40px;
+    display: inline-block;
+    line-height: 10px;
+    padding: 22px 11px;       
+}
+
+.boxclose:before {
+    content: "×";
+}
+
+.boxclose:hover {
+  border: 2px solid #60c2ac;
+}
+
+div.boxbookmark {
+    float:right;
+    cursor:pointer;
+    color: #fff;
+    border: 2px solid transparent;
+    background: #60c2ac;
+    font-size: 40px;
+    display: inline-block;
+    line-height: 10px;
+    height: 100%;
+    padding-top: 5%;
+    padding-bottom: 4.5%;
+    padding-left: 1%;
+    padding-right: 1.5%;
+}
+
+div.boxbookmark:hover{
+  border: 2px solid #31708f;
+  color: #fff;
+}
+
+.boxbookmark {
+  color: #fff;
+}
