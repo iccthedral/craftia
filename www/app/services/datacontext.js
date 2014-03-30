@@ -71,7 +71,7 @@
         }
 
         function postUpdateUser(user) {
-            var url = "/update-user";
+            var url = "/user/update";
             return $.post(url, user);
         }
 

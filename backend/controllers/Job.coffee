@@ -124,11 +124,12 @@ module.exports.bidOnJob = (req, res) ->
     .findOne(_id: req.params.id)
     .exec (err, job) ->
         job.bidders.push
-            id: usr._id,
+            id: usr._id
             username: usr.username
             name: usr.name
             surname: usr.surname
             email: usr.email
+            rating: usr.rating.toObject()
         job.save (err) ->
             return res.status(422).send(err.message) if err?
             res.send(job)

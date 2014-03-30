@@ -1,194 +1,229 @@
+
+
 .profile-details-widget {
-	width: 100%;
-	display: block;
-	margin-bottom: 50px;
-}
+  width: 100%;
+  display: block;
+  margin-bottom: 50px;
+ }
 
-.profile-details-widget  {
-    margin: 0 auto;
-}
+.profile-details-widget {margin: 0 auto;}
 
-.profile-details-widget input {
-	float: right;
+  .profile-details-widget input {
+    float: right;
     clear: both;
-}
+   }
 
 .right-partial-view {
-    width: 100%;
-    display: block;
-}
+  width: 100%;
+  display: block;
+ }
 
-.right-partial-view label {
-  width: 30% !important;
-  text-align: left !important;
-}
+  .right-partial-view label {
+    width: 30% !important;
+    text-align: left !important;
+   }
 
-.right-partial-view input, textarea, select {
-  float: right;
-  clear: both;
-  width: 100% !important;
-}
+  .right-partial-view input, textarea, select {
+    float: right;
+    clear: both;
+    width: 100% !important;
+   }
+
 span.stars, span.stars span {
-    display: block;
-    background: url(../img/stars.png) 0 -16px repeat-x;
-    width: 80px;
-    height: 16px;
-}
+  display: block;
+  background: url(../img/stars.png) 0 -16px repeat-x;
+  width: 80px;
+  height: 16px;
+ }
 
-span.stars span {
-    background-position: 0 0;
-}
+span.stars span {background-position: 0 0;}
 
-.inline-float {
-  display: inline-block;
-}
+.inline-float {display: inline-block;}
 
-.inline-float ul:first-child {
-  float: left;
-  clear: both;
-}
+  .inline-float ul:first-child {
+    float: left;
+    clear: both;
+   }
 
 .fileUpload {
   position: relative;
   overflow: hidden;
   margin: 10px;
-}
-.fileUpload input.upload {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0);
-}
+ }
+
+  .fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+   }
 
 .jobDetail {
-  background-color: #ddf2ed;
-  
+  /*background-color: #ddf2ed;*/
   width: 100%;
+ }
+
+.job-details .jobDetail > span {
+  border-bottom: 2px solid #5B706B;
 }
+
+.job-details {
+  padding: 5px;
+  background-color: #ddf2ed;
+}
+
 .my-job-detail {
   padding-left: 15px;
   padding-right: 50px;
   float: left;
-  width: 80px;
+  width: 90px;
  }
 
- .job-cancel{
+.job-cancel {
   width: auto;
   height: auto;
   max-height: 46px;
  }
 
 .count-icon {
-    display: inline-block;
-    position: relative;
-    padding-left: 15px;
-}
+  display: inline-block;
+  position: relative;
+  padding-left: 15px;
+ }
+
 .custom-icon:hover {
-    color: #245269;
-    cursor: pointer;
-}
+  color: #00273E;
+  font-weight: bolder;
+  cursor: pointer;
+ }
 
 .custom-icon {
-    padding-left: 5px;
-    color :#31708f;
-}
+  padding-left: 5px;
+  color: #31708f;
+ }
 
 .cancel-icon:hover {
-    color: #fff;
-    cursor: pointer;
-}
-
+  color: #fff;
+  cursor: pointer;
+ }
 
 .count {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-
-    height: 16px;
-    width: 16px;
-
-    background: #f13934;
-    border-radius: 8px;
-
-    font-size: 13px;    
-    text-align: center;
-    color : #fff;
-}
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 16px;
+  width: 16px;
+  background: #f13934;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+  color: #fff;
+ }
 
 .my-job {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  border:2px solid transparent;
-}
+  border: 2px solid transparent;
+ }
 
-.my-job:hover {
-  border:2px solid #60c2ac;;
-}
-
+  .my-job:hover {border: 2px solid #60c2ac;}
 
 .my-offer {
-  padding-top: 5px;
+/*  padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px !important;
-  padding-right: 5px !important;
-  border:2px solid transparent;
-}
+  padding-right: 5px !important;*/
+  border: 2px solid transparent;
+  margin-bottom: 5px;
+  background-color: #ddf2ed;
+ }
 
-.my-offer:hover {
-  border:2px solid #60c2ac;;
-}
+  .my-offer:hover {
+    border: 2px solid #60c2ac;
+    ;
+   }
 
-.boxclose{
-  float:right;
-    cursor:pointer;
-    color: #fff;
-    border: 2px solid transparent;
-    background: red;
-    font-size: 40px;
-    display: inline-block;
-    line-height: 10px;
-    height: 100%;
-    padding-top: 6%;
-    padding-bottom: 6%;
-    padding-left: 1%;
-    padding-right: 1.5%;       
-}
+.boxclose {
+  float: right;
+  cursor: pointer;
+  color: #fff;
+  border: 2px solid transparent;
+  background: #FF5757;
+  font-size: 37px;
+  display: inline-block;
+  line-height: 15px;
+  padding: 10px;
+  height: 40px;
+  color: #fff;
+  width: 55px;
+  text-align: center;
+ }
 
-
-
-.boxclose:hover {
-  border: 2px solid #60c2ac;
-}
+  .boxclose:hover {background: #E00000; font-size: 38px;}
 
 div .boxbookmark {
-    float:right;
-    cursor:pointer;
-    color: #fff;
-    border: 2px solid transparent;
-    background: #60c2ac;
-    font-size: 40px;
-    display: inline-block;
-    line-height: 10px;
-    height: 100%;
-    padding-top: 6%;
-    padding-bottom: 6%;
-    padding-left: 1%;
-    padding-right: 1.5%;
+  float: right;
+  cursor: pointer;
+  color: #fff;
+  border: 2px solid transparent;
+  background: #60c2ac;
+  font-size: 30px;
+  display: inline-block;
+  line-height: 15px;
+  padding: 10px;
+  height: 40px;
+  color: #fff;
+  width: 55px;
+ }
+
+  div .boxbookmark:hover {
+    color: #EBEB00;
+    font-size: 31px;
+   }
+
+.boxbookmark {color: #fff;}
+
+.profile-picture {
+  width: 180px;
+  margin: 0 auto;
 }
 
-div .boxbookmark:hover{
-  border: 2px solid #31708f;
-  color: #fff;
+.profile-picture img {
+  max-height: 20%;
+  margin: 0 auto;
 }
 
-.boxbookmark {
-  color: #fff;
+.upload-picture-form {
+  text-align: center;
+}
+
+.user-rating-box {
+  text-align: center;
+}
+
+.widget-ul-list ul {
+  padding: 5px;
+}
+
+.widget-ul-list ul > li {
+  padding: 5px;
+}
+
+.widget-content {
+  padding: 2px;
+}
+
+.widget-foot {
+  text-align: center;
+}
+
+.no-border::before {
+  border: 0px;
 }

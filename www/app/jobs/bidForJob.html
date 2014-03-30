@@ -2,21 +2,21 @@
     <div data-cc-widget-header title="Job details"
          allow-collapse="true"></div>
     <div class="widget-content right-partial-view fluid-container">
-        <div>
+        <div class="job-details">
             <form class="form-horizontal" ng-submit="ViewJob.save()">
                 <fieldset>
                     <!-- Text input-->
                     <div>
                         <label class="col-md-8 control-label" for="">Title:</label>
                         <div class="jobDetail" class="col-md-8">
-                            <span  ng-bind="title">
+                            <span  ng-bind="currentJob.title">
                         </div>
                     </div>
 
                     <div>
                         <label class="col-md-8 control-label" for="">Author:</label>
                         <div class="jobDetail" class="col-md-8">
-                            <span  ng-bind="currentJob.author.name"></span>
+                            <span  ng-bind="currentJob.author.username"></span>
                         </div>
                     </div>
 
@@ -60,9 +60,53 @@
                     </div>
                 </fieldset>
             </form>
-
-
         </div>
     </div>
 </div>
 
+<div class="widget wcyan">
+    <div data-cc-widget-header title="Bidders"
+         allow-collapse="true"></div>
+    <div class="widget-content right-partial-view fluid-container widget-ul-list">
+        <ul style="list-style: none;" >
+            <li class="my-offer" id="{{$index}}" data-ng-repeat="p in biddersPagedItems" >
+                <div class="row-container jobDetail">
+                    <img style="float:left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Name:</span>
+                        <span> {{p.name}} </span>
+                        <a  class="glyphicon glyphicon-star custom-icon boxbookmark pull-right"
+                        ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)" id="boxbookmark" title="Accept bidder">
+                        </a>
+                    </div>
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Surname:</span>
+                        <span>{{p.surname}}</span>
+                    </div>
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Email:</span>
+                        <span>{{p.email}}</span>
+                    </div>
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Rating:</span>
+                        <span class="rating-stars">
+                            <rating readonly="true" value="p.rating.avgRate"></rating>
+                        </span>
+                    </div>  
+                    <div class="jobDetail" style="display: inline-block;">
+                        <a class="pull-left" title="Contact bidder" href="/#/messages">
+                            <span class="custom-icon">
+                                <i class="fa fa-3x fa-envelope-o"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="widget-foot" style="border: 0">
+        <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="biddersPageSelected" page="biddersCurrentPage" rotate="false" total-items="biddersTotalItems"></pagination>
+        
+        </div>  
+    </div
+</div>

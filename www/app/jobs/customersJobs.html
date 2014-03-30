@@ -18,28 +18,33 @@
                 <div class="col-md-6">
                     <div class="widget wcyan">
                         <div data-cc-widget-header title="Current jobs" allow-collapse="true"></div>
-                        <div class="widget-content text-center text-info">
+                        <div class="widget-content text-center text-info widget-ul-list">
 
                             <ul style="list-style: none;" >
-                                <li class="my-job" id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobPanel.editJob(ownJobs[$index])">
+                                <li class="my-job" id="{{$index}}" data-ng-repeat="p in myJobsPaged" ng-click="JobPanel.editJob(myJobsPaged[$index])">
                                     <div class="row-container">
                                         <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
                                         <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">Title: {{p.title}}</span>
-                                            <a ng-hide="ownJobs[$index].status == 'closed'" class="glyphicon glyphicon-remove-sign cancel-icon boxclose pull-right pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </a>
+                                            <span class="my-job-detail text-left">Title:</span>
+                                            <span>{{p.title}}</span>
+                                            <i ng-hide="myJobsPaged[$index].status == 'closed'" class="fa fa-times boxclose pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </i>
                                         </div>
                                         <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">Description: {{p.description}}</span>
+                                            <span class="my-job-detail text-left">Description:</span>
+                                            <span> {{p.description}} </span>
                                         </div>
                                         <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">Category: {{p.category}}</span>
+                                            <span class="my-job-detail text-left">Category:</span>
+                                            <span>{{p.category}}</span>
                                         </div>
                                         <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">From: {{p.dateFrom}}</span>
+                                            <span class="my-job-detail text-left">From:</span>
+                                            <span>{{p.dateFrom}}</span>
                                         </div>
 
                                         <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">To: {{p.dateTo}}</span>
+                                            <span class="my-job-detail text-left">To:</span>
+                                            <span>{{p.dateTo}}</span>
                                         </div>
 
                                         <div class="jobDetail text-left">
@@ -49,21 +54,18 @@
                                                     <span class="count"> <sup>33</sup></span>
                                                 </span>
                                             <a/>
-                                            <span ng-hide="ownJobs[$index].status == 'closed'" class="custom-icon" title="Edit job" ng-click="JobPanel.edit()">
+                                            <span ng-hide="myJobsPaged[$index].status == 'closed'" class="custom-icon" title="Edit job" ng-click="JobPanel.edit()">
                                                 <i class="fa fa-3x fa-pencil"></i>
                                             </span>
                                         </div>                                    
                                     </div>
+                                    <hr>
                                 </li>
+
                             </ul>
-                             <div class="widget-foot">
-                                <div class="clearfix"></div>
-
-                                <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
-
-
-                                <div class="clearfix"></div>
-                            </div>
+                            <div class="clearfix"></div>
+                            <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="myJobsTotal" on-select-page="myJobsPageSelected" page="myJobsCurrentPage" rotate="false"></pagination>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>

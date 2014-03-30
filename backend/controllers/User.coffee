@@ -46,12 +46,14 @@ module.exports.logMeIn = (req, res, next) ->
 
 module.exports.updateMe = (req, res) ->
     usr = req.user
-    if not usr?
-        return res.status(422).send "You're not logged in"
+    console.log usr
+    return res.status(422).send "You're not logged in" if not usr?
+    data = req.body
+    delete data._id
     UserModel
-    .findByIdAndUpdate(req.user._id, { $set: req.body })
-    .exec (err, user) ->
-        user.save(req.body)
+    .findByIdAndUpdate(usr._id, data)
+    .exec (err, cnt) ->
+        return res.status(422).send(err.message) if err?
         res.send(200)
 
 module.exports.uploadProfilePicture = (req, res) ->

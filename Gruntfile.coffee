@@ -11,15 +11,15 @@ module.exports = (grunt) ->
     config =
         cur_dir: process.cwd()
         pub_dir: "."
-        js_dir: "www/js/"
-        coffee_dir: "www/coffee/"
-        partials_dir: "www/hbpartials/"
-        partials_list: "www/hbpartials/partials.list"
-        backend_dir: "backend/"
-        frontend_dir: "frontend/coffee/"
-        utils_dir: "utils/"
-        config_dir: "config/"
-        lib_dir: "lib/"
+        js_dir: "www#{path.sep}js#{path.sep}"
+        coffee_dir: "www#{path.sep}coffee#{path.sep}"
+        partials_dir: "www#{path.sep}hbpartials#{path.sep}"
+        partials_list: "www#{path.sep}hbpartials#{path.sep}partials.list"
+        backend_dir: "backend#{path.sep}"
+        frontend_dir: "frontend#{path.sep}coffee#{path.sep}"
+        utils_dir: "utils#{path.sep}"
+        config_dir: "config#{path.sep}"
+        lib_dir: "lib#{path.sep}"
         server_file: "server.coffee"
 
     is_win         = !!process.platform.match(/^win/)
@@ -72,7 +72,7 @@ module.exports = (grunt) ->
                 expand: true,
                 flatten: false,
                 cwd: '.',
-                src: ["./server.coffee"],
+                src: [".#{path.sep}server.coffee"],
                 dest: '.',
                 ext: '.js'
 
@@ -88,7 +88,7 @@ module.exports = (grunt) ->
                 expand: true,
                 flatten: false,
                 cwd: '.',
-                src: ["./config/**/*.coffee"],
+                src: [".#{path.sep}config#{path.sep}**/*.coffee"],
                 dest: '.',
                 ext: '.js'
 
@@ -96,7 +96,7 @@ module.exports = (grunt) ->
                 expand: true,
                 flatten: false,
                 cwd: '.',
-                src: ["./lib/**/*.coffee"],
+                src: [".#{path.sep}lib#{path.sep}**/*.coffee"],
                 dest: '.',
                 ext: '.js'
 

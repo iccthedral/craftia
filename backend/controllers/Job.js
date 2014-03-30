@@ -175,7 +175,8 @@
         username: usr.username,
         name: usr.name,
         surname: usr.surname,
-        email: usr.email
+        email: usr.email,
+        rating: usr.rating.toObject()
       });
       return job.save(function(err) {
         if (err != null) {
