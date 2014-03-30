@@ -203,9 +203,9 @@ a.btn {
     background: #1171a3 !important;
 }
 
-    .btn.btn-primary:hover {
-        background: #0f608b !important;
-    }
+.btn.btn-primary:hover {
+    background: #0f608b !important;
+}
 
 .btn.btn-info {
     background: #52b9e9 !important;
@@ -1309,6 +1309,5 @@ form {
     color: goldenrod;
 }
 /* Users ends */
-
 
 /*#endregion */

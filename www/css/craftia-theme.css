@@ -70,9 +70,11 @@ span.stars span {
   
   width: 100%;
 }
- .my-job-detail {
-  
+.my-job-detail {
   padding-left: 15px;
+  padding-right: 50px;
+  float: left;
+  width: 80px;
  }
 
  .job-cancel{
