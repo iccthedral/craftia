@@ -30,15 +30,23 @@
         $scope.ViewJob = ViewJob();
         $scope.JobPanel = JobPanel();
         //paging
-        $scope.items = []
+        $scope.items = [];
         $scope.sizePerPage = 2;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
 
+        $scope.biddersItems = [];
+        $scope.biddersTotalItems = 0;
+        $scope.biddersCurrentPage = 1;
+        $scope.biddersPagedItems = [];
 
         $scope.pageSelected = function (page) {
             $scope.pagedItems = $scope.items[page.page - 1]
         };
+
+        $scope.biddersPageSelected = function(page) {
+            $scope.biddersPagedItems = $scope.biddersItems[page.page - 1]
+        }
 
         $scope.search = function ($event) {
             
@@ -210,6 +218,12 @@
                             $rootScope.$digest();
                         });
                     });
+                    $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
+                    $scope.biddersPagedItems = $scope.biddersItems[0];
+                    $scope.biddersTotalItems = $scope.biddersItems.length;
+                    console.debug($scope.biddersItems);
+                    console.debug($scope.biddersPagedItems);
+                    
                 },
 
                 partialInit: function () {
@@ -361,6 +375,7 @@
                 jobic.populate(job);
                 return jobic;
             });
+            
         }
 
         $scope.getCities = function (id) {

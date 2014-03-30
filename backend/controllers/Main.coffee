@@ -1,54 +1,65 @@
-UserModel = require ("../models/User")
-JobModel = require ("../models/Job")
-async = require "async"
+async       = require "async"
+UserModel   = require "../models/User"
+AuthLevel       = require("../../config/Passport").AUTH_LEVEL
 
 module.exports = (app) ->
-    app.get "/", (req, res) ->
-        res.render("main", user: req.user)
+    app.get "/", module.exports.showIndexPage
+    app.get "/isAuthenticated", module.exports.isUserAuthenticated
+    app.get "/listcraftsmen", module.exports.listAllCraftsmen
+    app.get "/listjobs", module.exports.listOpenJobs
+    app.post "/register-craftsman", module.exports.registerCrafsman
+    app.post "/register-customer", module.exports.registerCustomer 
 
-    app.get "/isAuthenticated", (req, res) ->
-        user = req.user
-        if user?
-            UserModel
-            .find(_id: user._id)
-            .populate("createdJobs")
-            .exec (err, result) ->
-                usr = result[0]
-                res.send(usr)
-        else
-          res.send(403)
+module.exports.fetchJobs = (user, callback) ->
+    jobs = user.createdJobs.filter (job) -> return job.status is "open"
+    jobs.map (job) ->
+        job = job.toObject()
+        job.author = 
+            id: user._id
+            name: user.name
+        return job
+    callback(null, jobs)
 
-    # populateAddress = (j, callback) ->
-    #     return AddressModel
-    #     .populate(j, path: "address")
-    #     .then (job, address) ->
-    #         o = j.toObject()
-    #         callback(null, o)
+module.exports.saveUser = (user, res) ->
+    user.save (err) ->
+        return res.status(422).send("Registering failed!") if err?
+        res.status(200).send(user: user, msg: "Registering succeeded!")
 
-    fetchJobs = (user, callback) ->
-        jobs = user.createdJobs.filter(
-            (job) ->
-                return job.status is "open"
-        ).map (job) ->
-            job = job.toObject()
-            author = {
-                id: user._id
-                name: user.name
-            }
-            job.author = author
-            console.log(author)
-            # console.log(job)
-            return job
-        callback(null, jobs)
+module.exports.showIndexPage = (req, res) ->
+    res.render("main", user: req.user)
 
-    app.get "/listjobs", (req, res) ->
-        UserModel
-        .find()
-        .populate("createdJobs")
-        .exec (err, results) ->
-            out = []
-            async.map(results, fetchJobs, (err, results) ->
-                out = []
-                out = out.concat.apply(out, results)
-                res.send out
-            )
+module.exports.isUserAuthenticated = (req, res) ->
+    user = req.user
+    return res.send(403) if not user?
+    UserModel
+    .find(_id: user._id)
+    .populate("createdJobs biddedJobs")
+    .exec (err, result) ->
+        res.send(result[0])
+
+module.exports.listAllCraftsmen = (req, res) ->
+    UserModel
+    .find(type: AuthLevel.CRAFTSMAN)
+    .exec (err, out) ->
+        return res.send(422, err.message) if err?
+        res.send(out)
+
+module.exports.listOpenJobs = (req, res) ->
+    UserModel
+    .find()
+    .populate("createdJobs")
+    .exec (err, results) ->
+        async.map results, module.exports.fetchJobs, (err, results) ->
+            res.send results
+
+module.exports.registerCrafsman = (req, res) ->
+    data        = req.body
+    data.type   = AuthLevel.CRAFTSMAN
+    user        = new UserModel(data)
+    module.exports.saveUser(user, res)
+
+module.exports.registerCustomer = (req, res) ->
+    data        = req.body
+    data.type   = AuthLevel.CUSTOMER
+    user        = new UserModel(data)
+    module.exports.saveUser(user, res)

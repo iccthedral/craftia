@@ -17,14 +17,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="widget wcyan">
-                        <div data-cc-widget-header title="Current jobs"
-                        allow-collapse="true"></div>
+                        <div data-cc-widget-header title="Current jobs" allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
+
                             <ul style="list-style: none;" >
                                 <li class="my-job" id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobPanel.editJob(ownJobs[$index])">
                                     <div class="row-container">
                                         <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
-                                        
                                         <div class="jobDetail text-left">
                                             <span class="my-job-detail text-left">Title: {{p.title}}</span>
                                             <a ng-hide="ownJobs[$index].status == 'closed'" class="glyphicon glyphicon-remove-sign cancel-icon boxclose pull-right pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </a>
