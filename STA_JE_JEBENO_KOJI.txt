@@ -1,0 +1,5 @@
+jobEdit.html
+ je desni partial i vidljiv je samo customeru pri Jobs tabu (iz dashboarda)
+ izlistava job details trenutnog posla iz levog partiala (customersJobs.html)
+ i trenutne biddere za taj posao
+
