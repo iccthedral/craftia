@@ -20,37 +20,14 @@
                         <div data-cc-widget-header title="Current jobs"
                         allow-collapse="true"></div>
                         <div class="widget-content text-center text-info">
-
-                            <!-- <table class="table table-condensed table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Starting date</th>
-                                        <th>Engding date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr id="{{$index}}" data-ng-repeat="p in ownJobs" ng-click="JobPanel.editJob(ownJobs[$index])">
-                                        <td class="text-left">{{p.title}}</td>
-                                        <td class="text-left">{{p.category}}</td>
-                                        <td class="text-left"><span>{{p.dateFrom}}</span></td>
-                                        <td class="text-left"><span>{{p.dateTo}}</span></td>
-                                        <td class="text-left"><span>{{p.status}}</span></td>
-                                    </tr>
-                                </tbody>
-
-                               
-                            </table> -->
                             <ul style="list-style: none;" >
-                                <li class="my-job" id="{{$index}}" data-ng-repeat="p in ownJobs" ng-click="JobPanel.editJob(ownJobs[$index])">
-                                    <div class="row-container ">
+                                <li class="my-job" id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobPanel.editJob(ownJobs[$index])">
+                                    <div class="row-container">
                                         <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
                                         
                                         <div class="jobDetail text-left">
                                             <span class="my-job-detail text-left">Title: {{p.title}}</span>
-                                            <a ng-hide="ownJobs[$index].status == 'closed'" class="boxclose pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </a>
+                                            <a ng-hide="ownJobs[$index].status == 'closed'" class="glyphicon glyphicon-remove-sign cancel-icon boxclose pull-right pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </a>
                                         </div>
                                         <div class="jobDetail text-left">
                                             <span class="my-job-detail text-left">Description: {{p.description}}</span>
@@ -76,13 +53,18 @@
                                             <span ng-hide="ownJobs[$index].status == 'closed'" class="custom-icon" title="Edit job" ng-click="JobPanel.edit()">
                                                 <i class="fa fa-3x fa-pencil"></i>
                                             </span>
-                                        </div>
-                                        
-                                            
-                                        
+                                        </div>                                    
                                     </div>
                                 </li>
                             </ul>
+                             <div class="widget-foot">
+                                <div class="clearfix"></div>
+
+                                <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
+
+
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

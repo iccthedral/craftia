@@ -31,7 +31,7 @@
         $scope.JobPanel = JobPanel();
         //paging
         $scope.items = []
-        $scope.sizePerPage = 3;
+        $scope.sizePerPage = 2;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
 
@@ -350,6 +350,7 @@
                 $scope.items = data.chunk($scope.sizePerPage);
                 $scope.pagedItems = $scope.items[0];
                 $scope.totalItems = data.length;
+                console.debug($scope.pagedItems);
                 $scope.$digest();
             });
         }

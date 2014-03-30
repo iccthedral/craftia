@@ -7,54 +7,20 @@
                        data-ng-keyup="search($event)"
                        placeholder="live search...">
                 <div class="widget wcyan">
-                    <div data-cc-widget-header title="{{title}}"></div>
-                    <div class="widget-content user">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="widget wcyan">
-                                    <div data-cc-widget-header title="Contacts table"
-                                         allow-collapse="true"
-                                         subtitle="{{pagedItems.length}} / {{totalItems}}"
-                                         right-text="Page {{currentPage}} of {{items.length}}">
-                                    </div>
-                                    <div class="widget-content text-center text-info">
-                                        <table class="table table-condensed table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>E-mail</th>
-                                                    <th>Username</th>
-                                                    <th>Name</th>
-                                                    <th>Surname</th>
-                                                    <th>Rating</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="ContactList.showContact($index)">
-                                                    <td class="text-left">{{p.email}}</td>
-                                                    <td class="text-left">{{p.username}}</td>
-                                                    <td class="text-left">{{p.name}}</td>
-                                                    <td class="text-left">{{p.surname}}</td>
-                                                    <td class="text-left">{{p.rating}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="widget-foot">
-                                        <div class="clearfix"></div>
+                    <div class="widget-head">
 
-                                        <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
-
-
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6" ng-include="rightPartial">
-                            </div>
-                        </div>
+                        <button type="button" class="btn btn-secondary btn-lg" ng-click="showSystem()">
+                            <i class="fa fa-globe"></i> System messages
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-lg" ng-click="showJobs()">
+                            <i class="fa fa-wrench"></i> Job messages
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-lg" ng-click="showOther()">
+                            Other messages
+                        </button>
 
                     </div>
-
+                   <div class="col-md-6" ng-include="rightPartial">
                 </div>
             </div>
         </div>

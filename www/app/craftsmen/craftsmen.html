@@ -18,7 +18,7 @@
                                          right-text="Page {{currentPage}} of {{items.length}}">
                                     </div>
                                     <div class="widget-content text-center text-info">
-                                        <table class="table table-condensed table-striped table-hover">
+                                        <!-- <table class="table table-condensed table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>E-mail</th>
@@ -37,7 +37,40 @@
                                                     <td class="text-left">{{p.rating.avgRate}}</td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> -->
+                                         <ul style="list-style: none;" >
+                                            <li class="my-job" id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="CraftsmanList.showCraftsman($index)">
+                                                <div class="row-container jobDetail">
+                                                    <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
+                                                    
+                                                    <div class="jobDetail text-left">
+                                                        <span class="my-job-detail text-left">Email: {{p.email}}</span>
+                                                    </div>
+                                                    <div class="jobDetail text-left">
+                                                        <span class="my-job-detail text-left">Username: {{p.username}}</span>
+                                                    </div>
+                                                    <div class="jobDetail text-left">
+                                                        <span class="my-job-detail text-left">Name: {{p.name}}</span>
+                                                    </div>
+                                                    <div class="jobDetail text-left">
+                                                        <span class="my-job-detail text-left">Surname: {{p.surname}}</span>
+                                                    </div>
+
+                                                    <div class="jobDetail text-left">
+                                                        <span class="my-job-detail text-left">Rating: {{p.rating.avgRate}}</span>
+                                                    </div>
+
+                                                    <div class="jobDetail text-left" style="display: inline-block;">
+                                                        <a title="Contact craftsman" href="/#/messages">
+                                                            <span class="custom-icon">
+                                                                <i class="fa fa-3x fa-envelope-o"></i>
+                                                                
+                                                            </span>
+                                                        <a/>
+                                                    </div>                                    
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div class="widget-foot">
                                         <div class="clearfix"></div>

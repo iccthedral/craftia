@@ -25,6 +25,20 @@
         $scope.currentPage = 1;
 
       
+        $scope.showSystem = function() {
+            $scope.rightPartial = "app/messages/systemMessages.html"
+        }
+
+        $scope.showJobs = function() {
+            $scope.rightPartial = "app/messages/jobMessages.html"
+        }
+
+
+        $scope.showOther = function() {
+            $scope.rightPartial = "app/messages/otherMessages.html"
+        }
+
+
         $scope.pageSelected = function (page) {
             $scope.pagedItems = $scope.items[page.page - 1]
         };
@@ -49,6 +63,8 @@
             $scope.currentContact = createContactModel($scope);
             $scope.backup = $scope.currentContact;
         }
+
+
 
 
         function createContactModel(scope) {

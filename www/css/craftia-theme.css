@@ -96,6 +96,12 @@ span.stars span {
     color :#31708f;
 }
 
+.cancel-icon:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
+
 .count {
     position: absolute;
     top: 0;
@@ -121,20 +127,25 @@ span.stars span {
   border:2px solid transparent;
 }
 
-.my-offer {
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  border:2px solid transparent;
-}
-
 .my-job:hover {
   border:2px solid #60c2ac;;
 }
 
-a.boxclose{
-    float:right;
+
+.my-offer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  border:2px solid transparent;
+}
+
+.my-offer:hover {
+  border:2px solid #60c2ac;;
+}
+
+.boxclose{
+  float:right;
     cursor:pointer;
     color: #fff;
     border: 2px solid transparent;
@@ -142,18 +153,20 @@ a.boxclose{
     font-size: 40px;
     display: inline-block;
     line-height: 10px;
-    padding: 22px 11px;       
+    height: 100%;
+    padding-top: 6%;
+    padding-bottom: 6%;
+    padding-left: 1%;
+    padding-right: 1.5%;       
 }
 
-.boxclose:before {
-    content: "×";
-}
+
 
 .boxclose:hover {
   border: 2px solid #60c2ac;
 }
 
-div.boxbookmark {
+div .boxbookmark {
     float:right;
     cursor:pointer;
     color: #fff;
@@ -163,13 +176,13 @@ div.boxbookmark {
     display: inline-block;
     line-height: 10px;
     height: 100%;
-    padding-top: 5%;
-    padding-bottom: 4.5%;
+    padding-top: 6%;
+    padding-bottom: 6%;
     padding-left: 1%;
     padding-right: 1.5%;
 }
 
-div.boxbookmark:hover{
+div .boxbookmark:hover{
   border: 2px solid #31708f;
   color: #fff;
 }
