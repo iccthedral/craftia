@@ -1,0 +1,17 @@
+user.inbox = {
+	received: [
+		{
+			message: "Neka poruka, body poruke"
+			type: "system|job|contact"
+			author: {
+				username: "neki tamo"
+				id: 1204219421
+			}
+			dateSent: datum kad je poslata
+			isRead: true | false
+		}
+	]
+	sent: [
+		!isto kao gore!
+	]
+}
