@@ -4,10 +4,14 @@
     var serviceId = 'authService';
     var app = angular.module("app");
 
-    app.service(serviceId, ['$http','$rootScope', '$location', 'datacontext',
-        function authService($http, $rootScope, $location, datacontext) {
+    app.service(serviceId, ['$http','$rootScope', '$location', 'datacontext', 'common',
+        function authService($http, $rootScope, $location, datacontext, common) {
             var userType = "";
             var user = {}
+            var getLogFn = common.logger.getLogFn;
+            var log = getLogFn(serviceId);
+            var logSuccess = getLogFn(serviceId, "success");
+            var logError = getLogFn(serviceId, "error");
 
             $rootScope.isAjaxHappening = false;
             

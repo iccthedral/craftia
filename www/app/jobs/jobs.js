@@ -4,10 +4,10 @@
     var CONTROLLERS = {};
 
     // angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', jobs]);
-    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', 'bootstrap.dialog', Jobs]);
+    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', 'bootstrap.dialog', 'config', '$upload', Jobs]);
 
 
-    function Jobs($scope, $rootScope, common, datacontext, authService, dialogs) {
+    function Jobs($scope, $rootScope, common, datacontext, authService, dialogs, config, $upload) {
 
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
@@ -47,6 +47,25 @@
         $scope.myJobsTotal = 0;
         $scope.myJobsCurrentPage = 1;
 
+/*
+        $scope.uploadPicture = function(files) {
+            $rootScope.$broadcast(config.events.spinnerToggle, {show: true});
+            $scope.upload = $upload.upload({
+                url: "user/uploadpicture",
+                file: files[0]
+            }).success(function(picurl) {
+                console.debug(picurl);
+                $scope.user.profilePic = "";
+                setTimeout(function() {
+                    $scope.user.profilePic = picurl;
+                    $rootScope.$digest();
+                    // spinner.spinnerHide();
+                }, 100);
+            }).then(function() {
+                $rootScope.$broadcast(config.events.spinnerToggle, {show: false});
+            })
+        }
+*/
         $scope.allJobsPageSelected = function (page) {
             $scope.allJobsPaged = $scope.allJobsChunked[page.page - 1];
             $scope.allJobsCurrentPage = page.page;
@@ -82,6 +101,18 @@
             return $scope.allJobsPaged[jobIndex].bidders.filter(function (bidder) {
                 return (bidder.id === $scope.user._id)
             }).length > 0
+        }
+
+        $scope.getCities = function (id) {
+            $rootScope.isAjaxHappening = true;
+            return $.get('/cities/' + id).then(function (res) {
+                $rootScope.isAjaxHappening = false;
+                return res
+            });
+        }
+
+        $scope.dropped = function(dragEl, dropEl) {
+            
         }
 
         function JobList() {
@@ -167,6 +198,38 @@
                 this.subcategory = "";
                 this.category = "";
                 this.status = "";
+                this.currentPhotoIndex = null;
+                this.jobPhotos = [
+                    {
+                        img: null,
+                        description: ""
+                    },
+                    {
+                        img: null,
+                        description: ""
+                    },
+                    {
+                        img: null,
+                        description: ""
+                    },
+                    {
+                        img: null,
+                        description: ""
+                    }
+                ]
+            }
+
+            JobModel.prototype.storeJobPhoto = function(img, index) {
+                this.currentPhotoIndex = index;
+                this.jobPhotos[index].img = img.src;
+            }
+
+            JobModel.prototype.setFocusOnPhoto = function(index) {
+                if (this.jobPhotos[index].img === null) {
+                    this.currentPhotoIndex = null;
+                    return;
+                }
+                this.currentPhotoIndex = index;
             }
 
             JobModel.prototype.populate = function (jobData) {
@@ -210,8 +273,6 @@
                 nextView: function() {
                     $scope.rightPartial = "app/jobs/jobCreate2.html";
                 },
-
-
 
                 addNewJob: function () {
                     $scope.rightPartial = "app/jobs/jobCreate.html";
@@ -259,6 +320,7 @@
                 edit: function () {
                     $scope.editable = true;
                 },
+
                 create: function () {
                     var curjob = $scope.currentJob;
                     var jobData = JSON.parse(JSON.stringify(curjob));
@@ -281,6 +343,7 @@
                         $rootScope.$digest();
                     });
                 },
+
                 save: function () {
                     var data = JSON.parse(JSON.stringify($scope.currentJob));
                     // delete data.address;
@@ -401,14 +464,6 @@
             $scope.myJobsChunked = $scope.ownJobs.chunk($scope.sizePerPage);
             $scope.myJobsPaged = $scope.myJobsChunked[$scope.myJobsCurrentPage - 1];
             $scope.myJobsTotal = $scope.ownJobs.length;
-        }
-
-        $scope.getCities = function (id) {
-            $rootScope.isAjaxHappening = true;
-            return $.get('/cities/' + id).then(function (res) {
-                $rootScope.isAjaxHappening = false;
-                return res
-            });
         }
 
         activate();

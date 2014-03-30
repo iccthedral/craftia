@@ -227,3 +227,22 @@ div .boxbookmark {
 .no-border::before {
   border: 0px;
 }
+
+.job-photo-holder { border: 3px dashed #ccc; padding-right: 2px; height: 80px; width: 22%; display: inline-block;}
+.job-photo-holder .hover { border: 10px dashed #60c2ac; }
+.job-photo-holder img { display: block; width: 100%; height: 80px; padding: 10px;}
+.job-photo-holder p { margin: 10px; font-size: 14px; }
+
+.job-photo-progress { width: 100%; }
+.job-photo-progress:after { content: '%'; }
+
+.job-photo-upload-fail { background: #c00; padding: 2px; color: #fff; }
+.job-photo-holder .hidden { display: none !important;}
+
+.job-photo-upload-form {
+  text-align:center;
+}
+
+.job-photo-holder:hover {
+  border-color: navy;
+};

@@ -36,7 +36,6 @@
             })
         }
 
-
         activate();
 
         $scope.cancel = function () {

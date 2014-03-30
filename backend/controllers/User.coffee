@@ -62,6 +62,7 @@ module.exports.uploadProfilePicture = (req, res) ->
     UserModel
     .findById(req.user._id)
     .exec (err, user) ->
+        console.log req.files
         file = req.files.file
         fs.readFile file.path, (err, data) ->
             imguri  = "img/#{usr.username}.png"

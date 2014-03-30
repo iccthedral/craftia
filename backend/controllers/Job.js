@@ -72,6 +72,7 @@
     }
     return async.series([module.exports.findCity(jobData.address.city), module.exports.findCategory(jobData)], function(err, results) {
       var job;
+      console.log(err);
       if (err != null) {
         return res.status(422).send(err.message);
       }
@@ -84,6 +85,7 @@
       job.status = "open";
       job.address.zip = results[0].zip;
       return job.save(function(err, job) {
+        console.log(err);
         if (err != null) {
           return res.status(422).send(err.messsage);
         }

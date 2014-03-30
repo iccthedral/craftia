@@ -3,3 +3,10 @@ jobEdit.html
  izlistava job details trenutnog posla iz levog partiala (customersJobs.html)
  i trenutne biddere za taj posao
 
+#customers
+pero
+djura
+
+#craftsmen
+kusta
+krak

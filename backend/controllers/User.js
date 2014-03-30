@@ -88,6 +88,7 @@
     }
     return UserModel.findById(req.user._id).exec(function(err, user) {
       var file;
+      console.log(req.files);
       file = req.files.file;
       return fs.readFile(file.path, function(err, data) {
         var imguri, newPath;
