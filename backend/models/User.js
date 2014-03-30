@@ -53,6 +53,13 @@
         "default": []
       }
     ],
+    biddedJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+        "default": []
+      }
+    ],
     rating: {
       comments: [
         {
@@ -76,19 +83,7 @@
       "default": "img/default_user.jpg"
     },
     inbox: {
-      system: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Message"
-        }
-      ],
-      job: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Message"
-        }
-      ],
-      contact: [
+      received: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Message"

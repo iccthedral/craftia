@@ -19,13 +19,13 @@
 
         vm.craftsmenNews = {
             title: 'This widget will greet the craftsman when they log in',
-            contentPartial: 'app/jobs/jobList.html',
+            contentPartial: 'app/jobs/offerList.html',
             description: 'Some content may or may not end up here, well see how it goes'
         };
 
         vm.customerNews = {
             title: 'This widget will greet the customer when they log in',
-            contentPartial: 'app/jobs/jobList.html',
+            contentPartial: 'app/craftsmen/craftsmen.html',
             description: 'Some content may or may not end up here, well see how it goes'
         };
 

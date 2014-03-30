@@ -55,8 +55,8 @@
       "enum": ["open", "closed", "finished"]
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      id: mongoose.Schema.Types.ObjectId,
+      username: String
     },
     winner: {
       type: mongoose.Schema.Types.ObjectId,

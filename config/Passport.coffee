@@ -1,14 +1,12 @@
-
 LocalStrategy = require("passport-local").Strategy
-UserModel = require "../backend/models/User"
+UserModel     = require "../backend/models/User"
 
 module.exports = (passport) ->
   passport.serializeUser (user, done) ->
     createAccessToken = () ->
       token = user.generateRandomToken()
       UserModel.findOne("accessToken" : token, (err, existingUser) ->
-        if err?
-          return done(err)
+        return done(err) if err?
         if existingUser?
           createAccessToken()
         else

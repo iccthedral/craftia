@@ -45,13 +45,18 @@ schema = mongoose.Schema
         default: []
     ]
 
+    biddedJobs: [
+        type: mongoose.Schema.Types.ObjectId
+        ref: "Job"
+        default: []
+    ]
+
     rating:
         comments: [{
             jobId: mongoose.Schema.Types.ObjectId
             message: String
         }],
-
-        totalVotes: { type: Number, default: 0 }
+        totalVotes: { type: Number, default: 0 },
         avgRate: { type: Number, default: 0, min: 0, max: 5 }
 
     profilePic: 
@@ -59,17 +64,7 @@ schema = mongoose.Schema
         default: "img/default_user.jpg"
 
     inbox:
-        system: [
-            type: mongoose.Schema.Types.ObjectId
-            ref: "Message"
-        ]
-
-        job: [
-            type: mongoose.Schema.Types.ObjectId
-            ref: "Message"
-        ]
-
-        contact: [
+        received: [
             type: mongoose.Schema.Types.ObjectId
             ref: "Message"
         ]
