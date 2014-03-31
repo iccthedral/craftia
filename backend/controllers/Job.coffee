@@ -55,11 +55,12 @@ module.exports.saveJob = (usr, jobData, res) ->
         return res.status(422).send(err.message) if err?
         delete jobData._id
         job = new JobModel(jobData)
+        console.log(usr._id)
+        job.status = "open"
+        job.address.zip = results[0].zip
         job.author =
             id: usr._id
             username: usr.username
-        job.status = "open"
-        job.address.zip = results[0].zip
         job.save (err, job) ->
             console.log(err)
             return res.status(422).send(err.messsage) if err?

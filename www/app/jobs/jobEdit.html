@@ -58,6 +58,16 @@
                                     type="text" placeholder="ending date" class="form-control input-md" required="">
                         </div>
                     </div>
+
+                    <div class="job-photo-gallery">
+                        <div class="job-photo">
+                            <img ng-if="i.img!==NULL" src="{{i.img}}" ng-repeat="i in currentJob.jobPhotos}">
+                            <span>
+                                {{i.description}}
+                            </span>
+                        </div>
+                    </div>
+
                 </fieldset>
             </form>
 
