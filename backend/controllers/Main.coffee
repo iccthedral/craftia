@@ -50,7 +50,8 @@ module.exports.listOpenJobs = (req, res) ->
     .populate("createdJobs")
     .exec (err, results) ->
         async.map results, module.exports.fetchJobs, (err, results) ->
-            res.send results
+            out = [].concat.apply [], results
+            res.send out
 
 module.exports.registerCrafsman = (req, res) ->
     data        = req.body

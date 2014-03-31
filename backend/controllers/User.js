@@ -64,15 +64,18 @@
   };
 
   module.exports.updateMe = function(req, res) {
-    var usr;
+    var data, usr;
     usr = req.user;
+    console.log(usr);
     if (usr == null) {
       return res.status(422).send("You're not logged in");
     }
-    return UserModel.findByIdAndUpdate(req.user._id, {
-      $set: req.body
-    }).exec(function(err, user) {
-      user.save(req.body);
+    data = req.body;
+    delete data._id;
+    return UserModel.findByIdAndUpdate(usr._id, data).exec(function(err, cnt) {
+      if (err != null) {
+        return res.status(422).send(err.message);
+      }
       return res.send(200);
     });
   };
@@ -85,6 +88,7 @@
     }
     return UserModel.findById(req.user._id).exec(function(err, user) {
       var file;
+      console.log(req.files);
       file = req.files.file;
       return fs.readFile(file.path, function(err, data) {
         var imguri, newPath;

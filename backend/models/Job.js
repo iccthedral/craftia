@@ -65,6 +65,10 @@
     bidders: {
       type: Array,
       "default": []
+    },
+    jobPhotos: {
+      type: Array,
+      "default": []
     }
   });
 

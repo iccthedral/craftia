@@ -51,6 +51,7 @@ module.exports.saveJob = (usr, jobData, res) ->
         module.exports.findCity(jobData.address.city),
         module.exports.findCategory(jobData),
     ], (err, results) ->
+        console.log(err)
         return res.status(422).send(err.message) if err?
         delete jobData._id
         job = new JobModel(jobData)
@@ -60,6 +61,7 @@ module.exports.saveJob = (usr, jobData, res) ->
         job.status = "open"
         job.address.zip = results[0].zip
         job.save (err, job) ->
+            console.log(err)
             return res.status(422).send(err.messsage) if err?
             usr.createdJobs.push(job._id)
             usr.save()
@@ -124,11 +126,12 @@ module.exports.bidOnJob = (req, res) ->
     .findOne(_id: req.params.id)
     .exec (err, job) ->
         job.bidders.push
-            id: usr._id,
+            id: usr._id
             username: usr.username
             name: usr.name
             surname: usr.surname
             email: usr.email
+            rating: usr.rating.toObject()
         job.save (err) ->
             return res.status(422).send(err.message) if err?
             res.send(job)

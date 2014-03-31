@@ -6,26 +6,43 @@
         <form class="form-horizontal">
             <fieldset>
                 <header>
-                  <h1>Drag and drop, automatic upload</h1>
+                  <h3>Drag and drop, automatic upload</h3>
                 </header>
-                <style>
-                    #holder { border: 10px dashed #ccc; width: 300px; min-height: 300px; margin: 20px auto;}
-                    #holder.hover { border: 10px dashed #60c2ac; }
-                    #holder img { display: block; margin: 10px auto; width: 250px;}
-                    #holder p { margin: 10px; font-size: 14px; }
-                    progress { width: 100%; }
-                    progress:after { content: '%'; }
-                    .fail { background: #c00; padding: 2px; color: #fff; }
-                    .hidden { display: none !important;}
-                </style>
-                <article>
-                  <div id="holder">
-                  </div> 
-                  <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
-                  <p id="filereader">File API & FileReader API not supported</p>
-                  <p id="formdata">XHR2's FormData is not supported</p>
-                  <p id="progress">XHR2's upload progress isn't supported</p>
-                </article>
+                <div class="job-photo-upload-form">
+
+                  <span id="holder1" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(0)">
+                    <p id="upload" class="hidden"><div class="fileUpload btn btn-primary hidden"><span>Upload</span><input name="photo1" id="uploadBtn" type="file" class="upload" /></div></p>
+                  </span>
+
+                  <span id="holder2" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(1)">
+                    <p id="upload" class="hidden">
+                      <div class="fileUpload btn btn-primary hidden">
+                          <span>Upload</span>
+                          <input name="photo2" id="uploadBtn" type="file" class="upload" />
+                      </div> 
+                    </p>
+                  </span>
+
+                  <span id="holder3" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(2)">
+                    <p id="upload" class="hidden">
+                      <div class="fileUpload btn btn-primary hidden">
+                          <span>Upload</span>
+                          <input name="photo3" id="uploadBtn" type="file" class="upload" />
+                      </div> 
+                    </p>
+                  </span> 
+                  <span id="holder4" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(3)">                  
+                    <p id="upload" class="hidden">
+                      <div class="fileUpload btn btn-primary hidden">
+                          <span>Upload</span>
+                          <input name="photo4" id="uploadBtn" type="file" class="upload" />
+                      </div> 
+                    </p>
+                  </span>
+                
+                <textarea ng-show="currentJob.currentPhotoIndex!==null" ng-model="currentJob.jobPhotos[currentJob.currentPhotoIndex].description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea"></textarea>
+                </div>
+
                 <!-- Button -->
                 <div class="btn-group col-md-12 text-center">
                      <span>
@@ -41,8 +58,9 @@
 </div>
 
 <script>
-var holder = document.getElementById('holder'),
-    tests = {
+var $holders = $("span[id^='holder'");
+
+var tests = {
       filereader: typeof FileReader != 'undefined',
       dnd: 'draggable' in document.createElement('span'),
       formdata: !!window.FormData,
@@ -56,83 +74,64 @@ var holder = document.getElementById('holder'),
     acceptedTypes = {
       'image/png': true,
       'image/jpeg': true,
-      'image/jpg': true,
-      'image/gif': true
+      'image/jpg': true
     },
     progress = document.getElementById('uploadprogress'),
     fileupload = document.getElementById('upload');
 
-"filereader formdata progress".split(' ').forEach(function (api) {
-  if (tests[api] === false) {
-    support[api].className = 'fail';
-  } else {
-    // FFS. I could have done el.hidden = true, but IE doesn't support
-    // hidden, so I tried to create a polyfill that would extend the
-    // Element.prototype, but then IE10 doesn't even give me access
-    // to the Element object. Brilliant.
-    support[api].className = 'hidden';
-  }
-});
-
-function previewfile(file) {
+function previewfile(holder, file, index) {
+  alert(file.type);
   if (tests.filereader === true && acceptedTypes[file.type] === true) {
     var reader = new FileReader();
     reader.onload = function (event) {
       var image = new Image();
-      var bla = event.target.result.substring(22);
-      if(atob(bla).length > 1206*1024) {
-        alert("Fuck offf")
+      console.debug(event.target.result);
+      var bla = event.target.result.substring(22 + acceptedTypes[file.type]);
+      if(atob(bla).length > 128*1024) {
+        alert("Images greater than 128 kilobytes are not allowed");
         return;
       }
       image.src = event.target.result;
-      // image.width = 250; // a fake resize
+      $(holder).empty();
       holder.appendChild(image);
+      var scope = angular.element($(holder)).scope();
+      scope.$apply(function(){
+          scope.currentJob.storeJobPhoto(image, index);
+      });
     };
-
     reader.readAsDataURL(file);
   }  else {
     holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
-    console.log(file);
   }
 }
 
-function readfiles(files) {
+function readfiles(holder, files, index) {
     // debugger;
     var formData = tests.formdata ? new FormData() : null;
+    console.debug(formData);
     for (var i = 0; i < files.length; i++) {
-      if (tests.formdata) formData.append('file', files[i]);
-      previewfile(files[i]);
-    }
-
-    // now post a new XHR request
-    if (tests.formdata) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/devnull.php');
-      xhr.onload = function() {
-        progress.value = progress.innerHTML = 100;
-      };
-
-      if (tests.progress) {
-        xhr.upload.onprogress = function (event) {
-          if (event.lengthComputable) {
-            var complete = (event.loaded / event.total * 100 | 0);
-            progress.value = progress.innerHTML = complete;
-          }
-        }
+      if (tests.formdata) {
+        formData.append('file', files[i]);
       }
-
-      xhr.send(formData);
+      previewfile(holder, files[i], index);
     }
 }
 
 if (tests.dnd) { 
-  holder.ondragover = function () { this.className = 'hover'; return false; };
-  holder.ondragend = function () { this.className = ''; return false; };
-  holder.ondrop = function (e) {
-    this.className = '';
-    e.preventDefault();
-    readfiles(e.dataTransfer.files);
-  }
+  var i = 0;
+  $holders.each(function(key, holder) {
+    console.debug(holder);
+    holder.ondragover = function () { this.className = 'hover job-photo-holder'; return false; }.bind(this);
+    holder.ondragend = function () { this.className = 'job-photo-holder'; return false; }.bind(this);
+    holder.ondrop = (function(holder, index) {
+        return (function (e) {
+          this.className = 'job-photo-holder';
+          e.preventDefault();
+          readfiles(this, e.dataTransfer.files, index);
+        }).bind(holder)
+    })(holder, i);
+    ++i;
+  });
 } else {
   fileupload.className = 'hidden';
   fileupload.querySelector('input').onchange = function () {

@@ -6,40 +6,16 @@
                        data-ng-model="craftsmanSearch"
                        data-ng-keyup="search($event)"
                        placeholder="live search...">
-                <div class="widget wcyan">
-                    <div data-cc-widget-header title="{{title}}"></div>
-                    <div class="widget-content user">
+                    <div class="widget-content user widget-ul-list">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="widget wcyan">
-                                    <div data-cc-widget-header title="Craftsmen table"
+                                    <div data-cc-widget-header title="Yellow Pages"
                                          allow-collapse="true"
                                          subtitle="{{pagedItems.length}} / {{totalItems}}"
                                          right-text="Page {{currentPage}} of {{items.length}}">
                                     </div>
                                     <div class="widget-content text-center text-info">
-
-                                        <!-- <table class="table table-condensed table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>E-mail</th>
-                                                    <th>Username</th>
-                                                    <th>Name</th>
-                                                    <th>Surname</th>
-                                                    <th>Rating</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="CraftsmanList.showCraftsman($index)">
-                                                    <td class="text-left">{{p.email}}</td>
-                                                    <td class="text-left">{{p.username}}</td>
-                                                    <td class="text-left">{{p.name}}</td>
-                                                    <td class="text-left">{{p.surname}}</td>
-                                                    <td class="text-left">{{p.rating.avgRate}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table> -->
-                                    
                                          <ul style="list-style: none;" >
                                             <li class="my-job" id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="CraftsmanList.showCraftsman($index)">
                                                 <div class="row-container jobDetail">
@@ -64,7 +40,7 @@
 
                                                     <div class="jobDetail text-left">
                                                         <span class="my-job-detail text-left">Rating: </span>
-                                                        <span>
+                                                        <span class="rating-stars">
                                                             <rating readonly="true" value="p.rating.avgRate"></rating>
                                                         </span>
                                                     </div>
@@ -73,20 +49,16 @@
                                                         <a title="Contact craftsman" href="/#/messages">
                                                             <span class="custom-icon">
                                                                 <i class="fa fa-3x fa-envelope-o"></i>
-                                                                
                                                             </span>
                                                         <a/>
-                                                    </div>                                    
+                                                    </div>      
                                                 </div>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="widget-foot">
                                         <div class="clearfix"></div>
-
                                         <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
-
-
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
@@ -99,6 +71,5 @@
                      
                 </div>
             </div>
-        </div>
     </section>
 </section>

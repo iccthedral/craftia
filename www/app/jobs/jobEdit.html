@@ -1,7 +1,7 @@
 <div class="widget wcyan">
     <div data-cc-widget-header title="Job details"
          allow-collapse="true"></div>
-    <div class="widget-content right-partial-view fluid-container">
+    <div class="widget-content right-partial-view fluid-container widget-ul-list">
         <div>
             <form class="form-horizontal">
                 <fieldset>
@@ -70,7 +70,7 @@
             </button>
 
         </div>
-        <div ng-show="currentJob.bidders" class="widget-content text-center text-info">
+      
 
             <!-- <table class="table table-condensed table-striped table-hover">
                 <thead>
@@ -95,30 +95,32 @@
                     </tr>
                 </tbody>
             </table> -->
-
+            <hr>
             <ul style="list-style: none;" >
                 <li class="my-offer" id="{{$index}}" data-ng-repeat="p in biddersPagedItems" >
                     <div class="row-container jobDetail">
                         <img style="float:left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
                         <div class="jobDetail text-left">
-                            <span class="my-job-detail text-left">
-                                Name: {{p.name}}
-                            </span>
+                            <span class="my-job-detail text-left">Name:</span>
+                            <span> {{p.name}} </span>
                             <a  class="glyphicon glyphicon-star custom-icon boxbookmark pull-right"
                             ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)" id="boxbookmark" title="Accept bidder">
                             </a>
                         </div>
                         <div class="jobDetail text-left">
-                            <span class="my-job-detail text-left">Surname: {{p.surname}}</span>
+                            <span class="my-job-detail text-left">Surname:</span>
+                            <span>{{p.surname}}</span>
                         </div>
                         <div class="jobDetail text-left">
-                            <span class="my-job-detail text-left">Email: {{p.email}}</span>
+                            <span class="my-job-detail text-left">Email:</span>
+                            <span>{{p.email}}</span>
                         </div>
                         <div class="jobDetail text-left">
-                            <span class="my-job-detail text-left">Rating: {{p.rating.avgRate}}</span>
-                        </div>
-
-                                           
+                            <span class="my-job-detail text-left">Rating:</span>
+                            <span class="rating-stars">
+                                <rating readonly="true" value="p.rating.avgRate"></rating>
+                            </span>
+                        </div>  
                         <div class="jobDetail" style="display: inline-block;">
                             <a class="pull-left" title="Contact bidder" href="/#/messages">
                                 <span class="custom-icon">
@@ -127,14 +129,16 @@
                             </a>
                         </div>
                     </div>
+                    <hr>
                 </li>
             </ul>
+
+            <div class="widget-foot" style="border: 0">
+            <div class="clearfix"></div>
+            <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="biddersPageSelected" page="biddersCurrentPage" rotate="false" total-items="biddersTotalItems"></pagination>
             
-                <div class="clearfix"></div>
-                <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="biddersPageSelected" page="biddersCurrentPage" rotate="false"></pagination>
-                <div class="clearfix"></div>
-           
-        </div>
+            </div>           
+     
     </div>
 </div>
  

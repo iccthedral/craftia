@@ -72,6 +72,7 @@
     }
     return async.series([module.exports.findCity(jobData.address.city), module.exports.findCategory(jobData)], function(err, results) {
       var job;
+      console.log(err);
       if (err != null) {
         return res.status(422).send(err.message);
       }
@@ -84,6 +85,8 @@
       job.status = "open";
       job.address.zip = results[0].zip;
       return job.save(function(err, job) {
+        console.log(err);
+        console.log('evo');
         if (err != null) {
           return res.status(422).send(err.messsage);
         }
@@ -100,12 +103,14 @@
     usr = req.user;
     if (usr == null) {
       return res.send(422);
+      console.log('evo');
     }
     try {
       return module.exports.saveJob(usr, jobData, res);
     } catch (_error) {
       e = _error;
       console.log(e.message);
+      console.log('evo');
       return res.status(422).send(e.message);
     }
   };
@@ -175,7 +180,8 @@
         username: usr.username,
         name: usr.name,
         surname: usr.surname,
-        email: usr.email
+        email: usr.email,
+        rating: usr.rating.toObject()
       });
       return job.save(function(err) {
         if (err != null) {

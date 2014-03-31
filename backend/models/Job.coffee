@@ -60,6 +60,10 @@ schema = mongoose.Schema
 	bidders:
 		type: Array
 		default: []
+	
+	jobPhotos:
+		type: Array
+		default: []
 
 JobModel = mongoose.model("Job", schema)
 

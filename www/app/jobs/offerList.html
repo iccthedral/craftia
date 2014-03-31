@@ -1,42 +1,57 @@
-<section class="matter">
+<section class="matter" data-ng-controller="Jobs">
     <div class="container">
         <div class="row">
             <input class="input-medium search-query"
-                       data-ng-model="jobSearch"
+                       data-ng-model="jobCitySearch"
                        data-ng-keyup="search($event)"
-                       placeholder="live search...">
+                       placeholder="search by city...">
+           <input class="input-medium search-query"
+                       data-ng-model="jobDistanceSearch"
+                       data-ng-keyup="search($event)"
+                       placeholder="search by distance...">
+           <input class="input-medium search-query"
+                       data-ng-model="jobCategorySearch"
+                       data-ng-keyup="search($event)"
+                       placeholder="search by category...">
+           <input class="input-medium search-query"
+                       data-ng-model="jobSubcategorySearch"
+                       data-ng-keyup="search($event)"
+                       placeholder="search by subcategory...">
             <div class="widget wcyan">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="widget wcyan">
                             <div data-cc-widget-header title="All jobs"
                             allow-collapse="true"></div>
-                            <div class="widget-content text-center text-info">
+                            <div class="widget-content text-center text-info widget-ul-list">
                                 <ul style="list-style: none;" >
-                                    <li class="my-offer" id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="JobList.showJob($index)">
+                                    <li class="my-offer" id="{{$index}}" data-ng-repeat="p in allJobsPaged" ng-click="JobList.showJob($index)">
                                         <div class="row-container">
                                             <img style="float:left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
                                             <div class="jobDetail text-left">
-                                                <span class="my-job-detail text-left">
-                                                    Title: {{p.title}}
+                                                <span class="my-job-detail text-left">Title:</span>
+                                                <span> {{p.title}} </span>
+                                                <span ng-hide="isBidder($index)" class="glyphicon glyphicon-star custom-icon boxbookmark pull-right" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
                                                 </span>
-                                                <a ng-hide="isBidder($index)" class="glyphicon glyphicon-star custom-icon boxbookmark pull-right" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
-                                                </a>
-                                                <a ng-show="isBidder($index)" class="glyphicon glyphicon-remove-sign cancel-icon boxclose pull-right pull-right" ng-click="ViewJob.cancelBid()" id="boxclose" title="Cancel bid"> 
-                                                </a>
+                                                <span ng-show="isBidder($index)" class="fa fa-times boxclose " ng-click="ViewJob.cancelBid()" id="boxclose" title="Cancel bid"> 
+                                                </span>
                                             </div>
                                             <div class="jobDetail text-left">
-                                                <span class="my-job-detail text-left">Description: {{p.description}}</span>
+                                                <span class="my-job-detail text-left">Description:</span>
+                                                <span>{{p.description}}</span>
                                             </div>
                                             <div class="jobDetail text-left">
-                                                <span class="my-job-detail text-left">Category: {{p.category}}</span>
+                                                <span class="my-job-detail text-left">Category:</span>
+                                                <span> {{p.category}} </span>
                                             </div>
                                             <div class="jobDetail text-left">
-                                                <span class="my-job-detail text-left">From: {{p.dateFrom}}</span>
+                                                <span class="my-job-detail text-left">From:</span>
+                                                <span>{{p.dateFrom}}</span>
                                             </div>
 
                                             <div class="jobDetail text-left">
-                                                <span class="my-job-detail text-left">To: {{p.dateTo}}</span>
+                                                <span class="my-job-detail text-left">To:</span>
+                                                <span>{{p.dateTo}}</span>
                                             </div>                           
                                             <div class="jobDetail" style="display: inline-block;">
                                                 <a class="pull-left" title="Contact author" href="/#/messages">
@@ -54,10 +69,7 @@
                             </div>
                             <div class="widget-foot">
                                 <div class="clearfix"></div>
-
-                                <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
-
-
+                                <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="allJobsPageSelected" page="allJobsCurrentPage" total-items="allJobsTotal" rotate="false"></pagination>
                                 <div class="clearfix"></div>
                             </div>
                         </div>

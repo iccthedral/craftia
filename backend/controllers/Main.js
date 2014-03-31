@@ -77,7 +77,9 @@
   module.exports.listOpenJobs = function(req, res) {
     return UserModel.find().populate("createdJobs").exec(function(err, results) {
       return async.map(results, module.exports.fetchJobs, function(err, results) {
-        return res.send(results);
+        var out;
+        out = [].concat.apply([], results);
+        return res.send(out);
       });
     });
   };

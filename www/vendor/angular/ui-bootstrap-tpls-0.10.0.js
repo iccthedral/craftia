@@ -1754,6 +1754,14 @@ angular.module('ui.bootstrap.pagination', [])
     } else {
       this.itemsPerPage = defaultItemsPerPage;
     }
+    if ($attrs.totalItems) {
+      $scope.$parent.$watch($parse($attrs.totalItems), function(value) {
+        $scope.totalItems = parseInt(value, 10);
+        $scope.totalPages = self.calculateTotalPages();
+      });
+    } else {
+      $scope.totalItems = $scope.$parent.totalItems || 0;
+    }
   };
 
   this.noPrevious = function() {
@@ -1768,10 +1776,10 @@ angular.module('ui.bootstrap.pagination', [])
   };
 
   this.calculateTotalPages = function() {
-    var totalPages = this.itemsPerPage < 1 ? 1 : Math.ceil($scope.$parent.totalItems / this.itemsPerPage);
-    console.debug(this.itemsPerPage);
-    console.debug($scope.$parent.totalItems);
-    console.debug(totalPages);
+    var totalPages = this.itemsPerPage < 1 ? 1 : Math.ceil($scope.totalItems / this.itemsPerPage);
+    // console.debug(this.itemsPerPage);
+    // console.debug($scope.$parent.totalItems);
+    // console.debug(totalPages);
     return Math.max(totalPages || 0, 1);
   };
 
@@ -1797,7 +1805,7 @@ angular.module('ui.bootstrap.pagination', [])
     self.render();
   });
 
-  $scope.$parent.$watch('totalItems', function() {
+  $scope.$watch('totalItems', function() {
     $scope.totalPages = self.calculateTotalPages();
   });
 
@@ -1828,6 +1836,7 @@ angular.module('ui.bootstrap.pagination', [])
     scope: {
       page: '=',
       onSelectPage:'&',
+      totalItems: '&'
     },
     controller: 'PaginationController',
     templateUrl: 'template/pagination/pagination.html',
