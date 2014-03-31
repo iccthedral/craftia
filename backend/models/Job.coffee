@@ -50,7 +50,7 @@ schema = mongoose.Schema
 		enum: ["open", "closed", "finished"]
 
 	author:
-		id: mongoose.Schema.Types.ObjectId
+		id: String
 		username: String
 
 	winner:
