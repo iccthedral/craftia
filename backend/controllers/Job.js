@@ -86,6 +86,7 @@
       job.address.zip = results[0].zip;
       return job.save(function(err, job) {
         console.log(err);
+        console.log('evo');
         if (err != null) {
           return res.status(422).send(err.messsage);
         }
@@ -102,12 +103,14 @@
     usr = req.user;
     if (usr == null) {
       return res.send(422);
+      console.log('evo');
     }
     try {
       return module.exports.saveJob(usr, jobData, res);
     } catch (_error) {
       e = _error;
       console.log(e.message);
+      console.log('evo');
       return res.status(422).send(e.message);
     }
   };
