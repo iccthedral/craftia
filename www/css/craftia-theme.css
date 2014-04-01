@@ -245,4 +245,8 @@ div .boxbookmark {
 
 .job-photo-holder:hover {
   border-color: navy;
-};
+}
+
+.craftia-map {
+  height: 300px !important;
+}
