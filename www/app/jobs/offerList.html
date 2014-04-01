@@ -1,4 +1,8 @@
-<section class="matter" data-ng-controller="Jobs">
+<script>
+
+
+</script>
+<section class="matter" data-ng-controller="Jobs" ng-init="initLeftPartial()">
     <div class="container">
         <div class="row">
             <input class="input-medium search-query"
@@ -67,12 +71,12 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="widget-foot">
-                                <div class="clearfix"></div>
-                                <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="allJobsPageSelected" page="allJobsCurrentPage" total-items="allJobsTotal" rotate="false"></pagination>
-                                <div class="clearfix"></div>
-                            </div>
+                            
+                            <div class="clearfix"></div>
+                            <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="allJobsPageSelected" page="allJobsCurrentPage" total-items="allJobsTotal" rotate="false"></pagination>
+                            <div class="clearfix"></div>
                         </div>
+                        <div class="craftia-map" id="map-canvas"/>
                     </div>
                     <div class="col-md-6" ng-include="rightPartial" onload="initRightPartial()">
                     </div>
@@ -80,4 +84,4 @@
             </div>
         </div>
     </div>
-</section>  
+
