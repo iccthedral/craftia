@@ -4,10 +4,10 @@
     var CONTROLLERS = {};
 
     // angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', jobs]);
-    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', 'bootstrap.dialog', 'config', '$upload', Jobs]);
+    angular.module('app').controller(controllerId, ['$scope', '$modal', '$log', '$rootScope', 'common', 'datacontext', 'authService', 'bootstrap.dialog', 'config', '$upload', Jobs]);
 
 
-    function Jobs($scope, $rootScope, common, datacontext, authService, dialogs, config, $upload) {
+    function Jobs($scope, $modal, $log, $rootScope, common, datacontext, authService, dialogs, config, $upload) {
 
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
@@ -50,6 +50,23 @@
         $scope.myJobsTotal = 0;
         $scope.myJobsCurrentPage = 1;
 
+
+        // var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+
+        //   $scope.items = items;
+        //   $scope.selected = {
+        //     item: $scope.items[0]
+        //   };
+
+        //   $scope.ok = function () {
+        //     $modalInstance.close($scope.selected.item);
+        //   };
+
+        //   $scope.cancel = function () {
+        //     $modalInstance.dismiss('cancel');
+        //   };
+        // };
+
 /*
         $scope.uploadPicture = function(files) {
             $rootScope.$broadcast(config.events.spinnerToggle, {show: true});
@@ -86,17 +103,27 @@
 
         $scope.search = function ($event) {
             
-            if ($scope.jobCitySearch == '' &&
-                $scope.jobDistanceSearch == '' &&
-                $scope.jobCategorySearch == '' &&
-                $scope.jobSubcategorySearch == '' ) return ($scope.allJobsChunked = $scope.allJobs.chunk($scope.sizePerPage));
-            console.debug($scope.allJobs)
-            var result = $scope.allJobs.filter(function (obj) {
-                return (obj.address.city.indexOf($scope.jobCitySearch) != -1 ||
-                   obj.category.indexOf($scope.jobCategorySearch) != -1 ||
-                   obj.subcategory.indexOf($scope.jobSubcategorySearch) != -1);
+            if (($scope.jobCitySearch === '' &&
+                 $scope.jobDistanceSearch === '' &&
+                 $scope.jobCategorySearch === '' &&
+                 $scope.jobSubcategorySearch === '' )) {
+
+                $scope.allJobsChunked = $scope.allJobs.chunk($scope.sizePerPage);
+                $scope.allJobsPaged = $scope.allJobsChunked[$scope.allJobsCurrentPage - 1];
+                return;
+            }
+           
+             var result = $scope.allJobs.filter(function (obj) {
+                var city = obj.address.city.toUpperCase();
+                var cat = obj.category.toUpperCase();
+                var subCat = obj.subcategory.toUpperCase();
+                var cityFound = (city.indexOf($scope.jobCitySearch.toUpperCase()) != -1) && (!!$scope.jobCitySearch);
+                var catFound = (cat.indexOf($scope.jobCategorySearch.toUpperCase()) != -1) && (!!$scope.jobCategorySearch);
+                var subcatFound = (subCat.indexOf($scope.jobSubcategorySearch.toUpperCase()) != -1) && (!!$scope.jobSubcategorySearch);
+                return (cityFound || catFound || subcatFound);
             });
 
+            console.debug(result);
 
             $scope.allJobsChunked = result.chunk($scope.sizePerPage);
             $scope.allJobsPaged = $scope.allJobsChunked[0];
@@ -240,7 +267,22 @@
 
             JobModel.prototype.populate = function (jobData) {
                 for (var key in jobData) {
-                    if (this.hasOwnProperty(key)) {
+                    if(key === "jobPhotos") {
+
+                       this["jobAlbum"] = [];
+                       var len = jobData.jobPhotos.length;
+                       for(var i = 0; i < len; ++i) {
+                        var photo = jobData.jobPhotos[i];
+                        if(!photo.img)
+                            continue
+                        var photo_al = {
+                            img: photo.img,
+                            description: photo.description
+                        }
+                        this["jobAlbum"].push(photo_al);
+                       }
+                       console.debug(this["jobAlbum"]);
+                    } else if (this.hasOwnProperty(key)) {
                         console.debug(key);
                         this[key] = angular.copy(jobData[key])
                     }
@@ -289,6 +331,7 @@
                     $scope.rightPartial = "app/jobs/jobEdit.html";
                     $scope.currentView = "jobpanel";
                     $scope.currentJob = job;
+                    console.debug(job);
                     $scope.backup = job;
                     datacontext.getCategories().success(function (catdata) {
                         $scope.categories = catdata;

@@ -346,4 +346,77 @@
         };
     });
 
+    app.directive('lightbox',  ['$modal', '$log', function ($modal, $log) {
+
+        var ModalInstanceCtrl = function ($scope, $modalInstance, images, selectedImageIndex) {
+            $scope.closeModal = function() {
+                $modalInstance.close("hehe");
+            }
+            $scope.totalImages = images.length;
+            $scope.selectedImageIndex = selectedImageIndex + 1;
+            $scope.selectedImage = images[selectedImageIndex];
+
+            // console.debug(selectedImage);
+     
+            $scope.source = function (img) {
+                return img.img;
+            };
+ 
+            $scope.hasPrev = function () {
+                return ($scope.selected !== 0);
+            };
+            
+            $scope.hasNext = function () {
+                return ($scope.selected < $scope.images.length - 1);
+            };
+ 
+            $scope.next = function () {
+                $scope.selected = $scope.selected + 1;
+                $scope.selectedImage = $scope.images[$scope.selected];
+            };
+ 
+            $scope.prev = function () {
+                $scope.selected = $scope.selected - 1;
+                $scope.selectedImage = $scope.images[$scope.selected];
+            };
+        };
+
+        return {
+            restrict: 'E',
+            templateUrl: "app/templates/lightbox.html",
+            scope: {
+                images: '='
+            },
+     
+            replace: true,
+        
+            controller: function ($rootScope, $scope) {
+                $scope.selectedImageIndex = 0;
+                $scope.tileWidth = 150;
+                $scope.tileHeight = 150;
+                $scope.modalInstance = null;
+                
+                $scope.open = function() {
+                    $scope.modalInstance = $modal.open({
+                      templateUrl: 'app/templates/album.html',
+                      controller: ModalInstanceCtrl,
+                      resolve: {
+                        images: function() {
+                            return $scope.images;
+                        },
+                        selectedImageIndex: function () {
+                          return $scope.selectedImageIndex;
+                        }
+                      }
+                    });
+                }
+
+                $scope.displayImage = function (img) {
+                    $scope.selectedImageIndex = $scope.images.indexOf(img);
+                    $scope.open();
+                };
+            }
+        };
+    }]);
+
 })();
