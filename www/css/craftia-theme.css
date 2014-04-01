@@ -1,4 +1,6 @@
-
+body {
+  overflow-x: hidden;
+}
 
 .profile-details-widget {
   width: 100%;

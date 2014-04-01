@@ -1,6 +1,7 @@
 async       = require "async"
 UserModel   = require "../models/User"
-AuthLevel       = require("../../config/Passport").AUTH_LEVEL
+AuthLevel   = require("../../config/Passport").AUTH_LEVEL
+findCity    = require("./Job").findCity
 
 module.exports = (app) ->
     app.get "/", module.exports.showIndexPage
@@ -57,10 +58,26 @@ module.exports.registerCrafsman = (req, res) ->
     data        = req.body
     data.type   = AuthLevel.CRAFTSMAN
     user        = new UserModel(data)
-    module.exports.saveUser(user, res)
+    
+    resolveCity = (clb) -> clb()
+    if data.address?.city?
+        resolveCity = findCity(data.address.city)
+
+    resolveCity((err, city) ->
+        data.address.zip = city.zip
+        module.exports.saveUser(user, res)
+    )
 
 module.exports.registerCustomer = (req, res) ->
     data        = req.body
     data.type   = AuthLevel.CUSTOMER
     user        = new UserModel(data)
-    module.exports.saveUser(user, res)
+
+    resolveCity = (clb) -> clb()
+    if data.address?.city?
+        resolveCity = findCity(data.address.city)
+
+    resolveCity((err, city) ->
+        data.address.zip = city.zip
+        module.exports.saveUser(user, res)
+    )

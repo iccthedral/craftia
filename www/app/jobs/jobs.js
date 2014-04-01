@@ -85,7 +85,7 @@
                 $rootScope.$broadcast(config.events.spinnerToggle, {show: false});
             })
         }
-*/
+        */
         $scope.allJobsPageSelected = function (page) {
             $scope.allJobsPaged = $scope.allJobsChunked[page.page - 1];
             $scope.allJobsCurrentPage = page.page;
@@ -102,334 +102,339 @@
         }
 
         $scope.search = function ($event) {
-            
+
             if (($scope.jobCitySearch === '' &&
-                 $scope.jobDistanceSearch === '' &&
-                 $scope.jobCategorySearch === '' &&
-                 $scope.jobSubcategorySearch === '' )) {
+               $scope.jobDistanceSearch === '' &&
+               $scope.jobCategorySearch === '' &&
+               $scope.jobSubcategorySearch === '' )) {
 
                 $scope.allJobsChunked = $scope.allJobs.chunk($scope.sizePerPage);
-                $scope.allJobsPaged = $scope.allJobsChunked[$scope.allJobsCurrentPage - 1];
+            $scope.allJobsPaged = $scope.allJobsChunked[$scope.allJobsCurrentPage - 1];
+            return;
+        }
+
+        var result = $scope.allJobs.filter(function (obj) {
+            var city = obj.address.city.toUpperCase();
+            var cat = obj.category.toUpperCase();
+            var subCat = obj.subcategory.toUpperCase();
+            var cityFound = (city.indexOf($scope.jobCitySearch.toUpperCase()) != -1) && (!!$scope.jobCitySearch);
+            var catFound = (cat.indexOf($scope.jobCategorySearch.toUpperCase()) != -1) && (!!$scope.jobCategorySearch);
+            var subcatFound = (subCat.indexOf($scope.jobSubcategorySearch.toUpperCase()) != -1) && (!!$scope.jobSubcategorySearch);
+            return (cityFound || catFound || subcatFound);
+        });
+
+        console.debug(result);
+
+        $scope.allJobsChunked = result.chunk($scope.sizePerPage);
+        $scope.allJobsPaged = $scope.allJobsChunked[0];
+        $scope.allJobsTotal = result.length;
+    }
+
+    $scope.isBidder = function(jobIndex) {
+        return $scope.allJobsPaged[jobIndex].bidders.filter(function (bidder) {
+            return (bidder.id === $scope.user._id)
+        }).length > 0
+    }
+
+    $scope.getCities = function (id) {
+        $rootScope.isAjaxHappening = true;
+        return $.get('/cities/' + id).then(function (res) {
+            $rootScope.isAjaxHappening = false;
+            return res
+        });
+    }
+
+
+    $scope.calcRoute = function(start, end) {
+        var request = {
+          origin: start,
+          destination: end,
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+        $scope.directionsService.route(request, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+              $scope.directionsDisplay.setDirections(response);
+            }
+        });
+    }
+
+    window["initializeGmaps"] = function(data) {
+        $scope.directionsDisplay = null;
+        $scope.directionsService = new google.maps.DirectionsService();
+        $scope.map = null;
+        $scope.directionsDisplay = new google.maps.DirectionsRenderer();
+        var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+        var mapOptions = {
+            zoom:7,
+            center: chicago
+        }
+        $scope.map_canvas = $(document.getElementById('map-canvas'));
+        $scope.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        $scope.directionsDisplay.setMap($scope.map);
+    }
+
+    $scope.initLeftPartial = function () {
+        $.ajax({
+            url: 'http://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC8x39I4Aa4jYbZuTGkoGlFm5Cm4sZD1E0&sensor=false&' + 
+            'callback=initializeGmaps',
+            dataType: "jsonp",
+            jsonp: "initializeGmaps",
+            success: function(data) {
+            }
+        });
+    }
+
+    function JobList() {
+        $scope.focusedMap = {};
+        return {
+            getJobs: function () {
+                console.debug($scope.allJobs);
+                return $scope.allJobs;
+            },
+
+            showJob: function (jobIndex) {
+                $scope.rightPartial = "app/jobs/bidForJob.html";
+                $scope.currentJob.populate($scope.allJobsPaged[jobIndex]);
+                attachSubcategories($scope.currentJob);
+                $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
+                $scope.biddersPagedItems = $scope.biddersItems[0];
+                $scope.biddersTotalItems = $scope.biddersItems.length;
+                $scope.map_canvas.show();
+                console.debug($scope.user.address.city, $scope.currentJob.address.city)
+                $scope.calcRoute($scope.user.address.city, $scope.currentJob.address.city)
+            },
+
+            toggleFocus: function (bidderIndex) {
+                $scope.focusedMap[bidderIndex] = !$scope.focusedMap[bidderIndex];
+            },
+
+            getFocus: function (bidderIndex) {
+                return $scope.focusedMap[bidderIndex];
+            },
+
+            acceptBid: function (bidderIndex) {
+                var modalScope = $scope;
+                modalScope.ok = function () {
+                    datacontext.chooseWinner($scope.currentJob._id, $scope.currentJob.bidders[bidderIndex].id)
+                    .done(function (data) {
+                        $scope.currentJob.winner = data;
+                        $scope.currentJob.status = 'closed';
+                        $scope.currentJob.populate(data);
+                    });
+                }
+                dialogs.confirmationDialog(
+                    "Confirm",
+                    "Are you sure you want to accept this craftsman for this job?",
+                    "Ok",
+                    "Cancel",
+                    modalScope
+                    )
+            }
+        }
+    }
+
+    function attachSubcategories(that) {
+        console.debug(that);
+        $rootScope.isAjaxHappening = true;
+        datacontext.getSubcategories(that.selectedCategory.category.id).success(function (data) {
+            $scope.subcategories = data;
+            that.selectedCategory.subcategory = $scope.subcategories[0];
+            $rootScope.isAjaxHappening = false;
+            $rootScope.$digest();
+        });
+    }
+
+    function createJobModel(scope) {
+        console.debug("created job model");
+        console.debug($scope.rightPartial);
+
+        var JobModel = function JobModel() {
+            this.selectedCategory = {
+                category: "",
+                subcategory: ""
+            };
+            this._id = "";
+            this.city = "";
+            this.dateFrom = "";
+            this.dateTo = "";
+            this.title = "";
+            this.description = "";
+            this.budget = "";
+            this.materialProvider = "";
+            this.address = "";
+            this.author = {
+                username: "",
+                id: ""
+            };
+            this.bidders = [];
+            this.subcategory = "";
+            this.category = "";
+            this.status = "";
+            this.currentPhotoIndex = null;
+            this.jobPhotos = [
+            {
+                img: null,
+                description: ""
+            },
+            {
+                img: null,
+                description: ""
+            },
+            {
+                img: null,
+                description: ""
+            },
+            {
+                img: null,
+                description: ""
+            }
+            ]
+        }
+
+        JobModel.prototype.storeJobPhoto = function(img, index) {
+            this.currentPhotoIndex = index;
+            this.jobPhotos[index].img = img.src;
+        }
+
+        JobModel.prototype.setFocusOnPhoto = function(index) {
+            if (this.jobPhotos[index].img === null) {
+                this.currentPhotoIndex = null;
                 return;
             }
-           
-             var result = $scope.allJobs.filter(function (obj) {
-                var city = obj.address.city.toUpperCase();
-                var cat = obj.category.toUpperCase();
-                var subCat = obj.subcategory.toUpperCase();
-                var cityFound = (city.indexOf($scope.jobCitySearch.toUpperCase()) != -1) && (!!$scope.jobCitySearch);
-                var catFound = (cat.indexOf($scope.jobCategorySearch.toUpperCase()) != -1) && (!!$scope.jobCategorySearch);
-                var subcatFound = (subCat.indexOf($scope.jobSubcategorySearch.toUpperCase()) != -1) && (!!$scope.jobSubcategorySearch);
-                return (cityFound || catFound || subcatFound);
-            });
-
-            console.debug(result);
-
-            $scope.allJobsChunked = result.chunk($scope.sizePerPage);
-            $scope.allJobsPaged = $scope.allJobsChunked[0];
-            $scope.allJobsTotal = result.length;
+            this.currentPhotoIndex = index;
         }
 
-        $scope.isBidder = function(jobIndex) {
-            return $scope.allJobsPaged[jobIndex].bidders.filter(function (bidder) {
-                return (bidder.id === $scope.user._id)
-            }).length > 0
-        }
+        JobModel.prototype.populate = function (jobData) {
+            for (var key in jobData) {
+                if(key === "jobPhotos") {
 
-        $scope.getCities = function (id) {
-            $rootScope.isAjaxHappening = true;
-            return $.get('/cities/' + id).then(function (res) {
-                $rootScope.isAjaxHappening = false;
-                return res
-            });
-        }
-
-        $scope.dropped = function(dragEl, dropEl) {
-            
-        }
-        
-        window["initializeGmaps"] = function(data) {
-            console.debug(data);
-              var mapOptions = {
-                zoom: 8,
-                center: new google.maps.LatLng(-34.397, 150.644)
-              };
-
-              var map = new google.maps.Map(document.getElementById('map-canvas'),
-                  mapOptions);
-        }
-
-        $scope.initLeftPartial = function () {
-            $.ajax({
-                url: 'http://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyC8x39I4Aa4jYbZuTGkoGlFm5Cm4sZD1E0&sensor=false&' + 
-                'callback=initializeGmaps',
-                dataType: "jsonp",
-                jsonp: "initializeGmaps",
-                success: function(data) {
-                    alert('tu ')
-                    // console.debug(data);
-                }
-            });
-
-            // function initialize() {
-            //   var mapOptions = {
-            //     zoom: 8,
-            //     center: new google.maps.LatLng(-34.397, 150.644)
-            //   };
-
-            //   var map = new google.maps.Map(document.getElementById('map-canvas'),
-            //       mapOptions);
-            // }
-        }
-
-        function JobList() {
-            $scope.focusedMap = {};
-            return {
-                getJobs: function () {
-                    console.debug($scope.allJobs);
-                    return $scope.allJobs;
-                },
-
-                showJob: function (jobIndex) {
-                    $scope.rightPartial = "app/jobs/bidForJob.html";
-                    $scope.currentJob.populate($scope.allJobsPaged[jobIndex]);
-                    attachSubcategories($scope.currentJob);
-                    $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
-                    $scope.biddersPagedItems = $scope.biddersItems[0];
-                    $scope.biddersTotalItems = $scope.biddersItems.length;
-                },
-
-                toggleFocus: function (bidderIndex) {
-                    $scope.focusedMap[bidderIndex] = !$scope.focusedMap[bidderIndex];
-                },
-
-                getFocus: function (bidderIndex) {
-                    return $scope.focusedMap[bidderIndex];
-                },
-
-                acceptBid: function (bidderIndex) {
-                    var modalScope = $scope;
-                    modalScope.ok = function () {
-                        datacontext.chooseWinner($scope.currentJob._id, $scope.currentJob.bidders[bidderIndex].id)
-                        .done(function (data) {
-                            $scope.currentJob.winner = data;
-                            $scope.currentJob.status = 'closed';
-                            $scope.currentJob.populate(data);
-                        });
+                 this["jobAlbum"] = [];
+                 var len = jobData.jobPhotos.length;
+                 for(var i = 0; i < len; ++i) {
+                    var photo = jobData.jobPhotos[i];
+                    if(!photo.img)
+                        continue
+                    var photo_al = {
+                        img: photo.img,
+                        description: photo.description
                     }
-                    dialogs.confirmationDialog(
-                        "Confirm",
-                        "Are you sure you want to accept this craftsman for this job?",
-                        "Ok",
-                        "Cancel",
-                        modalScope
-                    )
+                    this["jobAlbum"].push(photo_al);
                 }
+                console.debug(this["jobAlbum"]);
+            } else if (this.hasOwnProperty(key)) {
+                console.debug(key);
+                this[key] = angular.copy(jobData[key])
             }
         }
+    }
 
-        function attachSubcategories(that) {
-            console.debug(that);
-            $rootScope.isAjaxHappening = true;
-            datacontext.getSubcategories(that.selectedCategory.category.id).success(function (data) {
-                $scope.subcategories = data;
-                that.selectedCategory.subcategory = $scope.subcategories[0];
-                $rootScope.isAjaxHappening = false;
+    JobModel.prototype.isBidder = function () {
+        return this.bidders.filter(function (bidder) {
+            return (bidder.id === $scope.user._id)
+        }).length > 0
+    }
+
+    JobModel.prototype.changeCategory = function () {
+        console.debug(this);
+        attachSubcategories(this);
+    }
+
+    return new JobModel(scope);
+}
+
+
+function resetModel() {
+    $scope.currentJob = createJobModel($scope);
+    $scope.backup = $scope.currentJob;
+}
+
+function JobPanel() {
+    $scope.editable = false;
+
+    var panel = {
+
+        prevView: function() {
+           $scope.rightPartial = "app/jobs/jobCreate.html";
+       },
+
+       nextView: function() {
+        $scope.rightPartial = "app/jobs/jobCreate2.html";
+    },
+
+    addNewJob: function () {
+        $scope.rightPartial = "app/jobs/jobCreate.html";
+        resetModel();
+    },
+
+    editJob: function (job) {
+        $scope.rightPartial = "app/jobs/jobEdit.html";
+        $scope.currentView = "jobpanel";
+        $scope.currentJob = job;
+        console.debug(job);
+        $scope.backup = job;
+        datacontext.getCategories().success(function (catdata) {
+            $scope.categories = catdata;
+            var curcat = $scope.currentJob.category;
+            var curscat = $scope.currentJob.subcategories;
+            var fcat = catdata.filter(function (cat) { return cat.name === curcat })[0]
+            $scope.currentJob.selectedCategory.category = fcat;
+            $scope.$digest();
+            datacontext.getSubcategories(fcat.id).success(function (subcats) {
+                $scope.subcategories = subcats;
+                var curscat = $scope.currentJob.subcategory;
+                var fcat = subcats.filter(function (cat) { return cat.name === curscat })[0]
+                $scope.currentJob.selectedCategory.subcategory = fcat;
                 $rootScope.$digest();
             });
+        });
+        $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
+        $scope.biddersPagedItems = $scope.biddersItems[0];
+        $scope.biddersTotalItems = $scope.biddersItems.length;
+        console.debug($scope.biddersItems);
+        console.debug($scope.biddersPagedItems);
+        console.debug($scope.biddersTotalItems)
+    },
+
+    partialInit: function () {
+        $("#datefrom").datepicker({ minDate: 0 });
+        $("#dateto").datepicker({ minDate: 0 });
+    },
+
+    cancel: function () {
+        $scope.editable = false;
+        $scope.currentJob = angular.copy($scope.backup);
+    },
+
+    edit: function () {
+        $scope.editable = true;
+
+    },
+
+    create: function () {
+        var curjob = $scope.currentJob;
+        var jobData = JSON.parse(JSON.stringify(curjob));
+        jobData.address = {
+            city: curjob.city,
+            line1: curjob.address,
+            line2: "test"
         }
+        jobData.category = curjob.selectedCategory.category.name
+        jobData.subcategory = curjob.selectedCategory.subcategory.name
 
-        function createJobModel(scope) {
-            console.debug("created job model");
-            console.debug($scope.rightPartial);
-
-            var JobModel = function JobModel() {
-                this.selectedCategory = {
-                    category: "",
-                    subcategory: ""
-                };
-                this._id = "";
-                this.city = "";
-                this.dateFrom = "";
-                this.dateTo = "";
-                this.title = "";
-                this.description = "";
-                this.budget = "";
-                this.materialProvider = "";
-                this.address = "";
-                this.author = {
-                    username: "",
-                    id: ""
-                };
-                this.bidders = [];
-                this.subcategory = "";
-                this.category = "";
-                this.status = "";
-                this.currentPhotoIndex = null;
-                this.jobPhotos = [
-                    {
-                        img: null,
-                        description: ""
-                    },
-                    {
-                        img: null,
-                        description: ""
-                    },
-                    {
-                        img: null,
-                        description: ""
-                    },
-                    {
-                        img: null,
-                        description: ""
-                    }
-                ]
-            }
-
-            JobModel.prototype.storeJobPhoto = function(img, index) {
-                this.currentPhotoIndex = index;
-                this.jobPhotos[index].img = img.src;
-            }
-
-            JobModel.prototype.setFocusOnPhoto = function(index) {
-                if (this.jobPhotos[index].img === null) {
-                    this.currentPhotoIndex = null;
-                    return;
-                }
-                this.currentPhotoIndex = index;
-            }
-
-            JobModel.prototype.populate = function (jobData) {
-                for (var key in jobData) {
-                    if(key === "jobPhotos") {
-
-                       this["jobAlbum"] = [];
-                       var len = jobData.jobPhotos.length;
-                       for(var i = 0; i < len; ++i) {
-                        var photo = jobData.jobPhotos[i];
-                        if(!photo.img)
-                            continue
-                        var photo_al = {
-                            img: photo.img,
-                            description: photo.description
-                        }
-                        this["jobAlbum"].push(photo_al);
-                       }
-                       console.debug(this["jobAlbum"]);
-                    } else if (this.hasOwnProperty(key)) {
-                        console.debug(key);
-                        this[key] = angular.copy(jobData[key])
-                    }
-                }
-            }
-
-            JobModel.prototype.isBidder = function () {
-                return this.bidders.filter(function (bidder) {
-                    return (bidder.id === $scope.user._id)
-                }).length > 0
-            }
-
-            JobModel.prototype.changeCategory = function () {
-                console.debug(this);
-                attachSubcategories(this);
-            }
-
-            return new JobModel(scope);
-        }
-
-
-        function resetModel() {
-            $scope.currentJob = createJobModel($scope);
-            $scope.backup = $scope.currentJob;
-        }
-
-        function JobPanel() {
-            $scope.editable = false;
-
-            var panel = {
-
-                prevView: function() {
-                     $scope.rightPartial = "app/jobs/jobCreate.html";
-                 },
-
-                nextView: function() {
-                    $scope.rightPartial = "app/jobs/jobCreate2.html";
-                },
-
-                addNewJob: function () {
-                    $scope.rightPartial = "app/jobs/jobCreate.html";
-                    resetModel();
-                },
-
-                editJob: function (job) {
-                    $scope.rightPartial = "app/jobs/jobEdit.html";
-                    $scope.currentView = "jobpanel";
-                    $scope.currentJob = job;
-                    console.debug(job);
-                    $scope.backup = job;
-                    datacontext.getCategories().success(function (catdata) {
-                        $scope.categories = catdata;
-                        var curcat = $scope.currentJob.category;
-                        var curscat = $scope.currentJob.subcategories;
-                        var fcat = catdata.filter(function (cat) { return cat.name === curcat })[0]
-                        $scope.currentJob.selectedCategory.category = fcat;
-                        $scope.$digest();
-                        datacontext.getSubcategories(fcat.id).success(function (subcats) {
-                            $scope.subcategories = subcats;
-                            var curscat = $scope.currentJob.subcategory;
-                            var fcat = subcats.filter(function (cat) { return cat.name === curscat })[0]
-                            $scope.currentJob.selectedCategory.subcategory = fcat;
-                            $rootScope.$digest();
-                        });
-                    });
-                    $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
-                    $scope.biddersPagedItems = $scope.biddersItems[0];
-                    $scope.biddersTotalItems = $scope.biddersItems.length;
-                    console.debug($scope.biddersItems);
-                    console.debug($scope.biddersPagedItems);
-                    console.debug($scope.biddersTotalItems)
-                },
-
-                partialInit: function () {
-                    $("#datefrom").datepicker({ minDate: 0 });
-                    $("#dateto").datepicker({ minDate: 0 });
-                },
-
-                cancel: function () {
-                    $scope.editable = false;
-                    $scope.currentJob = angular.copy($scope.backup);
-                },
-
-                edit: function () {
-                    $scope.editable = true;
-                    
-                },
-
-                create: function () {
-                    var curjob = $scope.currentJob;
-                    var jobData = JSON.parse(JSON.stringify(curjob));
-                    jobData.address = {
-                        city: curjob.city,
-                        line1: curjob.address,
-                        line2: "test"
-                    }
-                    jobData.category = curjob.selectedCategory.category.name
-                    jobData.subcategory = curjob.selectedCategory.subcategory.name
-
-                    $.post("job/new", jobData)
-                    .success(function (job) {
-                        var jobic = createJobModel($scope);
-                        jobic.populate(job);
-                        $scope.user.createdJobs.push(job);
-                        getUserJobs();
+        $.post("job/new", jobData)
+        .success(function (job) {
+            var jobic = createJobModel($scope);
+            jobic.populate(job);
+            $scope.user.createdJobs.push(job);
+            getUserJobs();
                         // $scope.ownJobs.push(jobic);
                         resetModel();
                         $rootScope.$digest();
                     });
-                },
+    },
 
-                save: function () {
-                    var data = JSON.parse(JSON.stringify($scope.currentJob));
+    save: function () {
+        var data = JSON.parse(JSON.stringify($scope.currentJob));
                     // delete data.address;
                     delete data._id;
                     console.debug(data);
@@ -486,7 +491,7 @@
                         "Ok",
                         "Cancel",
                         modalScope
-                    )
+                        )
                 },
                 cancelBid: function () {
                     var modalScope = $scope;
@@ -512,7 +517,7 @@
                         "Ok",
                         "Cancel",
                         modalScope
-                    )
+                        )
                 }
             }
         }
@@ -553,7 +558,7 @@
         activate();
         function activate() {
             common.activateController([getCategories(), getAllJobs(), getUserJobs()], controllerId)
-                .then(function () { log('Activated Jobs View'); });
+            .then(function () { log('Activated Jobs View'); });
         }
     }
 })();

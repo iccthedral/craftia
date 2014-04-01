@@ -1,11 +1,13 @@
 (function() {
-  var AuthLevel, UserModel, async;
+  var AuthLevel, UserModel, async, findCity;
 
   async = require("async");
 
   UserModel = require("../models/User");
 
   AuthLevel = require("../../config/Passport").AUTH_LEVEL;
+
+  findCity = require("./Job").findCity;
 
   module.exports = function(app) {
     app.get("/", module.exports.showIndexPage);
@@ -85,19 +87,37 @@
   };
 
   module.exports.registerCrafsman = function(req, res) {
-    var data, user;
+    var data, resolveCity, user, _ref;
     data = req.body;
     data.type = AuthLevel.CRAFTSMAN;
     user = new UserModel(data);
-    return module.exports.saveUser(user, res);
+    resolveCity = function(clb) {
+      return clb();
+    };
+    if (((_ref = data.address) != null ? _ref.city : void 0) != null) {
+      resolveCity = findCity(data.address.city);
+    }
+    return resolveCity(function(err, city) {
+      data.address.zip = city.zip;
+      return module.exports.saveUser(user, res);
+    });
   };
 
   module.exports.registerCustomer = function(req, res) {
-    var data, user;
+    var data, resolveCity, user, _ref;
     data = req.body;
     data.type = AuthLevel.CUSTOMER;
     user = new UserModel(data);
-    return module.exports.saveUser(user, res);
+    resolveCity = function(clb) {
+      return clb();
+    };
+    if (((_ref = data.address) != null ? _ref.city : void 0) != null) {
+      resolveCity = findCity(data.address.city);
+    }
+    return resolveCity(function(err, city) {
+      data.address.zip = city.zip;
+      return module.exports.saveUser(user, res);
+    });
   };
 
 }).call(this);

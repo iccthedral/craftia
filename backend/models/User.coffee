@@ -30,6 +30,13 @@ schema = mongoose.Schema
         type: String
         required: true
 
+    address: {
+        zip: String
+        city: String
+        line1: String
+        line2: String
+    }
+    
     type:
         type: String
         enum: ["Admin", "Craftsman", "Customer"]

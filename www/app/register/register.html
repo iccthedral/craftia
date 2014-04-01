@@ -76,6 +76,24 @@
 
                                                     </div>
                                                 </div>
+
+                                                <!-- Text input-->
+                                                <div class="form-group">
+                                                    <label class="col-md-9 control-label" for="telephone">City</label>
+                                                    <div class="col-md-9">
+                                                        <input ng-model="vm.user.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Text input-->
+                                                <div class="form-group">
+                                                    <label class="col-md-9 control-label" for="telephone">Address</label>
+                                                    <div class="col-md-9">
+                                                        <input ng-model="vm.user.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
+                                                    </div>
+                                                </div>
+
                                                 <!-- Multiple Radios -->
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label" for="radios">Account type</label>

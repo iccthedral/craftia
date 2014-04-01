@@ -1,9 +1,9 @@
 (function () {
     'use strict';
     var controllerId = 'register';
-    angular.module('app').controller(controllerId, ['common', 'datacontext', '$location', register]);
+    angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', '$location', register]);
 
-    function register(common, datacontext, $location) {
+    function register($scope, $rootScope, common, datacontext, $location) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
         var logSuccess = getLogFn(controllerId, "success")
@@ -20,7 +20,11 @@
             type: "",
             name: "",
             telephone: "",
-            surname: ""
+            surname: "",
+            address: {
+                line1: null,
+                city: null
+            }
         };
 
         activate();
@@ -36,6 +40,14 @@
             $location.path("/login")
         }
 
+        $scope.getCities = function (id) {
+            $rootScope.isAjaxHappening = true;
+            return $.get('/cities/' + id).then(function (res) {
+                $rootScope.isAjaxHappening = false;
+                return res;
+            });
+        }
+    
         function activate() {
             common.activateController([], controllerId)
                 .then(function () { log('Activated Register View'); });
