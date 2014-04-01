@@ -11,6 +11,7 @@
         'common.bootstrap', // bootstrap dialog wrapper functions
         // 3rd Party Modules
         'angularFileUpload',
+        'ui.bootstrap.modal',
         'ui.bootstrap',      // ui-bootstrap (ex: carousel, pagination, dialog)
     ])
     

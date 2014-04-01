@@ -249,4 +249,18 @@ div .boxbookmark {
 
 .craftia-map {
   height: 300px !important;
+};
+
+.job-photo-gallery {
+}
+
+.job-photo-gallery .job-photo {
+  width: 100px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.job-photo-gallery .job-photo img {
+  width: 100px;
+  height: 100px;
 }
