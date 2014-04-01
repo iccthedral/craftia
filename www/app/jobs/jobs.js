@@ -368,6 +368,7 @@
 
                 edit: function () {
                     $scope.editable = true;
+                    
                 },
 
                 create: function () {
