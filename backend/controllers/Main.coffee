@@ -5,7 +5,6 @@ findCity    = require("./Job").findCity
 
 module.exports = (app) ->
     app.get "/", module.exports.showIndexPage
-    app.get "/isAuthenticated", module.exports.isUserAuthenticated
     app.get "/listcraftsmen", module.exports.listAllCraftsmen
     app.get "/listjobs", module.exports.listOpenJobs
     app.post "/register-craftsman", module.exports.registerCrafsman
@@ -28,15 +27,6 @@ module.exports.saveUser = (user, res) ->
 
 module.exports.showIndexPage = (req, res) ->
     res.render("main", user: req.user)
-
-module.exports.isUserAuthenticated = (req, res) ->
-    user = req.user
-    return res.send(403) if not user?
-    UserModel
-    .find(_id: user._id)
-    .populate("createdJobs biddedJobs")
-    .exec (err, result) ->
-        res.send(result[0])
 
 module.exports.listAllCraftsmen = (req, res) ->
     UserModel

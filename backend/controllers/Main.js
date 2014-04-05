@@ -11,7 +11,6 @@
 
   module.exports = function(app) {
     app.get("/", module.exports.showIndexPage);
-    app.get("/isAuthenticated", module.exports.isUserAuthenticated);
     app.get("/listcraftsmen", module.exports.listAllCraftsmen);
     app.get("/listjobs", module.exports.listOpenJobs);
     app.post("/register-craftsman", module.exports.registerCrafsman);
@@ -49,19 +48,6 @@
   module.exports.showIndexPage = function(req, res) {
     return res.render("main", {
       user: req.user
-    });
-  };
-
-  module.exports.isUserAuthenticated = function(req, res) {
-    var user;
-    user = req.user;
-    if (user == null) {
-      return res.send(403);
-    }
-    return UserModel.find({
-      _id: user._id
-    }).populate("createdJobs biddedJobs").exec(function(err, result) {
-      return res.send(result[0]);
     });
   };
 

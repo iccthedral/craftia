@@ -23,6 +23,18 @@ module.exports = (app) ->
     # uploads profile picture
     app.post "/user/uploadpicture", module.exports.uploadProfilePicture
 
+    # Is current session holder authenticated?
+    app.get "/isAuthenticated", module.exports.isUserAuthenticated
+
+module.exports.isUserAuthenticated = (req, res) ->
+    user = req.user
+    return res.send(403) if not user?
+    UserModel
+    .find(_id: user._id)
+    .populate("createdJobs biddedJobs inbox.sent inbox.received")
+    .exec (err, result) ->
+        res.send(result[0])
+
 module.exports.logMeOut = (req, res) ->
     req.logout()
     res.redirect(200, "/")
@@ -39,9 +51,9 @@ module.exports.logMeIn = (req, res, next) ->
             return next(err) if err?
             UserModel
             .find _id: user._id
-            .populate "createdJobs"
+            .populate "createdJobs biddedJobs inbox.sent inbox.received"
             .exec (err, result) ->
-                return res.send(result[0])
+                res.send(result[0])
     pass(req, res, next)
 
 module.exports.updateMe = (req, res) ->

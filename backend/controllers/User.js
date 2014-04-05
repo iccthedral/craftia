@@ -27,7 +27,21 @@
     app.get("/logout", module.exports.logMeOut);
     app.post("/login", module.exports.logMeIn);
     app.post("/user/update", module.exports.updateMe);
-    return app.post("/user/uploadpicture", module.exports.uploadProfilePicture);
+    app.post("/user/uploadpicture", module.exports.uploadProfilePicture);
+    return app.get("/isAuthenticated", module.exports.isUserAuthenticated);
+  };
+
+  module.exports.isUserAuthenticated = function(req, res) {
+    var user;
+    user = req.user;
+    if (user == null) {
+      return res.send(403);
+    }
+    return UserModel.find({
+      _id: user._id
+    }).populate("createdJobs biddedJobs inbox.sent inbox.received").exec(function(err, result) {
+      return res.send(result[0]);
+    });
   };
 
   module.exports.logMeOut = function(req, res) {
@@ -55,7 +69,7 @@
         }
         return UserModel.find({
           _id: user._id
-        }).populate("createdJobs").exec(function(err, result) {
+        }).populate("createdJobs biddedJobs inbox.sent inbox.received").exec(function(err, result) {
           return res.send(result[0]);
         });
       });

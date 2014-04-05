@@ -66,7 +66,7 @@ schema = mongoose.Schema
         totalVotes: { type: Number, default: 0 },
         avgRate: { type: Number, default: 0, min: 0, max: 5 }
 
-    profilePic: 
+    profilePic:
         type: String
         default: "img/default_user.jpg"
 

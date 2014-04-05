@@ -5,6 +5,9 @@ schema = mongoose.Schema
 	message:
 		type: String
 		required: true
+	
+	subject:
+		type: String
 
 	type:
 		type: String

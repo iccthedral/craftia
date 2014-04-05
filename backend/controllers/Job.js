@@ -1,5 +1,5 @@
 (function() {
-  var AuthLevel, CategoryModel, CityModel, JobModel, UserModel, async, colors, fs, mongoose, passport, util,
+  var AuthLevel, CategoryModel, CityModel, JobModel, Messaging, UserModel, async, colors, fs, mongoose, passport, util,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   mongoose = require("mongoose");
@@ -21,6 +21,8 @@
   JobModel = require("../models/Job");
 
   CategoryModel = require("../models/Category");
+
+  Messaging = require("../modules/Messaging");
 
   AuthLevel = require("../../config/Passport").AUTH_LEVEL;
 
@@ -185,7 +187,15 @@
         if (err != null) {
           return res.status(422).send(err.message);
         }
-        return res.send(job);
+        return Messaging.sendMessage({
+          sender: usr.username,
+          receiver: job.author.username,
+          subject: "Someone bidded on your offering",
+          type: "job",
+          body: "Craftsman " + usr.username + " just bidded on your <a href='" + job._id + "'>job</a> " + job.title + " under " + job.category + " category"
+        }, function() {
+          return res.send(job);
+        });
       });
     });
   };
@@ -256,7 +266,15 @@
         job.winner = winner._id;
         job.status = "closed";
         return job.save(function(err, job) {
-          return res.send(job);
+          return Messaging.sendMessage({
+            sender: job.author.username,
+            receiver: winner.username,
+            subject: "Congrats lad, you won the bid!",
+            type: "job",
+            body: "Hey there lucky, you just won the bid for a <a href='" + job._id + "'>job</a> created by " + job.author.username + "\nunder " + job.category + " category. He chose you to be his slave for the year."
+          }, function() {
+            return res.send(job);
+          });
         });
       });
     });
