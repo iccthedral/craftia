@@ -7,7 +7,7 @@
     app.service(serviceId, ['$http','$rootScope', '$location', 'datacontext', 'common',
         function authService($http, $rootScope, $location, datacontext, common) {
             var userType = "";
-            var user = {}
+            var user = null;
             var getLogFn = common.logger.getLogFn;
             var log = getLogFn(serviceId);
             var logSuccess = getLogFn(serviceId, "success");
@@ -21,7 +21,6 @@
                 },  
 
                 getUserType: function () {
-                    if (user != undefined) { }
                     return userType;
                 },
 
@@ -35,6 +34,7 @@
 
                 setUser: function (newUser) {
                     user = newUser;
+                    console.debug(newUser); 
                     if (user) {
                         userType = user.type;
                         Object.defineProperty(user, "isCraftsman", {

@@ -14,7 +14,7 @@
     type: {
       type: String,
       required: true,
-      "enum": ["system", "job", "contact"]
+      "enum": ["system", "job", "contact", "other"]
     },
     author: {
       username: String,

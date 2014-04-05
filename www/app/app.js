@@ -29,7 +29,8 @@
      return out;
     };
 
-    app.run(["logger", function(logger) {
+    app.run(["logger", "gmaps", function(logger, gmaps) {
+        gmaps.initGmapsAPI()
         window.onerror = function(msg) {
             logger.logError(msg);
         }
