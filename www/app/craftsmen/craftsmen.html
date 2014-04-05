@@ -13,13 +13,13 @@
                                     <div data-cc-widget-header title="Yellow Pages"
                                          allow-collapse="true"
                                          subtitle="{{pagedItems.length}} / {{totalItems}}"
-                                         right-text="Page {{currentPage}} of {{items.length}}">
+                                         right-text="Page {{currentPage}} of {{pages}}">
                                     </div>
                                     <div class="widget-content text-center text-info">
                                          <ul style="list-style: none;" >
                                             <li class="my-job" id="{{$index}}" data-ng-repeat="p in pagedItems" ng-click="CraftsmanList.showCraftsman($index)">
                                                 <div class="row-container jobDetail">
-                                                    <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
+                                                    <img style="max-width:200px; max-height : 200px" class="pull-left" ng-src={{p.profilePic}}>
                                                     
                                                     <div class="jobDetail text-left">
                                                         <span class="my-job-detail text-left">Email:</span>
@@ -58,7 +58,8 @@
                                     </div>
                                     <div class="widget-foot">
                                         <div class="clearfix"></div>
-                                        <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
+                                        <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="pageSelected" page="currentPage" rotate="false"
+                                        total-items="totalItems"></pagination>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
