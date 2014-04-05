@@ -1,9 +1,9 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'dashboard';
-    angular.module('app').controller(controllerId, ['common', 'datacontext', 'authService', dashboard]);
+    angular.module('app').controller(controllerId, ['$scope','$timeout','common', 'datacontext', 'authService', dashboard]);
 
-    function dashboard(common, datacontext, authService) {
+    function dashboard($scope, $timeout, common, datacontext, authService) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
         
@@ -39,6 +39,19 @@
         vm.craftDash = "app/dashboard/craftsmanDashboard.html";
         vm.custDash = "app/dashboard/customerDashboard.html";
         vm.anonDash = "app/dashboard/anonDashboard.html"
+
+        $scope.model = {};
+
+        $scope.model.transitions = 'bounce|bounceIn|bounceInDown|bounceInLeft|bounceInRight|bounceInUp|bounceOut|bounceOutDown|bounceOutLeft|bounceOutRight|bounceOutUp|fadeIn|fadeInDown|fadeInDownBig|fadeInLeft|fadeInLeftBig|fadeInRight|fadeInRightBig|fadeInUp|fadeInUpBig|fadeOut|fadeOutDown|fadeOutDownBig|fadeOutLeft|fadeOutLeftBig|fadeOutRight|fadeOutRightBig|fadeOutUp|fadeOutUpBig|flash|flip|flipInX|flipInY|flipOutX|flipOutY|hinge|lightSpeedIn|lightSpeedOut|pulse|rollIn|rollOut|rotateIn|rotateInDownLeft|rotateInDownRight|rotateInUpLeft|rotateInUpRight|rotateOut|rotateOutDownLeft|rotateOutDownRight|rotateOutUpLeft|rotateOutUpRight|shake|swing|tada|wobble'.split( '|' );
+        $scope.model.images = 'http://static.amiwithyou.com/images/Penguins(900x675).jpg |http://static.amiwithyou.com/images/Jellyfish(900x675).jpg|http://static.amiwithyou.com/images/Koala(900x675).jpg'.split( '|' );
+
+        $scope.tick = function() {
+            $scope.model.images.unshift( $scope.model.images.pop() );
+            $timeout( $scope.tick, 7000 );
+        };
+
+        $scope.tick();
+
 
         activate();
         
