@@ -1,6 +1,6 @@
-mongoose = require "mongoose"
-CityModel = require "./City"
-CategoryModel = require "./Category"
+mongoose 		= require "mongoose"
+CityModel 		= require "./City"
+CategoryModel 	= require "./Category"
 
 schema = mongoose.Schema
 	title:
@@ -66,7 +66,4 @@ schema = mongoose.Schema
 		default: []
 
 JobModel = mongoose.model("Job", schema)
-
 module.exports = JobModel
-
-

@@ -14,7 +14,7 @@ module.exports = () ->
 		JobModel.find {}, (err, results) ->
 			async.map(results,
 				(job, clb) ->
-					console.log job.dateTo
+					console.log(job.dateTo)
 					d = job.dateTo
 					if job.status in ["open", "finished"]
 						return clb(null, null)

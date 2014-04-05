@@ -8,6 +8,8 @@ UserModel       = require "../models/User"
 CityModel       = require "../models/City"
 JobModel        = require "../models/Job"
 CategoryModel   = require "../models/Category"
+Messaging       = require "../modules/Messaging"
+
 AuthLevel       = require("../../config/Passport").AUTH_LEVEL
 
 module.exports = (app) ->
@@ -135,7 +137,17 @@ module.exports.bidOnJob = (req, res) ->
             rating: usr.rating.toObject()
         job.save (err) ->
             return res.status(422).send(err.message) if err?
-            res.send(job)
+            Messaging.sendMessage({
+                sender: usr.username
+                receiver: job.author.username
+                subject: "Someone bidded on your offering"
+                type: "job"
+                body: """
+Craftsman #{usr.username} just bidded on your <a href='#{job._id}'>job</a> #{job.title} under #{job.category} category
+                """
+            }, () ->
+                res.send(job)
+            )
 
 module.exports.cancelBidOnJob = (req, res) ->
     usr = req.user
@@ -181,4 +193,16 @@ module.exports.pickWinnerBid = (req, res) ->
             return res.send(422) if err?
             job.winner = winner._id
             job.status = "closed"
-            job.save (err, job) -> res.send(job)
+            job.save (err, job) ->
+                Messaging.sendMessage({
+                    sender: job.author.username
+                    receiver: winner.username
+                    subject: "Congrats lad, you won the bid!"
+                    type: "job"
+                    body: """
+Hey there lucky, you just won the bid for a <a href='#{job._id}'>job</a> created by #{job.author.username}
+under #{job.category} category. He chose you to be his slave for the year.
+                    """
+                }, () ->
+                    res.send(job)
+                )
