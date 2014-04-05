@@ -20,9 +20,10 @@
         $scope.CraftsmanList = CraftsmanList();
         $scope.ViewCraftsman = ViewCraftsman();
         //paging
-        $scope.sizePerPage = 3;
+        $scope.sizePerPage = 2;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
+        $scope.pages = 0;
         $scope.pagedItems = [];
         $scope.items = []
 
@@ -38,6 +39,7 @@
                 showCraftsman: function (craftsmanIndex) {
                     $scope.rightPartial = "app/craftsmen/craftsmanInfo.html";
                     $scope.currentCraftsman.populate($scope.allCraftsmen[craftsmanIndex]);
+                    console.debug($scope.allCraftsmen);
                 }
             }
         }
@@ -134,6 +136,7 @@
                     $scope.items = data.chunk($scope.sizePerPage);
                     $scope.pagedItems = $scope.items[0];
                     $scope.totalItems = data.length;
+                    $scope.pages = Math.floor($scope.allCraftsmen.length / $scope.sizePerPage); 
                     $scope.$digest();
                 });
         }
