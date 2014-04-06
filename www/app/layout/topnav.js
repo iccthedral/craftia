@@ -9,6 +9,7 @@
         var vm = this;
         vm.title = "Logout";
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
+        $scope.user = authService.getUser();
         
         vm.logout = function() {
             var goodbyeGreeting = "Goodbye " + authService.getUser().name;
@@ -27,7 +28,8 @@
 
         function activate() {
             common.activateController([], controllerId)
-        } 
+        }
+
         /*activate();
 
         function activate() {

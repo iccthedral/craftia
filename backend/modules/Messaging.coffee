@@ -5,11 +5,18 @@ JobModel = require "../models/Job"
 async = require "async"
 
 module.exports.sendMessage = (message, callback) ->
+
 	UserModel
 	.find(username:$in:[message.author, message.receiver])
 	.exec (err, results) ->
-		sender = results[0]
-		receiver = results[1]
+		out = {}
+		
+		results.forEach (res) ->
+			out[res.username] = res
+
+		sender 		= out[message.sender]
+		receiver 	= out[message.receiver]
+
 		msg = new Message({
 			author: {
 				username: sender.username
@@ -21,6 +28,7 @@ module.exports.sendMessage = (message, callback) ->
 			dateSent: Date.now()
 			isRead: false
 		})
+
 		msg.save (err, msg) =>
 			receiver.inbox.received.push(msg)
 			sender.inbox.sent.push(msg)

@@ -26,6 +26,7 @@
 
         //paging
         $scope.items = [];
+        $scope.fullyShown = [];
         $scope.itemsPaged = [];
         $scope.sizePerPage = 2;
         $scope.totalItems = 0;
@@ -35,6 +36,19 @@
 
 
       
+        $scope.showMessage = function(msgIndex){
+            
+           // debugger;
+           // console.debug($("#"+msgIndex + " .col-md-4").height());
+           // console.debug($("#"+msgIndex + " .col-md-8").height());
+           // $scope.fullyShown[msgIndex] = !$scope.fullyShown[msgIndex];
+           
+           var el2 = angular.element("#"+msgIndex).find(".minified-message");
+           var el = angular.element("#"+msgIndex).find(".expanded-message");
+           el.toggle(500);
+           el2.toggle(500);
+        }
+
         $scope.showSystem = function() {
             $scope.rightPartial = "app/messages/systemMessages.html";
             $scope.systemMessages = $scope.user.inbox.received.filter(function (msg) {
@@ -43,6 +57,7 @@
             $scope.items = $scope.systemMessages.chunk($scope.sizePerPage);
             $scope.itemsPaged = $scope.items[0];
             $scope.totalItems = $scope.systemMessages.length;
+            $scope.currentPage = 1;
         }
 
         $scope.showJobs = function() {
@@ -53,6 +68,7 @@
             $scope.items = $scope.jobMessages.chunk($scope.sizePerPage);
             $scope.itemsPaged = $scope.items[0];
             $scope.totalItems = $scope.jobMessages.length;
+            $scope.currentPage = 1;
         }
 
         $scope.showContact = function() {
@@ -63,6 +79,7 @@
             $scope.items = $scope.contactMessages.chunk($scope.sizePerPage);
             $scope.itemsPaged = $scope.items[0];
             $scope.totalItems = $scope.jobMessages.length;
+            $scope.currentPage = 1;
         }
 
         $scope.showOther = function() {
@@ -73,11 +90,15 @@
             $scope.items = $scope.otherMessages.chunk($scope.sizePerPage);
             $scope.itemsPaged = $scope.items[0];
             $scope.totalItems = $scope.otherMessages.length;
+            $scope.currentPage = 1;
         }
 
 
         $scope.pageSelected = function (page) {
-            $scope.pagedItems = $scope.items[page.page - 1]
+            $scope.pagedItems = $scope.items[page.page - 1];
+            $scope.fullyShown.forEach(function(obj, index){
+                $scope.fullyShown[index] = false;
+            })
         };
 
         // $scope.search = function ($event) {

@@ -138,7 +138,7 @@ module.exports.bidOnJob = (req, res) ->
         job.save (err) ->
             return res.status(422).send(err.message) if err?
             Messaging.sendMessage({
-                sender: usr.username
+                sender: usr.username #bice admin
                 receiver: job.author.username
                 subject: "Someone bidded on your offering"
                 type: "job"

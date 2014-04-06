@@ -11,13 +11,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                </div>
-                <div class="col-md-8">
-
                     <div class="craftia-logo pull-left" ng-if="!isToggled">
                         <img src="img/logo3.png"/>
-                        <p></p>
+                        <p>Das whatever portal</p>
                     </div>
+
 
                     <a href="/#/login"> 
                         <div class="login-envelope pull-right">
@@ -28,6 +26,9 @@
                           
                         </div>
                     </a>
+                </div>
+                <div class="col-md-8">
+                    
 
 <!--                         <ul class="nav navbar-nav pull-right">
                             <li ng-show="isAjaxHappening">
@@ -82,8 +83,38 @@
 
 
                 </div>
-                <div class="col-md-2"></div>
-            </div>
-        </div>
-    </div>
+                
+                <div class="col-md-2">
+                    <a cr-not-auth href="/#/login"> 
+                        <div class="craftia-nav-envelope pull-right">
+                          <div class="rect"></div>
+                          <div class="leftbtr"></div>
+                          <div class="rightbtr"></div>
+                          <span class="login-text">LOGIN</span>
+                      </div>
+                  </a>
+
+                  <div>
+                    <a cr-auth href="hello()">
+                        <div class="craftia-nav-envelope pull-right">
+                            <div class="rect"></div>
+                            <div class="leftbtr"></div>
+                            <div class="rightbtr"></div>
+                            <span class="userland-profile-btn">
+                                <i class="glyphicon glyphicon-user userland-icon"></i>
+                                <span class="userland-name">{{user.username}}</span>
+                            </span>
+                           <span class="userland-mail-btn">
+                            <i class="glyphicon glyphicon-comments userland-mail-icon"></i>
+                                <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
+                            </span>
+                        </div>
+                    </a>
+                 </div>
+          </div>
+      </div>
+
+  </div>
+</div>
+</div>
 </nav>
