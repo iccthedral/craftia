@@ -1,9 +1,7 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'Jobs';
-    var CONTROLLERS = {};
 
-    // angular.module('app').controller(controllerId, ['$scope', '$rootScope', 'common', 'datacontext', 'authService', jobs]);
     angular.module('app').controller(controllerId, [
         '$scope', 
         '$modal', 
@@ -74,7 +72,6 @@
         $scope.myJobsTotal = 0;
         $scope.myJobsCurrentPage = 1;
 
-
         // var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
 
         //   $scope.items = items;
@@ -110,6 +107,7 @@
             })
         }
         */
+        
         $scope.allJobsPageSelected = function (page) {
             $scope.allJobsPaged = $scope.allJobsChunked[page.page - 1];
             $scope.allJobsCurrentPage = page.page;

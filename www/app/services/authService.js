@@ -18,7 +18,7 @@
             var _service = {
                 getUser: function() {
                     return user;                    
-                },  
+                },
 
                 getUserType: function () {
                     return userType;

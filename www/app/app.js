@@ -30,10 +30,12 @@
     };
 
     app.run(["logger", "gmaps", function(logger, gmaps) {
-        gmaps.initGmapsAPI()
-        window.onerror = function(msg) {
-            logger.logError(msg);
-        }
+        angular.element(document).ready(function() {
+          gmaps.initGmapsAPI();
+        });
+        // window.onerror = function(msg) {
+        //     logger.logError(msg);
+        // }
     }]);
 
     // app.run(['$route',  function ($route) {
@@ -51,5 +53,4 @@
     //         }(bla))]);
     //     });
     // }]);
-
 })();

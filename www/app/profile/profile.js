@@ -17,14 +17,12 @@
         $scope.leftPartial = "app/profile/leftProfile.html";
         $scope.rightPartial = "app/profile/rightProfile.html";
 
-        window.scope = $rootScope
         $scope.uploadPicture = function(files) {
             $rootScope.$broadcast(config.events.spinnerToggle, {show: true});
             $scope.upload = $upload.upload({
                 url: "user/uploadpicture",
                 file: files[0]
             }).success(function(picurl) {
-                console.debug(picurl);
                 $scope.user.profilePic = "";
                 setTimeout(function() {
                     $scope.user.profilePic = picurl;
