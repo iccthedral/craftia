@@ -15,6 +15,7 @@
 
         $scope.systemMessages = [];
         $scope.jobMessages = [];
+        $scope.contactMessages = [];
         $scope.otherMessages = [];
 
         $scope.user = authService.getUser();
@@ -54,6 +55,15 @@
             $scope.totalItems = $scope.jobMessages.length;
         }
 
+        $scope.showContact = function() {
+            $scope.rightPartial = "app/messages/contactMessages.html";
+            $scope.contactMessages = $scope.user.inbox.received.filter(function (msg) {
+                if (msg.type === "contact") return msg
+            })
+            $scope.items = $scope.contactMessages.chunk($scope.sizePerPage);
+            $scope.itemsPaged = $scope.items[0];
+            $scope.totalItems = $scope.jobMessages.length;
+        }
 
         $scope.showOther = function() {
             $scope.rightPartial = "app/messages/otherMessages.html";

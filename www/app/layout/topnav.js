@@ -3,9 +3,9 @@
     
     var controllerId = 'topnav';
     angular.module('app').controller(controllerId,
-        ['datacontext', 'common', 'authService','$http', "$location", topnav]);
+        ['$scope', 'datacontext', 'common', 'authService','$http', "$location", topnav]);
 
-    function topnav(datacontext, common, authService, $http, $location) {
+    function topnav($scope, datacontext, common, authService, $http, $location) {
         var vm = this;
         vm.title = "Logout";
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
@@ -22,7 +22,7 @@
               throw new Error(err);
             })
         }
-
+        $scope.isToggled = false;
         return vm;
 
         function activate() {

@@ -68,10 +68,8 @@ body {
     line-height: 23px;
     color: #666;
     background: #111;
-    padding-top: 45px;
     -webkit-font-smoothing: antialiased;
 }
-
 
     body .container {
         width: 97%;
@@ -88,7 +86,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn {
     color: white;
-    background-color: #336e63;
+    background-color: #edb915;
 }
 
 .btn:hover {
@@ -271,7 +269,7 @@ a.btn {
 }
 
 .bcyan {
-    background: #60c2ac !important;
+    background: #edb915 !important;
     color: #fff !important;
     border: 0 !important;
 }
@@ -799,8 +797,8 @@ form {
 
 .mainbar {
     position: relative;
-    margin-left: 230px;
-    margin-right: 0;
+    margin-left: 235px;
+    margin-right: 5px;
     width: auto;
     background: #fff;
     min-height: 900px;
@@ -975,8 +973,8 @@ form {
     }
 
     .widget.wcyan .widget-head {
-        background-color: #60c2ac;
-        border: 1px solid #60c2ac;
+        background-color: #edb915;
+        border: 1px solid #edb915;
         color: #fff;
     }
 
