@@ -20,7 +20,7 @@ schema = mongoose.Schema
 
 	dateSent:
 		type: Date
-
+	
 	isRead:
 		type: Boolean
 		default: false

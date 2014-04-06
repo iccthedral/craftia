@@ -14,7 +14,7 @@
   module.exports.sendMessage = function(message, callback) {
     UserModel.find({
       username: {
-        $in: [message.sender, message.receiver]
+        $in: [message.author, message.receiver]
       }
     }).exec(function(err, results) {
       var msg, receiver, sender;
@@ -26,7 +26,7 @@
           id: sender.id
         },
         subject: message.subject,
-        message: message.body,
+        message: message.message,
         type: message.type,
         dateSent: Date.now(),
         isRead: false

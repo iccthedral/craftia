@@ -318,3 +318,59 @@ body {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
     -webkit-overflow-scrolling: touch;
 }
+
+.craftia-logo p {
+  color: #000;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.3em;
+}
+
+    .login-envelope {
+      position: relative;
+      display: block;
+      width: 150px;
+      height: 60px;
+    }
+    .login-envelope .rect {
+      border: 4px;
+      position:absolute;
+      height: inherit;
+      width: inherit;
+      background: black;
+      display: block;
+    }
+    
+    .login-envelope .leftbtr {
+      position:absolute;
+      width: 0px;
+      height: 0px;
+      bottom: 0px;
+      border-style: solid;
+      border-width: 20px 0 0 20px;
+      border-color: transparent transparent transparent #edb915;
+    }
+
+    .login-envelope .rightbtr {
+      position:absolute;
+      width: 0px;
+      height: 0px;
+      right: 0px;
+      bottom: 0px;
+      border-style: solid;
+      border-width: 0 0 20px 20px;
+      border-color: transparent transparent #edb915 transparent;
+    }
+    
+    .login-envelope .text {
+      position: absolute;
+      color: #edb915;
+      bottom: 4px;
+      font-size: 1.5em;
+      font-family: monospace;
+      font-weight: bold;
+      left: 0;
+      right: 0;
+      text-align: center;
+      margin: 0 auto;
+    }

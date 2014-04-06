@@ -6,7 +6,7 @@ async = require "async"
 
 module.exports.sendMessage = (message, callback) ->
 	UserModel
-	.find(username:$in:[message.sender, message.receiver])
+	.find(username:$in:[message.author, message.receiver])
 	.exec (err, results) ->
 		sender = results[0]
 		receiver = results[1]
@@ -16,7 +16,7 @@ module.exports.sendMessage = (message, callback) ->
 				id: sender.id
 			}
 			subject: message.subject
-			message: message.body
+			message: message.message
 			type: message.type
 			dateSent: Date.now()
 			isRead: false
