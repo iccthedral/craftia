@@ -17,9 +17,13 @@
         $in: [message.sender, message.receiver]
       }
     }).exec(function(err, results) {
-      var msg, receiver, sender;
-      sender = results[0];
-      receiver = results[1];
+      var msg, out, receiver, sender;
+      out = {};
+      results.forEach(function(res) {
+        return out[res.username] = res;
+      });
+      sender = out[message.sender];
+      receiver = out[message.receiver];
       msg = new Message({
         author: {
           username: sender.username,
