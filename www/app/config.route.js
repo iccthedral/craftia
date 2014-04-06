@@ -38,6 +38,7 @@
                     function ($q, $rootScope, $location) {
                         var defer = $q.defer();
                         var isLogin = $location.path() === "/login"
+
                         if ($rootScope.isAuthenticated) {
                             if (isLogin) {
                                 $location.path("/");
@@ -159,7 +160,7 @@
             app.config(['$routeProvider', 'routes', routeConfigurator]);
         })
         .error(function() { 
-            authService.setUser(null); 
+            authService.setUser(null);
             app.config(['$routeProvider', 'routes', routeConfigurator]);
         })
     }]);

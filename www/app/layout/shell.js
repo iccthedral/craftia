@@ -27,7 +27,7 @@
         activate();
 
         function getAuth() {
-            return $rootScope.isAuthenticated
+            return $rootScope.isAuthenticated;
         }
 
         function activate() {

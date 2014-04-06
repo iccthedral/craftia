@@ -1,17 +1,17 @@
 ﻿<div data-ng-controller="shell as vm">
    
-    <div style="min-height: 340px;" data-ng-include="'/app/layout/topnav.html'">
+    <div data-ng-include="'/app/layout/topnav.html'">
     </div>
     
-    <section id="content" class="content">
+    <section id="content" class="content main-content">
         <div data-ng-show="vm.isBusy" class="page-splash dissolve-animation">
             <div data-cc-spinner="vm.spinnerOptions"></div>
             <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}</div>
         </div>
 
-        <div data-ng-if="vm.getAuth()" data-ng-include="'/app/layout/sidebar.html'"></div>
+        <!-- <div data-ng-if="vm.getAuth()" data-ng-include="'/app/layout/sidebar.html'"></div> -->
 
-        <divdata-ng-view class="shuffle-animation"></div>
+        <div data-ng-view class="shuffle-animation"></div>
         <span data-cc-scroll-to-top></span>
     </section>
 </div>

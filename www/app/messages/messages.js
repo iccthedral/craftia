@@ -32,9 +32,6 @@
         $scope.totalItems = 0;
         $scope.currentPage = 1;
 
-
-
-
       
         $scope.showMessage = function(msgIndex){
             

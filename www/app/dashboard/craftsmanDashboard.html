@@ -1,29 +1,12 @@
-﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboard as vm">
-    <div class="fluid-container">
-        <div class="widget-content right-partial-view fluid-container">
-
-            <ul class="today-datas">
-                <li class="bcyan">
-                    <div class="pull-left"><i class="fa fa-envelope"></i></div>
-                    <div class="datas-text pull-right">
-                        <span class="bold">{{vm.messageCount}}</span> Messages
-                    </div>
-                </li>
-                <li class="bcyan">
-                    <div class="pull-left"><i class="fa fa-list"></i></div>
-                    <div class="datas-text pull-right bold">
-                        See your bids
-                    </div>
-                </li>
-            </ul>
-
+﻿<section id="dashboard-view" >
+            <div class="widget-content right-partial-view fluid-container">
                 <div class="widget wcyan">
                     <div data-cc-widget-header title="{{vm.craftsmenNews.title}}"
                          allow-collapse="true"></div>
                     <div class="widget-content " ng-include="vm.craftsmenNews.contentPartial">
                         <small>{{vm.craftsmenNews.description}}</small>
                     </div>
+                 </div>
                 </div>
-        </div>
-    </div>
+            </div>
 </section>

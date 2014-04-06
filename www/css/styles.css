@@ -221,7 +221,8 @@ small {
 }
 
 .today-datas li {
-    padding: 20px 14px;
+    /*padding: 20px 14px;*/
+    padding: 7px 12px;
 }
 
 /*#region Splash */

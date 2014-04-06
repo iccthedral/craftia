@@ -300,17 +300,20 @@ div .boxbookmark:hover {
 .navbar {
   position: relative;
   margin-bottom: 0px;
-  background: #edb915;
+  background: transparent;
+  min-height: 0;
 }
 
 body {
   padding: 6px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 .body-slammer {
   box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.74);
   height: 100%;
-
 }
 
 .craftia-collapse {
@@ -339,10 +342,16 @@ body {
   font-size: 1.3em;
 }
 
+.craftia-nav {
+  display: inline;
+  position: relative;
+  right: 80px;
+}
+
 .craftia-nav-envelope {
   position: relative;
   display: block;
-  width: 200px;
+  width: 250px;
   height: 75px;
 }
 
@@ -434,7 +443,7 @@ body {
 }
 
 .craftia-nav-envelope .userland-mail-icon {
-  position: relative;
+  position: absolute;
   color: #edb915;
   /*bottom: 4px;*/
   /*left: 0;*/
@@ -445,19 +454,43 @@ body {
 }
 
 .craftia-nav-envelope .userland-mail-count {
-  border-right: 2px solid rgba(255, 255, 255, 1);
-  border-left: 2px solid rgba(255, 255, 255, 1);
-  border-radius: 13px 0px 13px 0px;
-  background-color: rgba(201, 10, 10, 0.94);
-  padding-top: 0px;
-  padding: 2px;
   text-align: center;
   right: -10px;
   color: rgba(255, 255, 255, 1);
-  font-family: Helvetica;
   font-weight: bolder;
   font-size: 0.32em;
   position: absolute;
   z-index: 1;
   top: 0px;
+}
+
+.main-content {
+  padding-left: 13%;
+  padding-right: 13%;
+  padding-top: 10px;
+}
+
+nav .top-menu {
+  position: relative;
+  display: block;
+}
+
+nav .inner-menu {
+  position: relative;
+  width: 100%;
+}
+
+nav .inner-menu li {
+  clear: both;
+  width: 100%;
+  border: 2px solid white;
+}
+
+nav .userland-menu {
+  position: relative;
+  width: 100%;
+}
+
+nav .navbar-collapse {
+  background: #edb915;
 }

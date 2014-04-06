@@ -34,7 +34,7 @@
 
                 setUser: function (newUser) {
                     user = newUser;
-                    console.debug(newUser); 
+                    console.debug("Novi User", newUser); 
                     if (user) {
                         userType = user.type;
                         Object.defineProperty(user, "isCraftsman", {
@@ -52,11 +52,11 @@
                     return $rootScope.isAuthenticated = (user != null);
                 },
 
-                getJob: function(){
+                getJob: function() {
                     return job;
                 },
 
-                updateJob: function(){
+                updateJob: function() {
                     datacontext.postUpdateJob(job).then(function (data) {
                         job = data.job;
                         logSuccess(data.msg)
