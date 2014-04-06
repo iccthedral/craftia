@@ -6,69 +6,69 @@ body {
   width: 100%;
   display: block;
   margin-bottom: 50px;
- }
+}
 
 .profile-details-widget {margin: 0 auto;}
 
-  .profile-details-widget input {
-    float: right;
-    clear: both;
-   }
+.profile-details-widget input {
+  float: right;
+  clear: both;
+}
 
 .right-partial-view {
   width: 100%;
   display: block;
- }
+}
 
-  .right-partial-view label {
-    width: 30% !important;
-    text-align: left !important;
-   }
+.right-partial-view label {
+  width: 30% !important;
+  text-align: left !important;
+}
 
-  .right-partial-view input, textarea, select {
-    float: right;
-    clear: both;
-    width: 100% !important;
-   }
+.right-partial-view input, textarea, select {
+  float: right;
+  clear: both;
+  width: 100% !important;
+}
 
 span.stars, span.stars span {
   display: block;
   background: url(../img/stars.png) 0 -16px repeat-x;
   width: 80px;
   height: 16px;
- }
+}
 
 span.stars span {background-position: 0 0;}
 
 .inline-float {display: inline-block;}
 
-  .inline-float ul:first-child {
-    float: left;
-    clear: both;
-   }
+.inline-float ul:first-child {
+  float: left;
+  clear: both;
+}
 
 .fileUpload {
   position: relative;
   overflow: hidden;
   margin: 10px;
- }
+}
 
-  .fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
-   }
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
 
 .jobDetail {
   /*background-color: #ddf2ed;*/
   width: 100%;
- }
+}
 
 .job-details .jobDetail > span {
   border-bottom: 2px solid #5B706B;
@@ -84,40 +84,40 @@ span.stars span {background-position: 0 0;}
   padding-right: 50px;
   float: left;
   width: 90px;
- }
+}
 
- .my-message-detail {
+.my-message-detail {
   float: left;
   width: 90px;
- }
+}
 
 .job-cancel {
   width: auto;
   height: auto;
   max-height: 46px;
- }
+}
 
 .count-icon {
   display: inline-block;
   position: relative;
   padding-left: 15px;
- }
+}
 
 .custom-icon:hover {
   color: #00273E;
   font-weight: bolder;
   cursor: pointer;
- }
+}
 
 .custom-icon {
   padding-left: 5px;
   color: #31708f;
- }
+}
 
 .cancel-icon:hover {
   color: #fff;
   cursor: pointer;
- }
+}
 
 .count {
   position: absolute;
@@ -130,7 +130,7 @@ span.stars span {background-position: 0 0;}
   font-size: 13px;
   text-align: center;
   color: #fff;
- }
+}
 
 .my-job {
   padding-top: 5px;
@@ -138,9 +138,9 @@ span.stars span {background-position: 0 0;}
   padding-left: 5px;
   padding-right: 5px;
   border: 2px solid transparent;
- }
+}
 
-  .my-job:hover {border: 2px solid #60c2ac;}
+.my-job:hover {border: 2px solid #60c2ac;}
 
 .my-offer {
 /*  padding-top: 5px;
@@ -150,12 +150,12 @@ span.stars span {background-position: 0 0;}
   border: 2px solid transparent;
   margin-bottom: 5px;
   background-color: #ddf2ed;
- }
+}
 
-  .my-offer:hover {
-    border: 2px solid #60c2ac;
-    ;
-   }
+.my-offer:hover {
+  border: 2px solid #60c2ac;
+  ;
+}
 
 .boxclose {
   float: right;
@@ -171,9 +171,9 @@ span.stars span {background-position: 0 0;}
   color: #fff;
   width: 55px;
   text-align: center;
- }
+}
 
-  .boxclose:hover {background: #E00000; font-size: 38px;}
+.boxclose:hover {background: #E00000; font-size: 38px;}
 
 div .boxbookmark {
   float: right;
@@ -188,12 +188,12 @@ div .boxbookmark {
   height: 40px;
   color: #fff;
   width: 55px;
- }
+}
 
-  div .boxbookmark:hover {
-    color: #EBEB00;
-    font-size: 31px;
-   }
+div .boxbookmark:hover {
+  color: #EBEB00;
+  font-size: 31px;
+}
 
 .boxbookmark {color: #fff;}
 
@@ -314,16 +314,150 @@ body {
 }
 
 .craftia-collapse {
-    max-height: 340px;
-    height: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    overflow-x: visible;
-    border-top: 1px solid transparent;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    -webkit-overflow-scrolling: touch;
+  max-height: 340px;
+  height: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  overflow-x: visible;
+  border-top: 1px solid transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  -webkit-overflow-scrolling: touch;
 }
 
 .expanded-message {
   display: none;
+}
+
+.craftia-logo {
+  padding: 20px;
+}
+
+.craftia-logo p {
+  color: #000;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.3em;
+}
+
+.craftia-nav-envelope {
+  position: relative;
+  display: block;
+  width: 200px;
+  height: 75px;
+}
+
+.craftia-nav-envelope .rect {
+  border: 4px;
+  position:absolute;
+  height: inherit;
+  width: inherit;
+  background: black;
+  display: block;
+}
+
+.craftia-nav-envelope .leftbtr {
+  position:absolute;
+  width: 0px;
+  height: 0px;
+  bottom: 0px;
+  border-style: solid;
+  border-width: 20px 0 0 20px;
+  border-color: transparent transparent transparent #edb915;
+}
+
+.craftia-nav-envelope .rightbtr {
+  position:absolute;
+  width: 0px;
+  height: 0px;
+  right: 0px;
+  bottom: 0px;
+  border-style: solid;
+  border-width: 0 0 20px 20px;
+  border-color: transparent transparent #edb915 transparent;
+}
+
+.craftia-nav-envelope .login-text {
+  position: absolute;
+  color: #edb915;
+  bottom: 4px;
+  font-size: 1.5em;
+  font-family: monospace;
+  font-weight: bold;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.craftia-nav-envelope .userland-profile-btn {
+  position: relative;
+  font-size: 2.5em;
+  margin-left: 20px;
+  border-top: 3px solid rgb(251, 255, 200);
+  border-left: 0px solid rgb(251, 255, 200);
+  border-radius: 11px;
+  padding: 5px;
+}
+
+.craftia-nav-envelope .userland-icon {
+  position: relative;
+  color: #edb915;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: 0 auto;
+  line-height: 2;
+}
+
+.craftia-nav-envelope .userland-name {
+  position: relative;
+  color: #edb915;
+  font-size: 0.5em;
+  margin-left: 5px;
+}
+
+.craftia-nav-envelope .userland-mail-btn {
+  position: relative;
+  font-size: 2.7em;
+  left: 0px;
+  margin-left: 20px;
+  /*padding: 5px;*/
+
+/*  position: relative;
+  font-size: 2.5em;
+  margin-left: 20px;*/
+/*  border-top: 3px solid rgb(251, 255, 200);
+  border-left: 0px solid rgb(251, 255, 200);
+  border-radius: 11px;*/
+  /*padding: 5px;*/
+}
+
+.craftia-nav-envelope .userland-mail-icon {
+  position: relative;
+  color: #edb915;
+  /*bottom: 4px;*/
+  /*left: 0;*/
+  /*right: 0;*/
+  /*text-align: center;*/
+  /*margin: 0 auto;*/
+  /*line-height: 2;*/
+}
+
+.craftia-nav-envelope .userland-mail-count {
+  border-right: 2px solid rgba(255, 255, 255, 1);
+  border-left: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 13px 0px 13px 0px;
+  background-color: rgba(201, 10, 10, 0.94);
+  padding-top: 0px;
+  padding: 2px;
+  text-align: center;
+  right: -10px;
+  color: rgba(255, 255, 255, 1);
+  font-family: Helvetica;
+  font-weight: bolder;
+  font-size: 0.32em;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
 }

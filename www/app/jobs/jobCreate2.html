@@ -6,44 +6,24 @@
         <form class="form-horizontal">
             <fieldset>
                 <header>
-                  <h3>Drag and drop, automatic upload</h3>
+                  <h5>You can drag & drop here</h5>
                 </header>
                 <div class="job-photo-upload-form" id="job-photo-upload-form">
 
                   <span id="holder1" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(0)">
-                    <div id="upload" class="hidden">
-                      <div class="fileUpload btn btn-primary">
-                          <span>Upload</span>
-                          <input name="photo1" id="uploadBtn" type="file" class="upload" />
-                      </div>
-                    </div>
+                    <input name="photo1" id="uploadBtn" type="file" class="upload" />
                   </span>
 
                   <span id="holder2" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(1)">
-                    <div id="upload" class="hidden">
-                      <div class="fileUpload btn btn-primary">
-                          <span>Upload</span>
-                          <input name="photo2" id="uploadBtn" type="file" class="upload" />
-                      </div> 
-                    </div>
+                    <input name="photo2" id="uploadBtn" type="file" class="upload" />
                   </span>
 
                   <span id="holder3" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(2)">
-                    <div id="upload" class="hidden">
-                      <div class="fileUpload btn btn-primary">
-                          <span>Upload</span>
-                          <input name="photo3" id="uploadBtn" type="file" class="upload" />
-                      </div> 
-                    </div>
+                    <input name="photo3" id="uploadBtn" type="file" class="upload" />
                   </span> 
 
                   <span id="holder4" class="job-photo-holder" ng-click="currentJob.setFocusOnPhoto(3)">
-                    <div id="upload" class="hidden">
-                      <div class="fileUpload btn btn-primary">
-                          <span>Upload</span>
-                          <input name="photo4" id="uploadBtn" type="file" class="upload" />
-                      </div> 
-                    </div>
+                    <input name="photo4" id="uploadBtn" type="file" class="upload" />
                   </span>
                 
                 <textarea ng-show="currentJob.currentPhotoIndex!==null" ng-model="currentJob.jobPhotos[currentJob.currentPhotoIndex].description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea"></textarea>
@@ -62,8 +42,8 @@
         </form>
     </div>
 </div>
-
 <script>
+
 var $holders = $("span[id^='holder'");
 
 var tests = {
@@ -86,14 +66,12 @@ var tests = {
     fileupload = document.getElementById("job-photo-upload-form");
 
 function previewfile(holder, file, index) {
-  alert(file.type);
   if (tests.filereader === true && acceptedTypes[file.type] === true) {
     var reader = new FileReader();
     reader.onload = function (event) {
       var image = new Image();
-      console.debug(event.target.result);
-      var bla = event.target.result.substring(22 + acceptedTypes[file.type]);
-      if(atob(bla).length > 128*1024) {
+      var bla = event.target.result;
+      if(((bla.length - 814) / 1.37) > 128*1024) {
         alert("Images greater than 128 kilobytes are not allowed");
         return;
       }
@@ -112,9 +90,7 @@ function previewfile(holder, file, index) {
 }
 
 function readfiles(holder, files, index) {
-    // debugger;
     var formData = tests.formdata ? new FormData() : null;
-    console.debug(formData);
     for (var i = 0; i < files.length; i++) {
       if (tests.formdata) {
         formData.append('file', files[i]);
@@ -122,9 +98,10 @@ function readfiles(holder, files, index) {
       previewfile(holder, files[i], index);
     }
 }
+
 $fileupload = $(fileupload);
 $fileupload.find(".hidden").removeClass("hidden");
-if (!tests.dnd) { 
+if (tests.dnd) { 
   var i = 0;
   $holders.each(function(key, holder) {
 
@@ -139,12 +116,15 @@ if (!tests.dnd) {
         }).bind(holder)
     })(holder, i);
 
-    $fileupload.find('input').onchange = (function (holder, index) {
-      return (function() {
-        readfiles(holder, this.files, index);
-      });
-    })(holder, i);
-
+    $input = $(holder).find('input');
+    $input.change((function (holder, index) {
+        console.debug("oho");
+        return (function() {
+          console.debug("cao")
+          readfiles(holder, this.files, index);
+        });
+      })(holder, i)
+    );
     ++i;
   });
 
