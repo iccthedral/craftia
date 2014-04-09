@@ -16,96 +16,100 @@
                 </div>
 
                 <div class="col-md-10">
-                        <div class="craftia-logo pull-left" ng-if="!isToggled">
-                            <img src="img/logo3.png"/>
-                            <p>Das whatever portal</p>
-                        </div>
+                    <div class="craftia-logo pull-left" ng-if="!isToggled">
+                        <img src="img/logo3.png"/>
+                        <p>Getting there!!</p>
+                    </div>
 
-                        <a cr-not-auth href="/#/login"> 
-                            <div class="craftia-nav-envelope pull-right">
-                              <div class="rect"></div>
-                              <div class="leftbtr"></div>
-                              <div class="rightbtr"></div>
-                              <span class="login-text">LOGIN</span>
-                            </div>
-                        </a>
+                    <a cr-not-auth href="/#/login"> 
+                        <div class="craftia-nav-envelope pull-right">
+                          <div class="rect"></div>
+                          <div class="leftbtr"></div>
+                          <div class="rightbtr"></div>
+                          <span class="login-text">LOGIN</span>
+                      </div>
+                  </a>
 
-                            <div class="craftia-nav pull-right" cr-auth>
-                                    <div class="craftia-nav-envelope">
-                                        <div class="rect"></div>
-                                        <div class="leftbtr"></div>
-                                        <div class="rightbtr"></div>
-                                        <span class="userland-profile-btn">
-                                        <i class="glyphicon glyphicon-user userland-icon"></i>
-                                        <span class="userland-name">{{user.username}}</span>
-                                        </span>
-                                        <span class="userland-mail-btn">
-                                        <i class="glyphicon glyphicon-comment userland-mail-count"></i>
-                                        <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
-                                        </span>
-                                    </div>
+                  <div class="craftia-nav pull-right" cr-auth>
+                    <div class="craftia-nav-envelope">
+                        <div class="rect"></div>
+                        <div class="leftbtr"></div>
+                        <div class="rightbtr"></div>
+                        <span class="userland-profile-btn">
+                            <i class="glyphicon glyphicon-user userland-icon"></i>
+                            <span class="userland-name">{{user.username}}</span>
+                        </span>
+                        <span class="userland-mail-btn">
+                            <i class="glyphicon glyphicon-comment userland-mail-count"></i>
+                            <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
+                        </span>
+                    </div>
 
-                                <ul class="nav navbar-nav userland-menu">
-                                    <ul class="nav navbar-nav inner-menu">
-                                        <li ng-show="isAjaxHappening">
-                                            <i style="font-size: 3.4em" class="glyphicon glyphicon-refresh"></i>
-                                        </li>
-                                        <li cr-auth>
-                                            <a href="#" ng-click="vm.logout()">
-                                                Log out
-                                            </a>
-                                        </li>
+                    <ul class="nav navbar-nav userland-menu">
+                        <ul class="nav navbar-nav inner-menu">
+                            <li ng-show="isAjaxHappening">
+                                <i style="font-size: 3.4em" class="glyphicon glyphicon-refresh"></i>
+                            </li>
+                            <li cr-auth>
+                                <a href="#" ng-click="vm.logout()">
+                                    Log out
+                                </a>
+                            </li>
 
-                                        <li cr-auth>
-                                            <a href="#" ng-click="vm.logout()">
-                                                Log22 oust
-                                            </a>
-                                        </li>
+                            <li cr-auth>
+                                <a href="#" ng-click="vm.logout()">
+                                    Log22 oust
+                                </a>
+                            </li>
 
-                                        <li cr-not-auth>
-                                            <a href="/#/login">
-                                                Login
-                                            </a>
-                                        </li>
+                            <li cr-not-auth>
+                                <a href="/#/login">
+                                    Login
+                                </a>
+                            </li>
 
-                                        <li cr-not-auth>
-                                            <a href="/#/register">
-                                                Register
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </ul>
-                            </div>
-                </div>
-                
-                <div class="col-md-1">
-
+                            <li cr-not-auth>
+                                <a href="/#/register">
+                                    Register
+                                </a>
+                            </li>
+                        </ul>
+                    </ul>
                 </div>
             </div>
 
-            <div class="row top-menu">
-                <div class="col-md-6">
-                    <ul class="today-datas">
-                        <li class="bcyan">
-                            <div class="pull-left"><i class="fa fa-envelope"></i></div>
-                            <div class="datas-text pull-right">
-                                <span class="bold">{{vm.messageCount}}</span> Messages
-                            </div>
-                        </li>
-                        <li class="bcyan">
-                            <div class="pull-left"><i class="fa fa-list"></i></div>
-                            <div class="datas-text pull-right bold">
-                                See your bids
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-md-1">
 
-                <div class="col-md-6">
-                </div>
+            </div>
+        </div>
+
+        <div class="row top-menu">
+
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10">
+                <ul class="today-datas">
+                    <li class="bcyan">
+                        <div class="pull-left"><i class="fa fa-envelope"></i></div>
+                        <div class="datas-text pull-right">
+                            <span class="bold">{{vm.messageCount}}</span> Messages
+                        </div>
+                    </li>
+                    <li class="bcyan">
+                        <div class="pull-left"><i class="fa fa-list"></i></div>
+                        <div class="datas-text pull-right bold">
+                            See your bids
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="row top-menu">
+            </div>
+            <div class="col-md-6">
             </div>
         </div>
     </div>
+</div>
 </nav>
 
 

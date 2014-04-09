@@ -29,7 +29,6 @@
           var crDate = attrs["crDate"];
           console.debug (crDate);
           attrs.$observe("crDate", function(){
-            alert(crDate);
             element.text(moment(crDate).format("MMMM Do YYYY"));
           });
         }
