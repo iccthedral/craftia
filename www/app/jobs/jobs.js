@@ -349,6 +349,7 @@
                     $scope.rightPartial = "app/jobs/jobEdit.html";
                     $scope.currentView = "jobpanel";
                     $scope.currentJob = job;
+                    console.debug("AAAAAAAAAAAAAAA");
                     console.debug(job);
                     $scope.backup = job;
                     datacontext.getCategories().success(function (catdata) {

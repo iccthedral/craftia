@@ -1,26 +1,37 @@
-<script>
-
-
-</script>
 <section class="matter" data-ng-controller="Jobs" ng-init="initLeftPartial()">
     <div class="container">
-        <div class="row">
-            <input class="input-medium search-query"
-                       data-ng-model="jobCitySearch"
-                       data-ng-keyup="search($event)"
-                       placeholder="search by city...">
-           <input class="input-medium search-query"
-                       data-ng-model="jobDistanceSearch"
-                       data-ng-keyup="search($event)"
-                       placeholder="search by distance...">
-           <input class="input-medium search-query"
-                       data-ng-model="jobCategorySearch"
-                       data-ng-keyup="search($event)"
-                       placeholder="search by category...">
-           <input class="input-medium search-query"
-                       data-ng-model="jobSubcategorySearch"
-                       data-ng-keyup="search($event)"
-                       placeholder="search by subcategory...">
+        
+            <div class="widget wcyan">
+                <div data-cc-widget-header title="Find a job"
+                allow-collapse="true">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="widget-content text-center text-info widget-ul-list">
+                            <input class="input-medium search-query"
+                                   data-ng-model="jobCitySearch"
+                                   data-ng-keyup="search($event)"
+                                   placeholder="search by city...">
+                           <input class="input-medium search-query"
+                                   data-ng-model="jobDistanceSearch"
+                                   data-ng-keyup="search($event)"
+                                   placeholder="search by distance...">
+                           <input class="input-medium search-query"
+                                   data-ng-model="jobCategorySearch"
+                                   data-ng-keyup="search($event)"
+                                   placeholder="search by category...">
+                           <input class="input-medium search-query"
+                                   data-ng-model="jobSubcategorySearch"
+                                   data-ng-keyup="search($event)"
+                                   placeholder="search by subcategory...">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                </div>
+            </div>
+
             <div class="widget wcyan">
                 <div class="row">
                     <div class="col-md-6">
@@ -82,6 +93,5 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 

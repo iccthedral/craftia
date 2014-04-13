@@ -60,11 +60,6 @@
                     </div>
                     <h4>Photos</h4>
                     <lightbox images="currentJob.jobAlbum"></lightbox>
-<!--                     <div class="job-photo-gallery">
-                        <div class="job-photo" ng-repeat="i in currentJob.jobAlbum">
-                            <img src="{{i.img}}" description="{{i.description}}">
-                        </div>
-                    </div> -->
 
                 </fieldset>
             </form>
@@ -79,46 +74,26 @@
 
         </div>
       
-
-            <!-- <table class="table table-condensed table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>E-mail</th>
-                        <th>Rating</th>
-                        <th>Accept</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr id="{{$index}}" data-ng-repeat="p in currentJob.bidders" ng-mouseenter="JobList.toggleFocus($index)" ng-mouseleave="JobList.toggleFocus($index)" ng-click="JobList.showBidder($index)">
-                        <td class="text-left">{{p.name}}</td>
-                        <td class="text-left">{{p.surname}}</td>
-                        <td class="text-left"><span>{{p.email}}</span></td>
-                        <td class="text-left"><span>{{p.rating.avgRate}}</span></td>
-                        <td class="text-left"><button class="btn btn-primary" ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)"><strong>Accept</strong></button>
-                        <i ng-show="currentJob.status == 'closed'"class="fa fa-check fa-4"></i>
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table> -->
             <hr>
             <ul style="list-style: none;" >
                 <li class="my-offer" id="{{$index}}" data-ng-repeat="p in biddersPagedItems" >
                     <div class="row-container jobDetail">
-                        <img style="float:left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
+                        <img class="job-pic" style="float:left" src="/img/craft.png">
                         <div class="jobDetail text-left">
                             <span class="my-job-detail text-left">Name:</span>
                             <span> {{p.name}} </span>
                             <a  class="glyphicon glyphicon-star custom-icon boxbookmark pull-right"
-                            ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)" id="boxbookmark" title="Accept bidder">
+                            ng-show="!(currentJob.status == 'closed')" ng-click="JobList.acceptBid($index)" id="boxbookmark" title="Accept bidder">
+                            </a>
+                            <a  class="fa fa-check-square-o custom-icon boxbookmark pull-right"
+                            ng-show="currentJob.status == 'closed'" id="boxbookmark" title="Bidder accepted">
                             </a>
                         </div>
                         <div class="jobDetail text-left">
                             <span class="my-job-detail text-left">Surname:</span>
                             <span>{{p.surname}}</span>
                         </div>
+                        
                         <div class="jobDetail text-left">
                             <span class="my-job-detail text-left">Email:</span>
                             <span>{{p.email}}</span>

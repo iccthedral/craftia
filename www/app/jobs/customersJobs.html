@@ -21,13 +21,13 @@
                         <div class="widget-content text-center text-info widget-ul-list">
 
                             <ul style="list-style: none;" >
-                                <li class="my-job" id="{{$index}}" data-ng-repeat="p in myJobsPaged" ng-click="JobPanel.editJob(myJobsPaged[$index])">
-                                    <div class="row-container">
-                                        <img class="pull-left" src="/img/pokit_3416a75f4cea9109507cacd8e2f2aefc.jpg">
+                                <li class="row-container my-job" id="{{$index}}" data-ng-repeat="p in myJobsPaged" ng-click="JobPanel.editJob(myJobsPaged[$index])">
+                                    <div class="">
+                                        <img class="job-pic pull-left" src="/img/job.jpg">
                                         <div class="jobDetail text-left">
                                             <span class="my-job-detail text-left">Title:</span>
                                             <span>{{p.title}}</span>
-                                            <i ng-hide="myJobsPaged[$index].status == 'closed'" class="fa fa-times boxclose pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </i>
+                                            <i ng-hide="myJobsPaged[$index].status == 'closed'" class="fa fa-ban boxclose pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </i>
                                         </div>
                                         <div class="jobDetail text-left">
                                             <span class="my-job-detail text-left">Description:</span>
@@ -59,7 +59,7 @@
                                             </span>
                                         </div>                                    
                                     </div>
-                                    <hr>
+                                    
                                 </li>
 
                             </ul>

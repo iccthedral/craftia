@@ -27,6 +27,7 @@
         $scope.sizePerPage = 2;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
+
       
         $scope.showMessage = function(msgIndex){                      
            var el2 = angular.element("#"+msgIndex).find(".minified-message");

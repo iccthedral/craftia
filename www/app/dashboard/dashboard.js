@@ -41,7 +41,7 @@
         vm.anonDash = "app/dashboard/anonDashboard.html"
 
         $scope.model = {};
-        $scope.model.images = 'http://static.amiwithyou.com/images/Penguins(900x675).jpg |http://static.amiwithyou.com/images/Jellyfish(900x675).jpg|http://static.amiwithyou.com/images/Koala(900x675).jpg'.split( '|' );
+        $scope.model.images = 'img/carousel/carousel11.jpg|img/carousel/carousel2.jpg|img/carousel/carousel3.jpg|img/carousel/carousel4.jpg'.split( '|' );
         $scope.tick = function() {
             $scope.model.images.unshift( $scope.model.images.pop() );
             $timeout( $scope.tick, 7000 );
