@@ -142,8 +142,12 @@ module.exports.bidOnJob = (req, res) ->
                 receiver: job.author.username
                 subject: "Someone bidded on your offering"
                 type: "job"
+                data: {
+                    jobid: job._id,
+                    subtype: "bid_for_job"
+                }
                 body: """
-Craftsman #{usr.username} just bidded on your <a href='#{job._id}'>job</a> #{job.title} under #{job.category} category
+Craftsman #{usr.username} just bidded on your job offering #{job.title} under #{job.category} category
                 """
             }, () ->
                 res.send(job)
@@ -161,8 +165,22 @@ module.exports.cancelBidOnJob = (req, res) ->
         job.bidders.splice(ind, 1)
         job.save (err) ->
             return res.status(422).send(err.message) if err?
-            res.send(job)
-
+            Messaging.sendMessage({
+                sender: usr.username #bice admin
+                receiver: job.author.username
+                subject: "Someone canceled on your offering"
+                type: "job"
+                data: {
+                    jobid: job._id,
+                    subtype : "cancel_job"
+                }
+                body: """
+                Craftsman #{usr.username} just canceled their bid on your job offering #{job.title} under #{job.category} category
+                """
+            }, () ->
+                res.send(job)
+            )
+            
 module.exports.rateJob = (req, res) ->
     user = req.user
     if user.type isnt AuthLevel.CUSTOMER

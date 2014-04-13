@@ -20,7 +20,7 @@
                       <span class="my-message-detail text-left">Sender: </span>
                     </div>
                     <div class="col-md-9">
-                      <span>{{p.author.username}}</span></div>
+                      <span>{{p.author.username}}bla{{$index}}</span></div>
                   </div>
                   <div class="row jobDetail text-left">
                     <div class="col-md-3">
@@ -37,7 +37,9 @@
                       <span>{{p.message.slice(0,19)}}</span><span ng-show="p.message.length>20">...</span>
                     </div>
                     <div class="col-md-9 expanded-message">
-                      <span>{{p.message}}</span>
+                      <span>
+                        
+                      </span>
                     </div>
                   </div>
                   <div class="row jobDetail text-left">

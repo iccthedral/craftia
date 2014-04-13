@@ -23,6 +23,9 @@
     dateSent: {
       type: Date
     },
+    data: {
+      type: Object
+    },
     isRead: {
       type: Boolean,
       "default": false
