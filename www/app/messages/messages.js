@@ -33,8 +33,7 @@
            var el2 = angular.element("#"+msgIndex).find(".minified-message");
            var el = angular.element("#"+msgIndex).find(".expanded-message");
            el.toggle(500);
-           el2.toggle(500);                
-           }
+           el2.toggle(500);
         }
 
         $scope.showSystem = function() {
@@ -61,7 +60,7 @@
 
         $scope.showJobById = function(jobId) {
             $scope.rightPartial = "app/messages/job.html";
-            $scope.currentJob = 
+            $scope.currentJob = jobId;
         }
 
         $scope.showContact = function() {

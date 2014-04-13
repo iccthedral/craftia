@@ -42,7 +42,7 @@
                     })
                 }
             });
-            return visible;
+            return true;
         }
         
         function isCurrent(route) {
