@@ -311,6 +311,15 @@ body {
   position: absolute;
 }
 
+.top-hmenu {
+  border: 1px solid red;
+}
+
+.menu-item {
+  display: inline-table;
+  background: url("./img/underConstruction_small.png");
+}
+
 .body-slammer {
   box-shadow: 0 0 6px 6px rgba(0, 0, 0, 0.74);
   height: 100%;
@@ -509,3 +518,4 @@ nav .navbar-collapse {
   background-color: #edb915; 
   opacity: 0.01;  
 }
+

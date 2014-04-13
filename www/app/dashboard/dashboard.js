@@ -40,10 +40,10 @@
         vm.custDash = "app/dashboard/customerDashboard.html";
         vm.anonDash = "app/dashboard/anonDashboard.html"
 
-        $scope.model = {};
-        $scope.model.images = 'img/carousel/carousel11.jpg|img/carousel/carousel2.jpg|img/carousel/carousel3.jpg|img/carousel/carousel4.jpg'.split( '|' );
+        $scope.slide = {};
+        $scope.slide.images = ["img/carousel/carousel11.jpg", "img/carousel/carousel2.jpg", "img/carousel/carousel3.jpg", "img/carousel/carousel4.jpg"]
         $scope.tick = function() {
-            $scope.model.images.unshift( $scope.model.images.pop() );
+            $scope.slide.images.unshift( $scope.slide.images.pop() );
             $timeout( $scope.tick, 7000 );
         };
         $scope.tick();
