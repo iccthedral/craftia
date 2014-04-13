@@ -21,6 +21,21 @@
                         <p>Getting there!!</p>
                     </div>
 
+                    <div class="container top-hmenu">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="top-hmenu-item-wrapper" ng-style="" ng-repeat="menu in vm.menu">
+                            <div class="top-hmenu-item" crReveal>
+                            </div>
+                            <span>{{menu.title}}</span>
+                        </div>
+                        <!-- ng-mouseleave="vm.overMenuItem($event, false);" -->
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                    </div>
+
                     <a cr-not-auth href="/#/login"> 
                         <div class="craftia-nav-envelope pull-right">
                           <div class="rect"></div>
@@ -28,7 +43,7 @@
                           <div class="rightbtr"></div>
                           <span class="login-text">LOGIN</span>
                       </div>
-                  </a>
+                    </a>
 
                   <div class="craftia-nav pull-right" cr-auth>
                     <div class="craftia-nav-envelope">
@@ -88,23 +103,31 @@
             <div class="col-md-1">
             </div>
             <div class="col-md-10">
-                <ul class="today-datas">
-                    <li class="bcyan">
+                <ul class="top-header menu-item">
+
+                    <span class="druid-font-bbi-l">
+                         Find the best craftsman for your needs. 
+                    </span>
+
+                    <span class="druid-font-wbi-l">
+                        Register now for free!
+                    </span>
+
+<!--                     <li class="bcyan menu-item">
                         <div class="pull-left"><i class="fa fa-envelope"></i></div>
                         <div class="datas-text pull-right">
                             <span class="bold">{{vm.messageCount}}</span> Messages
                         </div>
                     </li>
-                    <li class="bcyan">
+                    <li class="bcyan menu-item">
                         <div class="pull-left"><i class="fa fa-list"></i></div>
                         <div class="datas-text pull-right bold">
                             See your bids
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
-            <div class="row top-menu">
-            </div>
+
             <div class="col-md-6">
             </div>
         </div>

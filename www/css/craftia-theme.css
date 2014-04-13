@@ -275,14 +275,13 @@ div .boxbookmark:hover {
 .underConstruction{
   background-position: 0 0;
   background-repeat: repeat-x;
-  background: url("../img/underConstruction.png");
+  background-image: url("../img/underConstruction.png");
   height: 22px;
   width:100%;
   overflow: hidden;
 }
 
 .t-shirts {
-  /*max-width: 900px;*/
   max-height: 675px;
   width: 100%;
   height: 100%;
@@ -293,7 +292,7 @@ div .boxbookmark:hover {
 .t-shirts img {
   width: 100%;
   height: 100%;
-  margin: 0 0 35px 0;
+  margin: 0 0 0 0;
   position: relative;
 }
 
@@ -309,15 +308,6 @@ body {
   height: 100%;
   width: 100%;
   position: absolute;
-}
-
-.top-hmenu {
-  border: 1px solid red;
-}
-
-.menu-item {
-  display: inline-table;
-  background: url("./img/underConstruction_small.png");
 }
 
 .body-slammer {
@@ -346,10 +336,10 @@ body {
 }
 
 .craftia-logo p {
-  color: #000;
+  color: #333;
   font-style: italic;
   font-weight: 900;
-  font-size: 1.3em;
+  font-size: 1.7em;
 }
 
 .craftia-nav {
@@ -483,6 +473,7 @@ body {
 nav .top-menu {
   position: relative;
   display: block;
+  margin: 0;
 }
 
 nav .inner-menu {
@@ -518,4 +509,3 @@ nav .navbar-collapse {
   background-color: #edb915; 
   opacity: 0.01;  
 }
-

@@ -11,6 +11,24 @@
         var logSuccess = common.logger.getLogFn(controllerId, 'success');
         $scope.user = authService.getUser();
         
+        vm.menu = [{
+            title: "POST JOBS"
+        }, 
+        {
+            title: "YELLOW PAGES"
+        }, 
+        {
+            title: "CRAFTSMAN"
+        }]
+
+        vm.overMenuItem = function (item, over) {
+            var elem = $(item.target);
+            elem.addClass("top-hmenu-item-over", 500)
+            // if (over){ 
+            //     elem.stop().animate
+            // }
+        };
+
         vm.logout = function() {
             var goodbyeGreeting = "Goodbye " + authService.getUser().name;
             $http.get("/logout")
@@ -23,6 +41,7 @@
               throw new Error(err);
             })
         }
+
         $scope.isToggled = false;
         return vm;
 

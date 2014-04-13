@@ -22,6 +22,16 @@
         }
     }]);
 
+    app.directive('crReveal', function(){
+        return function(scope, element) {
+            element.bind('mouseenter', function(){
+                element.addClass('hover');
+            }).bind('mouseleave', function(){
+              element.removeClass('hover');
+            })
+        }
+    })
+
     app.directive('crDate', function() {
       return {
         restrict:'A',
