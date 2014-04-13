@@ -7,11 +7,10 @@
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
 
-        $scope.title = 'Messages';
-        // $scope.currentContact = createContactModel($scope)
         $scope.contactSearch = "";
+        $scope.leftPartial = "";
         $scope.rightPartial = "";
-        $scope.currentTitle = "";
+        $scope.currentJob = "";
 
         $scope.systemMessages = [];
         $scope.jobMessages = [];
@@ -19,10 +18,7 @@
         $scope.otherMessages = [];
 
         $scope.user = authService.getUser();
-        $scope.previousContacts = [];
 
-       // $scope.ContactList = ContactList();
-       // $scope.MessagesPanel = MessagesPanel();
 
         //paging
         $scope.items = [];
@@ -31,26 +27,17 @@
         $scope.sizePerPage = 2;
         $scope.totalItems = 0;
         $scope.currentPage = 1;
-
-
-
-
       
-        $scope.showMessage = function(msgIndex){
-            
-           // debugger;
-           // console.debug($("#"+msgIndex + " .col-md-4").height());
-           // console.debug($("#"+msgIndex + " .col-md-8").height());
-           // $scope.fullyShown[msgIndex] = !$scope.fullyShown[msgIndex];
-           
+        $scope.showMessage = function(msgIndex){                      
            var el2 = angular.element("#"+msgIndex).find(".minified-message");
            var el = angular.element("#"+msgIndex).find(".expanded-message");
            el.toggle(500);
-           el2.toggle(500);
+           el2.toggle(500);                
+           }
         }
 
         $scope.showSystem = function() {
-            $scope.rightPartial = "app/messages/systemMessages.html";
+            $scope.leftPartial = "app/messages/systemMessages.html";
             $scope.systemMessages = $scope.user.inbox.received.filter(function (msg) {
                 if (msg.type === "system") return msg
             })
@@ -61,9 +48,9 @@
         }
 
         $scope.showJobs = function() {
-            $scope.rightPartial = "app/messages/jobMessages.html";
+            $scope.leftPartial = "app/messages/jobMessages.html";
             $scope.jobMessages = $scope.user.inbox.received.filter(function (msg) {
-                if (msg.type === "job") return msg
+                if (msg.data.subtype === "bif_for_job" || msg.data.subtype === "cancel_jov") return msg.message()
             })
             $scope.items = $scope.jobMessages.chunk($scope.sizePerPage);
             $scope.itemsPaged = $scope.items[0];
@@ -71,8 +58,13 @@
             $scope.currentPage = 1;
         }
 
+        $scope.showJobById = function(jobId) {
+            $scope.rightPartial = "app/messages/job.html";
+            $scope.currentJob = 
+        }
+
         $scope.showContact = function() {
-            $scope.rightPartial = "app/messages/contactMessages.html";
+            $scope.leftPartial = "app/messages/contactMessages.html";
             $scope.contactMessages = $scope.user.inbox.received.filter(function (msg) {
                 if (msg.type === "contact") return msg
             })
@@ -83,7 +75,7 @@
         }
 
         $scope.showOther = function() {
-            $scope.rightPartial = "app/messages/otherMessages.html";
+            $scope.leftPartial = "app/messages/otherMessages.html";
             $scope.otherMessages = $scope.user.inbox.received.filter(function (msg) {
                 if (msg.type === "contact") return msg
             })
@@ -93,84 +85,12 @@
             $scope.currentPage = 1;
         }
 
-
         $scope.pageSelected = function (page) {
-            $scope.pagedItems = $scope.items[page.page - 1];
+            $scope.itemsPaged = $scope.items[page.page - 1];
             $scope.fullyShown.forEach(function(obj, index){
                 $scope.fullyShown[index] = false;
             })
         };
-
-        // $scope.search = function ($event) {
-        //     //  debugger;
-        //     if ($scope.contactSearch == '') return getAllContacts();
-
-        //     var result = $scope.allContacts.filter(function (obj) {
-        //         return (obj.name.indexOf($scope.contactSearch) != -1 ||
-        //            obj.surname.indexOf($scope.contactSearch) != -1 ||
-        //            obj.email.indexOf($scope.contactSearch) != -1);
-        //     });
-
-
-        //     $scope.items = result.chunk($scope.sizePerPage);
-        //     $scope.pagedItems = $scope.items[0];
-        //     $scope.totalItems = result.length;
-        // }
-       
-        // function resetModel() {
-        //     $scope.currentContact = createContactModel($scope);
-        //     $scope.backup = $scope.currentContact;
-        // }
-
-
-
-
-        // function createContactModel(scope) {
-        //     var ContactModel = function ContactModel(){
-        //         this.name = "";
-        //         this.surname = "";
-        //         this.username = "";
-        //         this.rating = "";
-        //         this.email = "";
-        //         this.messages = [];                
-        //     }
-
-        //     ContactModel.prototype.populate = function(contactData) {
-        //         for (var key in contactData) {
-        //             if (this.hasOwnProperty(key)) {
-        //                 this[key] = contactData[key]
-        //             }
-        //         }
-        //     }
-        // }
-
-        // function getAllContacts() {
-            
-
-        //     return datacontext.getAllCraftsmen().success(function (data) {
-        //         $scope.allContacts = data;
-        //         $scope.items = data.chunk($scope.sizePerPage);
-        //         $scope.pagedItems = $scope.items[0];
-        //         $scope.totalItems = data.length;
-        //         $scope.$digest();
-        //     });
-        // }
-
-
-
-        // function ContactList() {
-        //     return {
-        //         getContacts: function () {
-
-        //             console.debug($scope.allContacts);
-        //             return $scope.allContacts;
-        //         },
-        //         showContact: function (contactIndex) {
-        //             $scope.rightPartial = "app/messages/chat.html";
-        //             $scope.currentContact.populate($scope.pagedItems[contactIndex]);
-        //         }
-        //     }
-        // }
 
         activate();
         function activate() {

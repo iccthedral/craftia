@@ -30,7 +30,7 @@
             common.activateController([], controllerId)
         }
 
-        /*activate();
+        activate();
 
         function activate() {
             logSuccess('Hot Towel Angular loaded!', null, true);
@@ -49,6 +49,6 @@
 
         $rootScope.$on(events.spinnerToggle,
             function (data) { toggleSpinner(data.show); }
-        );*/
+        );
     };
 })();

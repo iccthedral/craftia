@@ -192,7 +192,11 @@
           receiver: job.author.username,
           subject: "Someone bidded on your offering",
           type: "job",
-          body: "Craftsman " + usr.username + " just bidded on your <a href='" + job._id + "'>job</a> " + job.title + " under " + job.category + " category"
+          data: {
+            jobid: job._id,
+            subtype: "bid_for_job"
+          },
+          body: "Craftsman " + usr.username + " just bidded on your job offering " + job.title + " under " + job.category + " category"
         }, function() {
           return res.send(job);
         });
@@ -221,7 +225,19 @@
         if (err != null) {
           return res.status(422).send(err.message);
         }
-        return res.send(job);
+        return Messaging.sendMessage({
+          sender: usr.username,
+          receiver: job.author.username,
+          subject: "Someone canceled on your offering",
+          type: "job",
+          data: {
+            jobid: job._id,
+            subtype: "cancel_job"
+          },
+          body: "Craftsman " + usr.username + " just canceled their bid on your job offering " + job.title + " under " + job.category + " category"
+        }, function() {
+          return res.send(job);
+        });
       });
     });
   };

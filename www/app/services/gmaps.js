@@ -33,7 +33,6 @@
             var mapOptions = {
 	            zoom: 7
 	        }
-	        alert("hi");
 	        gmaps.map_canvas = $(document.getElementById('map-canvas'));
 	        gmaps.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	        gmaps.directionsDisplay.setMap(gmaps.map);
