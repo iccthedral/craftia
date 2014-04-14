@@ -1,9 +1,9 @@
 ﻿(function () {
     'use strict';
     var controllerId = 'dashboard';
-    angular.module('app').controller(controllerId, ['$scope','$timeout','common', 'datacontext', 'authService', dashboard]);
+    angular.module('app').controller(controllerId, ['$location','routes','$scope','$timeout','common', 'datacontext', 'authService', dashboard]);
 
-    function dashboard($scope, $timeout, common, datacontext, authService) {
+    function dashboard($location,$routes, $scope, $timeout, common, datacontext, authService) {
         var getLogFn = common.logger.getLogFn;
         var log = getLogFn(controllerId);
         
@@ -29,6 +29,7 @@
             description: 'Some content may or may not end up here, well see how it goes'
         };
 
+        vm.menu = [];
 
         vm.messageCount = 0;
         vm.people = [];
@@ -39,7 +40,31 @@
         vm.craftDash = "app/dashboard/craftsmanDashboard.html";
         vm.custDash = "app/dashboard/customerDashboard.html";
         vm.anonDash = "app/dashboard/anonDashboard.html"
+        vm.getNavRoutes = function () {
+            vm.menu = $routes.filter(function(r) {
+                
+                return r.config.settings && r.config.settings.nav;
+            }).sort(function(r1, r2) {
+                return r1.config.settings.nav - r2.config.settings.nav;
+            });
+        }
 
+
+        $scope.isVisible = function (route) {
+            var visible = false;
+            vm.userType = authService.getUserType();
+            vm.menu.forEach(function (el) {
+                if (el.config.title == route.config.title) {
+                    el.config.visibility.forEach(function (elem) {
+                        if (vm.userType == elem) {
+                            visible = true;
+                            return visible;
+                        }
+                    })
+                }
+            });
+            return visible;
+        }
         $scope.slide = {};
         $scope.slide.images = ["img/carousel/carousel11.jpg", "img/carousel/carousel2.jpg", "img/carousel/carousel3.jpg", "img/carousel/carousel4.jpg"]
         $scope.tick = function() {
@@ -51,8 +76,10 @@
 
         activate();
         
+        $scope.url = $location.path();
+
         function activate() {
-            var promises = [getMessageCount(), getPeople()];
+            var promises = [vm.getNavRoutes(), getMessageCount(), getPeople()];
             common.activateController(promises, controllerId)
                 .then(function () { log('Activated Dashboard View'); });
         }

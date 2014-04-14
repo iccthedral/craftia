@@ -27,7 +27,7 @@
                         <div class="col-md-8">
                             <div data-ng-show="vm.isVisible(menu);" class="top-hmenu-item-wrapper" ng-repeat="menu in vm.menu"  crReveal>
                                 <a href="#{{menu.url}}"  data-ng-bind-html="menu.config.settings.content"></a>
-                                <div class="top-hmenu-item">
+                                <div ng-class="vm.whichClass(menu)">
                                 </div>
                             </div>
                         </div>

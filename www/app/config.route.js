@@ -69,7 +69,7 @@
                     resolve: authenticate(false),
                     settings: {
                         nav: 1,
-                        content: '<i class="fa fa-dashboard"></i> Dashboard'
+                        content: '<i class="fa fa-dashboard"></i> Overview'
                     }
                 }
             }, {

@@ -18,7 +18,7 @@
 
         vm.getNavRoutes = function () {
             vm.menu = $routes.filter(function(r) {
-                console.debug(r);
+                
                 return r.config.settings && r.config.settings.nav;
             }).sort(function(r1, r2) {
                 return r1.config.settings.nav - r2.config.settings.nav;
@@ -46,7 +46,16 @@
                 return '';
             }
             var menuName = $route.config.title;
-            return $route.current.title.substr(0, menuName.length) === menuName ? 'current' : '';
+            return $route.current.title.substr(0, menuName.length) === menuName;
+        }
+
+        vm.whichClass = function(route) {
+         
+            if ($location.path() === route.url){
+                return 'top-hmenu-item-current'
+            } else {
+                return 'top-hmenu-item'
+            }
         }
 
         vm.logout = function() {
