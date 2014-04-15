@@ -415,9 +415,9 @@
                             jobic.populate(job);
                             $scope.user.createdJobs.push(job);
                             getUserJobs();
-                            // $scope.ownJobs.push(jobic);
                             resetModel();
                             $rootScope.$digest();
+                            log("Job successfuly created")
                         });
                 },
 

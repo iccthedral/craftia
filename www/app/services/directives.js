@@ -365,32 +365,30 @@
             $scope.totalImages = images.length;
             $scope.selectedImageIndex = selectedImageIndex + 1;
             $scope.selectedImage = images[selectedImageIndex];
-
-            // console.debug(selectedImage);
      
             $scope.source = function (img) {
                 return img.img;
             };
  
             $scope.hasPrev = function () {
-                return ($scope.selected !== 0);
+                return ($scope.selectedImageIndex !== 0);
             };
             
             $scope.hasNext = function () {
-                return ($scope.selected < $scope.images.length - 1);
+                return ($scope.selectedImageIndex < images.length - 1);
             };
  
             $scope.next = function () {
-                $scope.selected = $scope.selected + 1;
-                $scope.selectedImage = $scope.images[$scope.selected];
+                $scope.selectedImageIndex = $scope.selectedImageIndex + 1;
+                $scope.selectedImage = images[$scope.selectedImageIndex];
             };
  
             $scope.prev = function () {
-                $scope.selected = $scope.selected - 1;
-                $scope.selectedImage = $scope.images[$scope.selected];
+                $scope.selectedImageIndex = $scope.selectedImageIndex - 1;
+                $scope.selectedImage = images[$scope.selectedImageIndex];
             };
         };
-
+        
         return {
             restrict: 'E',
             templateUrl: "app/templates/lightbox.html",

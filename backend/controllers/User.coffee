@@ -65,6 +65,7 @@ module.exports.updateMe = (req, res) ->
     UserModel
     .findByIdAndUpdate(usr._id, data)
     .exec (err, cnt) ->
+        console.log(err);
         return res.status(422).send(err.message) if err?
         res.send(200)
 
