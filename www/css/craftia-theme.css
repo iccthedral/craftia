@@ -336,9 +336,9 @@ body {
 }
 
 .craftia-logo p {
-  color: #333;
-  font-style: italic;
-  font-weight: 900;
+  color: black;
+  
+  font-weight: 100;
   font-size: 1.7em;
 }
 
