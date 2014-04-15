@@ -397,11 +397,11 @@ body {
 .craftia-nav-envelope .userland-profile-btn {
   position: relative;
   font-size: 2.5em;
-  margin-left: 20px;
-  border-top: 3px solid rgb(251, 255, 200);
-  border-left: 0px solid rgb(251, 255, 200);
-  border-radius: 11px;
-  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 100%;
+  float: left;
+  clear: both;
 }
 
 .craftia-nav-envelope .userland-icon {
@@ -412,7 +412,13 @@ body {
   right: 0;
   text-align: center;
   margin: 0 auto;
+  cursor: pointer;
   line-height: 2;
+  text-decoration: underline;
+}
+
+.userland-icon:hover {
+  text-decoration: underline;
 }
 
 .craftia-nav-envelope .userland-name {
@@ -420,13 +426,17 @@ body {
   color: #edb915;
   font-size: 0.5em;
   margin-left: 5px;
+  cursor: pointer;
+}
+
+.userland-name:hover {
 }
 
 .craftia-nav-envelope .userland-mail-btn {
-  position: relative;
-  font-size: 2.7em;
   left: 0px;
   margin-left: 20px;
+  position: relative;
+  clear: both;
   /*padding: 5px;*/
 
 /*  position: relative;
@@ -441,6 +451,7 @@ body {
 .craftia-nav-envelope .userland-mail-icon {
   position: absolute;
   color: #edb915;
+  cursor: pointer;
   /*bottom: 4px;*/
   /*left: 0;*/
   /*right: 0;*/
@@ -450,14 +461,15 @@ body {
 }
 
 .craftia-nav-envelope .userland-mail-count {
-  text-align: center;
-  right: -10px;
   color: rgba(255, 255, 255, 1);
   font-weight: bolder;
-  font-size: 0.32em;
-  position: absolute;
-  z-index: 1;
-  top: 0px;
+  font-size: 0.3em;
+  position: relative;
+  top: 12px;
+
+  text-align: center;
+  z-index: 2;
+  clear: both;
 }
 
 .main-content {
@@ -469,7 +481,7 @@ body {
 nav .top-menu {
   position: relative;
   display: block;
-  margin: 0;
+  padding-top: 20px;
 }
 
 nav .inner-menu {
@@ -506,6 +518,6 @@ nav .navbar-collapse {
   opacity: 0.01;  
 }
 .submenu {
-  padding-top :20px;
+  padding-top :40px;
 }
 

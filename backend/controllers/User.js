@@ -87,6 +87,7 @@
     data = req.body;
     delete data._id;
     return UserModel.findByIdAndUpdate(usr._id, data).exec(function(err, cnt) {
+      console.log(err);
       if (err != null) {
         return res.status(422).send(err.message);
       }
