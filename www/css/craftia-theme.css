@@ -331,9 +331,6 @@ body {
   display: none;
 }
 
-.craftia-logo {
-  padding: 10px;
-}
 
 .craftia-logo p {
   color: black;
@@ -509,8 +506,8 @@ nav .navbar-collapse {
   background-color: #edb915; 
   opacity: 0.01;  
 }
-.shell-content {
+/*.shell-content {
   padding-left: 20px;
   padding-right: 20px;
 }
-
+*/
