@@ -74,7 +74,7 @@ select > option {
     color: black;
 }
 
-input.form-control,
+
 select.form-control,
 textarea.form-control {
     /*width: 205px;*/

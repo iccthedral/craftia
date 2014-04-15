@@ -18,7 +18,7 @@ input, select {
 }
 
 input, select {
-    padding: 4px !important;
+    /*padding: 4px !important;*/
     /*width: 65% !important;*/
     display: inline-block !important;
 }
@@ -47,8 +47,7 @@ select {
 }
 
 input[type="radio"], input[type="checkbox"] {
-    margin: 0 0 0 !important;
-    margin-right: 5px !important;
+    
     line-height: 23px !important;
     border: 0 !important;
 }
@@ -71,11 +70,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-    body .container {
-        width: 97%;
-        padding-left: 1.5%;
-        padding-right: 1.5%;
-    }
+
 
 h1, h2, h3, h4, h5, h6 {
     padding: 2px 0;
@@ -384,9 +379,9 @@ form {
     margin-left: 15px;
 }
 
-.form-horizontal .control-label {
+/*.form-horizontal .control-label {
     width: 90px;
-}
+}*/
 
 .form-horizontal .controls {
     margin-left: 110px;
@@ -538,13 +533,9 @@ form {
     background: #000;
 }
 
-    .navbar .container {
-        width: 97% !important;
-    }
-
     .navbar .nav > li > a {
         font-size: 13px !important;
-        color: #fff !important;
+       /* color: black !important;*/
     }
 
     .navbar i {
@@ -1199,7 +1190,6 @@ form {
     form .control-label {
         float: none !important;
         width: auto !important;
-        text-align: left !important;
     }
 
     form .controls {

@@ -126,3 +126,7 @@
   font-weight: bold;
   font-style: italic;
 }
+.widget {
+    padding-left : 10px;
+    padding-right: 10px;
+}

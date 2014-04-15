@@ -50,7 +50,6 @@
         }
 
         vm.whichClass = function(route) {
-         
             if ($location.path() === route.url){
                 return 'top-hmenu-item-current'
             } else {
