@@ -2,18 +2,22 @@
 
     <div class="row">
         
-        <div class="col-md-12">   
-            <div class="t-shirts">
+        <div class="col-md-12 rn-carousel-container">   
+<!--             <div class="t-shirts">
 
                 <img ng-repeat="item in slide.images"
                 ng-src="{{ item }}"
                 class="animated fadeInLeft" />
 
-            </div>
-            <div class="underConstruction">
+            </div> -->
+            <div rn-carousel class="t-shirts rn-carousel-slides">
+                <img ng-repeat="image in slide.images" style="background-image:url({{ image }});" class="animated fadeInLeft rn-carousel-slide">
+                    <!-- <div class="layer">{{ image }}</div> -->
             </div>
         </div>
         
+        <div class="underConstruction">
+        </div>
     </div>
 
     <div class="row">

@@ -10,7 +10,7 @@
   transform: translate3d(0, 0, 0);
   position: relative;
   white-space: nowrap;
-  overflow: visible;
+  overflow: hidden;
   padding: 0;
   margin: 0; }
 
