@@ -71,11 +71,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-    body .container {
-        width: 97%;
-        padding-left: 1.5%;
-        padding-right: 1.5%;
-    }
+
 
 h1, h2, h3, h4, h5, h6 {
     padding: 2px 0;
@@ -538,9 +534,7 @@ form {
     background: #000;
 }
 
-    .navbar .container {
-        width: 97% !important;
-    }
+ 
 
     .navbar .nav > li > a {
         font-size: 13px !important;

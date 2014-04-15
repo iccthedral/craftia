@@ -126,3 +126,7 @@
   font-weight: bold;
   font-style: italic;
 }
+.topnav-content {
+    padding-left : 20px;
+    padding-right: 20px;
+}

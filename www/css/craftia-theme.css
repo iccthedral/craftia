@@ -332,7 +332,7 @@ body {
 }
 
 .craftia-logo {
-  padding: 20px;
+  padding: 10px;
 }
 
 .craftia-logo p {
@@ -437,7 +437,7 @@ body {
   font-size: 2.5em;
   margin-left: 20px;*/
 /*  border-top: 3px solid rgb(251, 255, 200);
-  border-left: 0px solid rgb(251, 255, 200);
+  border-left: 0px sPlid rgb(251, 255, 200);
   border-radius: 11px;*/
   /*padding: 5px;*/
 }
@@ -509,3 +509,8 @@ nav .navbar-collapse {
   background-color: #edb915; 
   opacity: 0.01;  
 }
+.shell-content {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
