@@ -135,6 +135,7 @@ module.exports.bidOnJob = (req, res) ->
             surname: usr.surname
             email: usr.email
             rating: usr.rating.toObject()
+            pic: usr.profilePic
         job.save (err) ->
             return res.status(422).send(err.message) if err?
             Messaging.sendMessage({

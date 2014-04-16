@@ -14,7 +14,15 @@
             var logError = getLogFn(serviceId, "error");
 
             $rootScope.isAjaxHappening = false;
-            
+
+            function toValidJSON(user) {
+                var bla = {};
+                ["email", "telephone", "name", "surname", "password"].forEach(function(el) {
+                    bla[el] = user[el];
+                });
+                return bla;
+            };
+
             var _service = {
                 getUser: function() {
                     return user;                    
@@ -31,7 +39,6 @@
                 getProfilePicture: function() {
                     return (user.profilePic || "img/default_user.jpg")
                 },
-
                 setUser: function (newUser) {
                     user = newUser;
                     console.debug("Novi User", newUser); 
@@ -70,7 +77,7 @@
                 },       
 
                 updateUser: function () {
-                    datacontext.postUpdateUser(user).then(function (data) {
+                    datacontext.postUpdateUser(toValidJSON(user)).then(function (data) {
                         user = data.user;
                         logSuccess(data.msg)
                     }).fail(function (error) {

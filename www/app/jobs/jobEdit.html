@@ -78,7 +78,7 @@
             <ul style="list-style: none;" >
                 <li class="my-offer" id="{{$index}}" data-ng-repeat="p in biddersPagedItems" >
                     <div class="row-container jobDetail">
-                        <img class="job-pic" style="float:left" src="/img/craft.png">
+                        <img class="job-pic" style="float:left" src="{{p.profilePic}}">
                         <div class="jobDetail text-left">
                             <span class="my-job-detail text-left">Name:</span>
                             <span> {{p.name}} </span>

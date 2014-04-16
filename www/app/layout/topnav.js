@@ -70,6 +70,10 @@
           })
         }
 
+        vm.viewProfile = function() {
+            $location.path('/profile');
+        }
+
         function activate() {
             logSuccess('Hot Towel Angular loaded!', null, true);
             common.activateController([vm.getNavRoutes()], controllerId);

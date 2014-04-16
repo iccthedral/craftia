@@ -181,6 +181,7 @@
                     $scope.rightPartial = "app/jobs/bidForJob.html";
                     $scope.currentJob.populate($scope.allJobsPaged[jobIndex]);
                     attachSubcategories($scope.currentJob);
+                    console.debug($scope.currentJob.bidders);
                     $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
                     $scope.biddersPagedItems = $scope.biddersItems[0];
                     $scope.biddersTotalItems = $scope.biddersItems.length;

@@ -68,19 +68,26 @@
                             <div class="leftbtr"></div>
                             <div class="rightbtr"></div>
                             <span class="userland-profile-btn">
-                            <i class="glyphicon glyphicon-user userland-icon"></i>
-                            <span class="userland-name">{{user.username}}</span>
-                                <span class="userland-mail-btn">
-                                    <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
-                                    <span class="userland-mail-count">
-                                        5 new messages
+                                <i class="glyphicon glyphicon-user userland-icon" ng-click="vm.viewProfile()"></i>
+                                <span class="userland-name">{{user.username}}</span>
+
+                                    <span class="userland-mail-btn">
+                                            <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
+                                            <span class="userland-mail-count">
+                                                5 new messages
+                                            </span>
                                     </span>
-                                </span>
+                                
+                                    <span class="logout-icon" ng-click="vm.logout()">
+                                        <i class="glyphicon glyphicon-log-out"></i>
+                                        Log out
+                                    </span>
                             </span>
+
                         </div>
-                    </div>         
+                    </div>
                 </div>
-            </div>
+                </div>
             <div class="col-md-1">
             </div>
         </div>
