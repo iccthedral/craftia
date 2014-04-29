@@ -577,17 +577,17 @@ nav .navbar-collapse {
 
 .category-cell {
   border : dashed 1px;
+  margin-right: 50px;
 }
 .category-span {
-  margin-left: 20px;
   font-weight: bold;
-  white-space:nowrap;
-  margin-right: 50px;
+  word-wrap:  normal;
+  float : left;
 }
 
 .category-img {
-  padding-left: 20px;
-  display: inline-table !important;
+  
+
 }
 .category-table {
   margin-left: auto;
@@ -763,4 +763,18 @@ list-style-type: none !important;
   font-size: 2.3em;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.ribbon {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.yellow-div {
+  background-color: #edb915;
+}
+
+.huge-span {
+  font-size: 3.2em;
+  margin-top: 10px !important;
 }
