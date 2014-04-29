@@ -2,64 +2,120 @@
     <div class="row">
         
         <div class="col-md-12 rn-carousel-container">   
-<!--             <div class="t-shirts">
 
-                <img ng-repeat="item in slide.images"
-                ng-src="{{ item }}"
-                class="animated fadeInLeft" />
-
-            </div> -->
             <div rn-carousel class="t-shirts rn-carousel-slides">
                 <img ng-repeat="image in slide.images" style="background-image:url({{ image }});" class="animated fadeInLeft rn-carousel-slide">
-                    <!-- <div class="layer">{{ image }}</div> -->
-            </div>
+           </div>
         </div>
         
         <div class="underConstruction">
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="widget wcyan">
-                <div data-cc-widget-header title="This widget will animate some of the best craftsmen and their profile"
-                     allow-collapse="true"></div>
-                <div class="widget-content text-center text-info">
-                    <table class="table table-condensed table-striped">
-                        <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Age</th>
-                                <th>Location</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-ng-repeat="p in vm.people">
-                                <td>{{p.firstName}}</td>
-                                <td>{{p.lastName}}</td>
-                                <td>{{p.age}}</td>
-                                <td>{{p.location}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="widget-foot">
-                    <div class="clearfix"></div>
-                </div>
-            </div>
+    <div class="row dashboard-section">
+      <div class="col-md-4">
+        <div>
+            <img src="/img/post_a_job.jpg"/>
         </div>
-        <div class="col-md-6">
-            <div class="widget wcyan">
-                <div data-cc-widget-header title="{{vm.news.title}}"
-                     allow-collapse="true"></div>
-                <div class="widget-content text-center text-info">
-                    <small>{{vm.news.description}}</small>
-                </div>
-                <div class="widget-foot">
-                    <div class="clearfix"></div>
-                </div>
-            </div>
+      </div>
+      <div class="col-md-4">
+        <div>
+            <img src="/img/compare_prices_and_quality.jpg"/>
         </div>
+      </div> 
+      <div class="col-md-4">
+        <div>
+            <img src="/img/make_your_choice.jpg"/>
+        </div>
+      </div>    
     </div>
+    <div class="row dashboard-section">
+        <div class="col-md-5">
+            <div>
+                <span class="other-yellow-span zine-reg-ital big-span"> What is craftia </span>
+                <br>
+                <br>
+                <span class="small-span helvetica-neue">
+                    A short introduction clip for craftsmen who are looking for jobs.
+                </span>
+                <br>
+                <br>
+                <span class="small-span helvetica-neue">
+                    Have a look at this short movie that explains what craftia is and how craftsman can use this portal for their advantage.
+                </span>
+            </div>
+        </div> 
+        <div class="col-md-7">
+            <div>
+                <img class="pull-left how-to-video" src="/img/how_craftia_works.jpg"/>
+            </div>
+        </div> 
+    </div>
+
+    <div class="row dashboard-section">
+        <div class="container col-md-6">
+            <div style="float:left">
+                <img src="/img/categories.jpg"/> 
+            </div>
+            <br>
+            <br>
+                <div>
+                <table>
+                    <tr>
+                        
+                        <td class="category-cell">
+
+                            <img class="category-img" src="/img/cartwheel.jpg"> <span class="category-span">Car</span>
+                        </td>
+
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/wrench.jpg"><span class="category-span">Computer and office</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/gardening.jpg"><span class="category-span">Crafts and home construction</span>
+                        </td>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/cartwheel.jpg"><span class="category-span">Household and gardening</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/gardening.jpg"><span class="category-span">Learning and education</span>
+                        </td>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/cartwheel.jpg"><span class="category-span">Money, tax, legal</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/gardening.jpg"><span class="category-span">Pet care</span>
+                        </td>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/cartwheel.jpg"><span class="category-span">Photo design, internet</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/gardening.jpg"><span class="category-span">Style and welness</span>
+                        </td>
+                        <td class="category-cell">
+                            <img class="category-img" src="/img/cartwheel.jpg"><span class="category-span">Support and care</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <span class="yellow-button"> show all categories</span>
+               </div>
+        </div> 
+        <div class="col-md-6">
+            <div>
+                <span class="pull-left">
+                    <img src="/img/categories.jpg"/>
+                </span>
+            </div>
+        </div> 
+    </div>
+
 </div>

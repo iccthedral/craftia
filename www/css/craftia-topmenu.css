@@ -66,13 +66,14 @@
 }
 
 .top-hmenu-item-wrapper {
-    width: auto;
-    float: left;
+    width: 150px;
     margin-left: 20px;
     margin-bottom: 6px;
     height: 30px;
     cursor: pointer;
     z-index: 2;
+    text-align: center;
+    display: inline-block !important;
 }
 
 .top-hmenu-item {
@@ -100,10 +101,10 @@
 .top-hmenu-item-wrapper a {
     /*top: -30px;*/
     color: #000;
-    width: 100%;
     text-align: center;
-    display: block;
     position: relative;
+    margin: 0 auto;
+    
 }
 
 .top-hmenu-item {

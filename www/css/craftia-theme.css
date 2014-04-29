@@ -1,7 +1,28 @@
 body {
   overflow-x: hidden;
+  font-family: Sans-Serif !important;
 }
 
+
+@font-face {
+  font-family: "Minion-pro";
+  src: url("../fonts/MinionPro-Regular.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "Zine-reg-ital";
+  src: url("../fonts/ZineSerifDis-RegularItalic.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "Zine-bold-roman";
+  src: url("../fonts/ZineSerifDis-BoldRoman.otf") format("truetype");
+}
+@font-face {
+font-family: "Zine-medium-roman";
+src: url("../fonts/ZineSerifDis-MediumRoman.otf") format("truetype");
+
+}
 .profile-details-widget {
   width: 100%;
   display: block;
@@ -332,12 +353,6 @@ body {
 }
 
 
-.craftia-logo p {
-  color: black;
-  font-weight: 100;
-  font-size: 1.7em;
-}
-
 .craftia-nav {
   display: inline;
   position: relative;
@@ -381,17 +396,41 @@ body {
   border-color: transparent transparent #edb915 transparent;
 }
 
+.craftia-nav-envelope .leftupbtr {
+  position:absolute;
+  width: 0px;
+  height: 0px;
+  bottom: 0px;
+  border-style: solid;
+  border-width: 15px 0  0 15px;
+  border-color:  transparent transparent  transparent #edb915 ;
+}
+
+.craftia-nav-envelope .rightupbtr {
+  position:absolute;
+  width: 0px;
+  height: 0px;
+  right: 0px;
+  bottom: 0px;
+  border-style: solid;
+  border-width: 0 0 15px 15px;
+  border-color: transparent transparent #edb915 transparent;
+}
+
+.craftia-nav-envelope a {
+  color: #edb915 !important;
+}
+
 .craftia-nav-envelope .login-text {
   position: absolute;
   color: #edb915;
   bottom: 4px;
   font-size: 1.5em;
-  font-family: monospace;
-  font-weight: bold;
+  font-weight: 680;
   left: 0;
   right: 0;
   text-align: center;
-  margin: 0 auto;
+  margin: 10% 10%;
 }
 
 .craftia-nav-envelope .userland-profile-btn {
@@ -519,5 +558,209 @@ nav .navbar-collapse {
 }
 .submenu {
   padding-top :40px;
+  width: 100%;
+}
+.dashboard-section {
+  border-top: dashed 2px;
+  padding-top: 50px;
+  margin-top: 10px;
+  padding-bottom: 50px;
+}
+.dashboard-section img{
+  display: block;
+  margin: auto;
+}
+.how-to-video {
+  width: 100%;
+  height: 100%;
 }
 
+.category-cell {
+  border : dashed 1px;
+}
+.category-span {
+  margin-left: 20px;
+  font-weight: bold;
+  white-space:nowrap;
+  margin-right: 50px;
+}
+
+.category-img {
+  padding-left: 20px;
+  display: inline-table !important;
+}
+.category-table {
+  margin-left: auto;
+}
+
+.category-div {
+  display: inline;
+}
+.yellow-button {
+  padding-left :5px;
+  padding-right: 5px;
+  color: black;
+  float:left;
+  background-color: #edb915; 
+}
+
+.footer-yellow-small {
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  color: #edb915;
+}
+.footer-yellow-large {
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 26px;
+  color: #edb915;
+}
+.footer-white-small {
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+}
+.footer-white-large {
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.footer-gray-light {
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 20px;
+  color: #8f8f8f;
+}
+
+.footer-gray-dark {
+  background-color: transparent;
+  color: #5e5e5e;
+  font-size: 16px;
+}
+.upper-footer {
+  border-bottom: 1px dashed #edb915;
+  background-color: #2b2b2b;
+}
+
+.lower-footer {
+  background-color: #333333;
+}
+
+.footer-craftsmen {
+  padding-right: 20px;
+}
+
+.footer-list {
+list-style-type: none !important;
+}
+
+.footer-list > li {
+  padding: 0px 0px 0px 0px;
+  height: 20px;
+}
+
+.footer-list :first-child {
+  height: 30px
+}
+
+.footer-img {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.footer-div {
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+.zine-reg-ital {
+  font-family: "Zine-reg-ital"
+}
+
+.zine-bold-roman {
+  font-family: "Zine-bold-roman";
+}
+
+.zine-med-roman {
+  font-family: "Zine-medium-roman";
+}
+
+.top-black-ital {
+  color:black;
+  
+}
+
+.top-white-ital {
+  color:white;
+}
+
+.minion-pro {
+  font-family :"Minion-pro";
+}
+
+.craftia-logo-black {
+  color: black;
+  font-size: 10.7em;
+  font-style: italic;
+  font-weight: bolder;
+}
+
+.other-yellow-span{
+  color: #eeba16;
+}
+
+.big-span {
+  font-size: 2.3em;
+}
+
+.medium-span {
+  font-size: 1.8em;
+}
+
+.small-span {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.helvetica-neue {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+.black-span {
+  color: black;
+}
+
+.arial-regular {
+  font-family: "Arial"
+}
+
+.how-to-big {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.sketch {
+  margin-bottom: 10% !important;
+  margin-top: 10% !important;
+}
+
+.text-middle {
+  margin-top: 5% !important;
+}
+
+.letter {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.big-button {
+  font-size: 2.3em;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

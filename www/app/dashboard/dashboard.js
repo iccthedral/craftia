@@ -30,7 +30,7 @@
         };
 
         vm.menu = [];
-
+        
         vm.messageCount = 0;
         vm.people = [];
         vm.title = 'Dashboard';
@@ -39,10 +39,12 @@
         vm.isAuth = authService.checkAuth();
         vm.craftDash = "app/dashboard/craftsmanDashboard.html";
         vm.custDash = "app/dashboard/customerDashboard.html";
-        vm.anonDash = "app/dashboard/anonDashboard.html"
+        vm.anonDash = "app/dashboard/anonDashboard.html";
+
+        
+
         vm.getNavRoutes = function () {
             vm.menu = $routes.filter(function(r) {
-                
                 return r.config.settings && r.config.settings.nav;
             }).sort(function(r1, r2) {
                 return r1.config.settings.nav - r2.config.settings.nav;
@@ -66,7 +68,7 @@
             return visible;
         }
         $scope.slide = {};
-        $scope.slide.images = ["img/carousel/carousel11.jpg", "img/carousel/carousel2.jpg", "img/carousel/carousel3.jpg", "img/carousel/carousel4.jpg"]
+        $scope.slide.images = ["img/carousel/Franchise-Handwerk.jpg"]
         $scope.tick = function() {
             $scope.slide.images.unshift( $scope.slide.images.pop() );
             $timeout( $scope.tick, 7000 );

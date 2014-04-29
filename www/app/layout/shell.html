@@ -2,17 +2,21 @@
    
     <div data-ng-include="'/app/layout/topnav.html'">
     </div>
-    <div class="col-md-1">
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div data-ng-show="vm.isBusy" class=" page-splash dissolve-animation">
+            <div data-cc-spinner="vm.spinnerOptions">
+            </div>
+            <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}
+            </div>
+        </div>
+        <!-- <div data-ng-if="vm.getAuth()" data-ng-include="'/app/layout/sidebar.html'"></div> -->
+        <div data-ng-view class="col-md-10 shuffle-animation"></div>
+        <span data-cc-scroll-to-top></span>
+        <div class="col-md-1">
+        </div>
+    </div>    
+    <div data-ng-include="'/app/dashboard/footer.html'">
     </div>
-    <div data-ng-show="vm.isBusy" class=" page-splash dissolve-animation">
-        <div data-cc-spinner="vm.spinnerOptions">
-        </div>
-        <div class="page-splash-message page-splash-message-subtle">{{vm.busyMessage}}
-        </div>
-    </div>
-    <!-- <div data-ng-if="vm.getAuth()" data-ng-include="'/app/layout/sidebar.html'"></div> -->
-    <div data-ng-view class="col-md-10 shuffle-animation"></div>
-    <span data-cc-scroll-to-top></span>
-    <div class="col-md-1">
-        </div>
 </div>

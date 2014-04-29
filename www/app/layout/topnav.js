@@ -14,16 +14,95 @@
         vm.user = authService.getUser();
         vm.title = "Logout";
         vm.menu = [];
+        vm.dashMenu = [
+            {   
+                url: '/postjob',
+                config: {
+                    templateUrl: 'app/dashboard/tempJob.html',
+                    title: 'postJob',
+                    settings: {
+                        nav: 1,
+                        content: 'POST JOB'
+                    }
+                }
+            }, {
+                url: '/yellowpages',
+                config: {
+                    templateUrl: 'app/dashboard/yellowPages.html',
+                    title: 'yellowPages',
+                    settings: {
+                        nav: 2,
+                        content: 'YELLOW PAGES'
+                    }
+                }
+            }, {
+                url: '/howto',
+                config: {
+                    templateUrl: 'app/dashboard/howto.html',
+                    title: 'craftsman',
+                    settings: {
+                        nav: 3,
+                        content: 'CRAFTSMAN'
+                    }
+                }
+            }
+        ];
         // vm.getUserType = authService.getUserType();
+
+        vm.dashSubMenu = [
+        {
+                url: '/howto',
+                config: {
+                    templateUrl: 'app/dashboard/howto.html',
+                    title: 'howto',
+                    settings: {
+                        nav: 10,
+                        content: 'HOW TO'
+                    }
+                }
+            },{
+                url: '/requirement',
+                config: {
+                    templateUrl: 'app/dashboard/requirement.html',
+                    title: 'requirement',
+                    settings: {
+                        nav: 11,
+                        content: 'REQUIREMENT'
+                    }
+                }
+            },{
+                url: '/findjobs',
+                config: {
+                    templateUrl: 'app/dashboard/findjobs.html',
+                    title: 'findjobs',
+                    settings: {
+                        nav: 12,
+                        content: 'FIND JOBS'
+                    }
+                }
+            },{
+                url: '/prices',
+                config: {
+                    templateUrl: 'app/dashboard/prices.html',
+                    title: 'prices',
+                    settings: {
+                        nav: 13,
+                        content: 'PRICES'
+                    }
+                }
+            }
+        ]
+
+        
 
         vm.getNavRoutes = function () {
             vm.menu = $routes.filter(function(r) {
-                
                 return r.config.settings && r.config.settings.nav;
             }).sort(function(r1, r2) {
                 return r1.config.settings.nav - r2.config.settings.nav;
             });
         }
+
 
         vm.isVisible = function (route) {
             var visible = false;
@@ -42,11 +121,7 @@
         }
 
         vm.isCurrent = function (route) {
-            if (!route.config.title || !$route.current || !$route.current.title) {
-                return '';
-            }
-            var menuName = $route.config.title;
-            return $route.current.title.substr(0, menuName.length) === menuName;
+          return ($location.path() === route.url)
         }
 
         vm.whichClass = function(route) {
@@ -54,6 +129,12 @@
                 return 'top-hmenu-item-current'
             } else {
                 return 'top-hmenu-item'
+            }
+        }
+
+        vm.whichSubClass = function(route) {
+            if ($location.path() === route.url){
+                return 'craftia-nav-envelope'
             }
         }
 
@@ -75,7 +156,7 @@
         }
 
         function activate() {
-            logSuccess('Hot Towel Angular loaded!', null, true);
+            logSuccess('View loaded!', null, true);
             common.activateController([vm.getNavRoutes()], controllerId);
         }
 

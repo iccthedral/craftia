@@ -132,6 +132,83 @@
                         content: '<i class="fa fa-book"></i> Messages'
                     }
                 }
+            },{   
+                url: '/postjob',
+                config: {
+                    templateUrl: 'app/dashboard/tempJob.html',
+                    title: 'postJob',
+                    resolve: authenticate(false),
+                    settings: {
+                        nav: 7,
+                        content: 'POST JOB'
+                    }
+                }
+            },{
+                url: '/yellowpages',
+                config: {
+                    templateUrl: 'app/dashboard/yellowPages.html',
+                    title: 'yellowPages',
+                    resolve: authenticate(false),
+                    settings: {
+                        nav: 8,
+                        content: 'YELLOW PAGES'
+                    }
+                }
+            },{
+                url: '/craftsman',
+                config: {
+                    templateUrl: 'app/dashboard/craftsman.html',
+                    title: 'craftsman',
+                    resolve: authenticate(false),
+                    settings: {
+                        nav: 9,
+                        content: 'CRAFTSMAN'
+                    }
+                }
+            },{
+                url: '/howto',
+                config: {
+                    templateUrl: 'app/dashboard/howto.html',
+                    title: 'howto',
+                    resolve: authenticate(false),
+                    settings: {
+                        nav: 10,
+                        content: 'HOWTO'
+                    }
+                }
+            },{
+                url: '/requirement',
+                config: {
+                    templateUrl: 'app/dashboard/requirement.html',
+                    title: 'requirement',
+                    resolve: authenticate(false),
+                    settings: {
+                        nav: 11,
+                        content: 'REQUIREMENT'
+                    }
+                }
+            },{
+                url: '/findjobs',
+                config: {
+                    templateUrl: 'app/dashboard/findjobs.html',
+                    title: 'findjobs',
+                    resolve: authenticate(false),
+                    settings: {
+                        nav: 12,
+                        content: 'FIND JOBS'
+                    }
+                }
+            },{
+                url: '/prices',
+                config: {
+                    templateUrl: 'app/dashboard/prices.html',
+                    title: 'prices',
+                    resolve: authenticate(false),
+                    settings: {
+                        nav: 13,
+                        content: 'PRICES'
+                    }
+                }
             },{
                 url: '/register',
                 config: {

@@ -39,17 +39,17 @@
 
         $rootScope.$on('$routeChangeStart',
             function (event, next, current) { toggleSpinner(true); }
-        );
+            );
         
         $rootScope.$on(events.controllerActivateSuccess,
             function (data) { toggleSpinner(false); }
-        );
+            );
 
         $rootScope.$on(events.spinnerToggle,
             function (_, data) { 
                 console.debug(data);
                 toggleSpinner(data.show); 
             }
-        );
+            );
     };
 })();
