@@ -359,8 +359,8 @@ body {
 .craftia-nav-envelope {
   position: relative;
   display: block;
-  width: 250px;
-  height: 75px;
+  width: 150px;
+  height: 45px;
 }
 
 .craftia-nav-envelope .rect {
@@ -714,6 +714,13 @@ list-style-type: none !important;
 .yellow-span{
   color: #edb915;
 }
+
+.logo-span{
+  font-size: 1.4em;
+  max-width: 210px;
+  width: 100%;
+}
+
 .big-span {
   font-size: 2.2em;
   line-height: 27.18181800842285px;
@@ -831,7 +838,7 @@ list-style-type: none !important;
 }
 
 .sub-logo {
-  letter-spacing:0.6vw;
+  letter-spacing:4px;
   white-space:nowrap;
 }
 

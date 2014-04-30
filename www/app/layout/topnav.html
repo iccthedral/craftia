@@ -2,29 +2,41 @@
 
 
 
-    
-       <div class="navbar-header yellow-div">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <div class="row">
-                <div class="col-md-1 col-xs-1 col-sm-1">
-                </div>
-                <div class="col-md-10 col-xs-10 col-sm-10">
-                    <div class="row">
-                        <div class="col-md-3 col-xs-3 col-sm-3" ng-if="!isToggled"><a href="/">
-                            <img class="craftia-logo " src="img/logo3.png"/></a>
+    <div class="navbar-header yellow-div">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-10 row">
+                <div class="col-sm-6 col-md-12 col-xs-6">
+                    <div class="row ">
+                        <div class="col-md-3 col-sm-6">
+                            <a href="/">
+                                <img class="craftia-logo " src="img/logo3.png"/>
+                            </a>
+                            <br>
+                            <a href="/">
+                                <span class="black-span logo-span vegur-regular sub-logo">Craftsmen portal!
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
                         </div>
                         
-                        <div class="col-md-9 col-xs-9 col-sm-9">
-                           <a cr-not-auth href="/#/login"> 
-                                <div class="pull-right craftia-nav-envelope">
+                        <div class="col-md-3 col-sm-6 text-right row">
+                            <a cr-not-auth href="/#/login"> 
+                                <div class="col-sm-7">
+                                </div>
+                                <div class="col-sm-5 craftia-nav-envelope">
                                     <div class="rect"></div>
                                     <div class="leftbtr"></div>
                                     <div class="rightbtr"></div>
@@ -32,77 +44,72 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="craftia-nav pull-right" cr-auth>
-                            <div class="craftia-nav-envelope">
-                                <div class="rect"></div>
-                                <div class="leftbtr"></div>
-                                <div class="rightbtr"></div>
-                                <span class="userland-profile-btn">
-                                    <i class="glyphicon glyphicon-user userland-icon" ng-click="vm.viewProfile()"></i>
-                                    <span class="userland-name">{{user.username}}</span>
+                    </div>
+                </div>
+                <div class="craftia-nav pull-right" cr-auth>
+                    <div class="craftia-nav-envelope">
+                        <div class="rect"></div>
+                        <div class="leftbtr"></div>
+                        <div class="rightbtr"></div>
+                        <span class="userland-profile-btn">
+                            <i class="glyphicon glyphicon-user userland-icon" ng-click="vm.viewProfile()"></i>
+                            <span class="userland-name">{{user.username}}</span>
 
-                                    <span class="userland-mail-btn">
-                                        <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
-                                        <span class="userland-mail-count">
-                                            5 new messages
-                                        </span>
-                                    </span>
-
-                                    <span class="logout-icon" ng-click="vm.logout()">
-                                        <i class="glyphicon glyphicon-log-out"></i>
-                                        Log out
-                                    </span>
+                            <span class="userland-mail-btn">
+                                <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
+                                <span class="userland-mail-count">
+                                    5 new messages
                                 </span>
+                            </span>
+
+                            <span class="logout-icon" ng-click="vm.logout()">
+                                <i class="glyphicon glyphicon-log-out"></i>
+                                Log out
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row col-sm-6 col-xs-6 col-md-12">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-3" >
+                        <div  class="top-hmenu-item-wrapper text-center"  crReveal>
+                            <a href="/#{{vm.dashMenu[0].url}}"  data-ng-bind-html="vm.dashMenu[0].config.settings.content"></a>
+                            <div ng-class="vm.whichClass(vm.dashMenu[0])">
                             </div>
                         </div>
                     </div>
-                
-
-                    <div class="row">
-                        <div class="col-md-3 col-xs-3 col-sm-3" ng-if="!isToggled">
-                            <a href="/">
-                                <span class="black-span medium-span sub-logo vegur-regular">Craftsmen portal!
-                                </span>
+                    
+                    
+                    <div class="col-md-3">
+                        <div  class="top-hmenu-item-wrapper text-center"  crReveal>
+                            <a href="/#{{vm.dashMenu[1].url}}"  data-ng-bind-html="vm.dashMenu[1].config.settings.content">
                             </a>
-                        </div>
-                        
-                        <div class="col-md-9 col-sm-9 row">
-
-                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                <div  class="top-hmenu-item-wrapper"  crReveal>
-                                    <a href="/#{{vm.dashMenu[0].url}}"  data-ng-bind-html="vm.dashMenu[0].config.settings.content"></a>
-                                    <div ng-class="vm.whichClass(vm.dashMenu[0])">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                <div  class="top-hmenu-item-wrapper"  crReveal>
-                                    <a href="/#{{vm.dashMenu[1].url}}"  data-ng-bind-html="vm.dashMenu[1].config.settings.content">
-                                    </a>
-                                    <div ng-class="vm.whichClass(vm.dashMenu[1])">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                <div  class="top-hmenu-item-wrapper"  crReveal>
-                                    <a href="/#{{vm.dashMenu[2].url}}"  data-ng-bind-html="vm.dashMenu[2].config.settings.content">
-                                    </a>
-                                    <div ng-class="vm.whichClass(vm.dashMenu[2])">
-                                    </div>
-                                </div>
+                            <div ng-class="vm.whichClass(vm.dashMenu[1])">
                             </div>
                         </div>
-                    </div>       
-                </div>
-            </div>
-            <div class="col-md-1 col-xs-1 col-sm-1">
-            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div  class="top-hmenu-item-wrapper text-center"  crReveal>
+                            <a href="/#{{vm.dashMenu[2].url}}"  data-ng-bind-html="vm.dashMenu[2].config.settings.content">
+                            </a>
+                            <div ng-class="vm.whichClass(vm.dashMenu[2])">
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>      
         </div>
-        <div data-ng-include="'app/layout/topnavSubMenu.html'">
-        </div>
-       
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>
+<div data-ng-include="'app/layout/topnavSubMenu.html'">
+</div>
+
 </nav>
 
 
