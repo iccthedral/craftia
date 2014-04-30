@@ -6,6 +6,8 @@ html, body {height: 100% !important;}
 
 ul {
   list-style: none !important;
+  padding: 0;
+  margin: 0;
 }
 
 @font-face {
@@ -180,6 +182,7 @@ span.stars span {background-position: 0 0;}
   padding-right: 5px !important;*/
   border: 2px solid transparent;
   margin-bottom: 5px;
+  margin-top: 20px;
 }
 
 .my-offer:hover {
