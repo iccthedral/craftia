@@ -517,7 +517,7 @@ body {
 nav .top-menu {
   position: relative;
   display: block;
-  margin-top: 20px;
+  padding-top: 1.0vw;
 }
 
 nav .inner-menu {
@@ -540,7 +540,7 @@ nav .navbar-collapse {
   background: #edb915;
 }
 .job-pic {
-  padding-top: 10px;
+  padding-top: 2.2vw;
   max-width: 120px;
   max-height: 120px;
   height: 100%;
@@ -556,11 +556,10 @@ nav .navbar-collapse {
   opacity: 0.01;  
 }
 .submenu {
-  padding-top :40px;
-  width: 100%;
+ border-top : dashed 1px;
 }
 .dashboard-section {
-  border-top: dashed 2px;
+  /*border-top: dashed 2px;*/
   padding-top: 50px;
   margin-top: 10px;
   padding-bottom: 50px;
@@ -701,11 +700,11 @@ list-style-type: none !important;
   font-family :"Minion-pro";
 }
 
-.craftia-logo-black {
-  color: black;
-  font-size: 10.7em;
-  font-style: italic;
-  font-weight: bolder;
+.craftia-logo {
+  max-width: 210px;
+  width: 100%;
+  max-height: 120px;
+  height: 100%;
 }
 
 .other-yellow-span{
@@ -837,11 +836,13 @@ list-style-type: none !important;
 }
 
 .address-div{
+  padding-top: 1.0vw;
+  padding-bottom: 1.0vw;
   height: 100%;
 }
 
 .date-div {
-  padding-top: 20px;
+  padding-top: 1.0vw;
   border-top: dashed 1px;
   border-right: dashed 1px;
   max-height: 100%;
@@ -857,26 +858,26 @@ list-style-type: none !important;
 }
 
 .info-div {
-  padding-top: 20px;
+  padding-top: 1.0vw;
   min-height: 100%;
   border-top: dashed 1px;
   height:100%; 
 }
 .job-buttons {
-  margin-top: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin-top: 0.3vw;
+  padding-top: 0.5vw;
+  padding-bottom: 0.5vw;
 }
 
 .job-button {
-  padding-left: 10px;
+  padding-left: 0.3vw;
 }
 
 .cat-div {
   max-height: 34px;
   height: 34px;
   min-height: 100%;
-  padding-top: 5px;
+  padding-top: 0.3vw;
 }
 
 .tiny-span{
