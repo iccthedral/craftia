@@ -725,7 +725,6 @@ list-style-type: none !important;
 }
 .medium-span {
   font-size: 1.2vw;
-
 }
 
 .bold-span {
@@ -878,8 +877,6 @@ list-style-type: none !important;
   height: 34px;
   min-height: 100%;
   padding-top: 5px;
-  white-space:nowrap;
-  font-size: 0.9vw;
 }
 
 .tiny-span{
