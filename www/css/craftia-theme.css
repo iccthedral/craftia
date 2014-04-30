@@ -838,6 +838,7 @@ list-style-type: none !important;
 
 .date-div {
   border-top: dashed 1px;
+  border-right: dashed 1px;
   max-height: 100%;
 }
 .job-div {
@@ -853,7 +854,6 @@ list-style-type: none !important;
 .info-div {
   min-height: 100%;
   border-top: dashed 1px;
-  border-left: dashed 1px;
   height:100%; 
 }
 .job-buttons {
