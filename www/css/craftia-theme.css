@@ -833,7 +833,7 @@ list-style-type: none !important;
 }
 
 .sub-logo {
-  letter-spacing:5px;
+  letter-spacing:0.6vw;
   white-space:nowrap;
 }
 
