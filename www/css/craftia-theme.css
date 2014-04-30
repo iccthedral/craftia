@@ -208,11 +208,11 @@ span.stars span {background-position: 0 0;}
 .boxclose:hover {background: #E00000; font-size: 38px;}
 
 .boxbookmark:hover {
-  color: white;
+  color: #edb915;
 }
 
 .boxbookmark {
-  color: #edb915;
+  color: white;
 }
 
 .profile-picture {
@@ -540,6 +540,7 @@ nav .navbar-collapse {
   background: #edb915;
 }
 .job-pic {
+  padding-top: 10px;
   max-width: 120px;
   max-height: 120px;
   height: 100%;
@@ -723,12 +724,16 @@ list-style-type: none !important;
   line-height: 27.18181800842285px;
 }
 .medium-span {
-  font-size: 1.8em;
+  font-size: 1.2vw;
+
+}
+
+.bold-span {
+  font-weight: bold;
 }
 
 .small-span {
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: 1.0vw;
 }
 
 .helvetica-neue {
@@ -837,6 +842,7 @@ list-style-type: none !important;
 }
 
 .date-div {
+  padding-top: 20px;
   border-top: dashed 1px;
   border-right: dashed 1px;
   max-height: 100%;
@@ -852,10 +858,30 @@ list-style-type: none !important;
 }
 
 .info-div {
+  padding-top: 20px;
   min-height: 100%;
   border-top: dashed 1px;
   height:100%; 
 }
 .job-buttons {
-  margin-top: 5px;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.job-button {
+  padding-left: 10px;
+}
+
+.cat-div {
+  max-height: 34px;
+  height: 34px;
+  min-height: 100%;
+  padding-top: 5px;
+  white-space:nowrap;
+  font-size: 0.9vw;
+}
+
+.tiny-span{
+  font-size: 0.8vw;
 }

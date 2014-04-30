@@ -5,14 +5,14 @@
         <div class="col-md-10">
             <div class="col-md-3 row">
                 <div class="col-md-4">
-                    <span class="small-span yellow-span">
+                    <span class="small-span bold-span yellow-span">
                         CITY
                     </span>
                     <select class="menu-select" data-ng-model="jobCitySearch" data-ng-options="city as city.name for city in cities">
                     </select>
                 </div>
                 <div class="col-md-7">
-                    <span class="small-span yellow-span">
+                    <span class="small-span bold-span yellow-span">
                         DISTANCE
                     </span>
                     <input class="menu-input" data-ng-model="jobDistanceSearch"
@@ -21,21 +21,21 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <span class="small-span yellow-span">
+                <span class="small-span bold-span yellow-span">
                     CATEGORY
                 </span>
                 <select ng-change="attachSubcategories2(selectedCategory);" class="menu-select" data-ng-model="selectedCategory" data-ng-options="cat as cat.name for cat in categories">
                 </select>
             </div>
             <div class="col-md-3">
-                <span class="small-span yellow-span">
+                <span class="small-span bold-span yellow-span">
                     SUBCATEGORY
                 </span>
                 <select class="menu-select" data-ng-model="selectedSubcategory" data-ng-options="subcat as subcat.name for subcat in subcategories" type="text" placeholder="subcategory">
                 </select>
             </div>
             <div class="col-md-3">
-                <span class="small-span yellow-span">
+                <span class="small-span bold-span yellow-span">
                     SEARCH
                 </span>
                 <input class="menu-input" type="text" placeholder="serach">

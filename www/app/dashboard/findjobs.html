@@ -3,22 +3,20 @@
 				<li class="my-offer" id="{{$index}}" data-ng-repeat="p in allJobsPaged" ng-click="JobList.showJob($index)">
 					<div class="row yellow-div">
 
-						<div class="col-md-2 row">
-							<div class="black-div text-center">
-									<span class="medium-span yellow-span helvetica-neue">
+						<div class="col-md-2">
+							<div class="black-div cat-div text-center">
+									<span class="medium-span white-span helvetica-neue">
 									{{p.category}} :
 									</span>
-									<span class="medium-span yellow-span helvetica-neue">
+									<span class="medium-span white-span helvetica-neue">
 									{{p.subcategory}}
 									</span>
 								</div>
-							<div class="col-md-1">
-							</div>	
-							<div class="col-md-10 text-center">
+							
+							<div class="text-center">
 								<img class="job-pic" src="/img/job.jpg">
 							</div>
-							<div class="col-md-1">
-							</div>
+							
 						</div>
 						<div class="col-md-10 job-div">
 							
@@ -37,28 +35,28 @@
 										</div>
 										<div class="row col-md-10 yellow-div">
 											<div class="row">
-												<div class="col-md-1">
-												</div>
-												<div class="text-center col-md-5 black-div">
-													<span class="white-span tiny-span helvetica-neue">
+
+												
+												<div class="text-center col-md-6 black-div">
+													<span class="white-span small-span helvetica-neue">
 														Starting date:    
 													</span>
 													<br>
-													<span class="white-span tiny-span helvetica-neue">
+													<span class="white-span small-span helvetica-neue">
 														{{p.dateFrom}}    
 													</span>
 												</div>
-												<div class="text-center col-md-5 peach-div">
-													<span clas="helvetica-neue black-span tiny-span">
+												
+												<div class="text-center col-md-6 peach-div">
+													<span class="helvetica-neue small-span black-span">
 														Ending date:   
 													</span>
 													<br>
-													<span class="white-span tiny-span helvetica-neue">
-														{{p.dateFrom}}    
+													<span class="black-span small-span helvetica-neue">
+														{{p.dateTo}}    
 													</span>
 												</div>
-												<div class="col-md-1">
-												</div>
+												
 											</div>   
 										</div>
 										<div class="col-md-1">
@@ -75,7 +73,7 @@
 										</div>
 										<div class="col-md-4 text-center">
 											<span clas="helvetica-neue black-span tiny-span">
-												Novi Sad 
+												{{p.address.city}}
 											</span>
 										</div>
 										<div class="col-md-2">
@@ -90,12 +88,11 @@
 									<div class="col-md-1">
 									</div>
 									<div class="col-md-10 text-left">
-										<br>
-										<span class="black-span">
+										
+										<span class="small-span black-span">
 											{{p.description}}
 										</span>
-										<br>
-										<br>
+										
 									</div>
 									<div class="col-md-1">
 									</div>
@@ -105,29 +102,33 @@
 					</div>
 
 					<div class="job-buttons peach-div row">
-						<div class="col-md-3">
+						<div class="job-button col-md-2">
 							<img  src="/img/client_profile.jpg">
-							<span class="tiny-span">
+							<span class="small-span">
 								Client profile
 							</span>
 						</div>
-						<div class="col-md-3">
-							<img  src="/img/message.jpg">
-							<span class="tiny-span">
-								Send message
-							</span>
-						</div>
-						<div class="col-md-3">
-							<img src="/img/forward.jpg">
-							<span class="tiny-span">
-								Forward job
-							</span>
-						</div>
-						<div class="col-md-3">
-							<img src="/img/job_infos.jpg">
-							<span class="tiny-span">
-								Job info
-							</span>
+						<div class="col-md-10 row">
+							<div class="job-button col-md-4">
+								<img  src="/img/message.jpg">
+								<span class="small-span">
+									Send message
+								</span>
+							</div>
+							<div class="col-md-8">
+								<div class="job-button col-md-6">
+									<img src="/img/forward.jpg">
+									<span class="small-span">
+										Forward job
+									</span>
+								</div>
+								<div class="job-button col-md-6">
+									<img src="/img/job_infos.jpg">
+									<span class="small-span">
+										Job info
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>	
 				</li>
