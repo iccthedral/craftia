@@ -65,7 +65,7 @@ input[type="radio"], input[type="checkbox"] {
 body {
     font-size: 13px;
     line-height: 23px;
-    color: #666;
+    /*color: #666;*/
     background: #111;
     -webkit-font-smoothing: antialiased;
 }

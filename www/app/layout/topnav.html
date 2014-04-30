@@ -19,8 +19,8 @@
 
 
                 <div class="submenu container top-hmenu">
-                    <div class="craftia-logo col-md-3">
-                        <span>Craftsmen portal!</span>
+                    <div class="col-md-3">
+                        <span class="black-span medium-span sub-logo vegur-regular">Craftsmen portal!</span>
                     </div>
                     <div class="col-md-3"> 
                         <div class="col-md-4">
@@ -102,95 +102,8 @@
             </div>
         </div>
 
-        <div class="row top-menu">
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-10 ">
-                <ul ng-hide="isCurrent(vm.dashMenu[2]) || isCurrent(vm.dashSubMenu[0]) || isCurrent(vm.dashSubMenu[1]) || isCurrent(vm.dashSubMenu[2]) || isCurrent(vm.dashSubMenu[3])" class="top-header menu-item">
-                    <span class="zine-reg-ital top-black-ital big-span">
-                       Find the best craftsman for your needs. 
-                    </span>
-                    <a href="/#/register">
-                    <span class="zine-reg-ital top-white-ital big-span">
-                      Register now for free! 
-                    </span>
-                    </a>
-                </ul>
-                <div ng-show="isCurrent(vm.dashMenu[2]) || isCurrent(vm.dashSubMenu[0]) || isCurrent(vm.dashSubMenu[1]) || isCurrent(vm.dashSubMenu[2]) || isCurrent(vm.dashSubMenu[3])" class="row top-menu">
-                    <div class="col-md-3" >
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-                            <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[0])"> 
-
-                                <div class="rect"></div>
-                                <div class="leftupbtr"></div>
-                                <div class="rightupbtr"></div>
-
-                                <a href="/#{{vm.dashSubMenu[0].url}}"  data-ng-bind-html="vm.dashSubMenu[0].config.settings.content"></a>
-                            </div>
-                        </div>    
-                        <div class="col-md-4">
-                        </div>    
-                    </div>
-                    <div class="col-md-3"  >
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-                            <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[1])">
-
-                                <div class="rect"></div>
-                                <div class="leftupbtr"></div>
-                                <div class="rightupbtr"></div>
-
-                                <a href="/#{{vm.dashSubMenu[1].url}}"  data-ng-bind-html="vm.dashSubMenu[1].config.settings.content"></a>
-                            </div>
-                        </div>    
-                        <div class="col-md-4">
-                        </div>   
-                        
-                    </div>
-                    <div class="col-md-3" >
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-
-                            
-
-                            <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[2])"> 
-
-                                <div class="rect"></div>
-                                <div class="leftupbtr"></div>
-                                <div class="rightupbtr"></div>
-
-                                <a href="/#{{vm.dashSubMenu[2].url}}"  data-ng-bind-html="vm.dashSubMenu[2].config.settings.content"></a>
-                            </div>
-                        </div>    
-                        <div class="col-md-4">
-                        </div> 
-                        </div>
-                    <div class="col-md-3" >
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
-
-                            <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[3])"> 
-
-                                <div class="rect"></div>
-                                <div class="leftupbtr"></div>
-                                <div class="rightupbtr"></div>
-
-                                <a href="/#{{vm.dashSubMenu[3].url}}"  data-ng-bind-html="vm.dashSubMenu[3].config.settings.content"></a>
-                            </div>
-                        </div>    
-                        <div class="col-md-4">
-                        </div> 
-                    </div>
-                </div>    
-            </div>
-            <div class="col-md-6">
-            </div>
-        </div>
+        <div data-ng-include="'app/layout/topnavSubMenu.html'">
+        
     </div>
 </nav>
 

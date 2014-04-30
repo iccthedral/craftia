@@ -44,7 +44,15 @@
         $scope.jobSubcategorySearch = '';
         $scope.rightPartial = "";
         $scope.currentTitle = "";
-        $scope.cities = []
+        $scope.cities = [
+            {   
+                name:"Novi Sad",
+                id:1
+            }, {
+                name:"Beograd",
+                id: 2
+            }
+        ];
         $scope.allJobs = [];
         $scope.ownJobs = [];
         $scope.currentView = '';
@@ -54,7 +62,8 @@
         $scope.JobList = JobList();
         $scope.ViewJob = ViewJob();
         $scope.JobPanel = JobPanel();
-
+        $scope.selectedCategory = {};
+        $scope.selectedCity = {};
         //paging
         $scope.sizePerPage = 2;
         $scope.allJobsChunked = [];
@@ -71,6 +80,8 @@
         $scope.myJobsPaged = [];
         $scope.myJobsTotal = 0;
         $scope.myJobsCurrentPage = 1;
+
+        $scope.selectedCriteria = "CALENDAR";
 
         // var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
 
@@ -169,6 +180,18 @@
             });
         }
 
+        $scope.attachSubcategories2 = function (that) {
+            $rootScope.isAjaxHappening = true;
+            datacontext.getSubcategories(that.id).success(function (data) {
+                $scope.subcategories = data;
+                $scope.selectedSubcategory = $scope.subcategories[0];
+                $rootScope.isAjaxHappening = false;
+                $rootScope.$digest();
+            });
+        }
+
+        $
+
         function JobList() {
             $scope.focusedMap = {};
             return {
@@ -185,8 +208,8 @@
                     $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
                     $scope.biddersPagedItems = $scope.biddersItems[0];
                     $scope.biddersTotalItems = $scope.biddersItems.length;
-                    console.debug($scope.user.address.city, $scope.currentJob.address.city)
-                    gmaps.calcRoute($scope.user.address.city, $scope.currentJob.address.city)
+                    // console.debug($scope.user.address.city, $scope.currentJob.address.city)
+                    // gmaps.calcRoute($scope.user.address.city, $scope.currentJob.address.city)
                 },
 
                 toggleFocus: function (bidderIndex) {
@@ -229,6 +252,7 @@
             });
         }
 
+        
         function createJobModel(scope) {
             console.debug("created job model");
             console.debug($scope.rightPartial);
@@ -547,9 +571,10 @@
         activate();
 
         function activate() {
-            common.activateController([getCategories(), getAllJobs(), getUserJobs()], controllerId)
+            common.activateController([$scope.getCities(), getCategories(), getAllJobs(), getUserJobs()], controllerId)
                 .then(function () {
                     log('Activated Jobs View');
+                    console.debug($scope.categories);
                 });
         }
     }

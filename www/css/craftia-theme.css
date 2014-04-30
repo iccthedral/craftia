@@ -2,7 +2,11 @@ body {
   overflow-x: hidden;
   font-family: Sans-Serif !important;
 }
+html, body {height: 100% !important;}
 
+ul {
+  list-style: none !important;
+}
 
 @font-face {
   font-family: "Minion-pro";
@@ -18,11 +22,17 @@ body {
   font-family: "Zine-bold-roman";
   src: url("../fonts/ZineSerifDis-BoldRoman.otf") format("truetype");
 }
+
 @font-face {
 font-family: "Zine-medium-roman";
 src: url("../fonts/ZineSerifDis-MediumRoman.otf") format("truetype");
-
 }
+
+@font-face {
+font-family: "vegur-regular";
+src: url("../fonts/Vegur-Regular.otf") format("truetype");
+}
+
 .profile-details-widget {
   width: 100%;
   display: block;
@@ -170,12 +180,10 @@ span.stars span {background-position: 0 0;}
   padding-right: 5px !important;*/
   border: 2px solid transparent;
   margin-bottom: 5px;
-  background-color: #eeeeee;
 }
 
 .my-offer:hover {
-  border: 2px solid #edb915;
-  ;
+  border: 2px solid black;
 }
 
 .boxclose {
@@ -196,27 +204,13 @@ span.stars span {background-position: 0 0;}
 
 .boxclose:hover {background: #E00000; font-size: 38px;}
 
-div .boxbookmark {
-  float: right;
-  cursor: pointer;
-  color: #fff;
-  border: 2px solid transparent;
-  background: #edb915;
-  font-size: 30px;
-  display: inline-block;
-  line-height: 15px;
-  padding: 10px;
-  height: 40px;
-  color: #fff;
-  width: 55px;
+.boxbookmark:hover {
+  color: white;
 }
 
-div .boxbookmark:hover {
-  color: #EBEB00;
-  font-size: 31px;
+.boxbookmark {
+  color: #edb915;
 }
-
-.boxbookmark {color: #fff;}
 
 .profile-picture {
   width: 180px;
@@ -277,7 +271,7 @@ div .boxbookmark:hover {
 
 .craftia-map {
   height: 300px !important;
-};
+}
 
 .job-photo-gallery {
 }
@@ -543,11 +537,12 @@ nav .navbar-collapse {
   background: #edb915;
 }
 .job-pic {
-  max-width: 180px;
-  max-height: 180px;
+  max-width: 120px;
+  max-height: 120px;
   height: 100%;
   width: 100%;
 }
+
 
 .over-carousel {
   min-height: 30px;
@@ -620,11 +615,13 @@ nav .navbar-collapse {
   background-color: transparent;
   font-weight: bold;
   font-size: 16px;
+  color: white;
 }
 .footer-white-large {
   background-color: transparent;
   font-weight: bold;
   font-size: 26px;
+  color: white;
 }
 
 .footer-gray-light {
@@ -711,10 +708,17 @@ list-style-type: none !important;
   color: #eeba16;
 }
 
-.big-span {
-  font-size: 2.3em;
+.yellow-span{
+  color: #edb915;
 }
-
+.big-span {
+  font-size: 2.2em;
+  line-height: 27.18181800842285px;
+}
+.bigger-span {
+  font-size: 2.9em;
+  line-height: 27.18181800842285px;
+}
 .medium-span {
   font-size: 1.8em;
 }
@@ -732,8 +736,11 @@ list-style-type: none !important;
   color: black;
 }
 
+.white-span {
+  color: white !important;
+}
 .arial-regular {
-  font-family: "Arial"
+  font-family: "Arial";
 }
 
 .how-to-big {
@@ -774,7 +781,78 @@ list-style-type: none !important;
   background-color: #edb915;
 }
 
+.white-div {
+  background-color: white;
+  color: black;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.graydiv {
+  background-color: #737373  !important;
+  color: white;
+}
+
+.peach-div{
+  background-color: #f5d673 !important;
+}
+
+.black-div{
+  background-color: #2e2e2e;
+}
+
 .huge-span {
   font-size: 3.2em;
   margin-top: 10px !important;
+}
+
+.find-jobs-menu {
+  background-color : #1a1a1a;
+}
+
+.menu-select {
+  height: 27px;
+  width: 90% !important;
+  float: left;
+}
+.menu-input {
+  width: 99% !important;
+  float: left;
+}
+
+.menu-row {
+  padding-top: 20px;
+}
+
+.sub-logo {
+  letter-spacing:5px;
+  white-space:nowrap;
+}
+
+.address-div{
+  height: 100%;
+}
+
+.date-div {
+  border-top: dashed 1px;
+  max-height: 100%;
+}
+.job-div {
+  height: 100%;
+  min-height: 100%;
+  border-left: white solid 3px;
+}
+
+.right-job-div {
+ height: 100%;
+}
+
+.info-div {
+  min-height: 100%;
+  border-top: dashed 1px;
+  border-left: dashed 1px;
+  height:100%; 
+}
+.job-buttons {
+  margin-top: 5px;
 }
