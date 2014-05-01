@@ -58,13 +58,6 @@
   color: #edb915;
 }
 
-.menu-item {
-    background-image: linear-gradient(to right, #333 40%, rgba(255, 255, 255, 0) 20%);
-    background-position: top;
-    background-size: 25px 3px;
-    background-repeat: repeat-x;
-}
-
 .top-hmenu-item-wrapper {
     width: 150px;
     height: 30px;
