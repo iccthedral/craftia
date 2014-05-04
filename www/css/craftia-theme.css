@@ -360,7 +360,7 @@ body {
   position: relative;
   display: block;
   width: 150px;
-  height: 45px;
+  height: 85px;
 }
 
 .craftia-nav-envelope .rect {
@@ -432,9 +432,8 @@ body {
 
 .craftia-nav-envelope .userland-profile-btn {
   position: relative;
-  font-size: 2.5em;
+  font-size: 1.5em;
   padding-left: 20px;
-  padding-right: 20px;
   width: 100%;
   float: left;
   clear: both;
@@ -470,7 +469,6 @@ body {
 
 .craftia-nav-envelope .userland-mail-btn {
   left: 0px;
-  margin-left: 20px;
   position: relative;
   clear: both;
   /*padding: 5px;*/
@@ -498,8 +496,7 @@ body {
 
 .craftia-nav-envelope .userland-mail-count {
   color: rgba(255, 255, 255, 1);
-  font-weight: bolder;
-  font-size: 0.3em;
+  font-size: 0.5em;
   position: relative;
   top: 12px;
 

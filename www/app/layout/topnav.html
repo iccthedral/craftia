@@ -32,40 +32,45 @@
                         <div class="col-md-7">
                         </div>
                         
-                        <div class="col-md-2 text-right row">
+                        <div class="row col-md-2 col-sm-12">
+                            <div class="col-sm-3">
+                            </div>
+                            <div class="col-sm-6 craftia-nav" cr-auth>
+                                <div class="craftia-nav-envelope">
+                                    <div class="rect"></div>
+                                    <div class="leftbtr"></div>
+                                    <div class="rightbtr"></div>
+                                    <span class="userland-profile-btn">
+                                        <i class="glyphicon glyphicon-user userland-icon" ng-click="vm.viewProfile()"></i>
+                                        <span class="userland-name">{{user.username}}</span>
+                                        <br>
+                                        <span class="userland-mail-btn">
+                                            <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
+                                            <span class="userland-mail-count">
+                                                5 new messages
+                                            </span>
+                                            <br>
+                                            <span class="logout-icon" ng-click="vm.logout()">
+                                            <i class="glyphicon glyphicon-log-out"></i>
+                                                Log out
+                                            </span>
+                                            
+                                        </span>
+
+                                        
+                                    </span>
+                                </div>
+                            </div>
+
                             <a cr-not-auth href="/#/login"> 
-                                
                                 <div class="craftia-nav-envelope">
                                     <div class="rect"></div>
                                     <div class="leftbtr"></div>
                                     <div class="rightbtr"></div>
                                     <span class="login-text yellow-span medium-span">LOGIN</span>
                                 </div>
-                            </a>
+                            </a>                        
                         </div>
-                    </div>
-                </div>
-                <div class="craftia-nav pull-right" cr-auth>
-                    <div class="craftia-nav-envelope">
-                        <div class="rect"></div>
-                        <div class="leftbtr"></div>
-                        <div class="rightbtr"></div>
-                        <span class="userland-profile-btn">
-                            <i class="glyphicon glyphicon-user userland-icon" ng-click="vm.viewProfile()"></i>
-                            <span class="userland-name">{{user.username}}</span>
-
-                            <span class="userland-mail-btn">
-                                <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
-                                <span class="userland-mail-count">
-                                    5 new messages
-                                </span>
-                            </span>
-
-                            <span class="logout-icon" ng-click="vm.logout()">
-                                <i class="glyphicon glyphicon-log-out"></i>
-                                Log out
-                            </span>
-                        </span>
                     </div>
                 </div>
 
