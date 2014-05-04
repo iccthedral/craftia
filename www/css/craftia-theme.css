@@ -495,14 +495,20 @@ body {
 }
 
 .craftia-nav-envelope .userland-mail-count {
+
+
+  position: relative;
+  /*margin-left: 5px;*/
+
+
   color: rgba(255, 255, 255, 1);
   font-size: 0.5em;
   position: relative;
   top: 12px;
 
-  text-align: center;
+/*  text-align: center;
   z-index: 2;
-  clear: both;
+  clear: both;*/
 }
 
 .main-content {
