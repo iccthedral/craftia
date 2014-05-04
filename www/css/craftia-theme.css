@@ -494,22 +494,28 @@ body {
   /*line-height: 2;*/
 }
 
-.craftia-nav-envelope .userland-mail-count {
-
-
-  position: relative;
-  /*margin-left: 5px;*/
-
-
+.craftia-nav-envelope .userland-mail-count1 {
   color: rgba(255, 255, 255, 1);
-  font-size: 0.5em;
+  font-size: 0.6em;
   position: relative;
-  top: 12px;
-
-/*  text-align: center;
+  bottom : 0.7em;
+  left :  25px;
+  text-align: center;
   z-index: 2;
-  clear: both;*/
+  clear: both;
 }
+
+.craftia-nav-envelope .userland-mail-count2 {
+  color: rgba(255, 255, 255, 1);
+  font-size: 0.6em;
+  position: relative;
+  right :  8px;
+  text-align: center;
+  z-index: 2;
+  clear: both;
+}
+
+
 
 .main-content {
   padding-left: 11.5%;
