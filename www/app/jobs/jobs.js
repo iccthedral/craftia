@@ -166,7 +166,7 @@
         $scope.isBidder = function (jobIndex) {
             return $scope.allJobsPaged[jobIndex].bidders.filter(function (bidder) {
                 if (!$scope.user) {
-                    return true;
+                    return false;
                 }
                 return (bidder.id === $scope.user._id)
             }).length > 0
