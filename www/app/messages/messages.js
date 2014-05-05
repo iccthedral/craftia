@@ -13,11 +13,36 @@
         $scope.currentJob = "";
 
         $scope.systemMessages = [];
-        $scope.jobMessages = [];
+        
+        //dummy data
+        $scope.jobMessages = [
+            {
+                sender: {
+                    name : "John",
+                    surname : "Plutonium"
+                },
+                about: "Subject theme X",
+                date: "5. 5. 2014",
+                content: "Hi, Goran, when will the code be done?"
+            },
+            {
+                sender: {
+                    name : "John",
+                    surname : "Plutonium"
+                },
+                about: "Subject theme X",
+                date: "5. 5. 2014",
+                content: "Hi, Sermed, when will the design be done?"
+            }
+
+
+        ];
         $scope.contactMessages = [];
         $scope.otherMessages = [];
 
         $scope.user = authService.getUser();
+
+
 
 
         //paging
@@ -49,9 +74,9 @@
 
         $scope.showJobs = function() {
             $scope.leftPartial = "app/messages/jobMessages.html";
-            $scope.jobMessages = $scope.user.inbox.received.filter(function (msg) {
-                if (msg.data.subtype === "bif_for_job" || msg.data.subtype === "cancel_jov") return msg.message()
-            })
+            // $scope.jobMessages = $scope.user.inbox.received.filter(function (msg) {
+            //     if (msg.data.subtype === "bif_for_job" || msg.data.subtype === "cancel_jov") return msg.message()
+            // })
             $scope.items = $scope.jobMessages.chunk($scope.sizePerPage);
             $scope.itemsPaged = $scope.items[0];
             $scope.totalItems = $scope.jobMessages.length;

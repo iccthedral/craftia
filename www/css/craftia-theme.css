@@ -462,6 +462,7 @@ body {
   font-size: 0.5em;
   margin-left: 5px;
   cursor: pointer;
+  bottom: 0.2em;
 }
 
 .userland-name:hover {
@@ -530,7 +531,7 @@ body {
   font-size: 0.6em;
   position: relative;
   left :  33px;
-  bottom: 0.3em;
+  bottom: 0.4em;
   text-align: center;
   z-index: 2;
   clear: both;
@@ -568,14 +569,6 @@ nav .userland-menu {
 nav .navbar-collapse {
   background: #edb915;
 }
-.job-pic {
-  padding-top: 2.2vw;
-  max-width: 120px;
-  max-height: 120px;
-  height: 100%;
-  width: 100%;
-}
-
 
 .over-carousel {
   min-height: 30px;
@@ -877,12 +870,7 @@ list-style-type: none !important;
   height: 100%;
 }
 
-.date-div {
-  padding-top: 1.0vw;
-  border-top: dashed 1px;
-  border-right: dashed 1px;
-  max-height: 100%;
-}
+
 .job-div {
   height: 100%;
   min-height: 100%;
@@ -893,6 +881,12 @@ list-style-type: none !important;
  height: 100%;
 }
 
+.date-div {
+  padding-top: 1.0vw;
+  border-top: dashed 1px;
+  border-right: dashed 1px;
+  max-height: 100%;
+}
 .info-div {
   padding-top: 1.0vw;
   min-height: 100%;
@@ -916,6 +910,45 @@ list-style-type: none !important;
   padding-top: 0.3vw;
 }
 
+.job-pic {
+  padding-top: 2.2vw;
+  max-width: 120px;
+  max-height: 120px;
+  height: 100%;
+  width: 100%;
+}
+
+.sender-div {
+}
+
+.sender-pic {
+  max-width: 120px;
+  max-height: 120px;
+  height: 100%;
+  width: 100%;
+}
+
+.sender-pic-div{
+  background-color: transparent;
+}
+
+.msg-date-div {
+  padding-top: 1.0vw;
+  padding-bottom: 1.75vw;
+  border-top: dashed 1px;
+  border-right: dashed 1px;
+  max-height: 100%;
+}
+
+.msg-content-div {
+  padding-top: 1.0vw;
+  padding-bottom: 1.75vw;
+  min-height: 100%;
+  border-top: dashed 1px;
+  height:100%; 
+}
+
 .tiny-span{
   font-size: 0.8vw;
 }
+

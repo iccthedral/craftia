@@ -1,182 +1,153 @@
 <div data-ng-controller="Jobs" ng-init="initLeftPartial()">  
-			<ul>
-				<li class="my-offer" id="{{$index}}" data-ng-repeat="p in allJobsPaged" ng-click="JobList.showJob($index)">
-					<div class="row yellow-div">
+	<ul>
+		<li class="my-offer" id="{{$index}}" data-ng-repeat="p in allJobsPaged" ng-click="JobList.showJob($index)">
+			<div class="row yellow-div">
 
-						<div class="col-md-2">
-							<div class="black-div cat-div text-center">
-									<span class="small-span white-span helvetica-neue">
-									{{p.category}} :
-									</span>
-									<span class="small-span white-span helvetica-neue">
-									{{p.subcategory}}
-									</span>
-								</div>
-							
-							<div class="text-center">
-								<img class="job-pic" src="/img/job.jpg">
-							</div>
-							
-						</div>
-						<div class="col-md-10 job-div">
-							
-							<div class="row">
-								<div class="col-md-10">
-								</div>
-								<div class="col-md-2 black-div text-center">
-									<span ng-hide="isBidder($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
-								</span>
-								</div>
-							</div>
-							<div class="row right-job-div">
-								<div class="col-md-4 date-div ">
-									<div class="row">
-										<div class="col-md-1">
-										</div>
-										<div class="row col-md-10 yellow-div">
-											<div class="row">
-
-												
-												<div class="text-center col-md-6 black-div">
-													<span class="white-span small-span helvetica-neue">
-														Starting date:    
-													</span>
-													<br>
-													<span class="white-span small-span helvetica-neue">
-														{{p.dateFrom}}    
-													</span>
-												</div>
-												
-												<div class="text-center col-md-6 peach-div">
-													<span class="helvetica-neue small-span black-span">
-														Ending date:   
-													</span>
-													<br>
-													<span class="black-span small-span helvetica-neue">
-														{{p.dateTo}}    
-													</span>
-												</div>
-												
-											</div>   
-										</div>
-										<div class="col-md-1">
-										</div>
-										
-									</div>
-									
-									<div class="row address-div yellow-div text-center">
-										
-										<div class="col-md-2">
-										</div>
-										<div class="col-md-4">
-											<img src="/img/address_selector.jpg">
-										</div>
-										<div class="col-md-4 text-center">
-											<span clas="helvetica-neue black-span tiny-span">
-												{{p.address.city}}
-											</span>
-										</div>
-										<div class="col-md-2">
-										</div>
-										
-										
-									</div>
-								</div>
-							
-
-								<div class="yellow-div info-div col-md-8 row">
-									<div class="col-md-1">
-									</div>
-									<div class="col-md-10 text-left">
-										
-										<span class="small-span black-span">
-											{{p.description}}
-										</span>
-										
-									</div>
-									<div class="col-md-1">
-									</div>
-								</div>
-							</div>	
-						</div>
+				<div class="col-md-2">
+					<div class="black-div cat-div text-center">
+						<span class="small-span white-span helvetica-neue">
+							{{p.category}} :
+						</span>
+						<span class="small-span white-span helvetica-neue">
+							{{p.subcategory}}
+						</span>
 					</div>
-
-					<div class="job-buttons peach-div row">
-						<div class="job-button col-md-2">
-							<img  src="/img/client_profile.jpg">
-							<span class="small-span">
-								Client profile
+					
+					<div class="text-center">
+						<img class="job-pic" src="/img/job.jpg">
+					</div>
+					
+				</div>
+				<div class="col-md-10 job-div">
+					
+					<div class="row">
+						<div class="col-md-10">
+						</div>
+						<div class="col-md-2 black-div text-center">
+							<span ng-hide="isBidder($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
 							</span>
 						</div>
-						<div class="col-md-10 row">
-							<div class="job-button col-md-4">
-								<img  src="/img/message.jpg">
-								<span class="small-span">
-									Send message
-								</span>
+					</div>
+					<div class="row right-job-div">
+						<div class="col-md-4 date-div ">
+							<div class="row">
+								<div class="col-md-1">
+								</div>
+								<div class="row col-md-10 yellow-div">
+									<div class="row">
+
+										
+										<div class="text-center col-md-6 black-div">
+											<span class="white-span small-span helvetica-neue">
+												Starting date:    
+											</span>
+											<br>
+											<span class="white-span small-span helvetica-neue">
+												{{p.dateFrom}}    
+											</span>
+										</div>
+										
+										<div class="text-center col-md-6 peach-div">
+											<span class="helvetica-neue small-span black-span">
+												Ending date:   
+											</span>
+											<br>
+											<span class="black-span small-span helvetica-neue">
+												{{p.dateTo}}    
+											</span>
+										</div>
+										
+									</div>   
+								</div>
+								<div class="col-md-1">
+								</div>
+								
 							</div>
-							<div class="col-md-8">
-								<div class="job-button col-md-6">
-									<img src="/img/forward.jpg">
-									<span class="small-span">
-										Forward job
+							
+							<div class="row address-div yellow-div text-center">
+								
+								<div class="col-md-2">
+								</div>
+								<div class="col-md-4">
+									<img src="/img/address_selector.jpg">
+								</div>
+								<div class="col-md-4 text-center">
+									<span clas="helvetica-neue black-span tiny-span">
+										{{p.address.city}}
 									</span>
 								</div>
-								<div class="job-button col-md-6">
-									<img src="/img/job_infos.jpg">
-									<span class="small-span">
-										Job info
-									</span>
+								<div class="col-md-2">
 								</div>
+								
+								
+							</div>
+						</div>
+						
+
+						<div class="yellow-div info-div col-md-8 row">
+							<div class="col-md-1">
+							</div>
+							<div class="col-md-10 text-left">
+								
+								<span class="small-span black-span">
+									{{p.description}}
+								</span>
+								
+							</div>
+							<div class="col-md-1">
 							</div>
 						</div>
 					</div>	
-				</li>
-			</ul>
-		</div>
-		
-           <!--  <div class="widget wcyan">
-                <div data-cc-widget-header title="Find a job"
-                allow-collapse="true">
+				</div>
+			</div>
 
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="widget-content text-center text-info widget-ul-list">
-                            <input class="input-medium search-query"
-                                   data-ng-model="jobCitySearch"
-                                   data-ng-keyup="search($event)"
-                                   placeholder="search by city...">
-                           <input class="input-medium search-query"
-                                   data-ng-model="jobDistanceSearch"
-                                   data-ng-keyup="search($event)"
-                                   placeholder="search by distance...">
-                           <input class="input-medium search-query"
-                                   data-ng-model="jobCategorySearch"
-                                   data-ng-keyup="search($event)"
-                                   placeholder="search by category...">
-                           <input class="input-medium search-query"
-                                   data-ng-model="jobSubcategorySearch"
-                                   data-ng-keyup="search($event)"
-                                   placeholder="search by subcategory...">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                    </div>
-                </div>
-            </div> -->
-            <!-- <div class="clearfix">
+			<div ng-include="'app/dashboard/jobButtons.html'" class="job-buttons peach-div row">
+				
+			</div>	
+		</li>
+	</ul>
+</div>
+
+<!--  <div class="widget wcyan">
+    <div data-cc-widget-header title="Find a job"
+    allow-collapse="true">
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="widget-content text-center text-info widget-ul-list">
+                <input class="input-medium search-query"
+                       data-ng-model="jobCitySearch"
+                       data-ng-keyup="search($event)"
+                       placeholder="search by city...">
+               <input class="input-medium search-query"
+                       data-ng-model="jobDistanceSearch"
+                       data-ng-keyup="search($event)"
+                       placeholder="search by distance...">
+               <input class="input-medium search-query"
+                       data-ng-model="jobCategorySearch"
+                       data-ng-keyup="search($event)"
+                       placeholder="search by category...">
+               <input class="input-medium search-query"
+                       data-ng-model="jobSubcategorySearch"
+                       data-ng-keyup="search($event)"
+                       placeholder="search by subcategory...">
             </div>
-            <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="allJobsPageSelected" page="allJobsCurrentPage" total-items="allJobsTotal" rotate="false">
-            </pagination>
-            <div class="clearfix">
-            </div> -->
-            <div class="craftia-map" id="map-canvas"/>
-        </div>        
-        <div class="col-md-6" ng-include="rightPartial" onload="initRightPartial()">
-        </div>                
-    </div>                        
-</div>                            
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+</div> -->
+<!-- <div class="clearfix">
+</div>
+<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="allJobsPageSelected" page="allJobsCurrentPage" total-items="allJobsTotal" rotate="false">
+</pagination>
+<div class="clearfix">
+</div> -->
+<div class="craftia-map" id="map-canvas"/>
+</div>        
+<div class="col-md-6" ng-include="rightPartial" onload="initRightPartial()">
+</div>                
 
 
 
