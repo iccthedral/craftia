@@ -914,10 +914,9 @@ list-style-type: none !important;
 }
 
 .cat-div {
-  max-height: 34px;
-  height: 34px;
   min-height: 100%;
-  padding-top: 0.3vw;
+  padding-bottom: 100%;
+  margin-bottom: -100%;
 }
 
 .job-pic {
