@@ -1,7 +1,7 @@
 <div data-ng-controller="Jobs" ng-init="initLeftPartial()">  
 	<ul>
 		<li class="my-offer" id="{{$index}}" data-ng-repeat="p in allJobsPaged" ng-click="JobList.showJob($index)">
-			<div class="row yellow-div">
+			<div class="row job-div">
 
 				<div class="col-md-2">
 					<div class="black-div cat-div text-center">
@@ -12,14 +12,14 @@
 							{{p.subcategory}}
 						</span>
 					</div>
-					
+
 					<div class="text-center">
-						<img class="job-pic" src="/img/job.jpg">
+						<img class="job-pic" src="/img/default_user.jpg">
 					</div>
-					
+
 				</div>
-				<div class="col-md-10 job-div">
-					
+				<div class="col-md-10 yellow-div right-job-div">
+
 					<div class="row">
 						<div class="col-md-10">
 						</div>
@@ -28,7 +28,7 @@
 							</span>
 						</div>
 					</div>
-					<div class="row right-job-div">
+					<div class="row">
 						<div class="col-md-4 date-div ">
 							<div class="row">
 								<div class="col-md-1">
@@ -36,7 +36,7 @@
 								<div class="row col-md-10 yellow-div">
 									<div class="row">
 
-										
+
 										<div class="text-center col-md-6 black-div">
 											<span class="white-span small-span helvetica-neue">
 												Starting date:    
@@ -46,7 +46,7 @@
 												{{p.dateFrom}}    
 											</span>
 										</div>
-										
+
 										<div class="text-center col-md-6 peach-div">
 											<span class="helvetica-neue small-span black-span">
 												Ending date:   
@@ -56,16 +56,16 @@
 												{{p.dateTo}}    
 											</span>
 										</div>
-										
+
 									</div>   
 								</div>
 								<div class="col-md-1">
 								</div>
-								
+
 							</div>
-							
+
 							<div class="row address-div yellow-div text-center">
-								
+
 								<div class="col-md-2">
 								</div>
 								<div class="col-md-4">
@@ -78,21 +78,21 @@
 								</div>
 								<div class="col-md-2">
 								</div>
-								
-								
+
+
 							</div>
 						</div>
-						
+
 
 						<div class="yellow-div info-div col-md-8 row">
 							<div class="col-md-1">
 							</div>
 							<div class="col-md-10 text-left">
-								
+
 								<span class="small-span black-span">
 									{{p.description}}
 								</span>
-								
+
 							</div>
 							<div class="col-md-1">
 							</div>
@@ -102,7 +102,7 @@
 			</div>
 
 			<div ng-include="'app/dashboard/jobButtons.html'" class="job-buttons peach-div row">
-				
+
 			</div>	
 		</li>
 	</ul>

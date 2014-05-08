@@ -1,9 +1,10 @@
 <h1> JOB MESSAGES </h1>
 
+
 <div data-ng-controller="messages" ng-init="initLeftPartial()">  
   <ul>
     <li class="my-offer" id="{{$index}}" data-ng-repeat="p in jobMessages">
-      <div class="row">
+      <div class="row msg-div">
 
           <div class="col-md-2">
             <div class="black-div sender-div text-center">
@@ -19,7 +20,7 @@
             </div>
 
           </div>
-          <div class="col-md-10 yellow-div job-div">
+          <div class="col-md-10 yellow-div right-msg-div">
 
             <div class="row ">
 
@@ -31,8 +32,8 @@
               <div class="col-md-10">
               </div>
             </div>
-            <div class="row yellow-div right-job-div">
-              <div class="col-md-4 msg-date-div ">
+            <div class="row yellow-div">
+              <div class="col-md-4 yellow-div msg-date-div ">
                 <div class="row">
                   <div class="col-md-1">
                   </div>
@@ -71,6 +72,8 @@
     </li>
   </ul>
 </div>
+
+
 
 
 
