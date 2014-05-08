@@ -1,68 +1,48 @@
-﻿<div class="widget wcyan">
-    <div data-cc-widget-header title="Job details"
-         allow-collapse="true"></div>
-    <div class="widget-content right-partial-view fluid-container">
-        <div class="job-details">
-            <form class="form-horizontal" ng-submit="ViewJob.save()">
-                <fieldset>
-                    <!-- Text input-->
-                    <div>
-                        <label class="col-md-8 control-label" for="">Title:</label>
-                        <div class="jobDetail" class="col-md-8">
-                            <span  ng-bind="currentJob.title">
-                        </div>
-                    </div>
+﻿
+<div class="">
+    <form class="form-horizontal" ng-submit="ViewJob.save()">
+        <fieldset>
+            <!-- Text input-->
+            <div class="text-left">
+                <label class=" control-label" for="">Title:</label>
+                <span  ng-bind="currentJob.title"> </span>
+            </div>
+            <div class="text-left">
+                <label class=" control-label" for="">Author:</label>
+                <span  ng-bind="currentJob.author.username"></span>
+            </div>
 
-                    <div>
-                        <label class="col-md-8 control-label" for="">Author:</label>
-                        <div class="jobDetail" class="col-md-8">
-                            <span  ng-bind="currentJob.author.username"></span>
-                        </div>
-                    </div>
+            <div class="text-left">
+                <label class=" control-label" for="category">Category:</label>
+                <span ng-bind="currentJob.selectedCategory.category.name"></span>
+            </div>
 
-                    <div>
-                        <label class="col-md-8 control-label" for="category">Category:</label>
-                        <div  class="jobDetail" class="col-md-8">
-                            <span ng-bind="currentJob.selectedCategory.category.name"></span>
-                        </div>
-                    </div>
+            <!-- Select Basic -->
+            <div class="text-left">
+                <label class=" control-label" for="subcategory">Subcategory:</label>
+                <span  ng-bind="currentJob.selectedCategory.subcategory.name"</span>
+            </div>   
 
-                    <!-- Select Basic -->
-                    <div>
-                        <label class="col-md-8 control-label" for="subcategory">Subcategory:</label>
-                        <div class="jobDetail" class="col-md-8">
-                            <span  ng-bind="currentJob.selectedCategory.subcategory.name"</span>
-                        </div>
-                    </div>
+                <!-- Password input-->
+            <div class="text-left">
+                <label class=" control-label" for="">Starting date:</label>
+                <span  ng-bind="currentJob.dateFrom"> </span>
+            </div>
 
+            <!-- Text input-->
+            <div class="text-left">
+                <label  class=" control-label" for="name">Ending date:</label>
+                <span  ng-bind="currentJob.dateTo"> </span>
+            </div>
 
-                    <!-- Password input-->
-                    <div>
-                        <label class="col-md-8 control-label" for="">Starting date:</label>
-                        <div class="jobDetail" class="col-md-8">
-                            <span  ng-bind="currentJob.dateFrom">
-                        </div>
-                    </div>
-
-                    <!-- Text input-->
-                    <div>
-                        <label  class="col-md-8 control-label" for="name">Ending date:</label>
-                        <div class="jobDetail"  class="col-md-8">
-                            <span  ng-bind="currentJob.dateTo">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label  class="col-md-8 control-label" for="name">Description:</label>
-                        <div class="jobDetail"  class="col-md-8">
-                            <span  ng-bind="currentJob.description">
-                        </div>
-                    </div>
+            <div class="text-left">
+                <label  class=" control-label" for="name">Description:</label>
+                <span  ng-bind="currentJob.description"> </span>
+            </div>
                 </fieldset>
             </form>
+
         </div>
-    </div>
-</div>
 
 <!-- <div class="widget wcyan">
     <div data-cc-widget-header title="Bidders"

@@ -1,13 +1,13 @@
 <div data-ng-controller="Jobs" ng-init="initLeftPartial()">  
 	<ul>
 		<li class="my-offer" id="{{$index}}" data-ng-repeat="p in allJobsPaged" ng-click="JobList.showJob($index)">
-			<div class="row job-div">
-
-				<div class="col-md-2">
+			<div class="row yellow-div job-div">
+				<div class="col-md-2 job-overflow-div">
 					<div class="black-div cat-div text-center">
 						<span class="small-span white-span helvetica-neue">
 							{{p.category}} :
-						</span>
+							</span>
+						<br>
 						<span class="small-span white-span helvetica-neue">
 							{{p.subcategory}}
 						</span>
@@ -16,19 +16,17 @@
 					<div class="text-center">
 						<img class="job-pic" src="/img/default_user.jpg">
 					</div>
-
 				</div>
 				<div class="col-md-10 yellow-div right-job-div">
 
-					<div class="row">
-						<div class="col-md-10">
-						</div>
-						<div class="col-md-2 black-div text-center">
-							<span ng-hide="isBidder($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
-							</span>
-						</div>
+					<div class="bookmark-div">
+						<img src="/img/bookmark_star.gif">
+
+
+							<!-- <span ng-hide="isBidder($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
+						</span> -->
 					</div>
-					<div class="row">
+					<div class="row job-overflow-div">
 						<div class="col-md-4 date-div ">
 							<div class="row">
 								<div class="col-md-1">
@@ -102,7 +100,9 @@
 			</div>
 
 			<div ng-include="'app/dashboard/jobButtons.html'" class="job-buttons peach-div row">
+			</div>	
 
+			<div ng-show="JobList.isToggled($index)" ng-include="rightPartial" onload="JobPanel.partialInit()">
 			</div>	
 		</li>
 	</ul>
@@ -146,8 +146,6 @@
 </div> -->
 <div class="craftia-map" id="map-canvas"/>
 </div>        
-<div class="col-md-6" ng-include="rightPartial" onload="initRightPartial()">
-</div>                
 
 
 

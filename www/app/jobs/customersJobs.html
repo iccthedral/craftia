@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-secondary btn-lg" ng-click="JobPanel.addNewJob()">
                     <span class="glyphicon glyphicon-plus"></span> Add new job
                 </button>
-     
+
 
                 <!--Need ng-hide for show/hide animations-->
                 <span ng-show="JobPanel.isChanged()" class="dissolve-animation flag-haschanges ng-hide">
@@ -15,51 +15,119 @@
 
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="widget wcyan">
                         <div data-cc-widget-header title="Current jobs" allow-collapse="true"></div>
                         <div class="widget-content text-center text-info widget-ul-list">
 
                             <ul style="list-style: none;" >
-                                <li class="row-container my-job" id="{{$index}}" data-ng-repeat="p in myJobsPaged" ng-click="JobPanel.editJob(myJobsPaged[$index])">
-                                    <div class="">
-                                        <img class="job-pic pull-left" src="/img/job.jpg">
-                                        <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">Title:</span>
-                                            <span>{{p.title}}</span>
-                                            <i ng-hide="myJobsPaged[$index].status == 'closed'" class="fa fa-ban boxclose pull-right" ng-click="JobPanel.delete()" id="boxclose" title="Delete job"> </i>
-                                        </div>
-                                        <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">Description:</span>
-                                            <span> {{p.description}} </span>
-                                        </div>
-                                        <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">Category:</span>
-                                            <span>{{p.category}}</span>
-                                        </div>
-                                        <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">From:</span>
-                                            <span>{{p.dateFrom}}</span>
-                                        </div>
+                                <li class="my-offer" id="{{$index}}" data-ng-repeat="p in myJobsPaged" ng-click="JobList.showJob($index)">
+                                    <div class="row job-div">
 
-                                        <div class="jobDetail text-left">
-                                            <span class="my-job-detail text-left">To:</span>
-                                            <span>{{p.dateTo}}</span>
-                                        </div>
-
-                                        <div class="jobDetail text-left">
-                                            <a title="Related messages" href="/#/messages">
-                                                <span class="count-icon custom-icon">
-                                                    <i class="fa fa-3x fa-comment-o"></i>
-                                                    <span class="count"> <sup>33</sup></span>
+                                        <div class="col-md-2">
+                                            <div class="black-div cat-div text-center">
+                                                <span class="small-span white-span helvetica-neue">
+                                                    {{p.category}} :
                                                 </span>
-                                            <a/>
-                                            <span ng-hide="myJobsPaged[$index].status == 'closed'" class="custom-icon" title="Edit job" ng-click="JobPanel.edit()">
-                                                <i class="fa fa-3x fa-pencil"></i>
-                                            </span>
-                                        </div>                                    
+                                                <span class="small-span white-span helvetica-neue">
+                                                    {{p.subcategory}}
+                                                </span>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <img class="job-pic" src="/img/default_user.jpg">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-10 yellow-div right-job-div">
+
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                </div>
+                                                <div class="col-md-2 black-div text-center">
+                                                    <span ng-hide="isBidderOrAuthor($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 date-div ">
+                                                    <div class="row">
+                                                        <div class="col-md-1">
+                                                        </div>
+                                                        <div class="row col-md-10 yellow-div">
+                                                            <div class="row">
+
+
+                                                                <div class="text-center col-md-6 black-div">
+                                                                    <span class="white-span small-span helvetica-neue">
+                                                                        Starting date:    
+                                                                    </span>
+                                                                    <br>
+                                                                    <span class="white-span small-span helvetica-neue">
+                                                                        {{p.dateFrom}}    
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class="text-center col-md-6 peach-div">
+                                                                    <span class="helvetica-neue small-span black-span">
+                                                                        Ending date:   
+                                                                    </span>
+                                                                    <br>
+                                                                    <span class="black-span small-span helvetica-neue">
+                                                                        {{p.dateTo}}    
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>   
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row address-div yellow-div text-center">
+
+                                                        <div class="col-md-2">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <img src="/img/address_selector.jpg">
+                                                        </div>
+                                                        <div class="col-md-4 text-center">
+                                                            <span clas="helvetica-neue black-span tiny-span">
+                                                                {{p.address.city}}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="yellow-div info-div col-md-8 row">
+                                                    <div class="col-md-1">
+                                                    </div>
+                                                    <div class="col-md-10 text-left">
+
+                                                        <span class="small-span black-span">
+                                                            {{p.description}}
+                                                        </span>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </div>
                                     </div>
-                                    
+
+                                    <div ng-include="'app/dashboard/jobButtons.html'" class="job-buttons peach-div row">
+                                    </div>
+
+
+                                    <div ng-show="JobList.isToggled($index)" ng-include="rightPartial" onload="JobPanel.partialInit()">
+                                    </div>
                                 </li>
 
                             </ul>
@@ -69,8 +137,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6" ng-include="rightPartial" onload="JobPanel.partialInit()">
-                </div>
+
             </div>
         </div>
     </div>
