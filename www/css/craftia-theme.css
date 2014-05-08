@@ -971,7 +971,7 @@ list-style-type: none !important;
 .msg-content-div {
   padding-top: 1.0vw;
   min-height: 100%;
-  border-top: dashed 1px;
+  border-top: dashed 2px;
   height:100%; 
   padding-bottom: 100%;
   margin-bottom: -100%;

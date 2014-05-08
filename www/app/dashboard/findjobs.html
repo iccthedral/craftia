@@ -7,7 +7,7 @@
 						<span class="small-span white-span helvetica-neue">
 							{{p.category}} :
 							</span>
-						<br>
+						</br>
 						<span class="small-span white-span helvetica-neue">
 							{{p.subcategory}}
 						</span>
@@ -23,79 +23,80 @@
 						<img src="/img/bookmark_star.gif">
 
 
-							<!-- <span ng-hide="isBidder($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
-						</span> -->
-					</div>
-					<div class="row job-overflow-div">
-						<div class="col-md-4 date-div ">
-							<div class="row">
-								<div class="col-md-1">
+								<!-- <span ng-hide="isBidder($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
+							</span> -->
+						</div>
+						<div class="row job-overflow-div">
+							<div class="col-md-4 date-div ">
+								<div class="row">
+									<div class="col-md-1">
+									</div>
+									<div class="row col-md-10 yellow-div">
+										<div class="row">
+
+
+											<div class="text-center col-md-6 black-div">
+												<span class="white-span small-span helvetica-neue">
+													Starting date:    
+												</span>
+												<br>
+												<span class="white-span small-span helvetica-neue">
+													{{p.dateFrom}}    
+												</span>
+											</div>
+
+											<div class="text-center col-md-6 peach-div">
+												<span class="helvetica-neue small-span black-span">
+													Ending date:   
+												</span>
+												<br>
+												<span class="black-span small-span helvetica-neue">
+													{{p.dateTo}}    
+												</span>
+											</div>
+
+										</div>   
+									</div>
+									<div class="col-md-1">
+									</div>
+
 								</div>
-								<div class="row col-md-10 yellow-div">
-									<div class="row">
+
+								<div class="row address-div yellow-div text-center">
+
+									<div class="col-md-2">
+									</div>
+									<div class="col-md-4">
+										<img src="/img/address_selector.jpg">
+									</div>
+									<div class="col-md-4 text-center">
+										<span clas="helvetica-neue black-span tiny-span">
+											{{p.address.city}}
+										</span>
+									</div>
+									<div class="col-md-2">
+									</div>
 
 
-										<div class="text-center col-md-6 black-div">
-											<span class="white-span small-span helvetica-neue">
-												Starting date:    
-											</span>
-											<br>
-											<span class="white-span small-span helvetica-neue">
-												{{p.dateFrom}}    
-											</span>
-										</div>
-
-										<div class="text-center col-md-6 peach-div">
-											<span class="helvetica-neue small-span black-span">
-												Ending date:   
-											</span>
-											<br>
-											<span class="black-span small-span helvetica-neue">
-												{{p.dateTo}}    
-											</span>
-										</div>
-
-									</div>   
 								</div>
-								<div class="col-md-1">
-								</div>
-
 							</div>
 
-							<div class="row address-div yellow-div text-center">
 
-								<div class="col-md-2">
+							<div class="yellow-div info-div col-md-8 row">
+								<div class="col-md-1">
 								</div>
-								<div class="col-md-4">
-									<img src="/img/address_selector.jpg">
-								</div>
-								<div class="col-md-4 text-center">
-									<span clas="helvetica-neue black-span tiny-span">
-										{{p.address.city}}
+								<div class="col-md-10 text-left">
+
+									<span class="small-span black-span">
+										{{p.description}}
 									</span>
+
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-1">
 								</div>
-
-
 							</div>
-						</div>
-
-
-						<div class="yellow-div info-div col-md-8 row">
-							<div class="col-md-1">
-							</div>
-							<div class="col-md-10 text-left">
-
-								<span class="small-span black-span">
-									{{p.description}}
-								</span>
-
-							</div>
-							<div class="col-md-1">
-							</div>
-						</div>
-					</div>	
+						</div>	
+					</div>
 				</div>
 			</div>
 
