@@ -14,26 +14,39 @@
       </div>
       <div ng-show="isCurrent(vm.dashMenu[2]) || isCurrent(vm.dashSubMenu[0]) || isCurrent(vm.dashSubMenu[1]) || isCurrent(vm.dashSubMenu[2]) || isCurrent(vm.dashSubMenu[3])" class="row col-md-12 top-menu">
         <div class="col-xs-6 col-md-6 row">
-            <div class="col-md-6">
-                <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[0])"> 
+            <div class="col-md-6 row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6 col-md-12">
+                    <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[0])"> 
 
-                    <div class="rect"></div>
-                    <div class="leftupbtr"></div>
-                    <div class="rightupbtr"></div>
+                        <div class="rect"></div>
+                        <div class="leftupbtr"></div>
+                        <div class="rightupbtr"></div>
 
-                    <a href="/#{{vm.dashSubMenu[0].url}}"  data-ng-bind-html="vm.dashSubMenu[0].config.settings.content"></a>
+                        <a href="/#{{vm.dashSubMenu[0].url}}"  data-ng-bind-html="vm.dashSubMenu[0].config.settings.content"></a>
+                    </div>
+                </div>
+                
+                <div class="col-sm-3">
                 </div>
             </div>    
       
    
-            <div class="col-md-6">
-                <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[1])">
+            <div class="col-md-6 row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6 col-md-12">
+                    <div  class="top-hmenu-item-wrapper" ng-class="vm.whichSubClass(vm.dashSubMenu[1])">
 
-                    <div class="rect"></div>
-                    <div class="leftupbtr"></div>
-                    <div class="rightupbtr"></div>
+                        <div class="rect"></div>
+                        <div class="leftupbtr"></div>
+                        <div class="rightupbtr"></div>
 
-                    <a href="/#{{vm.dashSubMenu[1].url}}"  data-ng-bind-html="vm.dashSubMenu[1].config.settings.content"></a>
+                        <a href="/#{{vm.dashSubMenu[1].url}}"  data-ng-bind-html="vm.dashSubMenu[1].config.settings.content"></a>
+                    </div>
+                </div>
+                <div class="col-sm-3">
                 </div>
             </div>    
         </div>  
