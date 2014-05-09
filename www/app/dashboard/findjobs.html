@@ -1,9 +1,9 @@
 <div data-ng-controller="Jobs" ng-init="initLeftPartial()">  
 	<ul>
 		<li class="my-offer" id="{{$index}}" data-ng-repeat="p in allJobsPaged" ng-click="JobList.showJob($index)">
-			<div class="row yellow-div job-div">
+			<div class="row job-div">
 				<div class="col-md-2 job-overflow-div">
-					<div class="black-div cat-div text-center">
+					<!-- <div class="black-div cat-div text-center">
 						<span class="small-span white-span helvetica-neue">
 							{{p.category}} :
 							</span>
@@ -11,14 +11,16 @@
 						<span class="small-span white-span helvetica-neue">
 							{{p.subcategory}}
 						</span>
-					</div>
+					</div> -->
 
 					<div class="text-center">
 						<img class="job-pic" src="/img/default_user.jpg">
 					</div>
 				</div>
-				<div class="col-md-10 yellow-div right-job-div">
-
+				<div class="col-md-10 cat-span col-sm-12 yellow-div right-job-div">
+					<span class="pull-left big-span black-span helvetica-neue">
+						{{p.category}} :
+					</span>
 					<div class="bookmark-div">
 						<img src="/img/bookmark_star.gif">
 
@@ -27,29 +29,24 @@
 							</span> -->
 						</div>
 						<div class="row job-overflow-div">
-							<div class="col-md-4 date-div ">
+							<div class="col-md-4 col-sm-4 date-div ">
 								<div class="row">
-									<div class="col-md-1">
+									<div class="col-md-1 col-sm-1">
 									</div>
-									<div class="row col-md-10 yellow-div">
+									<div class="row col-md-10 col-sm-10 yellow-div">
 										<div class="row">
 
 
-											<div class="text-center col-md-6 black-div">
-												<span class="white-span small-span helvetica-neue">
-													Starting date:    
-												</span>
-												<br>
+											<div class="text-center col-md-6 col-sm-6 black-div">
+											
 												<span class="white-span small-span helvetica-neue">
 													{{p.dateFrom}}    
 												</span>
 											</div>
 
-											<div class="text-center col-md-6 peach-div">
-												<span class="helvetica-neue small-span black-span">
-													Ending date:   
-												</span>
-												<br>
+											<div class="text-center col-md-6 col-sm-6 peach-div">
+											
+
 												<span class="black-span small-span helvetica-neue">
 													{{p.dateTo}}    
 												</span>
@@ -57,24 +54,24 @@
 
 										</div>   
 									</div>
-									<div class="col-md-1">
+									<div class="col-md-1 col-sm-1">
 									</div>
 
 								</div>
 
 								<div class="row address-div yellow-div text-center">
 
-									<div class="col-md-2">
+									<div class="col-md-2 col-sm-2">
 									</div>
-									<div class="col-md-4">
+									<div class="col-md-4 col-sm-4">
 										<img src="/img/address_selector.jpg">
 									</div>
-									<div class="col-md-4 text-center">
+									<div class="col-md-4 col-sm-4 text-center">
 										<span clas="helvetica-neue black-span tiny-span">
 											{{p.address.city}}
 										</span>
 									</div>
-									<div class="col-md-2">
+									<div class="col-md-2 col-sm-2">
 									</div>
 
 
@@ -82,23 +79,22 @@
 							</div>
 
 
-							<div class="yellow-div info-div col-md-8 row">
-								<div class="col-md-1">
+							<div class="yellow-div info-div col-md-8 col-sm-8 row">
+								<div class="col-md-1 col-sm-1">
 								</div>
-								<div class="col-md-10 text-left">
+								<div class="col-md-10 col-sm-10 text-left">
 
 									<span class="small-span black-span">
 										{{p.description}}
 									</span>
 
 								</div>
-								<div class="col-md-1">
+								<div class="col-md-1 col-sm-1">
 								</div>
 							</div>
 						</div>	
 					</div>
 				</div>
-			</div>
 
 			<div ng-include="'app/dashboard/jobButtons.html'" class="job-buttons peach-div row">
 			</div>	

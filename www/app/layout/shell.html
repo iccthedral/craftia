@@ -3,7 +3,7 @@
     <div data-ng-include="'/app/layout/topnav.html'">
     </div>
     <div class="row">
-        <div class="col-md-1">
+        <div class="col-md-1 col-sm-1">
         </div>
         <div data-ng-show="vm.isBusy" class=" page-splash dissolve-animation">
             <div data-cc-spinner="vm.spinnerOptions">
@@ -12,9 +12,9 @@
             </div>
         </div>
         <!-- <div data-ng-if="vm.getAuth()" data-ng-include="'/app/layout/sidebar.html'"></div> -->
-        <div data-ng-view class="col-md-10 shuffle-animation"></div>
+        <div data-ng-view class="col-md-10 col-sm-10 shuffle-animation"></div>
         <span data-cc-scroll-to-top></span>
-        <div class="col-md-1">
+        <div class="col-md-1 col-sm-1">
         </div>
     </div>    
     <div data-ng-include="'/app/dashboard/footer.html'">
