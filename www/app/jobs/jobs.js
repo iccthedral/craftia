@@ -43,6 +43,7 @@
         $scope.jobCategorySearch = '';
         $scope.jobSubcategorySearch = '';
         $scope.rightPartial = "";
+        $scope.newJobView = "";
         $scope.currentTitle = "";
         $scope.cities = [
         {   
@@ -64,7 +65,7 @@
         $scope.JobPanel = JobPanel();
         $scope.selectedCategory = {};
         $scope.selectedCity = {};
-        $scope.toggledJobs = [];
+        $scope.toggledJob = NaN;
         //paging
         $scope.sizePerPage = 2;
         $scope.allJobsChunked = [];
@@ -164,15 +165,12 @@
         $scope.allJobsTotal = result.length;
     }
 
-    $scope.isBidderOrAuthor = function (jobIndex) {
-        if ($scope.user.type == "Customer") {
-            return true;
+    $scope.isBidder = function (jobIndex) {
+        
+        if ( !$scope.user || $scope.user.type == "Customer") {
+            return false;
         }
-
         return $scope.allJobsPaged[jobIndex].bidders.filter(function (bidder) {
-            if (!$scope.user) {
-                return true;
-            }
             return (bidder.id === $scope.user._id)
         }).length > 0
     }
@@ -206,19 +204,24 @@
             },
 
             isToggled: function(jobIndex) {
-                return $scope.toggledJobs[jobIndex]
+                return $scope.toggledJob == jobIndex
             },
 
             showJob: function (jobIndex) {
-                //debugger;
-                $scope.rightPartial = "app/jobs/bidForJob.html";
+                
                 $scope.currentJob.populate($scope.allJobsPaged[jobIndex]);
                 attachSubcategories($scope.currentJob);
                 console.debug($scope.currentJob.bidders);
                 $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
                 $scope.biddersPagedItems = $scope.biddersItems[0];
                 $scope.biddersTotalItems = $scope.biddersItems.length;
-                $scope.toggledJobs[jobIndex] = !$scope.toggledJobs[jobIndex];
+                if(isNaN($scope.toggledJob)) {
+                    $scope.toggledJob = jobIndex;
+                    $scope.rightPartial = "app/jobs/jobDetails.html";
+                } else {
+                    $scope.toggledJob = NaN;
+                    $scope.rightPartial = "";
+                }
                     // console.debug($scope.user.address.city, $scope.currentJob.address.city)
                     // gmaps.calcRoute($scope.user.address.city, $scope.currentJob.address.city)
                 },
@@ -262,8 +265,6 @@
                 $rootScope.$digest();
             });
         }
-
-        
         function createJobModel(scope) {
             console.debug("created job model");
             console.debug($scope.rightPartial);
@@ -370,15 +371,15 @@
             var panel = {
 
                 prevView: function () {
-                    $scope.rightPartial = "app/jobs/jobCreate.html";
+                    $scope.newJobView  = "app/jobs/jobCreate.html";
                 },
 
                 nextView: function () {
-                    $scope.rightPartial = "app/jobs/jobCreate2.html";
+                    $scope.newJobView  = "app/jobs/jobCreate2.html";
                 },
 
                 addNewJob: function () {
-                    $scope.rightPartial = "app/jobs/jobCreate.html";
+                    $scope.newJobView = "app/jobs/jobCreate.html";
                     resetModel();
                 },
 

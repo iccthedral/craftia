@@ -8,10 +8,13 @@
       type: String,
       required: true
     },
+    subject: {
+      type: String
+    },
     type: {
       type: String,
       required: true,
-      "enum": ["system", "job", "contact"]
+      "enum": ["system", "job", "contact", "other"]
     },
     author: {
       username: String,
@@ -19,6 +22,9 @@
     },
     dateSent: {
       type: Date
+    },
+    data: {
+      type: Object
     },
     isRead: {
       type: Boolean,

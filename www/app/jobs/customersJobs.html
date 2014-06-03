@@ -1,4 +1,4 @@
-<section class="matter" >
+<section class="matter" ng-controller="Jobs" >
     <div class="container">
         <div class="row">
             <div class="widget wcyan">
@@ -7,13 +7,17 @@
                     <span class="glyphicon glyphicon-plus"></span> Add new job
                 </button>
 
-
                 <!--Need ng-hide for show/hide animations-->
                 <span ng-show="JobPanel.isChanged()" class="dissolve-animation flag-haschanges ng-hide">
                     <i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
                 </span>
-
             </div>
+
+            <div class="col-md-12" ng-include="newJobView">
+                
+
+
+            </div>    
             <div class="row">
                 <div class="col-md-12">
                     <div class="widget wcyan">

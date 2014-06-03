@@ -184,7 +184,7 @@ span.stars span {background-position: 0 0;}
   border: 2px solid transparent;
   margin-bottom: 5px;
   margin-top: 20px;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .my-offer:hover {
@@ -368,7 +368,7 @@ body {
 
 .bookmark-div img {
   position: absolute;
-  top: -17px;
+  top: -18px;
   right: -5px;
 }
 
@@ -883,17 +883,18 @@ list-style-type: none !important;
 
 .address-div{
   padding-top: 1.0vw;
-  padding-bottom: 100%;
-  margin-bottom: -100%;
   height: 100%;
 }
 
 .job-div {
-  overflow: visible;
+  overflow: hidden;
 }
 
 .job-overflow-div {
   overflow: hidden;
+  height:100%; 
+  padding-bottom: 100%;
+  margin-bottom: -100%;
 }
 
 .right-job-div {
@@ -937,12 +938,13 @@ list-style-type: none !important;
   min-height: 100%;
   padding-bottom: 100%;
   margin-bottom: -100%;
+
   border-right: white solid 3px;
 }
 
 .cat-span {
   padding-top: 1.0em;
-  padding-left: 10px;
+
 }
 
 .job-pic {

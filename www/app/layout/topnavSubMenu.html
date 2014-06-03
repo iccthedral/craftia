@@ -1,7 +1,6 @@
 <div class="row yellow-div top-menu">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-10 submenu">
+
+    <div class="col-md-12 submenu">
         <div cr-not-auth ng-hide="isCurrent(vm.dashMenu[2]) || isCurrent(vm.dashSubMenu[0]) || isCurrent(vm.dashSubMenu[1]) || isCurrent(vm.dashSubMenu[2]) || isCurrent(vm.dashSubMenu[3])" class="top-header">
             <span class="zine-reg-ital top-black-ital big-span">
                 Find the best craftsman for your needs. 
@@ -75,8 +74,6 @@
             </div>
         </div>        
     </div>    
-</div>
-<div class="col-md-1">
 </div>
 </div>
 <div data-ng-include="'/app/jobs/findJobsTopNav.html'" ng-show="isCurrent(vm.dashSubMenu[2])">

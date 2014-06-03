@@ -37,6 +37,12 @@
       type: String,
       required: true
     },
+    address: {
+      zip: String,
+      city: String,
+      line1: String,
+      line2: String
+    },
     type: {
       type: String,
       "enum": ["Admin", "Craftsman", "Customer"],
@@ -47,6 +53,13 @@
       required: true
     },
     createdJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Job",
+        "default": []
+      }
+    ],
+    biddedJobs: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Job",
@@ -76,19 +89,7 @@
       "default": "img/default_user.jpg"
     },
     inbox: {
-      system: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Message"
-        }
-      ],
-      job: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Message"
-        }
-      ],
-      contact: [
+      received: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Message"

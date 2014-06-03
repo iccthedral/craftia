@@ -55,14 +55,18 @@
       "enum": ["open", "closed", "finished"]
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      id: String,
+      username: String
     },
     winner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
     bidders: {
+      type: Array,
+      "default": []
+    },
+    jobPhotos: {
       type: Array,
       "default": []
     }

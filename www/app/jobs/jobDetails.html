@@ -1,0 +1,90 @@
+﻿
+<div class="">
+    
+            <!-- Text input-->
+            <div class="text-left">
+                <label class=" control-label" for="">Title:</label>
+                <span  ng-bind="currentJob.title"> </span>
+            </div>
+            <div class="text-left">
+                <label class=" control-label" for="">Author:</label>
+                <span  ng-bind="currentJob.author.username"></span>
+            </div>
+
+            <div class="text-left">
+                <label class=" control-label" for="category">Category:</label>
+                <span ng-bind="currentJob.selectedCategory.category.name"></span>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="text-left">
+                <label class=" control-label" for="subcategory">Subcategory:</label>
+                <span  ng-bind="currentJob.selectedCategory.subcategory.name"</span>
+            </div>   
+
+                <!-- Password input-->
+            <div class="text-left">
+                <label class=" control-label" for="">Starting date:</label>
+                <span  ng-bind="currentJob.dateFrom"> </span>
+            </div>
+
+            <!-- Text input-->
+            <div class="text-left">
+                <label  class=" control-label" for="name">Ending date:</label>
+                <span  ng-bind="currentJob.dateTo"> </span>
+            </div>
+
+            <div class="text-left">
+                <label  class=" control-label" for="name">Description:</label>
+                <span  ng-bind="currentJob.description"> </span>
+            </div>
+
+
+</div>
+
+<!-- <div class="widget wcyan">
+    <div data-cc-widget-header title="Bidders"
+         allow-collapse="true"></div>
+    <div class="widget-content right-partial-view fluid-container widget-ul-list">
+        <ul style="list-style: none;" >
+            <li class="my-offer" id="{{$index}}" data-ng-repeat="p in biddersPagedItems" >
+                <div class="row-container jobDetail">
+                    <img style="float:left" src="/img/job.jpg">
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Name:</span>
+                        <span> {{p.name}} </span>
+                        <a  class="glyphicon glyphicon-star custom-icon boxbookmark pull-right"
+                        ng-show="!(currentJob.status == 'closed') && JobList.getFocus($index)" ng-click="JobList.acceptBid($index)" id="boxbookmark" title="Accept bidder">
+                        </a>
+                    </div>
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Surname:</span>
+                        <span>{{p.surname}}</span>
+                    </div>
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Email:</span>
+                        <span>{{p.email}}</span>
+                    </div>
+                    <div class="jobDetail text-left">
+                        <span class="my-job-detail text-left">Rating:</span>
+                        <span class="rating-stars">
+                            <rating readonly="true" value="p.rating.avgRate"></rating>
+                        </span>
+                    </div>  
+                    <div class="jobDetail" style="display: inline-block;">
+                        <a class="pull-left" title="Contact bidder" href="/#/messages">
+                            <span class="custom-icon">
+                                <i class="fa fa-3x fa-envelope-o"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="widget-foot" style="border: 0">
+        <pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" on-select-page="biddersPageSelected" page="biddersCurrentPage" rotate="false" total-items="biddersTotalItems"></pagination>
+        
+        </div>  
+    </div
+</div> -->

@@ -19,16 +19,16 @@
 				</div>
 				<div class="col-md-10 cat-span col-sm-12 yellow-div right-job-div">
 					<span class="pull-left big-span black-span helvetica-neue">
-						{{p.category}} :
+						{{p.category}}
 					</span>
 					<div class="bookmark-div">
-						<img src="/img/bookmark_star.gif">
+						<img ng-show="isBidder($index)" src="/img/bookmark_star.gif">
 
 
 								<!-- <span ng-hide="isBidder($index)" class="glyphicon glyphicon-star boxbookmark big-span" ng-click="ViewJob.bid()" id="boxbookmark" title="Bid for this job">
 							</span> -->
 						</div>
-						<div class="row job-overflow-div">
+						<div class="row yellow-div job-overflow-div">
 							<div class="col-md-4 col-sm-4 date-div ">
 								<div class="row">
 									<div class="col-md-1 col-sm-1">

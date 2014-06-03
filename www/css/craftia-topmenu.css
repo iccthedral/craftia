@@ -106,11 +106,11 @@
 }
 
 .druid-font-wbi-l {
-      font-family: 'Droid Serif', serif;
-      color: white;
-      font-size: 2.3em;
-      font-weight: bold;
-      font-style: italic;
+  font-family: 'Droid Serif', serif;
+  color: white;
+  font-size: 2.3em;
+  font-weight: bold;
+  font-style: italic;
 }
 
 .druid-font-bbi-l {
@@ -119,8 +119,4 @@
   font-size: 2.3em;
   font-weight: bold;
   font-style: italic;
-}
-.widget {
-    padding-left : 10px;
-    padding-right: 10px;
 }

@@ -1,8 +1,5 @@
 ﻿<nav class="navbar navbar-default" role="navigation" data-ng-controller="topnav as vm">
 
-
-
-
     <div class="navbar-header yellow-div">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span>
@@ -122,15 +119,19 @@
                         </div>
                     </div>
                 </div> 
-            </div>      
+            </div> 
+            <div class="yellow-div col-md-1">
+            </div>     
         </div>
     </div>
-    <div class="yellow-div col-md-1">
+    <div class="row  yellow-div">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10" data-ng-include="'app/layout/topnavSubMenu.html'">
+        </div>
+        <div class="col-md-1">
+        </div>
     </div>
-</div>
-<div data-ng-include="'app/layout/topnavSubMenu.html'">
-</div>
-
 </nav>
 
 
