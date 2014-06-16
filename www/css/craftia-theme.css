@@ -447,6 +447,18 @@ body {
   margin: 10% 10%;
 }
 
+.craftia-nav-envelope .register-text {
+  position: absolute;
+  color: #edb915;
+  bottom: 34px;
+  font-size: 1.5em;
+  font-weight: 680;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: 10% 10%;
+}
+
 .craftia-nav-envelope .userland-profile-btn {
   position: relative;
   font-size: 1.5em;
@@ -899,6 +911,7 @@ list-style-type: none !important;
 
 .right-job-div {
  overflow: visible;
+ border-left: white solid 3px;
 
 }
 
@@ -950,9 +963,8 @@ list-style-type: none !important;
 .job-pic {
   max-width: 100%;
   max-height: 100%;
-  width: 100%;
-  border-right: white solid 3px;
-  display:none;
+  /*width: 100%;*/
+  /*border-right: white solid 3px;*/
 }
 
 .sender-div {

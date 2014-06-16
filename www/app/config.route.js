@@ -217,6 +217,20 @@
                     resolve: authenticate(false)
                 }
             },{
+                url: '/registerCraftsman',
+                config: {
+                    title: 'craftsmen',
+                    templateUrl: 'app/register/registerCraftsman.html',
+                    resolve: authenticate(false)
+                }
+            },{
+                url: '/registerCustomer',
+                config: {
+                    title: 'customer',
+                    templateUrl: 'app/register/registerCustomer.html',
+                    resolve: authenticate(false)
+                }
+            },{
                 url: '/login',
                 config: {
                     title: 'login',

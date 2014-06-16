@@ -1,0 +1,130 @@
+<section ng-class="(vm.isAuth) ? 'mainBar' : 'mainbarHidden'" data-ng-controller="register as vm">
+    <div class="row">
+        <div class="widget wcyan">
+            <div data-cc-widget-header title="{{vm.title}}"></div>
+            <div class="widget-content user">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="widget wcyan">
+                            <div class="profile-details-widget fluid-container">
+                                <form class="form-horizontal" ng-submit="vm.registerUser()">
+                                    <fieldset>
+
+                                        <!-- Form Name -->
+                                        <h3>Profile Details</h3>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="email">E-mail</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="username">Username</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Password input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="password">Password</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Password input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="rep-password">Repeat password</label>
+                                            <div class="col-md-9">
+                                                <input id="rep-password" name="rep-password" type="password" placeholder="repeat password" class="form-control input-md" required="">
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="name">Name</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="surname">Surname</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="telephone">Telephone</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="telephone">City</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="telephone">Address</label>
+                                            <div class="col-md-9">
+                                                <input ng-model="vm.user.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
+                                            </div>
+                                        </div>
+
+                                        <!-- Multiple Checkboxes (inline) -->
+                                        <div class="form-group">
+                                            <label class="col-md-9 control-label" for="gtc">Accept Terms &amp; Conditions</label>
+                                            <div class="col-md-9">
+                                                <label class="checkbox-inline" for="gtc-0">
+                                                    <input type="checkbox" name="gtc" id="gtc-0" value="">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <div class="col-md-9 col-md-offset-5">
+                                                <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="registerCustomer()">Register</button>
+                                            </div>
+                                        </div>
+
+                                    </fieldset>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="widget wcyan fluid-container">
+                            <h3>Terms & Conditions</h3>
+                            <textarea readonly class="col-xs-12" rows="20">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

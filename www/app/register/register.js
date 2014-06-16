@@ -40,6 +40,30 @@
             $location.path("/login")
         }
 
+        vm.registerCraftsman = function() {
+            console.debug(vm.user);
+            vm.user.type="Craftsman"
+            datacontext.postRegister(vm.user).then(function(data) {
+                vm.user = data.user;
+                logSuccess(data.msg);
+            }).fail(function(error) {
+                logError(error);
+            });
+            $location.path("/login")
+        }
+
+        vm.registerCustomer = function() {
+            console.debug(vm.user);
+            vm.user.type="Customer"
+            datacontext.postRegister(vm.user).then(function(data) {
+                vm.user = data.user;
+                logSuccess(data.msg);
+            }).fail(function(error) {
+                logError(error);
+            });
+            $location.path("/login")
+        }
+
         $scope.getCities = function (id) {
             $rootScope.isAjaxHappening = true;
             return $.get('/cities/' + id).then(function (res) {
