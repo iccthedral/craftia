@@ -12,21 +12,21 @@ CategoryModel   = require ("../models/Category")
 
 module.exports = (app) ->
     # logout user
-    app.get "/logout", module.exports.logMeOut
+    app.get "/logout", logMeOut
 
     # login user
-    app.post "/login", module.exports.logMeIn
+    app.post "/login", logMeIn
 
     # update user details
-    app.post "/user/update", module.exports.updateMe
+    app.post "/user/update", updateMe
 
     # uploads profile picture
-    app.post "/user/uploadpicture", module.exports.uploadProfilePicture
+    app.post "/user/uploadpicture", uploadProfilePicture
 
     # Is current session holder authenticated?
-    app.get "/isAuthenticated", module.exports.isUserAuthenticated
+    app.get "/isAuthenticated", isUserAuthenticated
 
-module.exports.isUserAuthenticated = (req, res) ->
+isUserAuthenticated = (req, res) ->
     user = req.user
     return res.send(403) if not user?
     UserModel
@@ -35,11 +35,11 @@ module.exports.isUserAuthenticated = (req, res) ->
     .exec (err, result) ->
         res.send(result[0])
 
-module.exports.logMeOut = (req, res) ->
+logMeOut = (req, res) ->
     req.logout()
     res.redirect(200, "/")
 
-module.exports.logMeIn = (req, res, next) ->
+logMeIn = (req, res, next) ->
     if req.body.rememberme
         req.session.cookie.maxAge = 30*24*60*60*1000
     else
@@ -56,7 +56,7 @@ module.exports.logMeIn = (req, res, next) ->
                 res.send(result[0])
     pass(req, res, next)
 
-module.exports.updateMe = (req, res) ->
+updateMe = (req, res) ->
     usr = req.user
     console.log usr
     return res.status(422).send "You're not logged in" if not usr?
@@ -69,7 +69,7 @@ module.exports.updateMe = (req, res) ->
         return res.status(422).send(err.message) if err?
         res.send(200)
 
-module.exports.uploadProfilePicture = (req, res) ->
+uploadProfilePicture = (req, res) ->
     usr = req.user
     return res.status(422).send "You're not logged in" if not usr?
     UserModel

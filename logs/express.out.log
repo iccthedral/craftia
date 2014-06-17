@@ -1,0 +1,604 @@
+
+
+Running on: 3000
+Connected to DB
+[90mGET / [32m200 [90m186ms - 4.74kb[0m
+[90mGET /css/ie10mobile.css [32m200 [90m62ms - 221b[0m
+[90mGET /css/bootstrap.css [32m200 [90m50ms - 119.62kb[0m
+[90mGET /css/font-awesome.min.css [32m200 [90m9ms - 17.36kb[0m
+[90mGET /css/toastr.css [32m200 [90m7ms - 6.62kb[0m
+[90mGET /css/customtheme.css [32m200 [90m13ms - 24.85kb[0m
+[90mGET /css/styles.css [32m200 [90m6ms - 9.15kb[0m
+[90mGET /css/craftia-theme.css [32m200 [90m7ms - 15.11kb[0m
+[90mGET /css/lightbox.css [32m200 [90m5ms - 603b[0m
+[90mGET /css/animate.min.css [32m200 [90m17ms - 46.49kb[0m
+[90mGET /vendor/jquery-ui/themes/smoothness/jquery-ui.css [32m200 [90m6ms - 31.27kb[0m
+[90mGET /css/craftia-topmenu.css [32m200 [90m7ms - 2.03kb[0m
+[90mGET /vendor/angular-carousel/dist/angular-carousel.css [32m200 [90m8ms - 1.6kb[0m
+[90mGET /vendor/jquery/dist/jquery.js [32m200 [90m7ms - 241.04kb[0m
+[90mGET /vendor/ng-file-upload/angular-file-upload.js [32m200 [90m21ms - 5.27kb[0m
+[90mGET /vendor/jquery-ui/ui/jquery-ui.js [32m200 [90m46ms - 425.63kb[0m
+[90mGET /vendor/angular/angular.js [32m200 [90m45ms - 747.63kb[0m
+[90mGET /vendor/angular/angular-animate.js [32m200 [90m6ms - 71.58kb[0m
+[90mGET /vendor/angular/angular-route.js [32m200 [90m6ms - 31.74kb[0m
+[90mGET /vendor/angular/angular-sanitize.js [32m200 [90m14ms - 20.25kb[0m
+[90mGET /vendor/angular/bootstrap.js [32m200 [90m5ms - 57.16kb[0m
+[90mGET /vendor/angular/toastr.js [32m200 [90m10ms - 7.55kb[0m
+[90mGET /vendor/angular/moment.js [32m200 [90m8ms - 75.4kb[0m
+[90mGET /vendor/angular/ui-bootstrap-tpls-0.10.0.js [32m200 [90m6ms - 123.48kb[0m
+[90mGET /vendor/angular/spin.js [32m200 [90m3ms - 9.96kb[0m
+[90mGET /vendor/angular-carousel/dist/angular-carousel.min.js [32m200 [90m5ms - 5.5kb[0m
+[90mGET /app/app.js [32m200 [90m5ms - 1.77kb[0m
+[90mGET /app/config.js [32m200 [90m8ms - 1.22kb[0m
+[90mGET /app/config.exceptionHandler.js [32m200 [90m7ms - 1.13kb[0m
+[90mGET /app/config.route.js [32m200 [90m7ms - 8.71kb[0m
+[90mGET /app/services/gmaps.js [32m200 [90m4ms - 1.65kb[0m
+[90mGET /app/services/authService.js [32m200 [90m15ms - 3.06kb[0m
+[90mGET /app/common/common.js [32m200 [90m6ms - 4.56kb[0m
+[90mGET /app/common/logger.js [32m200 [90m7ms - 2.22kb[0m
+[90mGET /app/common/spinner.js [32m200 [90m4ms - 671b[0m
+[90mGET /app/common/bootstrap/bootstrap.dialog.js [32m200 [90m6ms - 2.77kb[0m
+[90mGET /app/admin/admin.js [32m200 [90m4ms - 508b[0m
+[90mGET /app/dashboard/dashboard.js [32m200 [90m5ms - 3.68kb[0m
+[90mGET /app/layout/shell.js [32m200 [90m14ms - 1.46kb[0m
+[90mGET /app/layout/sidebar.js [32m200 [90m5ms - 1.76kb[0m
+[90mGET /app/jobs/jobs.js [32m200 [90m4ms - 20.67kb[0m
+[90mGET /app/jobs/job.js [32m200 [90m4ms - 1.42kb[0m
+[90mGET /app/craftsmen/craftsmen.js [32m200 [90m6ms - 5.58kb[0m
+[90mGET /app/profile/profile.js [32m200 [90m18ms - 1.86kb[0m
+[90mGET /app/layout/topnav.js [32m200 [90m13ms - 5.46kb[0m
+[90mGET /app/messages/messages.js [32m200 [90m4ms - 4.4kb[0m
+[90mGET /app/register/register.js [32m200 [90m5ms - 2.42kb[0m
+[90mGET /app/login/login.js [32m200 [90m5ms - 971b[0m
+[90mGET /app/services/datacontext.js [32m200 [90m4ms - 4.36kb[0m
+[90mGET /app/services/directives.js [32m200 [90m10ms - 13.5kb[0m
+[90mGET /isAuthenticated [33m403 [90m12ms - 9b[0m
+[90mGET /app/layout/shell.html [32m200 [90m5ms - 833b[0m
+[90mGET /app/dashboard/dashboard.html [32m200 [90m8ms - 441b[0m
+[90mGET /app/layout/topnav.html [32m200 [90m6ms - 6.81kb[0m
+[90mGET /app/dashboard/footer.html [32m200 [90m4ms - 1.73kb[0m
+[90mGET /app/dashboard/anonDashboard.html [32m200 [90m20ms - 8.03kb[0m
+[90mGET /app/dashboard/customerDashboard.html [32m200 [90m3ms - 251b[0m
+[90mGET /app/dashboard/craftsmanDashboard.html [32m200 [90m4ms - 650b[0m
+[90mGET /img/logo3.png [32m200 [90m21ms - 19.21kb[0m
+[90mGET /app/layout/topnavSubMenu.html [32m200 [90m4ms - 3.31kb[0m
+[90mGET /img/shares.jpg [32m200 [90m17ms - 6.94kb[0m
+[90mGET /app/dashboard/footerCraftsmen.html [32m200 [90m4ms - 859b[0m
+[90mGET /img/post_a_job.jpg [32m200 [90m8ms - 6.72kb[0m
+[90mGET /img/compare_prices_and_quality.jpg [32m200 [90m16ms - 6.99kb[0m
+[90mGET /img/make_your_choice.jpg [32m200 [90m6ms - 6.57kb[0m
+[90mGET /img/how_craftia_works.jpg [32m200 [90m23ms - 89.86kb[0m
+[90mGET /img/categories.jpg [32m200 [90m36ms - 8.58kb[0m
+[90mGET /img/cartwheel.jpg [32m200 [90m24ms - 7.37kb[0m
+[90mGET /img/wrench.jpg [32m200 [90m15ms - 6.8kb[0m
+[90mGET /img/gardening.jpg [32m200 [90m6ms - 7.97kb[0m
+[90mGET /img/carousel/Franchise-Handwerk.jpg [32m200 [90m25ms - 105.3kb[0m
+[90mGET /img/underConstruction.png [32m200 [90m16ms - 2.8kb[0m
+[90mGET /app/jobs/offerList.html [32m200 [90m5ms - 19.71kb[0m
+[90mGET /fonts/ZineSerifDis-RegularItalic.otf [32m200 [90m54ms - 36.91kb[0m
+[90mGET /app/jobs/findJobsTopNav.html [32m200 [90m5ms - 3.44kb[0m
+[90mGET /img/bookmark_star.gif [32m200 [90m23ms - 1.34kb[0m
+[90mGET /img/default_user.jpg [32m200 [90m17ms - 11.65kb[0m
+[90mGET /img/address_selector.jpg [32m200 [90m21ms - 4.58kb[0m
+{ name: /.*undefined.*/gi }
+[90mGET /categories [32m200 [90m51ms - 981b[0m
+[90mGET /listjobs [32m200 [90m17ms - 2b[0m
+[90mGET /cities/undefined [32m200 [90m151ms - 2b[0m
+[90mGET /app/layout/widgetheader.html [32m200 [90m5ms - 360b[0m
+[90mGET /category/53a0b9af384514284a840fe1 [32m200 [90m14ms - 587b[0m
+[90mGET /favicon.ico [33m404 [90m5ms[0m
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+Connected to DB
+Running on: 3000
+Connected to DB
+Connected to DB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+
+
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+
+
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+
+
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.coffee
+JSONToMongo.js
+MathProtos.coffee
+MathProtos.js
+ObjectProtos.coffee
+ObjectProtos.js
+JSONToMongo.js
+MathProtos.js
+ObjectProtos.js
+StringProtos.js
+Running on: 3000
+Connected to DB
+
+
+JSONToMongo.js
+MathProtos.js
+ObjectProtos.js
+StringProtos.js
+Running on: 3000
+Connected to DB
+
+
+undefined 'JSONToMongo.js'
+[31mMotherfucker[39m MathProtos.js
+[31mMotherfucker[39m ObjectProtos.js
+[31mMotherfucker[39m StringProtos.js
+Running on: 3000
+Connected to DB
+[90mGET / [36m304 [90m117ms[0m
+[90mGET /css/ie10mobile.css [36m304 [90m26ms[0m
+[90mGET /css/bootstrap.css [36m304 [90m10ms[0m
+[90mGET /css/font-awesome.min.css [36m304 [90m18ms[0m
+[90mGET /css/toastr.css [36m304 [90m17ms[0m
+[90mGET /css/customtheme.css [36m304 [90m39ms[0m
+[90mGET /css/styles.css [36m304 [90m13ms[0m
+[90mGET /css/craftia-theme.css [36m304 [90m13ms[0m
+[90mGET /css/lightbox.css [36m304 [90m9ms[0m
+[90mGET /css/animate.min.css [36m304 [90m7ms[0m
+[90mGET /vendor/jquery-ui/themes/smoothness/jquery-ui.css [36m304 [90m8ms[0m
+[90mGET /css/craftia-topmenu.css [36m304 [90m4ms[0m
+[90mGET /vendor/angular-carousel/dist/angular-carousel.css [36m304 [90m20ms[0m
+[90mGET /vendor/jquery/dist/jquery.js [36m304 [90m18ms[0m
+[90mGET /vendor/jquery-ui/ui/jquery-ui.js [36m304 [90m6ms[0m
+[90mGET /vendor/angular/angular.js [36m304 [90m15ms[0m
+[90mGET /vendor/ng-file-upload/angular-file-upload.js [36m304 [90m10ms[0m
+[90mGET /vendor/angular/angular-animate.js [36m304 [90m7ms[0m
+[90mGET /vendor/angular/angular-route.js [36m304 [90m12ms[0m
+[90mGET /vendor/angular/angular-sanitize.js [36m304 [90m12ms[0m
+[90mGET /vendor/angular/bootstrap.js [36m304 [90m14ms[0m
+[90mGET /vendor/angular/toastr.js [36m304 [90m7ms[0m
+[90mGET /vendor/angular/moment.js [36m304 [90m4ms[0m
+[90mGET /vendor/angular/ui-bootstrap-tpls-0.10.0.js [36m304 [90m4ms[0m
+[90mGET /vendor/angular/spin.js [36m304 [90m3ms[0m
+[90mGET /vendor/angular-carousel/dist/angular-carousel.min.js [36m304 [90m5ms[0m
+[90mGET /app/app.js [36m304 [90m27ms[0m
+[90mGET /app/config.js [36m304 [90m27ms[0m
+[90mGET /app/config.exceptionHandler.js [36m304 [90m24ms[0m
+[90mGET /app/config.route.js [36m304 [90m19ms[0m
+[90mGET /app/services/gmaps.js [36m304 [90m17ms[0m
+[90mGET /app/services/authService.js [36m304 [90m15ms[0m
+[90mGET /app/common/common.js [36m304 [90m4ms[0m
+[90mGET /app/common/logger.js [36m304 [90m23ms[0m
+[90mGET /app/common/spinner.js [36m304 [90m20ms[0m
+[90mGET /app/common/bootstrap/bootstrap.dialog.js [36m304 [90m14ms[0m
+[90mGET /app/admin/admin.js [36m304 [90m12ms[0m
+[90mGET /app/dashboard/dashboard.js [36m304 [90m6ms[0m
+[90mGET /app/layout/shell.js [36m304 [90m5ms[0m
+[90mGET /app/layout/sidebar.js [36m304 [90m26ms[0m
+[90mGET /app/jobs/jobs.js [36m304 [90m19ms[0m
+[90mGET /app/jobs/job.js [36m304 [90m17ms[0m
+[90mGET /app/craftsmen/craftsmen.js [36m304 [90m16ms[0m
+[90mGET /app/profile/profile.js [36m304 [90m13ms[0m
+[90mGET /app/layout/topnav.js [36m304 [90m3ms[0m
+[90mGET /app/messages/messages.js [36m304 [90m7ms[0m
+[90mGET /app/register/register.js [36m304 [90m7ms[0m
+[90mGET /app/login/login.js [36m304 [90m10ms[0m
+[90mGET /app/services/datacontext.js [36m304 [90m7ms[0m
+[90mGET /app/services/directives.js [36m304 [90m8ms[0m
+[90mGET /isAuthenticated [33m403 [90m5ms - 9b[0m
+[90mGET /app/layout/shell.html [36m304 [90m5ms[0m
+[90mGET /app/dashboard/dashboard.html [36m304 [90m5ms[0m
+[90mGET /app/layout/topnav.html [36m304 [90m4ms[0m
+[90mGET /app/dashboard/footer.html [36m304 [90m4ms[0m
+[90mGET /app/dashboard/anonDashboard.html [36m304 [90m8ms[0m
+[90mGET /app/dashboard/customerDashboard.html [36m304 [90m6ms[0m
+[90mGET /app/dashboard/craftsmanDashboard.html [36m304 [90m4ms[0m
+[90mGET /img/logo3.png [36m304 [90m11ms[0m
+[90mGET /app/layout/topnavSubMenu.html [36m304 [90m4ms[0m
+[90mGET /img/shares.jpg [36m304 [90m3ms[0m
+[90mGET /app/dashboard/footerCraftsmen.html [36m304 [90m10ms[0m
+[90mGET /img/post_a_job.jpg [36m304 [90m29ms[0m
+[90mGET /img/compare_prices_and_quality.jpg [36m304 [90m32ms[0m
+[90mGET /img/make_your_choice.jpg [36m304 [90m33ms[0m
+[90mGET /img/how_craftia_works.jpg [36m304 [90m33ms[0m
+[90mGET /img/categories.jpg [36m304 [90m25ms[0m
+[90mGET /img/cartwheel.jpg [36m304 [90m23ms[0m
+[90mGET /img/wrench.jpg [36m304 [90m13ms[0m
+[90mGET /img/gardening.jpg [36m304 [90m14ms[0m
+[90mGET /img/carousel/Franchise-Handwerk.jpg [36m304 [90m7ms[0m
+[90mGET /img/underConstruction.png [36m304 [90m5ms[0m
+[90mGET /app/jobs/offerList.html [36m304 [90m4ms[0m
+[90mGET /fonts/ZineSerifDis-RegularItalic.otf [36m304 [90m3ms[0m
+[90mGET /app/jobs/findJobsTopNav.html [36m304 [90m4ms[0m
+[90mGET /img/default_user.jpg [36m304 [90m12ms[0m
+[90mGET /img/bookmark_star.gif [36m304 [90m8ms[0m
+[90mGET /img/address_selector.jpg [36m304 [90m7ms[0m
+{ name: /.*undefined.*/gi }
+[90mGET /cities/undefined [36m304 [90m37ms[0m
+[90mGET /categories [36m304 [90m50ms[0m
+[90mGET /listjobs [36m304 [90m44ms[0m
+[90mGET /app/layout/widgetheader.html [36m304 [90m3ms[0m
+[90mGET /category/53a0b9af384514284a840fe1 [36m304 [90m19ms[0m

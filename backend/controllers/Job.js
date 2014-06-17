@@ -1,5 +1,5 @@
 (function() {
-  var AuthLevel, CategoryModel, CityModel, JobModel, Messaging, UserModel, async, colors, fs, mongoose, passport, util,
+  var AuthLevel, CategoryModel, CityModel, JobModel, Messaging, UserModel, async, bidOnJob, cancelBidOnJob, colors, createNewJob, deleteJob, findCategory, findCity, findJob, fs, mongoose, passport, pickWinnerBid, rateJob, saveJob, updateJob, util,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   mongoose = require("mongoose");
@@ -26,61 +26,17 @@
 
   AuthLevel = require("../../config/Passport").AUTH_LEVEL;
 
-  module.exports = function(app) {
-    app.post("/job/new", module.exports.createNewJob);
-    app.post("/job/:id/delete", module.exports.deleteJob);
-    app.post("job/:id/update", module.exports.updateJob);
-    app.post("/job/:id/bid", module.exports.bidOnJob);
-    app.post("/job/:id/:uid/cancelbid", module.exports.cancelBidOnJob);
-    app.post("/job/:id/rate/:mark", module.exports.rateJob);
-    return app.post("/job/:id/pickawinner/:winner", module.exports.pickWinnerBid);
-  };
-
-  module.exports.findCity = function(cityName) {
-    return function(clb) {
-      return CityModel.findOne({
-        name: cityName
-      }).exec(function(err, city) {
-        if (city == null) {
-          return clb(new Error("No city " + cityName + " in database!"), null);
-        } else {
-          return clb(err, city);
-        }
-      });
-    };
-  };
-
-  module.exports.findCategory = function(jobdata) {
-    return function(clb) {
-      return CategoryModel.findOne({
-        category: jobdata.category
-      }).exec(function(err, cat) {
-        var exists, _ref;
-        if (cat == null) {
-          return clb(new Error("No such category " + jobdata.category), null);
-        }
-        exists = (_ref = jobdata.subcategory, __indexOf.call(cat != null ? cat.subcategories : void 0, _ref) >= 0);
-        if (!exists || (err != null)) {
-          return clb(new Error("No subcategory " + jobdata.subcategory + " in category " + jobdata.category), null);
-        }
-        return clb(err, cat);
-      });
-    };
-  };
-
-  module.exports.saveJob = function(usr, jobData, res) {
+  module.exports.saveJob = saveJob = function(usr, jobData, res) {
     if (usr.type !== AuthLevel.CUSTOMER) {
-      throw new Error("You don't have permissions to create a new job");
+      throw "You don't have permissions to create a new job";
     }
-    return async.series([module.exports.findCity(jobData.address.city), module.exports.findCategory(jobData)], function(err, results) {
+    return async.series([findCity(jobData.address.city), findCategory(jobData)], function(err, results) {
       var job;
-      console.log(err);
       if (err != null) {
-        return res.status(422).send(err.message);
+        throw err;
       }
       delete jobData._id;
       job = new JobModel(jobData);
-      console.log(usr._id);
       job.status = "open";
       job.address.zip = results[0].zip;
       job.author = {
@@ -88,9 +44,8 @@
         username: usr.username
       };
       return job.save(function(err, job) {
-        console.log(err);
         if (err != null) {
-          return res.status(422).send(err.messsage);
+          throw err;
         }
         usr.createdJobs.push(job._id);
         usr.save();
@@ -99,23 +54,65 @@
     });
   };
 
-  module.exports.createNewJob = function(req, res) {
+  module.exports.findJob = findJob = function(req, res, next) {
+    return JobModel.findOne({
+      _id: req.params.id
+    }).exec(function(err, job) {
+      if (err != null) {
+        return next(err);
+      }
+      return res.send(job);
+    });
+  };
+
+  module.exports.findCity = findCity = function(cityName) {
+    return function(clb) {
+      return CityModel.findOne({
+        name: cityName
+      }).exec(function(err, city) {
+        if (city == null) {
+          return clb(new Error("No city " + cityName + " in database!", null));
+        } else {
+          return clb(err, city);
+        }
+      });
+    };
+  };
+
+  module.exports.findCategory = findCategory = function(jobdata) {
+    return function(clb) {
+      return CategoryModel.findOne({
+        category: jobdata.category
+      }).exec(function(err, cat) {
+        var exists, _ref;
+        if (cat == null) {
+          return clb(new Error("No such category " + jobdata.category, null));
+        }
+        exists = (_ref = jobdata.subcategory, __indexOf.call(cat != null ? cat.subcategories : void 0, _ref) >= 0);
+        if (!exists || (err != null)) {
+          return clb(new Error("No subcategory " + jobdata.subcategory + " in category " + jobdata.category, null));
+        }
+        return clb(err, cat);
+      });
+    };
+  };
+
+  createNewJob = function(req, res, next) {
     var e, jobData, usr;
     jobData = req.body;
     usr = req.user;
     if (usr == null) {
-      return res.send(422);
+      return next("User doesn't exist");
     }
     try {
-      return module.exports.saveJob(usr, jobData, res);
+      return saveJob(usr, jobData, res);
     } catch (_error) {
       e = _error;
-      console.log(e.message);
-      return res.status(422).send(e.message);
+      return next(e);
     }
   };
 
-  module.exports.deleteJob = function(req, res) {
+  deleteJob = function(req, res) {
     var usr;
     usr = req.user;
     if ((usr == null) || usr.type !== AuthLevel.CUSTOMER) {
@@ -128,7 +125,7 @@
     });
   };
 
-  module.exports.updateJob = function(req, res) {
+  updateJob = function(req, res) {
     var checkCity, findCat, jobData, usr, _ref, _ref1;
     usr = req.user;
     jobData = req.body;
@@ -136,7 +133,7 @@
       return res.send(422);
     }
     if (((_ref = jobData.address) != null ? _ref.city : void 0) != null) {
-      checkCity = module.exports.findCity(jobData.address.city);
+      checkCity = findCity(jobData.address.city);
     } else {
       checkCity = function(clb) {
         return clb(null, null);
@@ -166,7 +163,7 @@
     });
   };
 
-  module.exports.bidOnJob = function(req, res) {
+  bidOnJob = function(req, res) {
     var usr;
     usr = req.user;
     if ((usr == null) || usr.type !== AuthLevel.CRAFTSMAN) {
@@ -181,7 +178,8 @@
         name: usr.name,
         surname: usr.surname,
         email: usr.email,
-        rating: usr.rating.toObject()
+        rating: usr.rating.toObject(),
+        pic: usr.profilePic
       });
       return job.save(function(err) {
         if (err != null) {
@@ -204,7 +202,7 @@
     });
   };
 
-  module.exports.cancelBidOnJob = function(req, res) {
+  cancelBidOnJob = function(req, res) {
     var usr;
     usr = req.user;
     if ((usr == null) || usr.type !== AuthLevel.CRAFTSMAN) {
@@ -242,7 +240,7 @@
     });
   };
 
-  module.exports.rateJob = function(req, res) {
+  rateJob = function(req, res) {
     var user;
     user = req.user;
     if (user.type !== AuthLevel.CUSTOMER) {
@@ -264,7 +262,7 @@
     });
   };
 
-  module.exports.pickWinnerBid = function(req, res) {
+  pickWinnerBid = function(req, res) {
     var user, winnerId;
     user = req.user;
     winnerId = req.params.winner;
@@ -294,6 +292,17 @@
         });
       });
     });
+  };
+
+  module.exports = function(app) {
+    app.post("/job/new", createNewJob);
+    app.post("/job/:id/delete", deleteJob);
+    app.post("job/:id/update", updateJob);
+    app.post("/job/:id/bid", bidOnJob);
+    app.post("/job/:id/:uid/cancelbid", cancelBidOnJob);
+    app.post("/job/:id/rate/:mark", rateJob);
+    app.post("/job/:id/pickawinner/:winner", pickWinnerBid);
+    return app.post("/job/:id", findJob);
   };
 
 }).call(this);
