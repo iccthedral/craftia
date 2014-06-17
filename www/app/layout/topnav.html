@@ -11,12 +11,12 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <div class="row">
-            <div class="col-md-1">
+            <div class="col-md-1 col-sm-1 col-xs-1 ">
             </div>
-            <div class="col-md-10 row">
+            <div class="col-md-10 col-sm-10 col-xs-10 row">
                 <div class="col-sm-6 col-md-12 col-xs-6">
                     <div class="row col-sm-12">
-                        <div class="col-md-3 row">
+                        <div class="col-md-3 col-sm-3 col-xs-3 row">
                             <div class="col-sm-3 col-xs-3">
                             </div>
                             <div class="col-sm-6 col-xs-6 col-md-12">
@@ -32,73 +32,22 @@
                             <div class="col-sm-3 col-xs-3">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div data-ng-include="'app/layout/userBar.html'" class="col-md-3 col-sm-3 col-xs-3">
+                        
                         </div>
                         
-                        <div class="row col-md-3 col-sm-12 envelope-container">
-                            <div class="col-sm-3 col-xs-3">
-                            </div>
-                            <div class="row col-sm-6 col-md-12">
-                                <div class="col-sm-1 col-xs-1">
-                                </div>
-                                <div class="craftia-nav-envelope col-sm-10 col-xs-10"  cr-auth>
-                                    <div class="rect"></div>
-                                    <div class="leftbtr"></div>
-                                    <div class="rightbtr"></div>
-                                    <div class="userland-profile-btn">
-                                        <i class="glyphicon glyphicon-user userland-icon" ng-click="vm.viewProfile()"></i>
-                                        <span class="userland-name">{{user.username}}</span>
-                                        <br>
-                                        <div class="row userland-mail-btn">
-                                            <a  href="/#/messages"> 
-                                                <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
-                                                <span class="userland-mail-count1">
-                                                    5 new
-                                                </span>
-                                                <span class="userland-mail-count2">
-                                                    messages
-                                                </span>
-                                                <br>
-                                            </a>   
-                                            <span class="logout-icon" ng-click="vm.logout()">
-                                                <i class="glyphicon glyphicon-log-out"></i>
-                                            </span> 
-                                            <span class="logout-span" ng-click="vm.logout()">
-                                                Log out
-                                            </span>   
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1 col-xs-1">
-                                </div>
-                            </div>    
-                            <div class="col-sm-3 col-xs-3">
-                            </div>
-                            
-                            <div cr-not-auth class="craftia-nav-envelope">
-                                <div class="rect"></div>
-                                <div class="leftbtr"></div>
-                                <div class="rightbtr"></div>
-                                <a  href="/#/register"> 
-                                    <span class="register-text yellow-span medium-span">REGISTER</span>
-                                </a> 
-                                <br>
-                                <a  href="/#/login"> 
-                                    <span class="login-text yellow-span medium-span">LOGIN</span>
-                                </a>    
-                            </div>
-
-                        </div>
+                        
+                      
                     </div>
                 </div>
 
                 <br>
 
-                <div class="row col-sm-6 col-xs-6 col-md-12">
-                    <div class="col-md-3">
-                    </div>
-                    <div class="col-md-3" >
-                        <div  class="top-hmenu-item-wrapper text-center"  crReveal>
+                <div class="row col-sm-12 col-xs-12 col-md-12">
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        </div>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div  class="top-hmenu-item-wrapper pull-right"  crReveal>
                             <a href="/#{{vm.dashMenu[0].url}}"  data-ng-bind-html="vm.dashMenu[0].config.settings.content"></a>
                             <div ng-class="vm.whichClass(vm.dashMenu[0])">
                             </div>
@@ -106,16 +55,16 @@
                     </div>
                     
                     
-                    <div class="col-md-3">
-                        <div  class="top-hmenu-item-wrapper text-center"  crReveal>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div  class="top-hmenu-item-wrapper pull-right"  crReveal>
                             <a href="/#{{vm.dashMenu[1].url}}"  data-ng-bind-html="vm.dashMenu[1].config.settings.content">
                             </a>
                             <div ng-class="vm.whichClass(vm.dashMenu[1])">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div  class="top-hmenu-item-wrapper text-center"  crReveal>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div  class="top-hmenu-item-wrapper pull-right"  crReveal>
                             <a href="/#{{vm.dashMenu[2].url}}"  data-ng-bind-html="vm.dashMenu[2].config.settings.content">
                             </a>
                             <div ng-class="vm.whichClass(vm.dashMenu[2])">
@@ -124,7 +73,7 @@
                     </div>
                 </div> 
             </div> 
-            <div class="yellow-div col-md-1">
+            <div class="yellow-div col-md-1 col-sm-1 col-xs-1">
             </div>     
         </div>
     </div>

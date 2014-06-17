@@ -42,7 +42,7 @@
 
         vm.registerCraftsman = function() {
             console.debug(vm.user);
-            vm.user.type="Craftsman"
+            vm.user.type = "Craftsman";
             datacontext.postRegister(vm.user).then(function(data) {
                 vm.user = data.user;
                 logSuccess(data.msg);
@@ -54,7 +54,7 @@
 
         vm.registerCustomer = function() {
             console.debug(vm.user);
-            vm.user.type="Customer"
+            vm.user.type = "Customer";
             datacontext.postRegister(vm.user).then(function(data) {
                 vm.user = data.user;
                 logSuccess(data.msg);
