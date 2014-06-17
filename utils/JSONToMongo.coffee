@@ -4,7 +4,7 @@ CategoryModel = require "../backend/models/Category"
 CityModel = require "../backend/models/City"
 colors = require "colors"
 
-module.exports = () ->
+module.exports = ->
 	### Put categories in ###
 	resourcesURI = "./backend/resources/"
 	categoriesURI = "#{resourcesURI}categories/"

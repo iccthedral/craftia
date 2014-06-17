@@ -1,13 +1,13 @@
 (function() {
-  var Messaging;
+  var Messaging, sendMessage;
 
   Messaging = require("../modules/Messaging");
 
   module.exports = function(app) {
-    app.post("/sendmessage", module.exports.sendMessage);
+    app.post("/sendmessage", sendMessage);
   };
 
-  module.exports.sendMessage = function(req, res, next) {
+  sendMessage = function(req, res, next) {
     var msg;
     msg = req.body;
     return Messaging.sendMessage(msg, function() {

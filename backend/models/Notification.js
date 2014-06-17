@@ -8,22 +8,13 @@
       type: String,
       required: true
     },
-    subject: {
-      type: String
-    },
-    to: {
-      username: String,
-      id: mongoose.Schema.Types.ObjectId
-    },
-    author: {
-      username: String,
-      id: mongoose.Schema.Types.ObjectId
+    type: {
+      type: String,
+      required: true,
+      "enum": ["system", "job", "contact", "other"]
     },
     dateSent: {
       type: Date
-    },
-    data: {
-      type: Object
     },
     isRead: {
       type: Boolean,
@@ -31,6 +22,6 @@
     }
   });
 
-  module.exports = mongoose.model("Message", schema);
+  module.exports = mongoose.model("Notification", schema);
 
 }).call(this);

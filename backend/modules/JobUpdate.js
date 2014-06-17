@@ -1,32 +1,47 @@
 (function() {
-  var JOB_FINISHED_MESSAGE, JobModel, Messaging, async;
-
-  JobModel = require("../models/Job");
+  var AUTHOR_NOTIF_FINISHED, AUTHOR_NOTIF_WINNING, JobModel, Messaging, WINNER_NOTIF, async, jobUpdateThread, _;
 
   async = require("async");
 
+  _ = require("underscore");
+
+  JobModel = require("../models/Job");
+
   Messaging = require("./Messaging");
 
-  JOB_FINISHED_MESSAGE = "Job with the <a href=\"id:{0}\">{0}</> finished.\nWould you like to give Damir a kiss?";
+  WINNER_NOTIF = _.template("Job <%- title %> the <a href=\"/job/<%- _id %>\">{0}</> finished, and you are the winner.\n");
 
-  module.exports = function() {
+  AUTHOR_NOTIF_WINNING = _.template("");
+
+  AUTHOR_NOTIF_FINISHED = _.template("<%- %>");
+
+  jobUpdateThread = function() {
     var INTERVAL, jobUpdate;
     INTERVAL = 1000 * 60 * 5;
-    console.info("Running job update thread");
+    console.log("Running job update thread");
     jobUpdate = function() {
       return JobModel.find({}, function(err, results) {
         return async.map(results, function(job, clb) {
-          var d, _ref;
-          console.log(job.dateTo);
+          var d, notifAuthor, notifWinner, _ref;
           d = job.dateTo;
+          console.log("Date to", d);
           if ((_ref = job.status) === "open" || _ref === "finished") {
             return clb(null, null);
           }
           if (Date.now() > d.getTime()) {
             job.status = "finished";
+            notifAuthor = {
+              receiver: job.author.username,
+              body: job.winner != null ? AUTHOR_NOTIF_WINNING.format(job) : AUTHOR_NOTIF_FINISHED.format(job)
+            };
             if (job.winner != null) {
-              Messaging.sendJobMessage(job.author, job.winner, JOB_FINISHED_MESSAGE.f(job.winner));
+              notifWinner = {
+                receiver: job.winner.username,
+                body: WINNER_NOTIF.format(job)
+              };
+              Messaging.sendNotification(notifWinner);
             }
+            Messaging.sendNotification(notifAuthor);
             return clb(null, job);
           }
         }, function(err, results) {
@@ -36,5 +51,7 @@
     };
     return setInterval(jobUpdate, INTERVAL);
   };
+
+  module.exports = jobUpdateThread;
 
 }).call(this);

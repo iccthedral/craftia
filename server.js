@@ -1,7 +1,5 @@
 (function() {
-  var PORT, app, db, dbconfig, express, flash, handlebars, hbs, helpers, log, mongoose, passport, wrench;
-
-  PORT = process.env.PORT || 3000;
+  var PORT, app, db, express, flash, handlebars, hbs, log, mongoose, passport, wrench;
 
   express = require("express");
 
@@ -9,11 +7,9 @@
 
   passport = require("passport");
 
-  dbconfig = require("./config/Database");
+  db = require("./config/Database");
 
   handlebars = require("express3-handlebars");
-
-  helpers = require("./lib/HBHelpers");
 
   flash = require("connect-flash");
 
@@ -21,24 +17,16 @@
 
   require("./config/Passport")(passport);
 
+  PORT = process.env.PORT || 3000;
+
   app = express();
 
-  log = console.log;
-
-  mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || dbconfig.url);
-
-  db = mongoose.connection;
-
-  db.on("error", console.error.bind(console, "Connection error: "));
-
-  db.once("open", function() {
-    return console.log("Connected to DB");
-  });
+  log = console.log.bind(console);
 
   hbs = handlebars.create({});
 
   wrench.readdirSyncRecursive("utils/").filter(function(file) {
-    return file.lastIndexOf(".js") !== -1;
+    return file.lastIndexOf(".js");
   }).forEach(function(util) {
     return require("./utils/" + util)();
   });
@@ -48,8 +36,8 @@
     app.use(express.logger("dev"));
     app.use(express.cookieParser());
     app.use(express.bodyParser());
-    app.engine("handlebars", hbs.engine);
-    app.set("view engine", "handlebars");
+    app.engine("hbs", hbs.engine);
+    app.set("view engine", "hbs");
     app.use(express.session({
       secret: "ve2r@y#!se3cret_so!wow1#@*)much(9awe19_hoi"
     }));
@@ -63,6 +51,6 @@
 
   app.listen(PORT);
 
-  console.log("Running on: " + PORT);
+  log("Running on: " + PORT);
 
 }).call(this);

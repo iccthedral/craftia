@@ -1,11 +1,10 @@
 Messaging = require "../modules/Messaging"
 
 module.exports = (app) ->
-	app.post "/sendmessage", module.exports.sendMessage
+	app.post "/sendmessage", sendMessage
 	return
 
-module.exports.sendMessage = (req, res, next) ->
+sendMessage = (req, res, next) ->
 	msg = req.body
-	Messaging.sendMessage(msg, () ->
-		res.send("Message sent!")
-	)
+	Messaging.sendMessage msg, ->
+		res.send "Message sent!"

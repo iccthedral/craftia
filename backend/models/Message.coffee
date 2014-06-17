@@ -9,11 +9,10 @@ schema = mongoose.Schema
 	subject:
 		type: String
 
-	type:
-		type: String
-		required: true
-		enum: ["system", "job", "contact", "other"]
-
+	to:
+		username: String
+		id: mongoose.Schema.Types.ObjectId
+		
 	author:
 		username: String
 		id: mongoose.Schema.Types.ObjectId

@@ -1,5 +1,5 @@
 (function() {
-  var AuthLevel, CategoryModel, CityModel, JobModel, UserModel, async, colors, fs, mongoose, passport, util;
+  var AuthLevel, CategoryModel, CityModel, JobModel, UserModel, async, colors, fs, isUserAuthenticated, logMeIn, logMeOut, mongoose, passport, updateMe, uploadProfilePicture, util;
 
   mongoose = require("mongoose");
 
@@ -24,14 +24,14 @@
   CategoryModel = require("../models/Category");
 
   module.exports = function(app) {
-    app.get("/logout", module.exports.logMeOut);
-    app.post("/login", module.exports.logMeIn);
-    app.post("/user/update", module.exports.updateMe);
-    app.post("/user/uploadpicture", module.exports.uploadProfilePicture);
-    return app.get("/isAuthenticated", module.exports.isUserAuthenticated);
+    app.get("/logout", logMeOut);
+    app.post("/login", logMeIn);
+    app.post("/user/update", updateMe);
+    app.post("/user/uploadpicture", uploadProfilePicture);
+    return app.get("/isAuthenticated", isUserAuthenticated);
   };
 
-  module.exports.isUserAuthenticated = function(req, res) {
+  isUserAuthenticated = function(req, res) {
     var user;
     user = req.user;
     if (user == null) {
@@ -44,12 +44,12 @@
     });
   };
 
-  module.exports.logMeOut = function(req, res) {
+  logMeOut = function(req, res) {
     req.logout();
     return res.redirect(200, "/");
   };
 
-  module.exports.logMeIn = function(req, res, next) {
+  logMeIn = function(req, res, next) {
     var pass;
     if (req.body.rememberme) {
       req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
@@ -77,7 +77,7 @@
     return pass(req, res, next);
   };
 
-  module.exports.updateMe = function(req, res) {
+  updateMe = function(req, res) {
     var data, usr;
     usr = req.user;
     console.log(usr);
@@ -95,7 +95,7 @@
     });
   };
 
-  module.exports.uploadProfilePicture = function(req, res) {
+  uploadProfilePicture = function(req, res) {
     var usr;
     usr = req.user;
     if (usr == null) {

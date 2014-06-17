@@ -88,6 +88,12 @@
       type: String,
       "default": "img/default_user.jpg"
     },
+    notifications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Notification"
+      }
+    ],
     inbox: {
       received: [
         {
