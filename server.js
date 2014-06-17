@@ -26,7 +26,7 @@
   hbs = handlebars.create({});
 
   wrench.readdirSyncRecursive("utils/").filter(function(file) {
-    return file.lastIndexOf(".js");
+    return file.lastIndexOf(".js") !== -1;
   }).forEach(function(util) {
     return require("./utils/" + util)();
   });

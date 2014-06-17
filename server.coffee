@@ -18,8 +18,8 @@ log = console.log.bind console
 #create and configure handlebars
 hbs = handlebars.create {}
 
-wrench.readdirSyncRecursive "utils/"
-.filter (file) -> file.lastIndexOf ".js"
+wrench.readdirSyncRecursive("utils/")
+.filter (file) ->  file.lastIndexOf(".js") isnt -1
 .forEach (util) -> require("./utils/#{util}")()
 
 #configure app
@@ -32,7 +32,7 @@ app.configure ->
 	app.use express.session secret:"ve2r@y#!se3cret_so!wow1#@*)much(9awe19_hoi"
 	app.use passport.initialize()
 	app.use passport.session()
-	
+
 	router = require "./backend/Router"
 	router app, passport
 	

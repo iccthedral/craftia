@@ -139,8 +139,8 @@ module.exports = (grunt) ->
 					livereload: true
 
 	grunt.event.on "watch", (action, filepath) ->
-		filepath = filepath.replace grunt.config "coffee.glob_all.cwd", ""
-		log filepath.yellow
+		filepath = filepath.replace(grunt.config("coffee.glob_all.cwd"), "")
+		log filepath
 		grunt.config("coffee.glob_all.src", [filepath])
 	
 	grunt.registerTask "serve", ["watch"]
