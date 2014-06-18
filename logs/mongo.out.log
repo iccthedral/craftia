@@ -1601,3 +1601,15 @@ Wed Jun 18 01:53:41.364 dbexit: really exiting now
 2014-06-18T03:05:54.549+0200 [clientcursormon] mem (MB) res:43 virt:462
 2014-06-18T03:05:54.549+0200 [clientcursormon]  mapped (incl journal view):320
 2014-06-18T03:05:54.549+0200 [clientcursormon]  connections:5
+2014-06-18T03:10:54.589+0200 [clientcursormon] mem (MB) res:28 virt:462
+2014-06-18T03:10:54.589+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T03:10:54.589+0200 [clientcursormon]  connections:5
+2014-06-18T03:15:54.624+0200 [clientcursormon] mem (MB) res:13 virt:462
+2014-06-18T03:15:54.624+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T03:15:54.624+0200 [clientcursormon]  connections:5
+2014-06-18T03:20:54.662+0200 [clientcursormon] mem (MB) res:11 virt:462
+2014-06-18T03:20:54.662+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T03:20:54.662+0200 [clientcursormon]  connections:5
+2014-06-18T03:25:54.693+0200 [clientcursormon] mem (MB) res:11 virt:462
+2014-06-18T03:25:54.693+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T03:25:54.693+0200 [clientcursormon]  connections:5
