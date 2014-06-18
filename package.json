@@ -28,7 +28,7 @@
     "grunt-contrib-watch": "*",
     "grunt-contrib-coffee": "*",
     "passport": "*",
-    "passport-local": "1.*",
+    "passport-local": "*",
     "bcrypt-nodejs": "*",
     "connect-flash": "*",
     "async": "*",
