@@ -28,7 +28,7 @@
     "grunt-contrib-watch": "*",
     "grunt-contrib-coffee": "*",
     "passport": "*",
-    "passport-local": "https://github.com/jaredhanson/passport-local.git",
+    "passport-local": "jaredhanson/passport-local",
     "bcrypt-nodejs": "*",
     "connect-flash": "*",
     "async": "*",
