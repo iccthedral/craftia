@@ -28,15 +28,16 @@
     "grunt-contrib-watch": "*",
     "grunt-contrib-coffee": "*",
     "passport": "*",
-    "passport-local": "*",
+    "passport-local": "https://github.com/jaredhanson/passport-local.git",
     "bcrypt-nodejs": "*",
     "connect-flash": "*",
     "async": "*",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "gulp": "^3.8.0",
+    "mkdirp": "^0.5.0"
   },
   "devDependencies": {
     "gulp": "^3.8.0",
-    "mkdirp": "^0.5.0",
-    "async": "^0.9.0"
+    "async": "*"
   }
 }
