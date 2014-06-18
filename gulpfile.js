@@ -5,6 +5,7 @@ var spawn = require("child_process").spawn
 	, writeFile = fs.createWriteStream
 	, colors = require("colors")
 	, async = require("async")
+	, isWindows = !!process.platform.match(/^win/)
 	, args = {
 			mongo: [
 				"--dbpath",
@@ -74,14 +75,16 @@ function touchDir(dir, clb) {
 
 gulp.task("default", function() {
 	async.map(["./logs/", "./data/db/"], touchDir, function() {
-		var mongo = spawn("mongod", args.mongo)
-			, supervisor = spawn("supervisor", args.supervisor)
+		var supervisorCmd = (isWindows) ? "supervisor.cmd" : "supervisor"
+			, gruntCmd = (isWindows) ? "grunt.cmd" : "grunt"
+			, mongo = spawn("mongod", args.mongo)
+			, supervisor = spawn(supervisorCmd, args.supervisor)
 			, grunt = null
 			;
 
 		if (!inProduction) {
-			grunt = spawn("grunt", args.grunt);
-			pipeOut(grunt, "GRUNT", "blue");
+			grunt = spawn(gruntCmd, args.grunt);
+			pipeOut(grunt, "GRUNT", "cyan");
 			pipeErr(grunt, logs.grunt.err);
 		}
 		

@@ -1517,6 +1517,7 @@ Wed Jun 18 01:53:41.364 [initandlisten] shutdown: final commit...
 Wed Jun 18 01:53:41.364 [initandlisten] shutdown: closing all files...
 Wed Jun 18 01:53:41.364 [initandlisten] closeAllFiles() finished
 Wed Jun 18 01:53:41.364 dbexit: really exiting now
+<<<<<<< HEAD
 Wed Jun 18 02:41:46.826 [initandlisten] MongoDB starting : pid=6277 port=27017 dbpath=data/db 64-bit host=andrea-Inspiron-N5010
 Wed Jun 18 02:41:46.830 [initandlisten] db version v2.4.9
 Wed Jun 18 02:41:46.830 [initandlisten] git version: 52fe0d21959e32a5bdbecdc62057db386e4e029c
@@ -1534,3 +1535,71 @@ Wed Jun 18 02:41:46.831 [initandlisten] shutdown: final commit...
 Wed Jun 18 02:41:46.832 [initandlisten] shutdown: closing all files...
 Wed Jun 18 02:41:46.832 [initandlisten] closeAllFiles() finished
 Wed Jun 18 02:41:46.832 dbexit: really exiting now
+=======
+2014-06-18T02:32:34.178+0200 [initandlisten] MongoDB starting : pid=6996 port=27017 dbpath=data/db 64-bit host=Shodan
+2014-06-18T02:32:34.178+0200 [initandlisten] targetMinOS: Windows 7/Windows Server 2008 R2
+2014-06-18T02:32:34.178+0200 [initandlisten] db version v2.6.1
+2014-06-18T02:32:34.178+0200 [initandlisten] git version: 4b95b086d2374bdcfcdf2249272fb552c9c726e8
+2014-06-18T02:32:34.178+0200 [initandlisten] build info: windows sys.getwindowsversion(major=6, minor=1, build=7601, platform=2, service_pack='Service Pack 1') BOOST_LIB_VERSION=1_49
+2014-06-18T02:32:34.178+0200 [initandlisten] allocator: system
+2014-06-18T02:32:34.178+0200 [initandlisten] options: { storage: { dbPath: "data/db" } }
+2014-06-18T02:32:34.183+0200 [initandlisten] journal dir=data/db\journal
+2014-06-18T02:32:34.184+0200 [initandlisten] recover begin
+2014-06-18T02:32:34.184+0200 [initandlisten] recover lsn: 2333535
+2014-06-18T02:32:34.184+0200 [initandlisten] recover data/db\journal\j._0
+2014-06-18T02:32:34.187+0200 [initandlisten] recover skipping application of section seq:0 < lsn:2333535
+2014-06-18T02:32:34.187+0200 [initandlisten] recover skipping application of section seq:525515 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section seq:583875 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section seq:642265 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section seq:758905 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section seq:817245 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section seq:875645 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section seq:1108845 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section seq:1517015 < lsn:2333535
+2014-06-18T02:32:34.188+0200 [initandlisten] recover skipping application of section more...
+2014-06-18T02:32:34.198+0200 [initandlisten] recover cleaning up
+2014-06-18T02:32:34.198+0200 [initandlisten] removeJournalFiles
+2014-06-18T02:32:34.199+0200 [initandlisten] recover done
+2014-06-18T02:32:34.253+0200 [initandlisten] waiting for connections on port 27017
+2014-06-18T02:33:29.494+0200 [initandlisten] MongoDB starting : pid=7088 port=27017 dbpath=data/db 64-bit host=Shodan
+2014-06-18T02:33:29.494+0200 [initandlisten] targetMinOS: Windows 7/Windows Server 2008 R2
+2014-06-18T02:33:29.494+0200 [initandlisten] db version v2.6.1
+2014-06-18T02:33:29.494+0200 [initandlisten] git version: 4b95b086d2374bdcfcdf2249272fb552c9c726e8
+2014-06-18T02:33:29.494+0200 [initandlisten] build info: windows sys.getwindowsversion(major=6, minor=1, build=7601, platform=2, service_pack='Service Pack 1') BOOST_LIB_VERSION=1_49
+2014-06-18T02:33:29.494+0200 [initandlisten] allocator: system
+2014-06-18T02:33:29.494+0200 [initandlisten] options: { storage: { dbPath: "data/db" } }
+2014-06-18T02:33:29.498+0200 [initandlisten] journal dir=data/db\journal
+2014-06-18T02:33:29.498+0200 [initandlisten] recover begin
+2014-06-18T02:33:29.498+0200 [initandlisten] recover lsn: 0
+2014-06-18T02:33:29.498+0200 [initandlisten] recover data/db\journal\j._0
+2014-06-18T02:33:29.506+0200 [initandlisten] recover cleaning up
+2014-06-18T02:33:29.506+0200 [initandlisten] removeJournalFiles
+2014-06-18T02:33:29.506+0200 [initandlisten] recover done
+2014-06-18T02:33:29.550+0200 [initandlisten] waiting for connections on port 27017
+2014-06-18T02:33:30.176+0200 [initandlisten] connection accepted from 127.0.0.1:55436 #1 (1 connection now open)
+2014-06-18T02:33:30.178+0200 [initandlisten] connection accepted from 127.0.0.1:55437 #2 (2 connections now open)
+2014-06-18T02:33:30.179+0200 [initandlisten] connection accepted from 127.0.0.1:55438 #3 (3 connections now open)
+2014-06-18T02:33:30.179+0200 [initandlisten] connection accepted from 127.0.0.1:55439 #4 (4 connections now open)
+2014-06-18T02:33:30.179+0200 [initandlisten] connection accepted from 127.0.0.1:55440 #5 (5 connections now open)
+2014-06-18T02:34:29.559+0200 [clientcursormon] mem (MB) res:53 virt:464
+2014-06-18T02:34:29.559+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T02:34:29.559+0200 [clientcursormon]  connections:5
+2014-06-18T02:34:54.240+0200 [initandlisten] MongoDB starting : pid=8004 port=27017 dbpath=data/db 64-bit host=Shodan
+2014-06-18T02:34:54.241+0200 [initandlisten] targetMinOS: Windows 7/Windows Server 2008 R2
+2014-06-18T02:34:54.241+0200 [initandlisten] db version v2.6.1
+2014-06-18T02:34:54.241+0200 [initandlisten] git version: 4b95b086d2374bdcfcdf2249272fb552c9c726e8
+2014-06-18T02:34:54.241+0200 [initandlisten] build info: windows sys.getwindowsversion(major=6, minor=1, build=7601, platform=2, service_pack='Service Pack 1') BOOST_LIB_VERSION=1_49
+2014-06-18T02:34:54.241+0200 [initandlisten] allocator: system
+2014-06-18T02:34:54.241+0200 [initandlisten] options: { storage: { dbPath: "data/db" } }
+2014-06-18T02:34:54.251+0200 [initandlisten] journal dir=data/db\journal
+2014-06-18T02:34:54.251+0200 [initandlisten] recover : no journal files present, no recovery needed
+2014-06-18T02:34:54.294+0200 [initandlisten] waiting for connections on port 27017
+2014-06-18T02:34:54.919+0200 [initandlisten] connection accepted from 127.0.0.1:55478 #1 (1 connection now open)
+2014-06-18T02:34:54.921+0200 [initandlisten] connection accepted from 127.0.0.1:55479 #2 (2 connections now open)
+2014-06-18T02:34:54.921+0200 [initandlisten] connection accepted from 127.0.0.1:55480 #3 (3 connections now open)
+2014-06-18T02:34:54.922+0200 [initandlisten] connection accepted from 127.0.0.1:55481 #4 (4 connections now open)
+2014-06-18T02:34:54.922+0200 [initandlisten] connection accepted from 127.0.0.1:55482 #5 (5 connections now open)
+2014-06-18T02:35:54.307+0200 [clientcursormon] mem (MB) res:53 virt:464
+2014-06-18T02:35:54.307+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T02:35:54.307+0200 [clientcursormon]  connections:5
+>>>>>>> 382693199b5253ceeac05362851beaa1597d80f9

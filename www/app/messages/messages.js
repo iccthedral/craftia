@@ -61,8 +61,8 @@
            el2.toggle(500);
         }
 
-        $scope.showSystem = function() {
-            $scope.leftPartial = "app/messages/systemMessages.html";
+        $scope.showInbox = function() {
+            $scope.leftPartial = "app/messages/inbox.html";
             $scope.systemMessages = $scope.user.inbox.received.filter(function (msg) {
                 if (msg.type === "system") return msg
             })
@@ -72,8 +72,8 @@
             $scope.currentPage = 1;
         }
 
-        $scope.showJobs = function() {
-            $scope.leftPartial = "app/messages/jobMessages.html";
+        $scope.showOutbox = function() {
+            $scope.leftPartial = "app/messages/outbox.html";
             // $scope.jobMessages = $scope.user.inbox.received.filter(function (msg) {
             //     if (msg.data.subtype === "bif_for_job" || msg.data.subtype === "cancel_jov") return msg.message()
             // })
@@ -86,28 +86,6 @@
         $scope.showJobById = function(jobId) {
             $scope.rightPartial = "app/messages/job.html";
             $scope.currentJob = jobId;
-        }
-
-        $scope.showContact = function() {
-            $scope.leftPartial = "app/messages/contactMessages.html";
-            $scope.contactMessages = $scope.user.inbox.received.filter(function (msg) {
-                if (msg.type === "contact") return msg
-            })
-            $scope.items = $scope.contactMessages.chunk($scope.sizePerPage);
-            $scope.itemsPaged = $scope.items[0];
-            $scope.totalItems = $scope.jobMessages.length;
-            $scope.currentPage = 1;
-        }
-
-        $scope.showOther = function() {
-            $scope.leftPartial = "app/messages/otherMessages.html";
-            $scope.otherMessages = $scope.user.inbox.received.filter(function (msg) {
-                if (msg.type === "contact") return msg
-            })
-            $scope.items = $scope.otherMessages.chunk($scope.sizePerPage);
-            $scope.itemsPaged = $scope.items[0];
-            $scope.totalItems = $scope.otherMessages.length;
-            $scope.currentPage = 1;
         }
 
         $scope.pageSelected = function (page) {
