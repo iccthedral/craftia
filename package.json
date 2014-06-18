@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "bower": "*",
-    "express": "*",
+    "express": "3.*",
     "express3-handlebars": "*",
     "express-validator": "*",
     "mongoose": "*",
