@@ -8339,3 +8339,18 @@ Connected to DB
 >>>>>>> 6803a5b59a0f0a591d5b4f483e053f6082c214c6
 Running on: 3000
 Connected to DB
+
+Running node-supervisor with
+  program 'server.js'
+  --watch 'backend,utils,lib,config,server'
+  --extensions 'coffee,js'
+  --exec 'node'
+
+Starting child process with 'node server.js'
+Watching directory 'c:\git\c2\craftia\backend' for changes.
+Watching directory 'c:\git\c2\craftia\utils' for changes.
+Watching directory 'c:\git\c2\craftia\lib' for changes.
+Watching directory 'c:\git\c2\craftia\config' for changes.
+Watching directory 'c:\git\c2\craftia\server' for changes.
+Running on: 3000
+Connected to DB

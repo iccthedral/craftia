@@ -1722,3 +1722,28 @@ Wed Jun 18 03:36:27.001 [initandlisten] shutdown: final commit...
 Wed Jun 18 03:36:27.001 [initandlisten] shutdown: closing all files...
 Wed Jun 18 03:36:27.002 [initandlisten] closeAllFiles() finished
 Wed Jun 18 03:36:27.002 dbexit: really exiting now
+2014-06-18T05:01:41.118+0200 [initandlisten] MongoDB starting : pid=4196 port=27017 dbpath=data/db 64-bit host=Shodan
+2014-06-18T05:01:41.119+0200 [initandlisten] targetMinOS: Windows 7/Windows Server 2008 R2
+2014-06-18T05:01:41.119+0200 [initandlisten] db version v2.6.1
+2014-06-18T05:01:41.119+0200 [initandlisten] git version: 4b95b086d2374bdcfcdf2249272fb552c9c726e8
+2014-06-18T05:01:41.119+0200 [initandlisten] build info: windows sys.getwindowsversion(major=6, minor=1, build=7601, platform=2, service_pack='Service Pack 1') BOOST_LIB_VERSION=1_49
+2014-06-18T05:01:41.119+0200 [initandlisten] allocator: system
+2014-06-18T05:01:41.119+0200 [initandlisten] options: { storage: { dbPath: "data/db" } }
+2014-06-18T05:01:41.141+0200 [initandlisten] journal dir=data/db\journal
+2014-06-18T05:01:41.142+0200 [initandlisten] recover begin
+2014-06-18T05:01:41.142+0200 [initandlisten] recover lsn: 4437045
+2014-06-18T05:01:41.142+0200 [initandlisten] recover data/db\journal\j._0
+2014-06-18T05:01:41.143+0200 [initandlisten] recover skipping application of section seq:0 < lsn:4437045
+2014-06-18T05:01:41.143+0200 [initandlisten] recover skipping application of section seq:934275 < lsn:4437045
+2014-06-18T05:01:41.143+0200 [initandlisten] recover skipping application of section seq:1109275 < lsn:4437045
+2014-06-18T05:01:41.146+0200 [initandlisten] recover cleaning up
+2014-06-18T05:01:41.146+0200 [initandlisten] removeJournalFiles
+2014-06-18T05:01:41.147+0200 [initandlisten] recover done
+2014-06-18T05:01:41.208+0200 [initandlisten] waiting for connections on port 27017
+2014-06-18T05:01:41.787+0200 [initandlisten] connection accepted from 127.0.0.1:61191 #1 (1 connection now open)
+2014-06-18T05:01:41.789+0200 [initandlisten] connection accepted from 127.0.0.1:61192 #2 (2 connections now open)
+2014-06-18T05:01:41.789+0200 [initandlisten] connection accepted from 127.0.0.1:61193 #3 (3 connections now open)
+2014-06-18T05:01:41.790+0200 [initandlisten] connection accepted from 127.0.0.1:61194 #4 (4 connections now open)
+2014-06-18T05:01:41.790+0200 [initandlisten] connection accepted from 127.0.0.1:61195 #5 (5 connections now open)
+2014-06-18T05:01:48.070+0200 [initandlisten] connection accepted from 127.0.0.1:61196 #6 (6 connections now open)
+2014-06-18T05:01:48.100+0200 [conn6] end connection 127.0.0.1:61196 (5 connections now open)
