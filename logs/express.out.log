@@ -602,3 +602,7 @@ Connected to DB
 [90mGET /listjobs [36m304 [90m44ms[0m
 [90mGET /app/layout/widgetheader.html [36m304 [90m3ms[0m
 [90mGET /category/53a0b9af384514284a840fe1 [36m304 [90m19ms[0m
+
+
+Running on: 3000
+Connected to DB
