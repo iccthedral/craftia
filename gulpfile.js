@@ -137,7 +137,7 @@ gulp.task("dbDump", function() {
 		 	gulp.src(DBDUMP_FILE)
 		 	.pipe(git.commit(DBDUMP_FILE + " updated", {args: "-a -s"}))
 		 	.end(function() {
-		 		gulp.start(["pull", "push"]);
+		 		gulp.start("pull", "push");
 		 	});
 	  });
 
