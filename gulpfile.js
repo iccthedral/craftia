@@ -97,7 +97,7 @@ gulp.task("add", function() {
 gulp.task("commit", function() {
 	log("git-commit".yellow.bold);
 	return gulp.src(".")
-  .pipe(git.commit("gulp commited", {args: "-a -s"}));
+  .pipe(git.commit("gulp commited", {args: "-s"}));
 });
 
 gulp.task("push", function() {
