@@ -1,0 +1,46 @@
+<div class="col-md-12 col-sm-12 col-xs-12 envelope-container">
+        
+    <div cr-auth class="pull-right craftia-nav-envelope" >
+        <div class="rect"></div>
+        <div class="leftbtr"></div>
+        <div class="rightbtr"></div>
+        <div class="userland-profile-btn">
+            <i class="glyphicon glyphicon-user userland-icon" ng-click="vm.viewProfile()"></i>
+            <span class="userland-name">{{user.username}}</span>
+            <br>
+            <div class="row userland-mail-btn">
+                <a  href="/#/messages"> 
+                    <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
+                    <span class="userland-mail-count1">
+                        5 new
+                    </span>
+                    <span class="userland-mail-count2">
+                        messages
+                    </span>
+                    <br>
+                </a>   
+                <span class="logout-icon" ng-click="vm.logout()">
+                    <i class="glyphicon glyphicon-log-out"></i>
+                </span> 
+                <span class="logout-span" ng-click="vm.logout()">
+                    Log out
+                </span>   
+            </div>
+        </div>
+    </div>
+                     
+    <div cr-not-auth class="pull-right craftia-nav-envelope">
+        <div class="rect"></div>
+        <div class="leftbtr"></div>
+        <div class="rightbtr"></div>
+        <div class="userland-login-btn">
+            <a  href="/#/register"> 
+                <span class="register-text yellow-span medium-span">REGISTER</span>
+            </a> 
+            <br>
+            <a  href="/#/login"> 
+                <span class="login-text yellow-span medium-span">LOGIN</span>
+            </a>   
+        </div> 
+    </div>
+</div>

@@ -607,6 +607,9 @@ Connected to DB
 Running on: 3000
 Connected to DB
 
+<<<<<<< HEAD
+
+=======
 Running node-supervisor with
   program 'server.js'
   --watch 'backend,utils,lib,config,server'
@@ -1034,6 +1037,7 @@ Connected to DB
 [90mGET /listjobs [36m304 [90m6.158 ms - -[0m
 [90mGET /app/layout/widgetheader.html [36m304 [90m0.703 ms - -[0m
 [90mGET /category/538e5e18a14abdc8070d58be [36m304 [90m1.578 ms - -[0m
+<<<<<<< HEAD
 [90mGET / [36m304 [90m6.081 ms - -[0m
 [90mGET /css/ie10mobile.css [36m304 [90m8.235 ms - -[0m
 [90mGET /css/bootstrap.css [36m304 [90m7.034 ms - -[0m
@@ -8255,5 +8259,83 @@ Running on: 3000
 Connected to DB
 crashing child
 Starting child process with 'node server.js'
+=======
+>>>>>>> 382693199b5253ceeac05362851beaa1597d80f9
+
+
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+Running job update thread
+Running on: 3000
+Connected to DB
+Running job update thread
+Running on: 3000
+Connected to DB
+Running job update thread
+Running on: 3000
+Connected to DB
+Running job update thread
+Running on: 3000
+Connected to DB
+Running job update thread
+Running on: 3000
+Connected to DB
+Running job update thread
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running job update thread
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+
+
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+Running on: 3000
+Connected to DB
+
+
+>>>>>>> 6803a5b59a0f0a591d5b4f483e053f6082c214c6
 Running on: 3000
 Connected to DB
