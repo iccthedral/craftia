@@ -436,10 +436,9 @@ body {
 }
 
 .craftia-nav-envelope .login-text {
-  position: absolute;
   color: #edb915;
   bottom: 4px;
-  font-size: 1.5em;
+  font-size: 1.1em;
   font-weight: 680;
   left: 0;
   right: 0;
@@ -448,10 +447,9 @@ body {
 }
 
 .craftia-nav-envelope .register-text {
-  position: absolute;
   color: #edb915;
   bottom: 34px;
-  font-size: 1.5em;
+  font-size: 1.1em;
   font-weight: 680;
   left: 0;
   right: 0;
@@ -463,6 +461,16 @@ body {
   position: relative;
   font-size: 1.5em;
   padding-left: 40px;
+  width: 100%;
+  float: left;
+  clear: both;
+}
+
+.craftia-nav-envelope .userland-login-btn {
+  position: relative;
+  font-size: 1.5em;
+  padding-left: 20px;
+  padding-top: 20px;
   width: 100%;
   float: left;
   clear: both;

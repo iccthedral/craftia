@@ -1583,3 +1583,21 @@ Wed Jun 18 01:53:41.364 dbexit: really exiting now
 2014-06-18T02:35:54.307+0200 [clientcursormon] mem (MB) res:53 virt:464
 2014-06-18T02:35:54.307+0200 [clientcursormon]  mapped (incl journal view):320
 2014-06-18T02:35:54.307+0200 [clientcursormon]  connections:5
+2014-06-18T02:40:54.345+0200 [clientcursormon] mem (MB) res:54 virt:462
+2014-06-18T02:40:54.345+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T02:40:54.345+0200 [clientcursormon]  connections:5
+2014-06-18T02:45:54.392+0200 [clientcursormon] mem (MB) res:55 virt:462
+2014-06-18T02:45:54.392+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T02:45:54.392+0200 [clientcursormon]  connections:5
+2014-06-18T02:50:54.430+0200 [clientcursormon] mem (MB) res:55 virt:462
+2014-06-18T02:50:54.430+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T02:50:54.430+0200 [clientcursormon]  connections:5
+2014-06-18T02:55:54.472+0200 [clientcursormon] mem (MB) res:55 virt:462
+2014-06-18T02:55:54.472+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T02:55:54.472+0200 [clientcursormon]  connections:5
+2014-06-18T03:00:54.511+0200 [clientcursormon] mem (MB) res:45 virt:462
+2014-06-18T03:00:54.511+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T03:00:54.511+0200 [clientcursormon]  connections:5
+2014-06-18T03:05:54.549+0200 [clientcursormon] mem (MB) res:43 virt:462
+2014-06-18T03:05:54.549+0200 [clientcursormon]  mapped (incl journal view):320
+2014-06-18T03:05:54.549+0200 [clientcursormon]  connections:5
