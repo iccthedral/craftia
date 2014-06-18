@@ -108,7 +108,7 @@
                         content: '<i class="fa fa-user"></i> Craftsmen'
                     }
                 }
-            }, {
+            },  {
                 url: '/profile',
                 config: {
                     visibility: ["Craftsman", "Customer"],
@@ -120,7 +120,7 @@
                         content: '<i class="fa fa-book"></i> Profile settings'
                     }
                 }
-            },{
+            }, {
                 url: '/messages',
                 config: {
                     visibility: ["Craftsman", "Customer"],
@@ -132,7 +132,7 @@
                         content: '<i class="fa fa-book"></i> Messages'
                     }
                 }
-            },{   
+            }, {   
                 url: '/postjob',
                 config: {
                     templateUrl: 'app/dashboard/tempJob.html',
@@ -143,7 +143,7 @@
                         content: 'POST JOB'
                     }
                 }
-            },{
+            }, {
                 url: '/yellowpages',
                 config: {
                     templateUrl: 'app/dashboard/yellowPages.html',
@@ -154,7 +154,7 @@
                         content: 'YELLOW PAGES'
                     }
                 }
-            },{
+            }, {
                 url: '/craftsman',
                 config: {
                     templateUrl: 'app/dashboard/craftsman.html',
@@ -165,7 +165,7 @@
                         content: 'CRAFTSMAN'
                     }
                 }
-            },{
+            }, {
                 url: '/howto',
                 config: {
                     templateUrl: 'app/dashboard/howto.html',
@@ -176,7 +176,7 @@
                         content: 'HOWTO'
                     }
                 }
-            },{
+            }, {
                 url: '/requirement',
                 config: {
                     templateUrl: 'app/dashboard/requirement.html',
@@ -187,7 +187,7 @@
                         content: 'REQUIREMENT'
                     }
                 }
-            },{
+            }, {
                 url: '/findjobs',
                 config: {
                     templateUrl: 'app/dashboard/findjobs.html',
@@ -198,7 +198,7 @@
                         content: 'FIND JOBS'
                     }
                 }
-            },{
+            }, {
                 url: '/prices',
                 config: {
                     templateUrl: 'app/dashboard/prices.html',
@@ -209,28 +209,40 @@
                         content: 'PRICES'
                     }
                 }
-            },{
+            }, {
+                url: '/notifications',
+                config: {
+                    visibility: ["Customer, Craftsman"],
+                    title: 'notifications',
+                    templateUrl: 'app/notifications/notifications.html',
+                    resolve: authenticate(true),
+                    settings: {
+                        nav: 14,
+                        content: '<i class="fa fa-user"></i> Craftsmen'
+                    }
+                }
+            }, {
                 url: '/register',
                 config: {
                     title: 'craftsmen',
                     templateUrl: 'app/register/register.html',
                     resolve: authenticate(false)
                 }
-            },{
+            }, {
                 url: '/registerCraftsman',
                 config: {
                     title: 'craftsmen',
                     templateUrl: 'app/register/registerCraftsman.html',
                     resolve: authenticate(false)
                 }
-            },{
+            }, {
                 url: '/registerCustomer',
                 config: {
                     title: 'customer',
                     templateUrl: 'app/register/registerCustomer.html',
                     resolve: authenticate(false)
                 }
-            },{
+            }, {
                 url: '/login',
                 config: {
                     title: 'login',
