@@ -89,26 +89,32 @@ gulp.task("default", ["runDevStack", "runJobProcess"], function() {
 });
 
 gulp.task("add", function() {
-  gulp.src(".")
+	log("git-add".yellow.bold);
+  return gulp.src(".")
   .pipe(git.add());
 });
 
 gulp.task("commit", function() {
-	gulp.src(".")
+	log("git-commit".yellow.bold);
+	return gulp.src(".")
   .pipe(git.commit("gulp commited", {args: "-a -s"}));
 });
 
 gulp.task("push", function() {
-  git.push("heroku", "master")
+	log("git-push".yellow.bold);
+  return git.push("heroku", "master")
   .end();
 });
 
 gulp.task("reset", function() {
-  git.reset("SHA");
+	/* git rev-parse HEAD || heroku/master */
+	log("git-reset".yellow.bold);
+  return git.reset("SHA");
 });
 
-gulp.task("pull", function(){
-  git.pull("origin", "master", {args: "--rebase"});
+gulp.task("pull", function() {
+	log("git-pull".yellow.bold);
+  return git.pull("heroku", "master");
 });
 
 /**
@@ -123,17 +129,17 @@ gulp.task("dbDump", function() {
 	output.on("close", function() {
 		log((DBDUMP_FILE + " created.").yellow, "Wrote", archive.pointer(), "bytes");
 	  
-	  /* git-add dump.zip */
+	  /* add dump.zip */
 	  gulp.src(DBDUMP_FILE)
-	  .pipe(git.add());
-
-	  /* then git-commit and git-push */
-	 	gulp.src(DBDUMP_FILE)
-	 	.pipe(git.commit(DBDUMP_FILE + " updated", {args: "--amend -s"}))
-	 	.end(function() {
-	 		console.log("ended");
-	 		gulp.run(["pull", "push"]);
-	 	});
+	  .pipe(git.add())
+	  .on("end", function() {
+		  /* then commit and push */
+		 	gulp.src(DBDUMP_FILE)
+		 	.pipe(git.commit(DBDUMP_FILE + " updated", {args: "-a -s"}))
+		 	.end(function() {
+		 		gulp.start("pull") //"push"]);
+		 	});
+	  });
 
 		rimraf("dump", function(err) {
 			if (err) {
