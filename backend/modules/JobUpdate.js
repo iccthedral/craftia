@@ -1,5 +1,5 @@
 (function() {
-  var AUTHOR_NOTIF_FINISHED, AUTHOR_NOTIF_WINNING, JobModel, Messaging, WINNER_NOTIF, async, jobUpdateThread, _;
+  var AUTHOR_NOTIF_FINISHED, AUTHOR_NOTIF_WINNING, INTERVAL, JobModel, Messaging, WINNER_NOTIF, async, jobUpdate, log, _;
 
   async = require("async");
 
@@ -9,49 +9,46 @@
 
   Messaging = require("./Messaging");
 
-  WINNER_NOTIF = _.template("Job <%- title %> the <a href=\"/job/<%- _id %>\">{0}</> finished, and you are the winner.\n");
+  log = console.log.bind(console);
 
-  AUTHOR_NOTIF_WINNING = _.template("");
+  WINNER_NOTIF = _.template("Job <%- title %> the <a href=\"/job/<%- _id %>\">{0}</> finished, and you are the winner.");
 
-  AUTHOR_NOTIF_FINISHED = _.template("<%- %>");
+  AUTHOR_NOTIF_WINNING = _.template("Ovde ide poruka za autora ako job ima winnera");
 
-  jobUpdateThread = function() {
-    var INTERVAL, jobUpdate;
-    INTERVAL = 1000 * 60 * 5;
-    console.log("Running job update thread");
-    jobUpdate = function() {
-      return JobModel.find({}, function(err, results) {
-        return async.map(results, function(job, clb) {
-          var d, notifAuthor, notifWinner, _ref;
-          d = job.dateTo;
-          console.log("Date to", d);
-          if ((_ref = job.status) === "open" || _ref === "finished") {
-            return clb(null, null);
-          }
-          if (Date.now() > d.getTime()) {
-            job.status = "finished";
-            notifAuthor = {
-              receiver: job.author.username,
-              body: job.winner != null ? AUTHOR_NOTIF_WINNING.format(job) : AUTHOR_NOTIF_FINISHED.format(job)
-            };
-            if (job.winner != null) {
-              notifWinner = {
-                receiver: job.winner.username,
-                body: WINNER_NOTIF.format(job)
-              };
-              Messaging.sendNotification(notifWinner);
-            }
-            Messaging.sendNotification(notifAuthor);
-            return clb(null, job);
-          }
-        }, function(err, results) {
-          return console.log("Job updating finished");
-        });
+  AUTHOR_NOTIF_FINISHED = _.template("Ovde ide poruka za autora ako se zavrsio posao");
+
+  INTERVAL = 1000 * 60 * 5;
+
+  log("Running job update thread at interval of " + INTERVAL + " ms");
+
+  (jobUpdate = function() {
+    return JobModel.find({}, function(err, results) {
+      return async.map(results, function(job, clb) {
+        var expiredOrClosed, notifAuthor, notifWinner, _ref;
+        expiredOrClosed = (Date.now() > d.getTime()) || job.status === "closed";
+        log("Job expired or closed?", expiredOrClosed, job.status, d);
+        if (((_ref = job.status) === "open" || _ref === "finished") || !expiredOrClosed) {
+          return clb(null, null);
+        }
+        job.status = "finished";
+        notifAuthor = {
+          receiver: job.author.username,
+          body: job.winner != null ? AUTHOR_NOTIF_WINNING(job) : AUTHOR_NOTIF_FINISHED(job)
+        };
+        if (job.winner != null) {
+          notifWinner = {
+            receiver: job.winner.username,
+            body: WINNER_NOTIF(job)
+          };
+          Messaging.sendNotification(notifWinner);
+        }
+        Messaging.sendNotification(notifAuthor);
+        return clb(null, job);
+      }, function(err, results) {
+        log("Jobs updating finished");
+        return setTimeout(jobUpdate, INTERVAL);
       });
-    };
-    return setInterval(jobUpdate, INTERVAL);
-  };
-
-  module.exports = jobUpdateThread;
+    });
+  })();
 
 }).call(this);

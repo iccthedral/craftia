@@ -19,7 +19,7 @@ module.exports.sendNotification = (notif, clb) ->
 			dateSent: Date.now()
 			isRead: false
 		}
-
+		
 		msg.save (err, msg) =>
 			receiver.notif.push msg
 			receiver.save clb

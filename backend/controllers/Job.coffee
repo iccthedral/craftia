@@ -206,18 +206,7 @@ pickWinnerBid = (req, res) ->
 			job.winner = winner._id
 			job.status = "closed"
 			job.save (err, job) ->
-				Messaging.sendMessage({
-					sender: job.author.username
-					receiver: winner.username
-					subject: "Congrats lad, you won the bid!"
-					type: "job"
-					body: """
-Hey there lucky, you just won the bid for a <a href='#{job._id}'>job</a> created by #{job.author.username}
-under #{job.category} category. He chose you to be his slave for the year.
-					"""
-				}, () ->
-					res.send(job)
-				)
+				res.send(job)
 
 module.exports = (app) ->
 	app.post "/job/new", createNewJob

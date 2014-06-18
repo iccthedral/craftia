@@ -280,15 +280,7 @@
         job.winner = winner._id;
         job.status = "closed";
         return job.save(function(err, job) {
-          return Messaging.sendMessage({
-            sender: job.author.username,
-            receiver: winner.username,
-            subject: "Congrats lad, you won the bid!",
-            type: "job",
-            body: "Hey there lucky, you just won the bid for a <a href='" + job._id + "'>job</a> created by " + job.author.username + "\nunder " + job.category + " category. He chose you to be his slave for the year."
-          }, function() {
-            return res.send(job);
-          });
+          return res.send(job);
         });
       });
     });
