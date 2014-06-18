@@ -91,24 +91,16 @@ schema.pre "save", (next) ->
 	if not user.isModified("password")
 		return next()
 
-	bcrypt.genSalt(
-		10,
-		(err, salt) ->
-			if err?
-				return next(err)
-			bcrypt.hash(
-				user.password,
-				salt,
-				() ->
-					#progress
-				(err, hash) ->
-					#after callback
-					if err?
-						return next(err)
-					user.password = hash
-					next()
-			)
-	)
+	bcrypt.genSalt 10
+		, (err, salt) ->
+				return next err if err?
+				bcrypt.hash user.password
+					, salt
+					, (-> return)
+					, (err, hash) ->
+						return next err if err?
+						user.password = hash
+						next()
 
 schema.methods.comparePassword = (password, cb) ->
 	bcrypt.compare(password, this.password, (err, isMatch) ->

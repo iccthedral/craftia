@@ -140,7 +140,7 @@ module.exports = (grunt) ->
 
 	grunt.event.on "watch", (action, filepath) ->
 		filepath = filepath.replace(grunt.config("coffee.glob_all.cwd"), "")
-		log filepath
+		log "Compiled #{filepath}".red
 		grunt.config("coffee.glob_all.src", [filepath])
 	
 	grunt.registerTask "serve", ["watch"]

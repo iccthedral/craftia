@@ -1,10 +1,15 @@
 var spawn = require("child_process").spawn
 	, gulp = require("gulp")
+	, git = require("gulp-git")
 	, fs = require("fs")
 	, mkdirp = require("mkdirp")
-	, writeFile = fs.createWriteStream
 	, colors = require("colors")
 	, async = require("async")
+	, unzip = require("unzip")
+	, rimraf = require("rimraf")
+	, archiver = require("archiver")
+	, readFile = fs.createReadStream
+	, writeFile = fs.createWriteStream
 	, isWindows = !!process.platform.match(/^win/)
 	, args = {
 			mongo: [
@@ -20,13 +25,18 @@ var spawn = require("child_process").spawn
 				"-e",
 				"coffee,js",
 				"server.js"
+			],
+			jobupdate: [
+				"./backend/modules/JobUpdate.js"
 			]
 		}
 	, logs = {
 		mongo: {out: "logs/mongo.out.log", err: "logs/mongo.err.log"},
 		supervisor: {out: "logs/express.out.log", err: "logs/express.err.log"},
-		grunt: {out: "logs/grunt.out.log", err: "logs/grunt.err.log"}
+		grunt: {out: "logs/grunt.out.log", err: "logs/grunt.err.log"},
+		jobupdate: {out: "logs/jobupdate.out.log", err: "logs/jobupdate.err.log"}
 	}
+	, DBDUMP_FILE = "dump.zip"
 	,	log = console.log.bind(console)
 	, inProduction = process.env.NODE_ENV === "production"
 	;
@@ -38,7 +48,8 @@ function pipeOut(thread, signature, color, consoleOut) {
 		thread.stdout.pipe(writeFile(consoleOut, {flags: "a"}));
 	} else {
 		thread.stdout.on("data", function(data) {
-			log(("["+signature+"]\n" + data.toString())[color]);
+			log(("["+signature+"]")[color].bold)
+			log(data.toString());
 		});
 	}
 }
@@ -73,7 +84,114 @@ function touchDir(dir, clb) {
 	})
 }
 
-gulp.task("default", function() {
+gulp.task("default", ["runDevStack", "runJobProcess"], function() {
+
+});
+
+gulp.task("add", function() {
+  gulp.src(".")
+  .pipe(git.add());
+});
+
+gulp.task("commit", function() {
+	gulp.src(".")
+  .pipe(git.commit("gulp commited", {args: "-a -s"}));
+});
+
+gulp.task("push", function() {
+  git.push("heroku", "master")
+  .end();
+});
+
+gulp.task("reset", function() {
+  git.reset("SHA");
+});
+
+gulp.task("pull", function(){
+  git.pull("origin", "master", {args: "--rebase"});
+});
+
+/**
+	Dump database and commit
+*/
+gulp.task("dbDump", function() {
+	var dumper = spawn("mongodump", [])
+		, output = writeFile(DBDUMP_FILE)
+		, archive = archiver("zip")
+		;
+	
+	output.on("close", function() {
+		log((DBDUMP_FILE + " created.").yellow, "Wrote", archive.pointer(), "bytes");
+	  
+	  /* git-add dump.zip */
+	  gulp.src(DBDUMP_FILE)
+	  .pipe(git.add());
+
+	  /* then git-commit and git-push */
+	 	gulp.src(DBDUMP_FILE)
+	 	.pipe(git.commit(DBDUMP_FILE + " updated", {args: "--amend -s"}))
+	 	.end(function() {
+	 		console.log("ended");
+	 		gulp.run(["pull", "push"]);
+	 	});
+
+		rimraf("dump", function(err) {
+			if (err) {
+				log(err.toString().red);
+				throw err;
+			}
+		});
+	});
+
+	archive.on("error", function(err) {
+		log(err.toString().red);
+		throw err;
+	});
+
+	archive.pipe(output);
+
+	dumper.on("close", function() {
+		archive.bulk([{ 
+			expand: true,
+			cwd: "dump", 
+			src: ["**"], 
+			dest: "dump"
+		}]);
+		archive.finalize();
+	});
+});
+
+/**
+	Restore from dump.zip
+*/
+gulp.task("dbRestore", function() {
+	var input = readFile(DBDUMP_FILE);
+
+	input.on("error", function(err) {
+		log(err.toString().red);
+		throw err;
+	});
+
+	input.on("close", function() {
+		spawn("mongorestore")
+		.on("close", function() {
+			rimraf("dump", function(err) {
+				if (err) {
+					log(err.toString().red);
+					throw err;
+				}
+			});
+			log("DB restore finished".yellow.bold);
+		})
+	});
+
+	input.pipe(unzip.Extract({path: "."}));
+});
+
+/**
+	Default dev tasks
+*/
+gulp.task("runDevStack", function() {
 	async.map(["./logs/", "./data/db/"], touchDir, function() {
 		var supervisorCmd = (isWindows) ? "supervisor.cmd" : "supervisor"
 			, gruntCmd = (isWindows) ? "grunt.cmd" : "grunt"
@@ -94,4 +212,13 @@ gulp.task("default", function() {
 		pipeErr(supervisor, logs.supervisor.err);
 		pipeErr(mongo, logs.mongo.err);
 	})
-})
+});
+
+/**
+	Run job update thread
+*/
+gulp.task("runJobProcess", function() {
+	var jobUpdateProcess = spawn("node", args.jobupdate);
+	pipeOut(jobUpdateProcess, "JOBUPDATE-PROCESS", "yellow");
+	pipeErr(jobUpdateProcess, logs.jobupdate.err);
+});

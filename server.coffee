@@ -13,8 +13,6 @@ PORT = process.env.PORT || 3000
 app = express()
 log = console.log.bind console
 
-#require("./backend/modules/JobUpdate")()
-
 #create and configure handlebars
 hbs = handlebars.create {}
 

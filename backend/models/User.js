@@ -120,7 +120,7 @@
       if (err != null) {
         return next(err);
       }
-      return bcrypt.hash(user.password, salt, function() {}, function(err, hash) {
+      return bcrypt.hash(user.password, salt, (function() {}), function(err, hash) {
         if (err != null) {
           return next(err);
         }

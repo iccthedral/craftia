@@ -38,6 +38,10 @@
   },
   "devDependencies": {
     "gulp": "^3.8.0",
-    "async": "*"
+    "async": "*",
+    "archiver": "^0.10.1",
+    "rimraf": "^2.2.8",
+    "unzip": "^0.1.9",
+    "gulp-git": "^0.4.3"
   }
 }
