@@ -16,7 +16,7 @@ schema = mongoose.Schema
 	author:
 		username: String
 		id: mongoose.Schema.Types.ObjectId
-
+		
 	dateSent:
 		type: Date
 	

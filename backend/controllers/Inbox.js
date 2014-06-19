@@ -3,7 +3,7 @@
 
   Messaging = require("../modules/Messaging");
 
-  module.exports = function(app) {
+  module.exports.setup = function(app) {
     app.post("/sendmessage", sendMessage);
   };
 

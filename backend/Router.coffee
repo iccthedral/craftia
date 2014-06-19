@@ -5,4 +5,4 @@ module.exports = (app, passport) ->
 	.filter (cntrl) -> 
 		return cntrl.endsWith(".js")
 	.forEach (cntl) ->
-		require("../backend/controllers/#{cntl}")(app)
+		require("../backend/controllers/#{cntl}").setup(app)

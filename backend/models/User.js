@@ -52,20 +52,6 @@
       type: String,
       required: true
     },
-    createdJobs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Job",
-        "default": []
-      }
-    ],
-    biddedJobs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Job",
-        "default": []
-      }
-    ],
     rating: {
       comments: [
         {
@@ -87,26 +73,6 @@
     profilePic: {
       type: String,
       "default": "img/default_user.jpg"
-    },
-    notifications: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Notification"
-      }
-    ],
-    inbox: {
-      received: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Message"
-        }
-      ],
-      sent: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Message"
-        }
-      ]
     }
   });
 

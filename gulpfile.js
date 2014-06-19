@@ -2,6 +2,8 @@ var spawn = require("child_process").spawn
 	, gulp = require("gulp")
 	, git = require("gulp-git")
 	, fs = require("fs")
+	, dbconnection = require("./config/Database")
+	, mongoose = require("mongoose")
 	, mkdirp = require("mkdirp")
 	, colors = require("colors")
 	, async = require("async")
@@ -10,6 +12,7 @@ var spawn = require("child_process").spawn
 	, archiver = require("archiver")
 	, readFile = fs.createReadStream
 	, writeFile = fs.createWriteStream
+	, fixtures = require("./createFixtures")
 	, isWindows = !!process.platform.match(/^win/)
 	, args = {
 			mongo: [
@@ -117,6 +120,22 @@ gulp.task("pull", function() {
   return git.pull("heroku", "master");
 });
 
+/** Create test fixtures */
+gulp.task("createFixtures", function(next) {
+	dbconnection.on("open", function() {
+		dbconnection.db.dropDatabase(function(err) {
+			log("Dropped database!".red);
+			if (err) throw err;
+			fixtures.create(function(err, res) {
+				if (err) throw err;
+				log(("Created in total " + res.length + " fixtures!").yellow.bold);
+				dbconnection.close();
+				next();
+			});
+		});
+	});
+});
+
 /**
 	Dump database and commit
 */
@@ -205,7 +224,7 @@ gulp.task("runDevStack", function() {
 			, supervisor = spawn(supervisorCmd, args.supervisor)
 			, grunt = null
 			;
-
+			
 		if (!inProduction) {
 			grunt = spawn(gruntCmd, args.grunt);
 			pipeOut(grunt, "GRUNT", "cyan");

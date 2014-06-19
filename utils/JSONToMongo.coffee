@@ -1,36 +1,31 @@
 wrench = require "wrench"
-mongoose = require "mongoose"
-CategoryModel = require "../backend/models/Category"
-CityModel = require "../backend/models/City"
+DB = require "../config/Database"
 colors = require "colors"
 
-module.exports = ->
-	### Put categories in ###
-	resourcesURI = "./backend/resources/"
-	categoriesURI = "#{resourcesURI}categories/"
+CategoryModel = require "../backend/models/Category"
+CityModel = require "../backend/models/City"
+
+RESOURCES = "./backend/resources/"
+CITIES = require ".#{RESOURCES}cities.json"
+CATEGORIES = "#{RESOURCES}categories/"
+
+module.exports = (clb) ->
 	CategoryModel
 	.find()
 	.exec (err, res) ->
-		if res.length > 0
-			return
-		data = wrench.readdirSyncRecursive(categoriesURI)
+		return if res.length > 0
+		data = wrench.readdirSyncRecursive(CATEGORIES)
 		.filter (file) ->
 			return file.lastIndexOf(".json") isnt -1 
 		.map (util) ->
-			jsonData = require(".#{categoriesURI}#{util}")
+			jsonData = require(".#{CATEGORIES}#{util}")
 			return jsonData
-
-		CategoryModel.create(data)
-
-	CityModel
-	.find()
-	.exec (err, res) ->
-		if res.length > 0
-			return
-		jsonCities = require(".#{resourcesURI}cities.json")
-		for city in jsonCities
-			try
-				(new CityModel(city)).save()
-				console.log "City saved".red
-			catch e
-				console.error(e.message.red)
+		
+		# create categories
+		CategoryModel
+		.create data, (err, res1) ->
+			console.log "Added", arguments.length - 1, "categories"
+			# populate cities
+			CityModel.create CITIES, (err, res2) ->
+				console.log "Added", arguments.length - 1, "cities"
+				clb?(err)

@@ -9,7 +9,7 @@ schema = mongoose.Schema
 		type: String
 		required: true
 		unique: true
-
+		
 	email:
 		type: String
 		required: true
@@ -46,18 +46,18 @@ schema = mongoose.Schema
 		type: String
 		required: true
 
-	createdJobs: [
-		type: mongoose.Schema.Types.ObjectId
-		ref: "Job"
-		default: []
-	]
+	# createdJobs: [
+	# 	type: mongoose.Schema.Types.ObjectId
+	# 	ref: "Job"
+	# 	default: []
+	# ]
 
-	biddedJobs: [
-		type: mongoose.Schema.Types.ObjectId
-		ref: "Job"
-		default: []
-	]
-
+	# biddedJobs: [
+	# 	type: mongoose.Schema.Types.ObjectId
+	# 	ref: "Job"
+	# 	default: []
+	# ]
+	
 	rating:
 		comments: [{
 			jobId: mongoose.Schema.Types.ObjectId
@@ -65,26 +65,26 @@ schema = mongoose.Schema
 		}],
 		totalVotes: { type: Number, default: 0 },
 		avgRate: { type: Number, default: 0, min: 0, max: 5 }
-
+		
 	profilePic:
 		type: String
 		default: "img/default_user.jpg"
+		
+	# notif: [
+	# 	type: mongoose.Schema.Types.ObjectId
+	# 	ref: "Notification"
+	# ]
 
-	notifications: [
-		type: mongoose.Schema.Types.ObjectId
-		ref: "Notification"
-	]
-
-	inbox:
-		received: [
-			type: mongoose.Schema.Types.ObjectId
-			ref: "Message"
-		]
-
-		sent: [
-			type: mongoose.Schema.Types.ObjectId
-			ref: "Message"
-		]
+	# inbox:
+	# 	received: [
+	# 		type: mongoose.Schema.Types.ObjectId
+	# 		ref: "Message"
+	# 	]
+	
+	# 	sent: [
+	# 		type: mongoose.Schema.Types.ObjectId
+	# 		ref: "Message"
+	# 	]
 
 schema.pre "save", (next) ->
 	user = @

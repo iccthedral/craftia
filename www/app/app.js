@@ -13,7 +13,7 @@
         'angularFileUpload',
         'ui.bootstrap.modal',
         'ui.bootstrap',      // ui-bootstrap (ex: carousel, pagination, dialog)
-    ])
+    ]);
     
     Array.prototype.chunk = function(csize) {
      var out = [];

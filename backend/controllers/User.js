@@ -1,5 +1,5 @@
 (function() {
-  var AuthLevel, CategoryModel, CityModel, JobModel, UserModel, async, colors, fs, isUserAuthenticated, logMeIn, logMeOut, mongoose, passport, updateMe, uploadProfilePicture, util;
+  var AuthLevel, CategoryModel, CityModel, JobModel, MessageModel, NotificationsModel, UserModel, async, colors, fs, getBiddedJobs, getCreatedJobs, getNotifications, getReceivedMessages, getSentMessages, isUserAuthenticated, logMeIn, logMeOut, mongoose, passport, populateUser, updateMe, uploadProfilePicture, util;
 
   mongoose = require("mongoose");
 
@@ -13,8 +13,6 @@
 
   fs = require("fs");
 
-  AuthLevel = require("../../config/Passport").AUTH_LEVEL;
-
   UserModel = require("../models/User");
 
   CityModel = require("../models/City");
@@ -23,7 +21,13 @@
 
   CategoryModel = require("../models/Category");
 
-  module.exports = function(app) {
+  MessageModel = require("../models/Message");
+
+  NotificationsModel = require("../models/Notification");
+
+  AuthLevel = require("../../config/Passport").AUTH_LEVEL;
+
+  module.exports.setup = function(app) {
     app.get("/logout", logMeOut);
     app.post("/login", logMeIn);
     app.post("/user/update", updateMe);
@@ -31,16 +35,90 @@
     return app.get("/isAuthenticated", isUserAuthenticated);
   };
 
-  isUserAuthenticated = function(req, res) {
+  getBiddedJobs = function(usr, clb) {
+    return JobModel.find({
+      "bidders.id": usr.id
+    }, function(err, jobs) {
+      return clb(err, jobs);
+    });
+  };
+
+  getCreatedJobs = function(usr, clb) {
+    return JobModel.find({
+      "author.id": usr.id
+    }, function(err, jobs) {
+      return clb(err, jobs);
+    });
+  };
+
+  getSentMessages = function(usr, clb) {
+    return MessageModel.find({
+      "author.id": usr.id
+    }, function(err, messages) {
+      return clb(err, messages);
+    });
+  };
+
+  getReceivedMessages = function(usr, clb) {
+    return MessageModel.find({
+      "to.id": usr.id
+    }, function(err, messages) {
+      return clb(err, messages);
+    });
+  };
+
+  getNotifications = function(usr, clb) {
+    return NotificationsModel.find({}, function(err, notifications) {
+      return clb(err, notifications);
+    });
+  };
+
+  populateUser = function(usr, clb) {
+    return getBiddedJobs(usr, function(err, jobs) {
+      if (err != null) {
+        return clb(err);
+      }
+      usr.biddedJobs = jobs;
+      return getCreatedJobs(usr, function(err, jobs) {
+        if (err != null) {
+          return clb(err);
+        }
+        usr.createdJobs = jobs;
+        usr.inbox = {};
+        return getSentMessages(usr, function(err, sentMessagess) {
+          if (err != null) {
+            return clb(err);
+          }
+          usr.inbox.sent = sentMessagess;
+          return getReceivedMessages(usr, function(err, recvMessages) {
+            if (err != null) {
+              return clb(err);
+            }
+            usr.inbox.received = recvMessages;
+            return getNotifications(usr, function(err, notifications) {
+              if (err != null) {
+                return clb(err);
+              }
+              usr.notifications = notifications;
+              return clb(err, usr);
+            });
+          });
+        });
+      });
+    });
+  };
+
+  isUserAuthenticated = function(req, res, next) {
     var user;
     user = req.user;
     if (user == null) {
       return res.send(403);
     }
-    return UserModel.find({
-      _id: user._id
-    }).populate("createdJobs biddedJobs inbox.sent inbox.received").exec(function(err, result) {
-      return res.send(result[0]);
+    return populateUser(user, function(err, user) {
+      if (err != null) {
+        next(err);
+      }
+      return res.send(user);
     });
   };
 
@@ -67,10 +145,8 @@
         if (err != null) {
           return next(err);
         }
-        return UserModel.find({
-          _id: user._id
-        }).populate("createdJobs biddedJobs inbox.sent inbox.received").exec(function(err, result) {
-          return res.send(result[0]);
+        return populateUser(user, function(err, user) {
+          return res.send(user);
         });
       });
     });

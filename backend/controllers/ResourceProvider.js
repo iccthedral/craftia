@@ -9,7 +9,7 @@
 
   util = require("util");
 
-  module.exports = function(app) {
+  module.exports.setup = function(app) {
     app.get("/categories", function(req, res, next) {
       return CategoryModel.find().exec(function(err, result) {
         var cat, out, _i, _len;

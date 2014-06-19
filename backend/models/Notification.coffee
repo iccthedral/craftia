@@ -6,6 +6,9 @@ schema = mongoose.Schema
 		type: String
 		required: true
 
+	subject: 
+		type: String
+
 	type:
 		type: String
 		required: true
@@ -18,5 +21,4 @@ schema = mongoose.Schema
 		type: Boolean
 		default: false
 
-module.exports = mongoose.model("Notification", schema)
-
+module.exports = mongoose.model "Notification", schema

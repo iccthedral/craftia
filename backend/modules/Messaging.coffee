@@ -5,9 +5,7 @@ Notification = require "../models/Notification"
 JobModel = require "../models/Job"
 async = require "async"
 
-module.exports.sendNotification = (notif, clb) ->
-	clb or= ->
-
+module.exports.sendNotification = (notif, clb = ->) ->
 	UserModel
 	.findOne username:notif.receiver
 	.exec (err, receiver) ->
@@ -20,13 +18,9 @@ module.exports.sendNotification = (notif, clb) ->
 			isRead: false
 		}
 		
-		msg.save (err, msg) =>
-			receiver.notif.push msg
-			receiver.save clb
-
-module.exports.sendMessage = (message, clb) ->
-	clb or= ->
-	
+		msg.save clb
+			
+module.exports.sendMessage = (message, clb = ->) ->
 	UserModel
 	.find username:$in:[message.sender, message.receiver]
 	.exec (err, results) ->
@@ -51,14 +45,8 @@ module.exports.sendMessage = (message, clb) ->
 			dateSent: Date.now()
 			isRead: false
 		}
-
-		msg.save (err, msg) =>
-			receiver.inbox.received.push msg
-			sender.inbox.sent.push msg
-			async.series [
-				receiver.save.bind receiver,
-				sender.save.bind sender
-			], clb
+		
+		msg.save clb
 
 module.exports.sendJobMessage = ->
 	throw "Not implemented"

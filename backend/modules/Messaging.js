@@ -14,7 +14,9 @@
   async = require("async");
 
   module.exports.sendNotification = function(notif, clb) {
-    clb || (clb = function() {});
+    if (clb == null) {
+      clb = function() {};
+    }
     return UserModel.findOne({
       username: notif.receiver
     }).exec(function(err, receiver) {
@@ -26,17 +28,14 @@
         dateSent: Date.now(),
         isRead: false
       });
-      return msg.save((function(_this) {
-        return function(err, msg) {
-          receiver.notif.push(msg);
-          return receiver.save(clb);
-        };
-      })(this));
+      return msg.save(clb);
     });
   };
 
   module.exports.sendMessage = function(message, clb) {
-    clb || (clb = function() {});
+    if (clb == null) {
+      clb = function() {};
+    }
     return UserModel.find({
       username: {
         $in: [message.sender, message.receiver]
@@ -64,13 +63,7 @@
         dateSent: Date.now(),
         isRead: false
       });
-      return msg.save((function(_this) {
-        return function(err, msg) {
-          receiver.inbox.received.push(msg);
-          sender.inbox.sent.push(msg);
-          return async.series([receiver.save.bind(receiver, sender.save.bind(sender))], clb);
-        };
-      })(this));
+      return msg.save(clb);
     });
   };
 

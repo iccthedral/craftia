@@ -9,7 +9,7 @@
 
   findCity = require("./Job").findCity;
 
-  module.exports = function(app) {
+  module.exports.setup = function(app) {
     app.get("/", module.exports.showIndexPage);
     app.get("/listcraftsmen", module.exports.listAllCraftsmen);
     app.get("/listjobs", module.exports.listOpenJobs);

@@ -1,6 +1,6 @@
 Messaging = require "../modules/Messaging"
 
-module.exports = (app) ->
+module.exports.setup = (app) ->
 	app.post "/sendmessage", sendMessage
 	return
 

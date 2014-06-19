@@ -7,7 +7,7 @@
     return wrench.readdirSyncRecursive("./backend/controllers").filter(function(cntrl) {
       return cntrl.endsWith(".js");
     }).forEach(function(cntl) {
-      return require("../backend/controllers/" + cntl)(app);
+      return require("../backend/controllers/" + cntl).setup(app);
     });
   };
 

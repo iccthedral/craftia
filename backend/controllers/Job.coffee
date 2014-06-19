@@ -12,28 +12,55 @@ Messaging       = require "../modules/Messaging"
 
 AuthLevel       = require("../../config/Passport").AUTH_LEVEL
 
-module.exports.saveJob = saveJob = (usr, jobData, res) ->
+module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 	if usr.type isnt AuthLevel.CUSTOMER
-		throw "You don't have permissions to create a new job"
+		return clb "You don't have permissions to create a new job"
 
 	async.series [
 		findCity jobData.address.city
 		findCategory jobData
 	]
 	, (err, results) ->
-		throw err if err?
+		return clb err if err?
 		delete jobData._id
-		job = new JobModel(jobData)
+		job = new JobModel jobData
 		job.status = "open"
 		job.address.zip = results[0].zip
 		job.author =
 			id: usr._id
 			username: usr.username
 		job.save (err, job) ->
-			throw err if err?
-			usr.createdJobs.push job._id
-			usr.save()
-			res.send job
+			return clb err if err?
+			usr.save (err, cnt) ->
+				clb err, job, usr
+
+module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
+	JobModel
+	.findOne _id: jobId
+	.exec (err, job) ->
+		job.bidders.push usr
+		job.save (err) ->
+			return res.status(422).send(err.message) if err?
+			Messaging.sendNotification {
+				receiver: job.author.username
+				subject: "Someone bidded on your offering"
+				type: "job"
+				body: """
+Craftsman #{usr.username} just bidded on your job offering #{job.title} under #{job.category} category
+				"""
+			}, (err) -> clb err, usr, jobId
+
+module.exports.pickWinner = pickWinner = (winner, jobId, clb) ->
+	winner = mongoose.Types.ObjectId winner
+
+	JobModel.findById(jobId).elemMatch("bidders", _id:winner)
+	.exec (err, job) ->
+		console.log arguments
+		return clb err if err?
+		job.winner = winner._id
+		job.status = "closed"
+		job.save (err, job) ->
+			clb err, job
 
 module.exports.findJob = findJob = (req, res, next) ->
 	JobModel
@@ -69,7 +96,9 @@ createNewJob = (req, res, next) ->
 	usr     = req.user
 	return next "User doesn't exist" if not usr?
 	try
-		saveJob usr, jobData, res
+		saveJob usr, jobData, (err, usr, job) ->
+			next err if err?
+			res.send job
 	catch e
 		next e
 
@@ -114,38 +143,22 @@ updateJob = (req, res) ->
 				return res.status(422).send(err.message) if err?
 				res.send(job)
 
-bidOnJob = (req, res) ->
+bidOnJobHandler = (req, res, next) ->
 	usr = req.user
-	return res.send(422) if not usr? or usr.type isnt AuthLevel.CRAFTSMAN 
+	bidOnJob usr, req.params.id, (err) ->
+		next err if err?
+		return res.send(422) if not usr? or (usr.type isnt AuthLevel.CRAFTSMAN)
+		res.send job
 
-	JobModel
-	.findOne(_id: req.params.id)
-	.exec (err, job) ->
-		job.bidders.push
-			id: usr._id
-			username: usr.username
-			name: usr.name
-			surname: usr.surname
-			email: usr.email
-			rating: usr.rating.toObject()
-			pic: usr.profilePic
-		job.save (err) ->
-			return res.status(422).send(err.message) if err?
-			Messaging.sendMessage({
-				sender: usr.username #bice admin
-				receiver: job.author.username
-				subject: "Someone bidded on your offering"
-				type: "job"
-				data: {
-					jobid: job._id,
-					subtype: "bid_for_job"
-				}
-				body: """
-Craftsman #{usr.username} just bidded on your job offering #{job.title} under #{job.category} category
-				"""
-			}, () ->
-				res.send(job)
-			)
+pickWinnerHandler = (req, res, next) ->
+	user        = req.user
+	winnerId    = req.params.winner
+	jobId 			= req.params.id
+	if user.type isnt AuthLevel.CUSTOMER
+		return res.status(422).send("You don't have permissions to pick winning bid")
+	pickwinner winnerId, jobId, (err, job) -> 
+		return next err if err?
+		res.send job
 
 cancelBidOnJob = (req, res) ->
 	usr = req.user
@@ -159,22 +172,15 @@ cancelBidOnJob = (req, res) ->
 		job.bidders.splice(ind, 1)
 		job.save (err) ->
 			return res.status(422).send(err.message) if err?
-			Messaging.sendMessage({
-				sender: usr.username #bice admin
+			Messaging.sendNotification {
 				receiver: job.author.username
-				subject: "Someone canceled on your offering"
 				type: "job"
-				data: {
-					jobid: job._id,
-					subtype : "cancel_job"
-				}
 				body: """
 				Craftsman #{usr.username} just canceled their bid on your job offering #{job.title} under #{job.category} category
 				"""
-			}, () ->
+			}, ->
 				res.send(job)
-			)
-			
+
 rateJob = (req, res) ->
 	user = req.user
 	if user.type isnt AuthLevel.CUSTOMER
@@ -191,29 +197,12 @@ rateJob = (req, res) ->
 			winner.rating.avgRate /= winner.rating.totalVotes
 			res.send(winner)
 
-pickWinnerBid = (req, res) ->
-	user        = req.user
-	winnerId    = req.params.winner
-	if user.type isnt AuthLevel.CUSTOMER
-		return res.status(422).send("You don't have permissions to pick winning bid")
-
-	UserModel.findById(req.params.winner)
-	.exec (err, winner) ->
-		return res.send(422) if err?
-		JobModel.findById(req.params.id)
-		.exec (err, job) ->
-			return res.send(422) if err?
-			job.winner = winner._id
-			job.status = "closed"
-			job.save (err, job) ->
-				res.send(job)
-
-module.exports = (app) ->
+module.exports.setup = (app) ->
 	app.post "/job/new", createNewJob
 	app.post "/job/:id/delete", deleteJob
 	app.post "job/:id/update", updateJob
-	app.post "/job/:id/bid", bidOnJob
+	app.post "/job/:id/bid", bidOnJobHandler
 	app.post "/job/:id/:uid/cancelbid", cancelBidOnJob
 	app.post "/job/:id/rate/:mark", rateJob
-	app.post "/job/:id/pickawinner/:winner", pickWinnerBid
+	app.post "/job/:id/pickawinner/:winner", pickWinnerHandler
 	app.post "/job/:id", findJob

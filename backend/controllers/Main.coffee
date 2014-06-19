@@ -3,7 +3,7 @@ UserModel   = require "../models/User"
 AuthLevel   = require("../../config/Passport").AUTH_LEVEL
 findCity    = require("./Job").findCity
 
-module.exports = (app) ->
+module.exports.setup = (app) ->
     app.get "/", module.exports.showIndexPage
     app.get "/listcraftsmen", module.exports.listAllCraftsmen
     app.get "/listjobs", module.exports.listOpenJobs

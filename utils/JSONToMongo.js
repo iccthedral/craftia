@@ -1,54 +1,42 @@
 (function() {
-  var CategoryModel, CityModel, colors, mongoose, wrench;
+  var CATEGORIES, CITIES, CategoryModel, CityModel, DB, RESOURCES, colors, wrench;
 
   wrench = require("wrench");
 
-  mongoose = require("mongoose");
+  DB = require("../config/Database");
+
+  colors = require("colors");
 
   CategoryModel = require("../backend/models/Category");
 
   CityModel = require("../backend/models/City");
 
-  colors = require("colors");
+  RESOURCES = "./backend/resources/";
 
-  module.exports = function() {
+  CITIES = require("." + RESOURCES + "cities.json");
 
-    /* Put categories in */
-    var categoriesURI, resourcesURI;
-    resourcesURI = "./backend/resources/";
-    categoriesURI = "" + resourcesURI + "categories/";
-    CategoryModel.find().exec(function(err, res) {
+  CATEGORIES = "" + RESOURCES + "categories/";
+
+  module.exports = function(clb) {
+    return CategoryModel.find().exec(function(err, res) {
       var data;
       if (res.length > 0) {
         return;
       }
-      data = wrench.readdirSyncRecursive(categoriesURI).filter(function(file) {
+      data = wrench.readdirSyncRecursive(CATEGORIES).filter(function(file) {
         return file.lastIndexOf(".json") !== -1;
       }).map(function(util) {
         var jsonData;
-        jsonData = require("." + categoriesURI + util);
+        jsonData = require("." + CATEGORIES + util);
         return jsonData;
       });
-      return CategoryModel.create(data);
-    });
-    return CityModel.find().exec(function(err, res) {
-      var city, e, jsonCities, _i, _len, _results;
-      if (res.length > 0) {
-        return;
-      }
-      jsonCities = require("." + resourcesURI + "cities.json");
-      _results = [];
-      for (_i = 0, _len = jsonCities.length; _i < _len; _i++) {
-        city = jsonCities[_i];
-        try {
-          (new CityModel(city)).save();
-          _results.push(console.log("City saved".red));
-        } catch (_error) {
-          e = _error;
-          _results.push(console.error(e.message.red));
-        }
-      }
-      return _results;
+      return CategoryModel.create(data, function(err, res1) {
+        console.log("Added", arguments.length - 1, "categories");
+        return CityModel.create(CITIES, function(err, res2) {
+          console.log("Added", arguments.length - 1, "cities");
+          return typeof clb === "function" ? clb(err) : void 0;
+        });
+      });
     });
   };
 

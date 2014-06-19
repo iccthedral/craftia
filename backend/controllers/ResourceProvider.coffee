@@ -3,8 +3,7 @@ CityModel = require "../models/City"
 CategoryModel = require ("../models/Category")
 util = require "util"
 
-module.exports = (app) ->
-
+module.exports.setup = (app) ->
 	app.get("/categories", (req, res, next) ->
 		CategoryModel
 		.find()
