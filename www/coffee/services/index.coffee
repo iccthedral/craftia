@@ -1,0 +1,4 @@
+define [
+	"services/testService"
+], ->
+	return

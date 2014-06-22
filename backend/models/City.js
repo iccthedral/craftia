@@ -1,19 +1,16 @@
-(function() {
-  var mongoose, schema;
+var mongoose, schema;
 
-  mongoose = require("mongoose");
+mongoose = require("mongoose");
 
-  schema = mongoose.Schema({
-    zip: {
-      type: String,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    }
-  });
+schema = mongoose.Schema({
+  zip: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  }
+});
 
-  module.exports = mongoose.model("City", schema);
-
-}).call(this);
+module.exports = mongoose.model("City", schema);

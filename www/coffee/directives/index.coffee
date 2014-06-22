@@ -1,0 +1,4 @@
+define [
+	"directives/ccSpinner"
+], ->
+	return

@@ -2,7 +2,7 @@
     'use strict';
 
     var app = angular.module('app');
-
+    
     // Configure Toastr
     toastr.options.timeOut = 2000;
     toastr.options.positionClass = 'toast-bottom-right';
@@ -12,7 +12,7 @@
 
     var events = {
         controllerActivateSuccess: 'controller.activateSuccess',
-        spinnerToggle: 'spinner.toggle'
+    spinnerToggle: 'spinner.toggle'
     };
 
     var config = {

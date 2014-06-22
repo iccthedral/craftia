@@ -1,11 +1,12 @@
-
 {
-    "name": "craftia",
-    "version": "0.0.1",
-    "dependencies": {
-    	"angular": null,
-        "requirejs": null,
-		"jquery": null,
-		"handlebars": null
-	}
+  "name": "craftia",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": null,
+    "requirejs": null,
+    "jquery": null,
+    "handlebars": null,
+    "requirejs-domready": "~2.0.1",
+    "angular-ui-router": "~0.2.10"
+  }
 }

@@ -1,0 +1,4 @@
+define [
+	"filters/testFilter"
+], ->
+	return

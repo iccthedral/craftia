@@ -1,8 +1,14 @@
 var spawn = require("child_process").spawn
 	, gulp = require("gulp")
+	, coffee = require("gulp-coffee")
+	, concat = require("gulp-concat")
+	, uglify = require("gulp-uglify")
+	, util = require("gulp-util")
+	, rename = require("gulp-rename")
+	, sourceMaps = require("gulp-sourcemaps")
 	, git = require("gulp-git")
 	, fs = require("fs")
-	, dbconnection = require("./config/Database")
+	, glob = require("glob")
 	, mongoose = require("mongoose")
 	, mkdirp = require("mkdirp")
 	, colors = require("colors")
@@ -19,15 +25,12 @@ var spawn = require("child_process").spawn
 				"--dbpath",
 				"data/db"
 			],
-			grunt: [
-				"serve"
-			],
 			supervisor: [
 				"-w",
-				"backend,utils,lib,config,server",
+				"backend,utils,lib,config",
 				"-e",
 				"coffee,js",
-				"server.js"
+				"backend/server.js"
 			],
 			jobupdate: [
 				"./backend/modules/JobUpdate.js"
@@ -36,7 +39,6 @@ var spawn = require("child_process").spawn
 	, logs = {
 		mongo: {out: "logs/mongo.out.log", err: "logs/mongo.err.log"},
 		supervisor: {out: "logs/express.out.log", err: "logs/express.err.log"},
-		grunt: {out: "logs/grunt.out.log", err: "logs/grunt.err.log"},
 		jobupdate: {out: "logs/jobupdate.out.log", err: "logs/jobupdate.err.log"}
 	}
 	, DBDUMP_FILE = "dump.zip"
@@ -51,8 +53,8 @@ function pipeOut(thread, signature, color, consoleOut) {
 		thread.stdout.pipe(writeFile(consoleOut, {flags: "a"}));
 	} else {
 		thread.stdout.on("data", function(data) {
-			log(("["+signature+"]")[color].bold)
-			log(data.toString());
+			util.log(("["+signature+"]")[color].bold)
+			util.log(data.toString());
 		});
 	}
 }
@@ -87,48 +89,49 @@ function touchDir(dir, clb) {
 	})
 }
 
-gulp.task("default", ["runDevStack", "runJobProcess"], function() {
+gulp.task("default", ["watch", "serve", "runJobProcess"], function() {
 
 });
 
 gulp.task("add", function() {
-	log("git-add".yellow.bold);
+	util.log("git-add".yellow.bold);
   return gulp.src(".")
   .pipe(git.add());
 });
 
 gulp.task("commit", function() {
-	log("git-commit".yellow.bold);
+	util.log("git-commit".yellow.bold);
 	return gulp.src(".")
   .pipe(git.commit(gulp.env.m || "gulp commited", {args: "-s"}));
 });
 
 gulp.task("push", function() {
-	log("git-push".yellow.bold);
+	util.log("git-push".yellow.bold);
   return git.push("heroku", "master")
   .end();
 });
 
 gulp.task("reset", function() {
 	/* git rev-parse HEAD || heroku/master */
-	log("git-reset".yellow.bold);
+	util.log("git-reset".yellow.bold);
   return git.reset("SHA");
 });
 
 gulp.task("pull", function() {
-	log("git-pull".yellow.bold);
+	util.log("git-pull".yellow.bold);
   return git.pull("heroku", "master");
 });
 
 /** Create test fixtures */
 gulp.task("createFixtures", function(next) {
+	var dbconnection = require("./config/Database");
 	dbconnection.on("open", function() {
 		dbconnection.db.dropDatabase(function(err) {
-			log("Dropped database!".red);
+			util.log("Dropped database!".red);
 			if (err) throw err;
 			fixtures.create(function(err, res) {
 				if (err) throw err;
-				log(("Created in total " + res.length + " fixtures!").yellow.bold);
+				util.log(("Created in total " + res.length + " fixtures!").yellow.bold);
 				dbconnection.close();
 				next();
 			});
@@ -146,7 +149,7 @@ gulp.task("dbDump", function() {
 		;
 	
 	output.on("close", function() {
-		log((DBDUMP_FILE + " created.").yellow, "Wrote", archive.pointer(), "bytes");
+		util.log((DBDUMP_FILE + " created.").yellow, "Wrote", archive.pointer(), "bytes");
 	  
 	  /* add dump.zip */
 	  gulp.src(DBDUMP_FILE)
@@ -162,14 +165,14 @@ gulp.task("dbDump", function() {
 
 		rimraf("dump", function(err) {
 			if (err) {
-				log(err.toString().red);
+				util.log(err.toString().red);
 				throw err;
 			}
 		});
 	});
 
 	archive.on("error", function(err) {
-		log(err.toString().red);
+		util.log(err.toString().red);
 		throw err;
 	});
 
@@ -193,7 +196,7 @@ gulp.task("dbRestore", function() {
 	var input = readFile(DBDUMP_FILE);
 
 	input.on("error", function(err) {
-		log(err.toString().red);
+		util.log(err.toString().red);
 		throw err;
 	});
 
@@ -202,11 +205,11 @@ gulp.task("dbRestore", function() {
 		.on("close", function() {
 			rimraf("dump", function(err) {
 				if (err) {
-					log(err.toString().red);
+					util.log(err.toString().red);
 					throw err;
 				}
 			});
-			log("DB restore finished".yellow.bold);
+			util.log("DB restore finished".yellow.bold);
 		})
 	});
 
@@ -216,21 +219,13 @@ gulp.task("dbRestore", function() {
 /**
 	Default dev tasks
 */
-gulp.task("runDevStack", function() {
+gulp.task("serve", function() {
 	async.map(["./logs/", "./data/db/"], touchDir, function() {
 		var supervisorCmd = (isWindows) ? "supervisor.cmd" : "supervisor"
-			, gruntCmd = (isWindows) ? "grunt.cmd" : "grunt"
 			, mongo = spawn("mongod", args.mongo)
 			, supervisor = spawn(supervisorCmd, args.supervisor)
-			, grunt = null
 			;
-			
-		if (!inProduction) {
-			grunt = spawn(gruntCmd, args.grunt);
-			pipeOut(grunt, "GRUNT", "cyan");
-			pipeErr(grunt, logs.grunt.err);
-		}
-		
+
 		pipeOut(mongo, "MONGO", "green", logs.mongo.out);
 		pipeOut(supervisor, "EXPRESS", "red", logs.supervisor.out);
 
@@ -246,4 +241,91 @@ gulp.task("runJobProcess", function() {
 	var jobUpdateProcess = spawn("node", args.jobupdate);
 	pipeOut(jobUpdateProcess, "JOBUPDATE-PROCESS", "yellow");
 	pipeErr(jobUpdateProcess, logs.jobupdate.err);
+});
+
+/** 
+	Watch and compile coffee 
+*/
+gulp.task("watch", function() {
+	var src = {
+		frontend: "www/coffee/",
+		backend: "backend/"
+	}
+	, cwd = process.cwd()
+	,	findFrontend = cwd.length + src.frontend.length
+	, findBackend = cwd.length + src.backend.length
+	;
+
+	function compileFrontend(file) {
+		var path = file.path
+			, type = file.type
+			, ind = isWindows ? path.lastIndexOf("\\") : path.lastIndexOf("/")
+			, name = path.substring(findFrontend + 1, path.length - 7)
+			;
+		
+		util.log(("Compiling " + name).yellow);
+
+		if (type === "changed") {
+			gulp.src(path)
+			.pipe(coffee({bare: true}).on("error", util.log))
+			.pipe(rename(name + ".js"))
+			.pipe(gulp.dest("www/js/"));
+		}
+	}
+
+	function compileBackend(file) {
+		var path = file.path
+			, type = file.type
+			, ind = isWindows ? path.lastIndexOf("\\") : path.lastIndexOf("/")
+			, name = path.substring(findBackend + 1, path.length - 7)
+			;
+		
+		util.log(("Compiling " + name).yellow);
+
+		if (type === "changed") {
+			gulp.src(path)
+			.pipe(coffee({bare: true}).on("error", util.log))
+			.pipe(rename(name + ".js"))
+			.pipe(gulp.dest("backend/"));
+		}
+	}
+
+	glob(src.frontend + "**/*.coffee", function(err, files) {
+		if (err) {
+			return util.log(err);
+		}
+
+		files.forEach(function(file) {
+			if (isWindows) {
+				file = cwd + "\\" + file.replace(/\//g, "\\");
+			}
+			compileFrontend({
+				path: file, 
+				type: "changed"
+			})
+		});
+		gulp.watch(src.frontend + "**/*.coffee", compileFrontend);
+	});
+
+	glob(src.backend + "**/*.coffee", function(err, files) {
+		if (err) {
+			return util.log(err);
+		}
+		
+		files.forEach(function(file) {
+			if (isWindows) {
+				file = cwd + "\\" + file.replace(/\//g, "\\");
+			}
+			compileBackend({
+				path: file, 
+				type: "changed"
+			})
+		});
+		gulp.watch(src.backend + "**/*.coffee", compileBackend);
+	});
+
+	// .pipe(coffee())
+	// .pipe(uglify())
+	// .pipe(concat("craftia.min.js"))
+	// .pipe(gulp.dest("www/js/"));
 });

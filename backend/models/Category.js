@@ -1,20 +1,17 @@
-(function() {
-  var mongoose, schema;
+var mongoose, schema;
 
-  mongoose = require("mongoose");
+mongoose = require("mongoose");
 
-  schema = mongoose.Schema({
-    category: {
-      type: String,
-      required: true
-    },
-    subcategories: {
-      type: Array,
-      "default": [],
-      required: true
-    }
-  });
+schema = mongoose.Schema({
+  category: {
+    type: String,
+    required: true
+  },
+  subcategories: {
+    type: Array,
+    "default": [],
+    required: true
+  }
+});
 
-  module.exports = mongoose.model("Category", schema);
-
-}).call(this);
+module.exports = mongoose.model("Category", schema);

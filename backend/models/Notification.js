@@ -1,34 +1,31 @@
-(function() {
-  var mongoose, schema;
+var mongoose, schema;
 
-  mongoose = require("mongoose");
+mongoose = require("mongoose");
 
-  schema = mongoose.Schema({
-    message: {
-      type: String,
-      required: true
-    },
-    subject: {
-      type: String
-    },
-    type: {
-      type: String,
-      required: true,
-      "enum": ["system", "job", "contact", "other"]
-    },
-    dateSent: {
-      type: Date
-    },
-    isRead: {
-      type: Boolean,
-      "default": false
-    },
-    to: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    }
-  });
+schema = mongoose.Schema({
+  message: {
+    type: String,
+    required: true
+  },
+  subject: {
+    type: String
+  },
+  type: {
+    type: String,
+    required: true,
+    "enum": ["system", "job", "contact", "other"]
+  },
+  dateSent: {
+    type: Date
+  },
+  isRead: {
+    type: Boolean,
+    "default": false
+  },
+  to: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
+});
 
-  module.exports = mongoose.model("Notification", schema);
-
-}).call(this);
+module.exports = mongoose.model("Notification", schema);

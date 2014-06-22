@@ -1,0 +1,1 @@
+define(["services/testService"], function() {});

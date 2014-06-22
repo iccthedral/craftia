@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-ng-app="app">
+<html>
 <head>
     <style>
         /* This helps the ng-show/ng-hide animations start at the right place. */
@@ -12,7 +12,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-
+    
     <script>
         // Must be first. IE10 mobile viewport fix
         if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
@@ -43,8 +43,24 @@
 </head>
 <body>
     <div class="body-slammer">
-        <div data-ng-include="'/app/layout/shell.html'"></div>
-        
+        <div data-ng-include="'/templates/layout/topnav.html'">
+        </div>
+
+        <div class="row">
+            <div class="col-md-1 col-sm-1">
+            </div>
+            <div data-ng-show="isBusy" class=" page-splash dissolve-animation">
+                <div data-cc-spinner="spinnerOptions">
+                </div>
+                <div class="page-splash-message page-splash-message-subtle">{{busyMessage}}
+                </div>
+            </div>
+            <div data-ng-view class="col-md-10 col-sm-10 shuffle-animation"></div>
+            <span data-cc-scroll-to-top></span>
+            <div class="col-md-1 col-sm-1">
+            </div>
+        </div>
+
         <div id="splash-page" data-ng-show="false">
             <div class="page-splash">
                 <div class="page-splash-message">
@@ -56,11 +72,14 @@
             </div>
         </div>
         
+        <div data-ng-include="'/app/dashboard/footer.html'">
+        </div>
+    
     </div>
 
     <span data-cc-scroll-to-top></span>
 
-    <!-- Vendor Scripts -->
+    <!-- Vendor Scripts 
     <script src="vendor/jquery/dist/jquery.js"></script>
     <script src="vendor/jquery-ui/ui/jquery-ui.js"></script>
 
@@ -75,7 +94,7 @@
     <script src="vendor/angular/ui-bootstrap-tpls-0.10.0.js"></script>
     <script src="vendor/angular/spin.js"></script>
     <script type="text/javascript" src="vendor/angular-carousel/dist/angular-carousel.min.js"></script>
-    <!-- Bootstrapping -->
+     Bootstrapping
     <script src="app/app.js"></script>
     {{#if user}}
         <script src="app/setAuth.js"></script>
@@ -87,16 +106,13 @@
     <script src="app/services/gmaps.js"></script>
     <script src="app/services/authService.js"></script>
 
-    <!-- common Modules -->
 
     <script src="app/common/common.js"></script>
     <script src="app/common/logger.js"></script>
     <script src="app/common/spinner.js"></script>
 
-    <!-- common.bootstrap Modules -->
     <script src="app/common/bootstrap/bootstrap.dialog.js"></script>
 
-    <!-- app -->
     
     <script src="app/admin/admin.js"></script>
     <script src="app/dashboard/dashboard.js"></script>
@@ -108,13 +124,33 @@
     <script src="app/profile/profile.js"></script>
     <script src="app/layout/topnav.js"></script>
     <script src="app/messages/messages.js"></script>
-
+    
     <script src="app/register/register.js"></script>
     <script src="app/login/login.js"></script>
 
 
-    <!-- app Services -->
     <script src="app/services/datacontext.js"></script>
     <script src="app/services/directives.js"></script>
+    -->
+<!-- 
+    <script src="vendor/jquery/dist/jquery.js"></script>
+    <script src="vendor/jquery-ui/ui/jquery-ui.js"></script>
+    
+    <script src="vendor/angular/angular.js"></script>
+    <script type="text/javascript" src="vendor/ng-file-upload/angular-file-upload.js"></script>
+    <script src="vendor/angular/angular-animate.js"></script>
+    <script src="vendor/angular/angular-route.js"></script>
+    <script src="vendor/angular/angular-sanitize.js"></script>
+    <script src="vendor/angular/bootstrap.js"></script>
+    <script src="vendor/angular/toastr.js"></script>
+    <script src="vendor/angular/moment.js"></script>
+    <script src="vendor/angular/ui-bootstrap-tpls-0.10.0.js"></script>
+    <script src="vendor/angular/spin.js"></script>
+    <script type="text/javascript" src="vendor/angular-carousel/dist/angular-carousel.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+     -->
+
+    <script type="text/javascript" src="vendor/requirejs/require.js" data-main="js/main.js"></script>
+
 </body>
 </html>

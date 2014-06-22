@@ -14,7 +14,7 @@
             var logError = getLogFn(serviceId, "error");
 
             $rootScope.isAjaxHappening = false;
-
+            
             function toValidJSON(user) {
                 var bla = {};
                 ["email", "telephone", "name", "surname", "password"].forEach(function(el) {
@@ -22,7 +22,7 @@
                 });
                 return bla;
             };
-
+            
             var _service = {
                 getUser: function() {
                     return user;                    

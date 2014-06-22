@@ -2,7 +2,7 @@
     'use strict';
     
     angular.module('common').factory('logger', ['$log', logger]);
-
+    
     function logger($log) {
         var service = {
             getLogFn: getLogFn,

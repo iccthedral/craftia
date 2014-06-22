@@ -1,14 +1,11 @@
-(function() {
-  var wrench;
+var wrench;
 
-  wrench = require("wrench");
+wrench = require("wrench");
 
-  module.exports = function(app, passport) {
-    return wrench.readdirSyncRecursive("./backend/controllers").filter(function(cntrl) {
-      return cntrl.endsWith(".js");
-    }).forEach(function(cntl) {
-      return require("../backend/controllers/" + cntl).setup(app);
-    });
-  };
-
-}).call(this);
+module.exports = function(app, passport) {
+  return wrench.readdirSyncRecursive("./backend/controllers").filter(function(cntrl) {
+    return cntrl.endsWith(".js");
+  }).forEach(function(cntl) {
+    return require("../backend/controllers/" + cntl).setup(app);
+  });
+};

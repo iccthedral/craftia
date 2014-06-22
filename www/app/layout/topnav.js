@@ -131,7 +131,7 @@
                 return 'top-hmenu-item'
             }
         }
-
+        
         vm.whichSubClass = function(route) {
             if ($location.path() === route.url){
                 return 'craftia-nav-envelope'
