@@ -1,5 +1,5 @@
 (function() {
-  var AuthLevel, CategoryModel, CityModel, JobModel, MessageModel, NotificationsModel, UserModel, async, colors, fs, getBiddedJobs, getCreatedJobs, getNotifications, getReceivedMessages, getSentMessages, isUserAuthenticated, logMeIn, logMeOut, mongoose, passport, populateUser, updateMe, uploadProfilePicture, util;
+  var AuthLevel, CategoryModel, CityModel, JobModel, MessageModel, NotificationsModel, UserModel, async, colors, fs, getBiddedJobs, getCreatedJobs, getNotifications, getReceivedMessages, getSentMessages, isUserAuthenticated, logMeIn, logMeOut, mongoose, passport, populateUser, updateMe, uploadProfilePicture, util, _;
 
   mongoose = require("mongoose");
 
@@ -27,6 +27,8 @@
 
   AuthLevel = require("../../config/Passport").AUTH_LEVEL;
 
+  _ = require("underscore");
+
   module.exports.setup = function(app) {
     app.get("/logout", logMeOut);
     app.post("/login", logMeIn);
@@ -35,72 +37,76 @@
     return app.get("/isAuthenticated", isUserAuthenticated);
   };
 
-  getBiddedJobs = function(usr, clb) {
+  module.exports.getBiddedJobs = getBiddedJobs = function(usr, clb) {
+    return JobModel.find().elemMatch("bidders", {
+      _id: usr._id
+    }).exec(function(err, jobs) {
+      return clb(err, jobs);
+    });
+  };
+
+  module.exports.getCreatedJobs = getCreatedJobs = function(usr, clb) {
     return JobModel.find({
-      "bidders.id": usr.id
+      "author._id": usr._id
     }, function(err, jobs) {
       return clb(err, jobs);
     });
   };
 
-  getCreatedJobs = function(usr, clb) {
-    return JobModel.find({
-      "author.id": usr.id
-    }, function(err, jobs) {
-      return clb(err, jobs);
-    });
-  };
-
-  getSentMessages = function(usr, clb) {
+  module.exports.getSentMessages = getSentMessages = function(usr, clb) {
     return MessageModel.find({
-      "author.id": usr.id
+      "author._id": usr._id
     }, function(err, messages) {
       return clb(err, messages);
     });
   };
 
-  getReceivedMessages = function(usr, clb) {
+  module.exports.getReceivedMessages = getReceivedMessages = function(usr, clb) {
     return MessageModel.find({
-      "to.id": usr.id
+      "to._id": usr._id
     }, function(err, messages) {
       return clb(err, messages);
     });
   };
 
-  getNotifications = function(usr, clb) {
-    return NotificationsModel.find({}, function(err, notifications) {
+  module.exports.getNotifications = getNotifications = function(usr, clb) {
+    return NotificationsModel.find({
+      "to._id": usr._id
+    }, function(err, notifications) {
       return clb(err, notifications);
     });
   };
 
-  populateUser = function(usr, clb) {
+  module.exports.populateUser = populateUser = function(usr, clb) {
+    var out;
+    out = new Object;
     return getBiddedJobs(usr, function(err, jobs) {
       if (err != null) {
         return clb(err);
       }
-      usr.biddedJobs = jobs;
+      out.biddedJobs = jobs;
       return getCreatedJobs(usr, function(err, jobs) {
         if (err != null) {
           return clb(err);
         }
-        usr.createdJobs = jobs;
-        usr.inbox = {};
+        out.createdJobs = jobs;
+        out.inbox = {};
         return getSentMessages(usr, function(err, sentMessagess) {
           if (err != null) {
             return clb(err);
           }
-          usr.inbox.sent = sentMessagess;
+          out.inbox.sent = sentMessagess;
           return getReceivedMessages(usr, function(err, recvMessages) {
             if (err != null) {
               return clb(err);
             }
-            usr.inbox.received = recvMessages;
+            out.inbox.received = recvMessages;
             return getNotifications(usr, function(err, notifications) {
               if (err != null) {
                 return clb(err);
               }
-              usr.notifications = notifications;
-              return clb(err, usr);
+              out.notifications = notifications;
+              return clb(err, out);
             });
           });
         });
@@ -108,17 +114,18 @@
     });
   };
 
-  isUserAuthenticated = function(req, res, next) {
+  module.exports.isUserAuthenticated = isUserAuthenticated = function(req, res, next) {
     var user;
     user = req.user;
     if (user == null) {
       return res.send(403);
     }
-    return populateUser(user, function(err, user) {
+    return populateUser(user, function(err, out) {
       if (err != null) {
-        next(err);
+        return next(err);
       }
-      return res.send(user);
+      user = user.toObject();
+      return res.send(_.extend(user, out));
     });
   };
 
@@ -142,10 +149,12 @@
         return res.status(401).send(info.message);
       }
       return req.logIn(user, function(err) {
-        if (err != null) {
-          return next(err);
-        }
-        return populateUser(user, function(err, user) {
+        return populateUser(user, function(err, out) {
+          if (err != null) {
+            return next(err);
+          }
+          user = user.toObject();
+          user = _.extend(user, out);
           return res.send(user);
         });
       });
@@ -163,7 +172,6 @@
     data = req.body;
     delete data._id;
     return UserModel.findByIdAndUpdate(usr._id, data).exec(function(err, cnt) {
-      console.log(err);
       if (err != null) {
         return res.status(422).send(err.message);
       }

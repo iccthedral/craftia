@@ -11,6 +11,7 @@ CategoryModel   		= require "../models/Category"
 MessageModel 				= require "../models/Message"
 NotificationsModel	= require "../models/Notification"
 AuthLevel       		= require("../../config/Passport").AUTH_LEVEL
+_ 									= require "underscore"
 
 module.exports.setup = (app) ->
 	# logout user
@@ -28,61 +29,58 @@ module.exports.setup = (app) ->
 	# Is current session holder authenticated?
 	app.get "/isAuthenticated", isUserAuthenticated
 
-getBiddedJobs = (usr, clb) ->
-	JobModel.find "bidders.id":usr.id, (err, jobs) ->
+module.exports.getBiddedJobs = getBiddedJobs = (usr, clb) ->
+	JobModel.find().elemMatch("bidders", _id:usr._id).exec (err, jobs) ->
 		clb err, jobs
 
-getCreatedJobs = (usr, clb) ->
-	JobModel.find "author.id":usr.id, (err, jobs) ->
+module.exports.getCreatedJobs = getCreatedJobs = (usr, clb) ->
+	JobModel.find "author._id":usr._id, (err, jobs) ->
 		clb err, jobs
 
-getSentMessages = (usr, clb) ->
-	MessageModel.find {"author.id": usr.id}, (err, messages) ->
+module.exports.getSentMessages = getSentMessages = (usr, clb) ->
+	MessageModel.find "author._id":usr._id, (err, messages) ->
 		clb err, messages
 
-getReceivedMessages = (usr, clb) ->
-	MessageModel.find {"to.id": usr.id}, (err, messages) ->
+module.exports.getReceivedMessages = getReceivedMessages = (usr, clb) ->
+	MessageModel.find "to._id":usr._id, (err, messages) ->
 		clb err, messages
 
-getNotifications = (usr, clb) ->
-	NotificationsModel.find {}, (err, notifications) ->
+module.exports.getNotifications = getNotifications = (usr, clb) ->
+	NotificationsModel.find "to._id":usr._id, (err, notifications) ->
 		clb err, notifications
 
-populateUser = (usr, clb) ->
+module.exports.populateUser = populateUser = (usr, clb) ->
+	out = new Object
+
 	getBiddedJobs usr, (err, jobs) ->
 		return clb err if err?
-		usr.biddedJobs = jobs
+		out.biddedJobs = jobs
 		getCreatedJobs usr, (err, jobs) ->
 			return clb err if err?
-			usr.createdJobs = jobs
-			usr.inbox = {}
+			out.createdJobs = jobs
+			out.inbox = {}
 			getSentMessages usr, (err, sentMessagess) ->
 				return clb err if err?
-				usr.inbox.sent = sentMessagess
+				out.inbox.sent = sentMessagess
 				getReceivedMessages usr, (err, recvMessages) ->
 					return clb err if err?
-					usr.inbox.received = recvMessages
+					out.inbox.received = recvMessages
 					getNotifications usr, (err, notifications) ->
 						return clb err if err?
-						usr.notifications = notifications
-						clb err, usr
+						out.notifications = notifications
+						clb err, out
 
-isUserAuthenticated = (req, res, next) ->
+module.exports.isUserAuthenticated = isUserAuthenticated = (req, res, next) ->
 	user = req.user
 	return res.send(403) if not user?
-	populateUser user, (err, user) ->
-		next err if err?
-		res.send user
-
-	# UserModel
-	# .find _id: user._id
-	# .populate("createdJobs biddedJobs inbox.sent inbox.received")
-	# .exec (err, result) ->
-	# 	res.send(result[0])
+	populateUser user, (err, out) ->
+		return next err if err?
+		user = user.toObject()
+		res.send _.extend user, out
 
 logMeOut = (req, res) ->
 	req.logout()
-	res.redirect(200, "/")
+	res.redirect 200, "/"
 
 logMeIn = (req, res, next) ->
 	if req.body.rememberme
@@ -90,19 +88,15 @@ logMeIn = (req, res, next) ->
 	else
 		req.session.cookie.expires = false
 	pass = passport.authenticate "local", (err, user, info) ->
-		return next(err) if err?
-		return res.status(401).send(info.message) if not user?
+		return next err if err?
+		return res.status(401).send info.message if not user?
 		req.logIn user, (err) ->
-			return next(err) if err?
-			populateUser user, (err, user) ->
+			populateUser user, (err, out) ->
+				return next err if err?
+				user = user.toObject()
+				user = _.extend user, out
 				res.send user
-
-			# UserModel
-			# .find _id: user._id
-			# .populate "createdJobs biddedJobs inbox.sent inbox.received"
-			# .exec (err, result) ->
-			# 	res.send(result[0])
-	pass(req, res, next)
+	pass req, res, next
 
 updateMe = (req, res) ->
 	usr = req.user
@@ -113,7 +107,6 @@ updateMe = (req, res) ->
 	UserModel
 	.findByIdAndUpdate(usr._id, data)
 	.exec (err, cnt) ->
-		console.log(err);
 		return res.status(422).send(err.message) if err?
 		res.send(200)
 

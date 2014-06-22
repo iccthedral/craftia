@@ -26,7 +26,8 @@
         type: "system",
         message: notif.body,
         dateSent: Date.now(),
-        isRead: false
+        isRead: false,
+        to: receiver
       });
       return msg.save(clb);
     });
@@ -49,14 +50,8 @@
       sender = out[message.sender];
       receiver = out[message.receiver];
       msg = new Message({
-        author: {
-          username: sender.username,
-          id: sender._id
-        },
-        to: {
-          username: receiver.username,
-          id: receiver._id
-        },
+        author: sender,
+        to: receiver,
         data: message.data,
         subject: message.subject,
         message: message.body,

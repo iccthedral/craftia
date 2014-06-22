@@ -21,4 +21,8 @@ schema = mongoose.Schema
 		type: Boolean
 		default: false
 
+	to:
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
+
 module.exports = mongoose.model "Notification", schema

@@ -55,12 +55,14 @@
       "enum": ["open", "closed", "finished"]
     },
     author: {
-      id: String,
-      username: String
+      type: mongoose.Schema.Types.Mixed
+    },
+    rated: {
+      type: Boolean,
+      "default": false
     },
     winner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      type: mongoose.Schema.Types.Mixed
     },
     bidders: {
       type: Array,

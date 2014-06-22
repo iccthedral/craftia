@@ -14,7 +14,7 @@ schema = mongoose.Schema
 		type: String
 		required: true
 		unique: true
-
+		
 	password: 
 		type: String
 		required: true
@@ -59,13 +59,25 @@ schema = mongoose.Schema
 	# ]
 	
 	rating:
-		comments: [{
-			jobId: mongoose.Schema.Types.ObjectId
-			message: String
-		}],
-		totalVotes: { type: Number, default: 0 },
-		avgRate: { type: Number, default: 0, min: 0, max: 5 }
+		jobs: [
+			job: 
+				type: mongoose.Schema.Types.Mixed
+				default: {}
+			comment: 
+				type: String
+				default: ""
+		]
+
+		totalVotes: 
+			type: Number
+			default: 0
 		
+		avgRate: 
+			type: Number
+			default: 0
+			min: 0
+			max: 5
+
 	profilePic:
 		type: String
 		default: "img/default_user.jpg"
@@ -133,12 +145,11 @@ schema.statics.sendMessage = (type, msg, fromId, toId, callb) ->
 			receiver.inbox[type].push(msg)
 			sender.inbox.sent.push(msg)
 
-			async.series([
-				receiver.save().exec
-				sender.save().exec
+			async.series [
+				receiver.save.bind receiver
+				sender.save.bind sender
 			], (err, res) ->
 				callb(err, res)
-			)
 
 # schema.methods.createNewJob = (job) ->
 #   try
@@ -148,3 +159,8 @@ schema.statics.sendMessage = (type, msg, fromId, toId, callb) ->
 #       throw new Error(e)
 
 module.exports = UserModel
+
+# cfixtures()
+# login("cumoks")
+# pickwinner("crgogs", "Job from cumoks")
+# rate("Job from cumoks", 5, "Hi mark")

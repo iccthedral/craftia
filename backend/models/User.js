@@ -53,10 +53,16 @@
       required: true
     },
     rating: {
-      comments: [
+      jobs: [
         {
-          jobId: mongoose.Schema.Types.ObjectId,
-          message: String
+          job: {
+            type: mongoose.Schema.Types.Mixed,
+            "default": {}
+          },
+          comment: {
+            type: String,
+            "default": ""
+          }
         }
       ],
       totalVotes: {
@@ -129,7 +135,7 @@
         });
         receiver.inbox[type].push(msg);
         sender.inbox.sent.push(msg);
-        return async.series([receiver.save().exec, sender.save().exec], function(err, res) {
+        return async.series([receiver.save.bind(receiver), sender.save.bind(sender)], function(err, res) {
           return callb(err, res);
         });
       });

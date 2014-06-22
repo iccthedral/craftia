@@ -14,7 +14,7 @@
         }
 
       vm.loginDetails = {
-        username: "",
+        email: "",
         rememberme: false,
         password: ""
       }

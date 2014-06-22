@@ -1,110 +1,110 @@
 cs = require "coffee-script/register"
 JobCtrl = require "./backend/controllers/Job"
+UserCtrl = require "./backend/controllers/User"
 DB = require "./config/Database"
 UserModel = require "./backend/models/User"
 JobModel = require "./backend/models/Job"
+repl = require "repl"
 
-bidOnJob = JobCtrl.bidOnJob
-pickWinner = JobCtrl.pickWinner
+log = console.log.bind console
+colors = require "colors"
+fixtures = require "./createFixtures"
 
-getJobByTitle = (title, clb) ->
+jobByTitle = (title, clb) ->
 	JobModel.findOne title:title, clb
 
-getUserByUsername = (username, clb) ->
-	UserModel.findOne username:username, clb
+userByEmail = (email, clb) ->
+	UserModel.findOne email:email, clb
 
-chooseWinner = (username, title) ->
-	getUserByUsername username, (err, user) ->
-		getJobByTitle title, (err, job) ->
-			console.log user.id, job.id
-			pickWinner user.id, job.id, (err, job) ->
-				throw err if err?
-				console.log "Winner is #{username}", job.title
-				DB.close()
+get = (funcA, funcB, queryA, queryB, clb) ->
+	funcA queryA, (err, resA) ->
+		return clb err if err?
+		funcB queryB, (err, resB) ->
+			return clb err if err?
+			clb err, resA, resB
 
-chooseWinner "crgogs", "Job from cumoks"
-cancelBid "crgogs", "Job from cumoks"
+chooseWinner = (author, username, title, clb) ->
+	get userByEmail, jobByTitle, username, title, (err, user, job) ->
+		return clb err if err?
+		JobCtrl.pickWinner author, user, job._id, (err, job) ->
+			return clb err if err?
+			console.log "Winner is #{username}", job.title
+			clb err, job
 
-# {
-#     "_id" : ObjectId("53a31c0b2da9ca7c1d266fa1"),
-#     "username" : "cudoks",
-#     "email" : "cudoks@customer.com",
-#     "password" : "$2a$10$g8TSbGFhl4Jx8FOzEXU/buE8MoY8CqYk/xWdPFZvh9.5koxdk8BlC",
-#     "name" : "cudoks",
-#     "surname" : "Customerovic",
-#     "type" : "Customer",
-#     "telephone" : "333-333-333",
-#     "inbox" : {
-#         "sent" : [],
-#         "received" : []
-#     },
-#     "notif" : [ 
-#         ObjectId("53a31c112da9ca7c1d266fb0"), 
-#         ObjectId("53a31c608cbf82441019c428")
-#     ],
-#     "profilePic" : "img/no1.jpg",
-#     "rating" : {
-#         "avgRate" : 0,
-#         "totalVotes" : 0,
-#         "comments" : []
-#     },
-#     "address" : {
-#         "zip" : "21000",
-#         "city" : "Novi Sad",
-#         "line1" : "Cara Dusana 1"
-#     },
-#     "__v" : 2
-# }
+cancelBiddder = (username, title, clb) ->
+	get userByEmail, jobByTitle, username, title, (err, user, job) ->
+		return clb err if err?
+		JobCtrl.cancelBidOnJob user, job._id, (err, job) ->
+			return clb err if err?
+			console.log "Canceling bidder #{username}", job.title
+			clb err, job
 
-# {
-#     "_id" : ObjectId("53a31c112da9ca7c1d266fac"),
-#     "title" : "Job from curoks",
-#     "category" : "Car",
-#     "dateFrom" : ISODate("2014-06-19T17:21:15.147Z"),
-#     "subcategory" : "Auto Tuning",
-#     "dateTo" : ISODate("2014-06-19T17:22:21.670Z"),
-#     "materialProvider" : "Customer",
-#     "budget" : 15557,
-#     "jobPhotos" : [],
-#     "bidders" : [ 
-#         {
-#             "__v" : 0,
-#             "username" : "crsale",
-#             "email" : "crsale@craftsman.com",
-#             "password" : "$2a$10$k89Cm/z8/2qCpj74Hdh0pO4c.eJDPyctVn19P4deNH1BtOXX5oOCO",
-#             "name" : "crsale",
-#             "surname" : "Craftsmanovic",
-#             "type" : "Craftsman",
-#             "telephone" : "444-444-444",
-#             "_id" : ObjectId("53a31c0e2da9ca7c1d266fa5"),
-#             "inbox" : {
-#                 "sent" : [],
-#                 "received" : []
-#             },
-#             "notif" : [],
-#             "profilePic" : "img/no2.jpg",
-#             "rating" : {
-#                 "avgRate" : 0,
-#                 "totalVotes" : 0,
-#                 "comments" : []
-#             },
-#             "address" : {
-#                 "zip" : "21000",
-#                 "city" : "Novi Sad",
-#                 "line1" : "Kralja Petra 1"
-#             }
-#         }
-#     ],
-#     "author" : {
-#         "id" : "53a31c0b2da9ca7c1d266fa2",
-#         "username" : "curoks"
-#     },
-#     "status" : "finished",
-#     "address" : {
-#         "city" : "Beograd",
-#         "zip" : "11000",
-#         "line1" : "Kralja Petra 1"
-#     },
-#     "description" : "Very fine job from curoks",
-#     "__v" : 1
-# }
+bidOnJob = (username, title, clb) ->
+	get userByEmail, jobByTitle, username, title, (err, user, job) ->
+		return clb err if err?
+		JobCtrl.bidOnJob user, job._id, (err, job) ->
+			return clb err if err?
+			console.log "Bidding on job #{username}", job.title
+			clb err, job
+
+rateJob = (username, title, mark, comment, clb) ->
+	get userByEmail, jobByTitle, username, title, (err, user, job) ->
+		return clb err if err?
+		JobCtrl.rateJob user, job._id, mark, comment, (err, winner) ->
+			return clb err if err? or not winner?
+			console.log "Rating bidder #{winner.username}", job.title
+			clb err, job
+
+me = null
+
+global.login = (email) ->
+	userByEmail email, (err, user) ->
+		return log err.red if err? or not user?
+		UserCtrl.populateUser user, (err, user) ->
+			return log err.red if err? or not user?
+			log "You're logged as #{user.username}".yellow
+			me = user
+			global.me = me
+			return
+	return "done"
+
+global.bid = (jobTitle) ->
+	bidOnJob me.username, jobTitle, (err, job) ->
+		return log err.red if err?
+		log "#{me.username} bidded on job!"
+	return "done"
+
+global.pickwinner = (craftsmanName, jobTitle) ->
+	chooseWinner me, craftsmanName, jobTitle, ->
+		return log err.red if err?
+		log "#{me.username} picked winner #{craftsmanName}"
+	return "done"
+
+global.rate = (jobTitle, mark, comment) ->
+	rateJob me.username, jobTitle, mark, comment, (err, job) ->
+		return log err.red if err? or not job?
+		log "#{me.username} rated #{job.winner.username}"
+	return "done"
+
+global.cfixtures = ->
+	DB.db.dropDatabase ->
+		log "Dropping database".red
+		fixtures.create (err, res) ->
+			return log err if err? or not res?
+			log "Created in total #{res.length} fixtures!".yellow.bold
+
+DB.on "open", ->
+	replInstance = repl.start {
+		prompt: "> "
+		useGlobal: true
+	}
+
+	replInstance.on "exit", -> DB.close()
+
+# userByEmail customerName, (err, customer) ->
+# chooseWinner customer, craftsmanName, jobTitle, ->
+	# console.log "picked winner"
+# rateJob customerName, jobTitle, 4, (err, job) ->
+	# console.log "rated job"
+	# DB.close()
+

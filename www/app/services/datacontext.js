@@ -95,7 +95,7 @@
         }
 
         function getAllJobs() {
-            var url = "/listjobs"
+            var url = "/job/list/all"
             return $.get(url)
         }
 

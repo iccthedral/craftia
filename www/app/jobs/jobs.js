@@ -193,8 +193,6 @@
         });
     }
 
-    $
-
     function JobList() {
         $scope.focusedMap = {};
         return {
@@ -208,8 +206,7 @@
             },
 
             showJob: function (jobIndex) {
-                
-                $scope.currentJob.populate($scope.allJobsPaged[jobIndex]);
+                $scope.currentJob.populate($scope.myJobsPaged[jobIndex]);
                 attachSubcategories($scope.currentJob);
                 console.debug($scope.currentJob.bidders);
                 $scope.biddersItems = $scope.currentJob.bidders.chunk($scope.sizePerPage);
@@ -265,6 +262,7 @@
                 $rootScope.$digest();
             });
         }
+        
         function createJobModel(scope) {
             console.debug("created job model");
             console.debug($scope.rightPartial);

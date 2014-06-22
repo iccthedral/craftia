@@ -16,6 +16,7 @@ module.exports.sendNotification = (notif, clb = ->) ->
 			message: notif.body
 			dateSent: Date.now()
 			isRead: false
+			to: receiver
 		}
 		
 		msg.save clb
@@ -33,12 +34,8 @@ module.exports.sendMessage = (message, clb = ->) ->
 		receiver 	= out[message.receiver]
 
 		msg = new Message {
-			author:
-				username: sender.username
-				id: sender._id
-			to: 
-				username: receiver.username
-				id: receiver._id
+			author: sender
+			to: receiver
 			data: message.data
 			subject: message.subject
 			message: message.body

@@ -1,9 +1,11 @@
 (function() {
-  var LocalStrategy, UserModel;
+  var LocalStrategy, UserCtrl, UserModel;
 
   LocalStrategy = require("passport-local").Strategy;
 
   UserModel = require("../backend/models/User");
+
+  UserCtrl = require("../backend/controllers/User");
 
   module.exports = function(passport) {
     var strat;
@@ -13,7 +15,7 @@
         var token;
         token = user.generateRandomToken();
         return UserModel.findOne({
-          "accessToken": token
+          accessToken: token
         }, function(err, existingUser) {
           if (err != null) {
             return done(err);
@@ -37,16 +39,20 @@
     });
     passport.deserializeUser(function(token, done) {
       return UserModel.findOne({
-        "accessToken": token
+        accessToken: token
       }, function(err, user) {
-        return done(err, user);
+        if (err != null) {
+          return done(err);
+        }
+        return done(null, user);
       });
     });
-    strat = new LocalStrategy(function(username, password, done) {
+    strat = new LocalStrategy({
+      usernameField: "email"
+    }, function(email, password, done) {
       return UserModel.findOne({
-        "username": username
+        email: email
       }, function(err, user) {
-        console.dir("Hahahahaza");
         if (err != null) {
           return done(err);
         }
@@ -61,11 +67,10 @@
           }
           if (isMatch) {
             return done(null, user);
-          } else {
-            return done(null, false, {
-              message: "Invalid password"
-            });
           }
+          return done(null, false, {
+            message: "Invalid password"
+          });
         });
       });
     });

@@ -12,25 +12,8 @@
   module.exports.setup = function(app) {
     app.get("/", module.exports.showIndexPage);
     app.get("/listcraftsmen", module.exports.listAllCraftsmen);
-    app.get("/listjobs", module.exports.listOpenJobs);
     app.post("/register-craftsman", module.exports.registerCrafsman);
     return app.post("/register-customer", module.exports.registerCustomer);
-  };
-
-  module.exports.fetchJobs = function(user, callback) {
-    var jobs;
-    jobs = user.createdJobs.filter(function(job) {
-      return job.status === "open";
-    });
-    jobs.map(function(job) {
-      job = job.toObject();
-      job.author = {
-        id: user._id,
-        name: user.name
-      };
-      return job;
-    });
-    return callback(null, jobs);
   };
 
   module.exports.saveUser = function(user, res) {
@@ -59,16 +42,6 @@
         return res.send(422, err.message);
       }
       return res.send(out);
-    });
-  };
-
-  module.exports.listOpenJobs = function(req, res) {
-    return UserModel.find().populate("createdJobs").exec(function(err, results) {
-      return async.map(results, module.exports.fetchJobs, function(err, results) {
-        var out;
-        out = [].concat.apply([], results);
-        return res.send(out);
-      });
     });
   };
 

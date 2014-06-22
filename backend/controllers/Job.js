@@ -1,5 +1,5 @@
 (function() {
-  var AuthLevel, CategoryModel, CityModel, JobModel, Messaging, UserModel, async, bidOnJob, bidOnJobHandler, cancelBidOnJob, colors, createNewJob, deleteJob, findCategory, findCity, findJob, fs, mongoose, passport, pickWinner, pickWinnerHandler, rateJob, saveJob, updateJob, util,
+  var AuthLevel, CategoryModel, CityModel, JobModel, Messaging, UserCtrl, UserModel, async, bidOnJob, bidOnJobHandler, cancelBidOnJob, cancelBidOnJobHandler, colors, createNewJobHandler, deleteJob, fetchOpenJobs, findCategory, findCity, findJob, fs, listOpenJobsHandler, mongoose, passport, pickWinner, pickWinnerHandler, rateJob, rateJobHandler, saveJob, updateJob, util, _,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   mongoose = require("mongoose");
@@ -24,7 +24,11 @@
 
   Messaging = require("../modules/Messaging");
 
+  _ = require("underscore");
+
   AuthLevel = require("../../config/Passport").AUTH_LEVEL;
+
+  UserCtrl = require("../controllers/User");
 
   module.exports.saveJob = saveJob = function(usr, jobData, clb) {
     if (usr.type !== AuthLevel.CUSTOMER) {
@@ -39,10 +43,7 @@
       job = new JobModel(jobData);
       job.status = "open";
       job.address.zip = results[0].zip;
-      job.author = {
-        id: usr._id,
-        username: usr.username
-      };
+      job.author = usr;
       return job.save(function(err, job) {
         if (err != null) {
           return clb(err);
@@ -55,9 +56,16 @@
   };
 
   module.exports.bidOnJob = bidOnJob = function(usr, jobId, clb) {
+    if ((usr == null) || (usr.type !== AuthLevel.CRAFTSMAN)) {
+      return clb("You're not authorized");
+    }
     return JobModel.findOne({
       _id: jobId
     }).exec(function(err, job) {
+      var _ref;
+      if ((_ref = job.status) === "closed" || _ref === "finished") {
+        return clb("This job is finished");
+      }
       job.bidders.push(usr);
       return job.save(function(err) {
         if (err != null) {
@@ -69,22 +77,26 @@
           type: "job",
           body: "Craftsman " + usr.username + " just bidded on your job offering " + job.title + " under " + job.category + " category"
         }, function(err) {
-          return clb(err, usr, jobId);
+          return clb(err, job);
         });
       });
     });
   };
 
-  module.exports.pickWinner = pickWinner = function(winner, jobId, clb) {
-    winner = mongoose.Types.ObjectId(winner);
+  module.exports.pickWinner = pickWinner = function(user, winner, jobId, clb) {
+    if ((user == null) || user.type !== AuthLevel.CUSTOMER) {
+      return clb("You don't have permissions to pick winning bid");
+    }
     return JobModel.findById(jobId).elemMatch("bidders", {
-      _id: winner
+      _id: winner._id
     }).exec(function(err, job) {
-      console.log(arguments);
       if (err != null) {
         return clb(err);
       }
-      job.winner = winner._id;
+      if (job == null) {
+        return clb(new Error("You haven't bidded yet", clb));
+      }
+      job.winner = winner;
       job.status = "closed";
       return job.save(function(err, job) {
         return clb(err, job);
@@ -135,24 +147,82 @@
     };
   };
 
-  createNewJob = function(req, res, next) {
-    var e, jobData, usr;
-    jobData = req.body;
-    usr = req.user;
-    if (usr == null) {
-      return next("User doesn't exist");
+  module.exports.cancelBidOnJob = cancelBidOnJob = function(usr, jobId, clb) {
+    if (usr.type !== AuthLevel.CRAFTSMAN || (usr == null)) {
+      return clb("You're not authorized");
     }
-    try {
-      return saveJob(usr, jobData, function(err, usr, job) {
-        if (err != null) {
-          next(err);
-        }
-        return res.send(job);
+    return JobModel.findOne({
+      _id: jobId
+    }).exec(function(err, job) {
+      var bidder, ind, _ref;
+      if ((_ref = job.status) === "closed" || _ref === "finished") {
+        return clb(new Error("Job is finished", null));
+      }
+      bidder = (job.bidders.filter((function(_this) {
+        return function(el) {
+          return el.id === usr.id;
+        };
+      })(this)))[0];
+      ind = job.bidders.indexOf(bidder);
+      job.bidders.splice(ind, 1);
+      return job.save(function(err) {
+        return Messaging.sendNotification({
+          receiver: job.author.username,
+          type: "job",
+          body: "Craftsman " + usr.username + " just canceled their bid on your job offering " + job.title + " under " + job.category + " category"
+        }, function(err) {
+          return clb(err, job);
+        });
       });
-    } catch (_error) {
-      e = _error;
-      return next(e);
+    });
+  };
+
+  module.exports.rateJob = rateJob = function(user, jobId, mark, comment, clb) {
+    if (user.type !== AuthLevel.CUSTOMER || (user == null)) {
+      return clb("You don't have permissions to rate");
     }
+    if (!((1 < mark && mark < 6))) {
+      return clb("Mark is out of range");
+    }
+    return JobModel.findById(jobId).exec(function(err, job) {
+      var alreadyRated, winner;
+      if (err != null) {
+        return clb(err);
+      }
+      if (job.author.id !== user.id) {
+        return clb("You're not the creator of this job");
+      }
+      if (job.status !== "finished") {
+        return clb("This job isn't finished and you can't rate the craftsman");
+      }
+      winner = job.winner;
+      alreadyRated = job.rated;
+      if (alreadyRated) {
+        return clb("You've already rated this job");
+      }
+      job.rated = true;
+      return UserModel.findById(winner._id, function(err, winnerUser) {
+        winnerUser.rating.jobs.push({
+          job: job,
+          comment: comment
+        });
+        winnerUser.rating.totalVotes += 1;
+        winnerUser.rating.avgRate += mark;
+        winnerUser.rating.avgRate /= winnerUser.rating.totalVotes;
+        return async.series([winnerUser.save.bind(winnerUser, job.save.bind(job))], clb);
+      });
+    });
+  };
+
+  module.exports.fetchOpenJobs = fetchOpenJobs = function(user, clb) {
+    var jobs;
+    jobs = user.createdJobs.filter(function(job) {
+      return job.status === "open";
+    });
+    jobs.map(function(job) {
+      return job.toObject();
+    });
+    return clb(null, jobs);
   };
 
   deleteJob = function(req, res) {
@@ -207,14 +277,12 @@
   };
 
   bidOnJobHandler = function(req, res, next) {
-    var usr;
-    usr = req.user;
-    return bidOnJob(usr, req.params.id, function(err) {
+    var jobId, user;
+    user = req.user;
+    jobId = req.params.id;
+    return bidOnJob(user, jobId, function(err, job) {
       if (err != null) {
-        next(err);
-      }
-      if ((usr == null) || (usr.type !== AuthLevel.CRAFTSMAN)) {
-        return res.send(422);
+        return res.status(422).send(err);
       }
       return res.send(job);
     });
@@ -225,10 +293,62 @@
     user = req.user;
     winnerId = req.params.winner;
     jobId = req.params.id;
-    if (user.type !== AuthLevel.CUSTOMER) {
-      return res.status(422).send("You don't have permissions to pick winning bid");
+    return pickwinner(user, winnerId, jobId, function(err, job) {
+      if (err != null) {
+        return res.status(422).send(err);
+      }
+      return res.send(job);
+    });
+  };
+
+  cancelBidOnJobHandler = function(req, res, next) {
+    var jobId, user;
+    jobId = req.params.id;
+    user = req.user;
+    return cancelBidOnJob(user, jobId, function(err, job) {
+      if (err != null) {
+        return res.status(422).send(err);
+      }
+      return res.send(job);
+    });
+  };
+
+  rateJobHandler = function(req, res, next) {
+    var comment, jobId, mark, user;
+    jobId = req.params.id;
+    mark = req.params.mark;
+    comment = req.params.comment;
+    user = req.user;
+    return rateJob(user, jobId, mark, comment, function(err, job) {
+      if (err != null) {
+        return res.status(422).send(err);
+      }
+      return res.send(job);
+    });
+  };
+
+  listOpenJobsHandler = function(req, res) {
+    if (req.user == null) {
+      return res.status(403).send("You're not authorized");
     }
-    return pickwinner(winnerId, jobId, function(err, job) {
+    return JobModel.find({
+      status: "open"
+    }).exec(function(err, jobs) {
+      if (err != null) {
+        return res.status(422).send(err);
+      }
+      return res.send(jobs);
+    });
+  };
+
+  createNewJobHandler = function(req, res, next) {
+    var jobData, usr;
+    jobData = req.body;
+    usr = req.user;
+    if (usr == null) {
+      return next("User doesn't exist");
+    }
+    return saveJob(usr, jobData, function(err, usr, job) {
       if (err != null) {
         return next(err);
       }
@@ -236,68 +356,15 @@
     });
   };
 
-  cancelBidOnJob = function(req, res) {
-    var usr;
-    usr = req.user;
-    if ((usr == null) || usr.type !== AuthLevel.CRAFTSMAN) {
-      return res.send(422);
-    }
-    return JobModel.findOne({
-      _id: req.params.id
-    }).exec(function(err, job) {
-      var bidder, ind;
-      bidder = (job.bidders.filter((function(_this) {
-        return function(el) {
-          return el.id === req.params.uid;
-        };
-      })(this)))[0];
-      ind = job.bidders.indexOf(bidder);
-      job.bidders.splice(ind, 1);
-      return job.save(function(err) {
-        if (err != null) {
-          return res.status(422).send(err.message);
-        }
-        return Messaging.sendNotification({
-          receiver: job.author.username,
-          type: "job",
-          body: "Craftsman " + usr.username + " just canceled their bid on your job offering " + job.title + " under " + job.category + " category"
-        }, function() {
-          return res.send(job);
-        });
-      });
-    });
-  };
-
-  rateJob = function(req, res) {
-    var user;
-    user = req.user;
-    if (user.type !== AuthLevel.CUSTOMER) {
-      return res.status(422).send("You don't have permissions to rate");
-    }
-    return JobModel.findById(req.params.id).exec(function(err, job) {
-      if (job.status !== "finished" || (job.winner == null) || (err != null)) {
-        return res.send(422);
-      }
-      return UserModel.findById(job.winner).exec(function(err, winner) {
-        if (err != null) {
-          return res.send(422);
-        }
-        winner.rating.totalVotes++;
-        winner.rating.avgRate += req.params.mark;
-        winner.rating.avgRate /= winner.rating.totalVotes;
-        return res.send(winner);
-      });
-    });
-  };
-
   module.exports.setup = function(app) {
-    app.post("/job/new", createNewJob);
-    app.post("/job/:id/delete", deleteJob);
-    app.post("job/:id/update", updateJob);
     app.post("/job/:id/bid", bidOnJobHandler);
-    app.post("/job/:id/:uid/cancelbid", cancelBidOnJob);
-    app.post("/job/:id/rate/:mark", rateJob);
+    app.post("/job/:id/rate/:mark", rateJobHandler);
+    app.post("/job/:id/:uid/cancelbid", cancelBidOnJobHandler);
     app.post("/job/:id/pickawinner/:winner", pickWinnerHandler);
+    app.post("/job/new", createNewJobHandler);
+    app.get("/job/list/all", listOpenJobsHandler);
+    app.post("/job/:id/delete", deleteJob);
+    app.post("/job/:id/update", updateJob);
     return app.post("/job/:id", findJob);
   };
 
