@@ -1,13 +1,15 @@
+cs = require "coffee-script/register"
 express = require "express"
 mongoose = require "mongoose"
-passport = require "passport"
-db = require "./config/Database"
 handlebars = require "express3-handlebars"
 flash = require "connect-flash"
-
 wrench = require "wrench"
-require("./config/Passport")(passport)
 
+db = require "./src/backend/config/Database"
+passport = require "./src/backend/config/Passport.coffee"
+shims = require "./src/backend/Shims.coffee"
+
+# ./node_modules/coffee-script/bin/coffee
 PORT = process.env.PORT || 3000
 
 app = express()
@@ -15,10 +17,6 @@ log = console.log.bind console
 
 #create and configure handlebars
 hbs = handlebars.create {}
-
-wrench.readdirSyncRecursive("utils/")
-.filter (file) ->  file.lastIndexOf(".js") isnt -1
-.forEach (util) -> require("./utils/#{util}")()
 
 #configure app
 app.configure ->
@@ -31,9 +29,9 @@ app.configure ->
 	app.use passport.initialize()
 	app.use passport.session()
 
-	router = require "./backend/Router"
+	router = require "./src/backend/Router"
 	router app, passport
-	
+
 app.use express.static "www/"
 app.listen PORT
 

@@ -20,6 +20,7 @@ var spawn = require("child_process").spawn
 	, writeFile = fs.createWriteStream
 	, fixtures = require("./createFixtures")
 	, isWindows = !!process.platform.match(/^win/)
+	, binCoffee = "./node_modules/coffee-script/bin/coffee"
 	, args = {
 			mongo: [
 				"--dbpath",
@@ -27,13 +28,11 @@ var spawn = require("child_process").spawn
 			],
 			supervisor: [
 				"-w",
-				"backend,utils,lib,config",
-				"-e",
-				"coffee,js",
-				"backend/server.js"
+				"src/backend,server.coffee",
+				"server.coffee"
 			],
 			jobupdate: [
-				"./backend/modules/JobUpdate.js"
+				"./src/backend/modules/JobUpdate.coffee"
 			]
 		}
 	, logs = {
@@ -124,7 +123,7 @@ gulp.task("pull", function() {
 
 /** Create test fixtures */
 gulp.task("createFixtures", function(next) {
-	var dbconnection = require("./config/Database");
+	var dbconnection = require("./src/backend/config/Database");
 	dbconnection.on("open", function() {
 		dbconnection.db.dropDatabase(function(err) {
 			util.log("Dropped database!".red);
@@ -238,7 +237,7 @@ gulp.task("serve", function() {
 	Run job update thread
 */
 gulp.task("runJobProcess", function() {
-	var jobUpdateProcess = spawn("node", args.jobupdate);
+	var jobUpdateProcess = spawn(binCoffee, args.jobupdate);
 	pipeOut(jobUpdateProcess, "JOBUPDATE-PROCESS", "yellow");
 	pipeErr(jobUpdateProcess, logs.jobupdate.err);
 });
@@ -248,8 +247,8 @@ gulp.task("runJobProcess", function() {
 */
 gulp.task("watch", function() {
 	var src = {
-		frontend: "www/coffee/",
-		backend: "backend/"
+		frontend: "src/frontend/",
+		backend: "src/backend/"
 	}
 	, cwd = process.cwd()
 	,	findFrontend = cwd.length + src.frontend.length
@@ -273,23 +272,6 @@ gulp.task("watch", function() {
 		}
 	}
 
-	function compileBackend(file) {
-		var path = file.path
-			, type = file.type
-			, ind = isWindows ? path.lastIndexOf("\\") : path.lastIndexOf("/")
-			, name = path.substring(findBackend + 1, path.length - 7)
-			;
-		
-		util.log(("Compiling " + name).yellow);
-
-		if (type === "changed") {
-			gulp.src(path)
-			.pipe(coffee({bare: true}).on("error", util.log))
-			.pipe(rename(name + ".js"))
-			.pipe(gulp.dest("backend/"));
-		}
-	}
-
 	glob(src.frontend + "**/*.coffee", function(err, files) {
 		if (err) {
 			return util.log(err);
@@ -307,22 +289,39 @@ gulp.task("watch", function() {
 		gulp.watch(src.frontend + "**/*.coffee", compileFrontend);
 	});
 
-	glob(src.backend + "**/*.coffee", function(err, files) {
-		if (err) {
-			return util.log(err);
-		}
+	// function compileBackend(file) {
+	// 	var path = file.path
+	// 		, type = file.type
+	// 		, ind = isWindows ? path.lastIndexOf("\\") : path.lastIndexOf("/")
+	// 		, name = path.substring(findBackend + 1, path.length - 7)
+	// 		;
 		
-		files.forEach(function(file) {
-			if (isWindows) {
-				file = cwd + "\\" + file.replace(/\//g, "\\");
-			}
-			compileBackend({
-				path: file, 
-				type: "changed"
-			})
-		});
-		gulp.watch(src.backend + "**/*.coffee", compileBackend);
-	});
+	// 	util.log(("Compiling " + name).yellow);
+
+	// 	if (type === "changed") {
+	// 		gulp.src(path)
+	// 		.pipe(coffee({bare: true}).on("error", util.log))
+	// 		.pipe(rename(name + ".js"))
+	// 		.pipe(gulp.dest("backend/"));
+	// 	}
+	// }
+
+	// glob(src.backend + "**/*.coffee", function(err, files) {
+	// 	if (err) {
+	// 		return util.log(err);
+	// 	}
+		
+	// 	files.forEach(function(file) {
+	// 		if (isWindows) {
+	// 			file = cwd + "\\" + file.replace(/\//g, "\\");
+	// 		}
+	// 		compileBackend({
+	// 			path: file, 
+	// 			type: "changed"
+	// 		})
+	// 	});
+	// 	gulp.watch(src.backend + "**/*.coffee", compileBackend);
+	// });
 
 	// .pipe(coffee())
 	// .pipe(uglify())
