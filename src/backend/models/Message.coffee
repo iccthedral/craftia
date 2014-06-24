@@ -10,12 +10,12 @@ schema = mongoose.Schema
 		type: String
 
 	to:
-		username: String
-		id: mongoose.Schema.Types.ObjectId
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
 		
 	author:
-		username: String
-		id: mongoose.Schema.Types.ObjectId
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
 		
 	dateSent:
 		type: Date

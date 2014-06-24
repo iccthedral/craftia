@@ -1,1 +1,1 @@
-define(["controllers/shell", "controllers/topNav"], function() {});
+define(["controllers/shell", "controllers/topNav", "controllers/userCtrl", "controllers/loginCtrl"], function() {});

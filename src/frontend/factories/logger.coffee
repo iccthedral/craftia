@@ -19,7 +19,7 @@ define ["factories/module", "toastr"], (module, toastr) ->
 					toastr.success(message)
 				else
 					toastr.info(message)
-
+				
 		return out = 
 			getLogFn: (moduleId, fnName) ->
 				fname = fnName.toLowerCase()
@@ -32,6 +32,9 @@ define ["factories/module", "toastr"], (module, toastr) ->
 				logIt message, data, source, showToast, "warning"
 		
 			error: (message, data, source, showToast) ->
+				if message.statusText? and message.responseText?
+					message = "#{message.statusText} - #{message.responseText}"
+
 				logIt message, data, source, showToast, "error"
 		
 			success: (message, data, source, showToast) ->

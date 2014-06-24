@@ -9,7 +9,8 @@ define(["factories/module"], function(module) {
         timeOut: 2000,
         positionClass: "toast-bottom-right"
       },
-      errorPrefix: "[CRAFTIA ERROR]"
+      errorPrefix: "[CRAFTIA ERROR]",
+      showErrors: true
     };
     this.$get = function() {
       return this.config;

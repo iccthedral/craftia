@@ -20,7 +20,7 @@ schema = mongoose.Schema
 	isRead:
 		type: Boolean
 		default: false
-
+	
 	to:
 		type: mongoose.Schema.Types.ObjectId
 		ref: "User"

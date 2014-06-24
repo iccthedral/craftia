@@ -1,9 +1,13 @@
 define(["app"], function(app) {
   return app.config([
     "$routeProvider", function(routeProvider) {
-      return routeProvider.when("/", {
-        templateUrl: "templates/layout/shell.html",
+      routeProvider.when("/blabla", {
+        templateUrl: "templates/layout/dljadlja.html",
         controller: "shellCtrl"
+      });
+      return routeProvider.when("/login", {
+        templateUrl: "templates/layout/loginForm.html",
+        controller: "LoginCtrl"
       });
     }
   ]);

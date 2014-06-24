@@ -2,13 +2,14 @@ define [
 	"require"
 	"angular"
 	"app"
+	"capi"
 	"toastr"
 	"ngRoutes"
 	"ngSanitize"
 	"ngUiRouter"
 	"routes"
 ], (require, ng, app) ->
-
+	
 	app.config ["$provide"
 	($provide) ->
 		$provide.decorator "$exceptionHandler", ["$delegate", "config", "logger"

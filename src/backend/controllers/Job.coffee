@@ -47,7 +47,7 @@ module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 		job.save (err) ->
 			return res.status(422).send(err.message) if err?
 			Messaging.sendNotification {
-				receiver: job.author.username
+				receiver: job.author
 				subject: "Someone bidded on your offering"
 				type: "job"
 				body: """
@@ -111,7 +111,7 @@ module.exports.cancelBidOnJob = cancelBidOnJob = (usr, jobId, clb) ->
 		job.bidders.splice(ind, 1)
 		job.save (err) ->
 			Messaging.sendNotification {
-				receiver: job.author.username
+				receiver: job.author
 				type: "job"
 				body: """
 Craftsman #{usr.username} just canceled their bid on your job offering #{job.title} under #{job.category} category
@@ -128,7 +128,7 @@ module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
 	JobModel.findById jobId
 	.exec (err, job) ->
 		return clb err if err?
-		if job.author.id isnt user.id
+		if job.author isnt user.id
 			return clb "You're not the creator of this job"
 		if job.status isnt "finished"
 			return clb "This job isn't finished and you can't rate the craftsman"

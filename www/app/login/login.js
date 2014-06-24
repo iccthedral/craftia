@@ -25,7 +25,6 @@
           logSuccess("Welcome " + data.name)
           authService.setUser(data);
           $location.path("/blabla")
-
         })
         .error(function(err) {
           throw new Error(err);

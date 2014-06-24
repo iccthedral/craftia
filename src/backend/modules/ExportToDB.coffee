@@ -5,9 +5,9 @@ CategoryModel = require "../models/Category"
 CityModel = require "../models/City"
 DB = require "../config/Database"
 
-RESOURCES = "../resources/"
+RESOURCES = "../../shared/resources/"
 CITIES = require "#{RESOURCES}cities.json"
-CATEGORIES = "#{RESOURCES}categories/"
+CATEGORIES = "./src/shared/resources/categories/"
 
 module.exports = (clb) ->
 	CategoryModel
@@ -18,7 +18,7 @@ module.exports = (clb) ->
 		.filter (file) ->
 			return file.lastIndexOf(".json") isnt -1 
 		.map (util) ->
-			jsonData = require(".#{CATEGORIES}#{util}")
+			jsonData = require("#{RESOURCES}categories/#{util}")
 			return jsonData
 		
 		# create categories

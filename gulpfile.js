@@ -11,6 +11,7 @@ var spawn = require("child_process").spawn
 	, glob = require("glob")
 	, mongoose = require("mongoose")
 	, mkdirp = require("mkdirp")
+	, wrench = require("wrench")
 	, colors = require("colors")
 	, async = require("async")
 	, unzip = require("unzip")
@@ -88,8 +89,34 @@ function touchDir(dir, clb) {
 	})
 }
 
-gulp.task("default", ["watch", "serve", "runJobProcess"], function() {
+function linkDir(source, dest) {
+ 	fs.exists(dest, function(exists) {
+ 		if (exists) {
+ 			rimraf(dest, function() {
+ 				linkMe()
+ 			})
+ 		} else {
+ 			linkMe();
+ 		}
+ 	});
+ 	
+	function linkMe() {
+		fs.symlink(source, dest, function(err) {
+			if (err) {
+				throw err;
+			}
+		});
+	}
+}
 
+gulp.task("default", ["linkShared", "watch", "serve", "runJobProcess"], function() {
+	
+});
+
+gulp.task("linkShared", function() {
+	var cwd = process.cwd()
+		, sharedPath = cwd + "/src/shared";
+	linkDir(sharedPath, cwd + "/www/shared");
 });
 
 gulp.task("add", function() {
@@ -276,10 +303,11 @@ gulp.task("watch", function() {
 		if (err) {
 			return util.log(err);
 		}
-
 		files.forEach(function(file) {
 			if (isWindows) {
 				file = cwd + "\\" + file.replace(/\//g, "\\");
+			} else {
+				file = cwd + "/" + file;
 			}
 			compileFrontend({
 				path: file, 
@@ -288,41 +316,6 @@ gulp.task("watch", function() {
 		});
 		gulp.watch(src.frontend + "**/*.coffee", compileFrontend);
 	});
-
-	// function compileBackend(file) {
-	// 	var path = file.path
-	// 		, type = file.type
-	// 		, ind = isWindows ? path.lastIndexOf("\\") : path.lastIndexOf("/")
-	// 		, name = path.substring(findBackend + 1, path.length - 7)
-	// 		;
-		
-	// 	util.log(("Compiling " + name).yellow);
-
-	// 	if (type === "changed") {
-	// 		gulp.src(path)
-	// 		.pipe(coffee({bare: true}).on("error", util.log))
-	// 		.pipe(rename(name + ".js"))
-	// 		.pipe(gulp.dest("backend/"));
-	// 	}
-	// }
-
-	// glob(src.backend + "**/*.coffee", function(err, files) {
-	// 	if (err) {
-	// 		return util.log(err);
-	// 	}
-		
-	// 	files.forEach(function(file) {
-	// 		if (isWindows) {
-	// 			file = cwd + "\\" + file.replace(/\//g, "\\");
-	// 		}
-	// 		compileBackend({
-	// 			path: file, 
-	// 			type: "changed"
-	// 		})
-	// 	});
-	// 	gulp.watch(src.backend + "**/*.coffee", compileBackend);
-	// });
-
 	// .pipe(coffee())
 	// .pipe(uglify())
 	// .pipe(concat("craftia.min.js"))

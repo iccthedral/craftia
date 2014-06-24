@@ -50,14 +50,16 @@ schema = mongoose.Schema
 		enum: ["open", "closed", "finished"]
 
 	author:
-		type: mongoose.Schema.Types.Mixed
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
 		
 	rated:
 		type: Boolean
 		default: false
 	
 	winner:
-		type: mongoose.Schema.Types.Mixed
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
 
 	bidders:
 		type: Array

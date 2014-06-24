@@ -1,4 +1,4 @@
 module.exports = 
-	Customer: "Customer"
-	Craftsman: "Craftsman"
-	Admin: "Admin"
+	CUSTOMER: "Customer"
+	CRAFTSMAN: "Craftsman"
+	ADMIN: "Admin"

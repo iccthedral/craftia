@@ -1,9 +1,10 @@
 cs = require "coffee-script/register"
-JobCtrl = require "./backend/controllers/Job"
-UserCtrl = require "./backend/controllers/User"
-DB = require "./config/Database"
-UserModel = require "./backend/models/User"
-JobModel = require "./backend/models/Job"
+
+JobCtrl = require "./src/backend/controllers/Job"
+UserCtrl = require "./src/backend/controllers/User"
+DB = require "./src/backend/config/Database"
+UserModel = require "./src/backend/models/User"
+JobModel = require "./src/backend/models/Job"
 repl = require "repl"
 
 log = console.log.bind console

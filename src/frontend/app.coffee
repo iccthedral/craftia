@@ -10,6 +10,7 @@ define [
 	return ng.module "app", [
 		"ngRoute"
 		"ui.router"
+		"app.customControllers"
 		"app.factories"
 		"app.services"
 		"app.controllers"

@@ -1,4 +1,4 @@
-define(["require", "angular", "app", "toastr", "ngRoutes", "ngSanitize", "ngUiRouter", "routes"], function(require, ng, app) {
+define(["require", "angular", "app", "capi", "toastr", "ngRoutes", "ngSanitize", "ngUiRouter", "routes"], function(require, ng, app) {
   app.config([
     "$provide", function($provide) {
       return $provide.decorator("$exceptionHandler", [

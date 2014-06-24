@@ -34,19 +34,19 @@ module.exports.getBiddedJobs = getBiddedJobs = (usr, clb) ->
 		clb err, jobs
 
 module.exports.getCreatedJobs = getCreatedJobs = (usr, clb) ->
-	JobModel.find "author._id":usr._id, (err, jobs) ->
+	JobModel.find "author":usr, (err, jobs) ->
 		clb err, jobs
 
 module.exports.getSentMessages = getSentMessages = (usr, clb) ->
-	MessageModel.find "author._id":usr._id, (err, messages) ->
+	MessageModel.find "author":usr, (err, messages) ->
 		clb err, messages
 
 module.exports.getReceivedMessages = getReceivedMessages = (usr, clb) ->
-	MessageModel.find "to._id":usr._id, (err, messages) ->
+	MessageModel.find "to":usr, (err, messages) ->
 		clb err, messages
 
 module.exports.getNotifications = getNotifications = (usr, clb) ->
-	NotificationsModel.find "to._id":usr._id, (err, notifications) ->
+	NotificationsModel.find "to":usr, (err, notifications) ->
 		clb err, notifications
 
 module.exports.populateUser = populateUser = (usr, clb) ->
@@ -68,15 +68,16 @@ module.exports.populateUser = populateUser = (usr, clb) ->
 					getNotifications usr, (err, notifications) ->
 						return clb err if err?
 						out.notifications = notifications
-						clb err, out
+						user = usr.toObject()
+						user = _.extend user, out
+						clb err, user
 
 module.exports.isUserAuthenticated = isUserAuthenticated = (req, res, next) ->
 	user = req.user
 	return res.send(403) if not user?
-	populateUser user, (err, out) ->
+	populateUser user, (err, user) ->
 		return next err if err?
-		user = user.toObject()
-		res.send _.extend user, out
+		res.send user
 
 logMeOut = (req, res) ->
 	req.logout()
@@ -89,12 +90,10 @@ logMeIn = (req, res, next) ->
 		req.session.cookie.expires = false
 	pass = passport.authenticate "local", (err, user, info) ->
 		return next err if err?
-		return res.status(401).send info.message if not user?
+		return res.status(401).send info.message if not user
 		req.logIn user, (err) ->
-			populateUser user, (err, out) ->
+			populateUser user, (err, user) ->
 				return next err if err?
-				user = user.toObject()
-				user = _.extend user, out
 				res.send user
 	pass req, res, next
 

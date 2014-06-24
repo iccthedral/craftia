@@ -11,7 +11,8 @@ define ["factories/module"], (module) ->
 				positionClass: "toast-bottom-right"
 
 			errorPrefix: "[CRAFTIA ERROR]"
-
+			showErrors: true
+		
 		@$get = ->
 			return @config
 

@@ -6,8 +6,8 @@
 	, bidOnJob = jobCtrl.bidOnJob
 	, async = require("async")
 	, createCatsAndCities = require("./src/backend/modules/ExportToDB")
-	, carCategory = require("./src/backend/resources/categories/car.json")
-	, cities = require("./src/backend/resources/cities.json")
+	, carCategory = require("./src/shared/resources/categories/car.json")
+	, cities = require("./src/shared/resources/cities.json")
 	, names = ["gogs", "sale", "doks", "roks", "moks"]
 	, addresses = ["Kralja Petra 1", "Cara Dusana 1", "Mihajla Pupina 1"]
 	, pics = ["no1", "no2", "no3"]
@@ -109,23 +109,18 @@ function createJob(customer, clb) {
 		line1: addrLine
 	};
 	
-	job.author = {
-		id: customer._id,
-		username: customer.username
-	};
-	
 	job.subcategory = carCategory.subcategories[~~(Math.random()*subcatLen)];
 	job.dateTo = new Date(new Date().getTime() + (1000 * (~~(Math.random() * JOB_DATE_TO) + 1) * 60));
 	job.materialProvider = ["Craftsman", "Customer"][Math.round(Math.random())];
 	job.title += customer.username;
 	job.description += customer.username;
 	job.budget = ~~(Math.random() * 10000) + 9000;
-
+	
 	var numPhotos = ~~(Math.random() * jobPhotos.length);
 	while (numPhotos-- > 0) {
 		job.jobPhotos.push("img/" + jobPhotos[numPhotos] + ".jpg");
 	}
-
+	
 	saveJob(customer, job, clb);
 }
 

@@ -32,6 +32,10 @@ app.configure ->
 	router = require "./src/backend/Router"
 	router app, passport
 
+app.use (err, req, res, next) ->
+	console.log err
+	res.send err
+
 app.use express.static "www/"
 app.listen PORT
 

@@ -7,7 +7,7 @@ async = require "async"
 
 module.exports.sendNotification = (notif, clb = ->) ->
 	UserModel
-	.findOne username:notif.receiver
+	.findById notif.receiver
 	.exec (err, receiver) ->
 		out = {}
 

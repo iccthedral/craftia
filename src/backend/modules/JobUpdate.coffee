@@ -1,6 +1,7 @@
 async = require "async"
-db = require "../../config/Database"
 _ = require "underscore"
+
+db = require "../config/Database"
 JobModel = require "../models/Job"
 Messaging = require "./Messaging"
 
@@ -34,20 +35,20 @@ do jobUpdate = -> JobModel.find {}, (err, results) ->
 				
 			job.status = "finished"
 			notifAuthor = {
-				receiver: job.author.username
+				receiver: job.author
 				body:
 					if job.winner? then AUTHOR_NOTIF_WINNING job
 					else AUTHOR_NOTIF_FINISHED job
 			}
-
+			console.log job.author
 			if job.winner?
 				notifWinner = {
-					receiver: job.winner.username
+					receiver: job.winner
 					body: WINNER_NOTIF job
 				}
 				Messaging.sendNotification notifWinner
 			Messaging.sendNotification notifAuthor
-
+			
 			job.save (err, cnt) ->
 				clb err, cnt if err?
 				log "Job updated!"

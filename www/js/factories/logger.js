@@ -36,6 +36,9 @@ define(["factories/module", "toastr"], function(module, toastr) {
           return logIt(message, data, source, showToast, "warning");
         },
         error: function(message, data, source, showToast) {
+          if ((message.statusText != null) && (message.responseText != null)) {
+            message = "" + message.statusText + " - " + message.responseText;
+          }
           return logIt(message, data, source, showToast, "error");
         },
         success: function(message, data, source, showToast) {
