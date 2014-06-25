@@ -91,21 +91,21 @@ define(["app", "angular"], function(app, angular) {
           templateUrl: "shared/templates/layout/customerBar.html"
         },
         "shell@customer": {
-          template: "Pozz kolega!"
+          template: "Pozz kolega1!"
         }
       }
     }).state("customer.messages", {
       url: "/messages",
       views: {
         "shell@customer": {
-          template: "JEBI SE MALO"
+          template: "Pozz kolega2!"
         }
       }
     }).state("customer.jobs", {
       url: "/jobs",
       views: {
         "shell@customer": {
-          templateUrl: "shared/templates/layout/customersJobList.html",
+          templateUrl: "shared/templates/layout/customerJobList.html",
           controller: "CustomerCtrl"
         }
       }

@@ -1,0 +1,144 @@
+<section class="matter">
+	<div class="container">
+		<div class="row">
+<!-- 			<div class="widget wcyan">
+			   <div class="widget-head" title="">
+				<button type="button" class="btn btn-secondary btn-lg" ng-click="JobPanel.addNewJob()">
+					<span class="glyphicon glyphicon-plus"></span> Add new job
+				</button>
+
+				Need ng-hide for show/hide animations
+				<span ng-show="JobPanel.isChanged()" class="dissolve-animation flag-haschanges ng-hide">
+					<i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
+				</span>
+			</div> -->
+
+			<div class="col-md-12" ng-include="newJobView">
+
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="widget wcyan">
+						<div data-cc-widget-header title="Current jobs" allow-collapse="true"></div>
+						<div class="widget-content text-center text-info widget-ul-list">
+
+							<ul style="list-style: none;" >
+								<li class="my-offer" id="{{$index}}" data-ng-repeat="p in user.createdJobs" ng-click="JobList.showJob($index)">
+									<div class="row job-div">
+
+										<div class="col-md-2">
+											<div class="black-div cat-div text-center">
+												<span class="small-span white-span helvetica-neue">
+													{{p.category}} :
+												</span>
+												<span class="small-span white-span helvetica-neue">
+													{{p.subcategory}}
+												</span>
+											</div>
+
+											<div class="text-center">
+												<img class="job-pic" src="/img/default_user.jpg">
+											</div>
+
+										</div>
+										<div class="col-md-10 yellow-div right-job-div">
+											
+											<div class="row">
+												<div class="col-md-10">
+												</div>
+											</div>
+											
+											<div class="row">
+												<div class="col-md-4 date-div ">
+													<div class="row">
+														<div class="col-md-1">
+														</div>
+														<div class="row col-md-10 yellow-div">
+															<div class="row">
+
+
+																<div class="text-center col-md-6 black-div">
+																	<span class="white-span small-span helvetica-neue">
+																		Starting date:    
+																	</span>
+																	<br>
+																	<span class="white-span small-span helvetica-neue">
+																		{{p.dateFrom}}    
+																	</span>
+																</div>
+
+																<div class="text-center col-md-6 peach-div">
+																	<span class="helvetica-neue small-span black-span">
+																		Ending date:   
+																	</span>
+																	<br>
+																	<span class="black-span small-span helvetica-neue">
+																		{{p.dateTo}}    
+																	</span>
+																</div>
+
+															</div>   
+														</div>
+														<div class="col-md-1">
+														</div>
+
+													</div>
+
+													<div class="row address-div yellow-div text-center">
+
+														<div class="col-md-2">
+														</div>
+														<div class="col-md-4">
+															<img src="/img/address_selector.jpg">
+														</div>
+														<div class="col-md-4 text-center">
+															<span clas="helvetica-neue black-span tiny-span">
+																{{p.address.city}}
+															</span>
+														</div>
+														<div class="col-md-2">
+														</div>
+
+
+													</div>
+												</div>
+
+
+												<div class="yellow-div info-div col-md-8 row">
+													<div class="col-md-1">
+													</div>
+													<div class="col-md-10 text-left">
+
+														<span class="small-span black-span">
+															{{p.description}}
+														</span>
+
+													</div>
+													<div class="col-md-1">
+													</div>
+												</div>
+											</div>  
+										</div>
+									</div>
+									<div class="col-md-2"></div>
+
+									<div ng-include="'app/dashboard/jobButtons.html'" class="job-buttons peach-div row">
+									</div>
+
+
+									<div ng-show="JobList.isToggled($index)" ng-include="rightPartial" onload="JobPanel.partialInit()">
+									</div>
+								</li>
+
+							</ul>
+							<div class="clearfix"></div>
+							<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="myJobsTotal" on-select-page="myJobsPageSelected" page="myJobsCurrentPage" rotate="false"></pagination>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>  

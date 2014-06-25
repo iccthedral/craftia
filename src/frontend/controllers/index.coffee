@@ -3,6 +3,7 @@ define [
 	"controllers/navigation"
 	"controllers/login"
 	"controllers/anon"
+	"controllers/customer"
 	"controllers/register"
 	"controllers/craftsmanMenu"
 	"controllers/createJob"
