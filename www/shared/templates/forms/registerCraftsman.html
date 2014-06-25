@@ -17,7 +17,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="email">E-mail</label>
 											<div class="col-md-9">
-												<input ng-model="user.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
+												<input ng-model="userDetails.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -26,7 +26,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="username">Username</label>
 											<div class="col-md-9">
-												<input ng-model="user.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+												<input ng-model="userDetails.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -35,7 +35,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="password">Password</label>
 											<div class="col-md-9">
-												<input ng-model="user.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+												<input ng-model="userDetails.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -52,7 +52,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="name">Name</label>
 											<div class="col-md-9">
-												<input ng-model="user.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+												<input ng-model="userDetails.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -61,7 +61,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="surname">Surname</label>
 											<div class="col-md-9">
-												<input ng-model="user.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+												<input ng-model="userDetails.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -70,7 +70,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="telephone">Telephone</label>
 											<div class="col-md-9">
-												<input ng-model="user.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+												<input ng-model="userDetails.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
 
 											</div>
 										</div>
@@ -79,7 +79,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="telephone">City</label>
 											<div class="col-md-9">
-												<input ng-model="user.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
+												<input ng-model="userDetails.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
 											</div>
 										</div>
 										
@@ -88,7 +88,7 @@
 										<div class="form-group">
 											<label class="col-md-9 control-label" for="telephone">Address</label>
 											<div class="col-md-9">
-												<input ng-model="user.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
+												<input ng-model="userDetails.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
 											</div>
 										</div>
 

@@ -1,4 +1,0 @@
-define [
-	"filters/testFilter"
-], ->
-	return

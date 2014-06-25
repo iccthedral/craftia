@@ -1,4 +1,0 @@
-define [
-	"directives/ccSpinner"
-], ->
-	return

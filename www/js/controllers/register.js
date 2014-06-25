@@ -1,8 +1,8 @@
-define(["./cmodule", "models/user", "json!cities"], function(cmodule, UserModel, cities) {
+define(["./cmodule", "json!cities"], function(cmodule, cities) {
   var RegisterCtrl;
   RegisterCtrl = (function() {
     function RegisterCtrl() {
-      this.user = UserModel;
+      this.userDetails = {};
       this.acceptedTOS = false;
       this.images = ["img/quality.jpg", "img/master.jpg", "img/approved.jpg"];
     }
@@ -18,7 +18,7 @@ define(["./cmodule", "models/user", "json!cities"], function(cmodule, UserModel,
         return;
       }
       curState = this.state.current.name;
-      return this.http.post(this.API.registerCraftsman, this.user).success((function(_this) {
+      return this.http.post(this.API.registerCraftsman, this.userDetails).success((function(_this) {
         return function() {
           return _this.log.success("You are now registered");
         };

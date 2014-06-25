@@ -1,4 +1,0 @@
-define [
-	"services/testService"
-], ->
-	return

@@ -1,8 +1,8 @@
-define ["./cmodule", "models/user", "json!cities"], (cmodule, UserModel, cities) ->
+define ["./cmodule", "json!cities"], (cmodule, cities) ->
 	
 	class RegisterCtrl
 		constructor: ->
-			@user = UserModel
+			@userDetails = {}
 			@acceptedTOS = false
 			@images = [
 				"img/quality.jpg"
@@ -19,7 +19,7 @@ define ["./cmodule", "models/user", "json!cities"], (cmodule, UserModel, cities)
 				return
 
 			curState = @state.current.name
-			@http.post @API.registerCraftsman, @user
+			@http.post @API.registerCraftsman, @userDetails
 			.success =>
 				@log.success "You are now registered"
 			.error (err) =>
