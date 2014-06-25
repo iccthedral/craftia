@@ -38,6 +38,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       };
       return $scope.update = function() {
         return $http.post(common.format(API.updateJob, jobId), job).success(function(data) {
+          $.extend($scope.job, data);
           log.success("Job updated!");
           return $state.transitionTo("customer.jobs");
         }).error(function(err) {

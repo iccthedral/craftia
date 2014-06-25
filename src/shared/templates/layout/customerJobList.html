@@ -23,7 +23,7 @@
 						<div class="widget-content text-center widget-ul-list">
 
 							<ul style="list-style: none;" >
-								<li class="my-offer" id="{{$index}}" data-ng-repeat="p in user.createdJobs" ng-click="JobList.showJob($index)">
+								<li class="my-offer" id="{{$index}}" data-ng-repeat="p in createdJobsPaged" ng-click="JobList.showJob($index)">
 									<div class="row job-div">
 
 										<div class="col-md-2">
@@ -97,7 +97,7 @@
 													</div>
 
 													<div class="row address-div yellow-div text-center">
-													<textarea style="height: 77px;" class="form-control" rows="2">{{p.description}}</textarea>
+													<textarea style="height: 83px;" class="form-control" rows="2">{{p.description}}</textarea>
 													</div>
 												
 												</div>
@@ -154,13 +154,13 @@
 									</div>
 
 
-									<div ng-show="JobList.isToggled($index)" ng-include="rightPartial" onload="JobPanel.partialInit()">
+								<div ng-show="JobList.isToggled($index)" ng-include="rightPartial" onload="JobPanel.partialInit()">
 									</div>
 								</li>
 
 							</ul>
 							<div class="clearfix"></div>
-							<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="myJobsTotal" on-select-page="myJobsPageSelected" page="myJobsCurrentPage" rotate="false"></pagination>
+							<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="user.createdJobs.length - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
 							<div class="clearfix"></div>
 						</div>
 					</div>

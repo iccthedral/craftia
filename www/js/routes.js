@@ -106,7 +106,7 @@ define(["app", "angular"], function(app, angular) {
       views: {
         "shell@customer": {
           templateUrl: "shared/templates/layout/customerJobList.html",
-          controller: "CustomerCtrl"
+          controller: "CustomerJobsCtrl"
         }
       }
     }).state("customer.createJob", {
@@ -123,6 +123,16 @@ define(["app", "angular"], function(app, angular) {
         "shell@customer": {
           templateUrl: "shared/templates/forms/editJob.html",
           controller: "EditJobCtrl"
+        }
+      }
+    }).state("customer.testpage", {
+      url: "/testPage",
+      views: {
+        "shell@customer": {
+          template: "\n\n\n\n\n",
+          controller: function($scope) {
+            return $scope.x = 10;
+          }
         }
       }
     });

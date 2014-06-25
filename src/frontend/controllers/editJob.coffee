@@ -36,7 +36,7 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				require [ "json!#{jsonFile}" ], (data) ->
 					$scope.subcategories = data.subcategories.slice()
 					$scope.$digest()
-					
+
 			$scope.setFocusOnPhoto = (index) ->
 				if not job.jobPhotos[index].img?
 					$scope.currentPhotoIndex = null
@@ -46,6 +46,7 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.update = ->
 				$http.post (common.format API.updateJob, jobId), job
 				.success (data) ->
+					$.extend $scope.job, data
 					log.success "Job updated!"
 					$state.transitionTo "customer.jobs"
 				.error (err) ->

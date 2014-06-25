@@ -1,1 +1,1 @@
-define(["controllers/shell", "controllers/navigation", "controllers/login", "controllers/anon", "controllers/customer", "controllers/register", "controllers/craftsmanMenu", "controllers/createJob", "controllers/editJob"], function() {});
+define(["controllers/shell", "controllers/navigation", "controllers/login", "controllers/anon", "controllers/customerJobs", "controllers/register", "controllers/craftsmanMenu", "controllers/createJob", "controllers/editJob"], function() {});

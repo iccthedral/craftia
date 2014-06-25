@@ -9,12 +9,12 @@ define ["factories/module"], (module) ->
 		($q, $rootScope, $timeout, config, logger, spinner) ->
 			out = {}
 			out.logger = logger
-			out.format = out.f = (s) ->
-				i = arguments.length
+			out.format = out.f = (s, args...) ->
+				i = args.length
 				while i--
-					s = s.replace new RegExp("\\{#{i}\\}", "gm"), arguments[i]
+					s = s.replace new RegExp("\\{#{i}\\}", "gm"), args[i]
 				return s
-			
+
 			out.activateController = (promises, controllerId) ->
 				out.broadcast config.events.ToggleSpinner, show:true
 				return $q.all promises

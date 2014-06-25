@@ -108,7 +108,7 @@ define ["app", "angular"], (app, angular) ->
 				views:
 					"shell@customer":
 						templateUrl: "shared/templates/layout/customerJobList.html"
-						controller: "CustomerCtrl"
+						controller: "CustomerJobsCtrl"
 			}
 			.state "customer.createJob", {
 				url: "/createJob"
@@ -127,7 +127,22 @@ define ["app", "angular"], (app, angular) ->
 						templateUrl: "shared/templates/forms/editJob.html"
 						controller: "EditJobCtrl"
 			}
-			
+			.state "customer.testpage", {
+				url: "/testPage"
+				views:
+					"shell@customer":
+						template: """
+
+
+
+
+
+
+"""
+						controller: ($scope) ->
+							$scope.x = 10;
+			}
+
 		$stateProvider.state "craftsman", {
 			url: "/cr"
 			views:
