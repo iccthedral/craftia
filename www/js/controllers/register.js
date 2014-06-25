@@ -12,15 +12,20 @@ define(["./cmodule", "json!cities"], function(cmodule, cities) {
     };
 
     RegisterCtrl.prototype.register = function() {
-      var curState;
+      var curState, url;
       if (!this.acceptedTOS) {
         this.log.error("Please check whether you agree with the terms & conditions");
         return;
       }
       curState = this.state.current.name;
-      return this.http.post(this.API.registerCraftsman, this.userDetails).success((function(_this) {
+      url = this.API.registerCraftsman;
+      if (curState === "anon.register.customer") {
+        url = this.API.registerCustomer;
+      }
+      return this.http.post(url, this.userDetails).success((function(_this) {
         return function() {
-          return _this.log.success("You are now registered");
+          _this.log.success("You are now registered");
+          return _this.state.transitionTo("anon.login");
         };
       })(this)).error((function(_this) {
         return function(err) {

@@ -67,8 +67,9 @@ define ["app", "angular"], (app, angular) ->
 			.state "anon.register.customer", {
 				url: "/customer"
 				views:
-					"shell@anon": 
-						template: "Pozz Kolega"
+					"shell@anon":
+						templateUrl: "shared/templates/forms/registerCustomer.html"
+						controller: "RegisterCtrl"
 			}
 			.state "anon.register.craftsman", {
 				url: "/craftsman"
@@ -119,6 +120,14 @@ define ["app", "angular"], (app, angular) ->
 						"""
 						controller: "CreateJobCtrl"
 			}
+
+		$stateProvider.state "craftsman", {
+			url: "/cr"
+			views:
+				"":
+					templateUrl: "shared/templates/layout/shell.html"
+					controller: "ShellCtrl"
+		}
 
 		# .state "craftsman", {
 		# 	url: "/cr"

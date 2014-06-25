@@ -61,7 +61,8 @@ define(["app", "angular"], function(app, angular) {
       url: "/customer",
       views: {
         "shell@anon": {
-          template: "Pozz Kolega"
+          templateUrl: "shared/templates/forms/registerCustomer.html",
+          controller: "RegisterCtrl"
         }
       }
     }).state("anon.register.craftsman", {
@@ -75,7 +76,7 @@ define(["app", "angular"], function(app, angular) {
     });
 
     /* When CUSTOMER is logged in */
-    return $stateProvider.state("customer", {
+    $stateProvider.state("customer", {
       url: "/cu",
       views: {
         "": {
@@ -114,6 +115,15 @@ define(["app", "angular"], function(app, angular) {
         "shell@customer": {
           template: "<div ng-if=\"firstStep\" ng-include=\"'shared/templates/forms/createJob1.html'\"></div>\n<div ng-if=\"secondStep\" ng-include=\"'shared/templates/forms/createJob2.html'\"></div>",
           controller: "CreateJobCtrl"
+        }
+      }
+    });
+    return $stateProvider.state("craftsman", {
+      url: "/cr",
+      views: {
+        "": {
+          templateUrl: "shared/templates/layout/shell.html",
+          controller: "ShellCtrl"
         }
       }
     });

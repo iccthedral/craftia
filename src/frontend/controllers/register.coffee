@@ -19,9 +19,14 @@ define ["./cmodule", "json!cities"], (cmodule, cities) ->
 				return
 
 			curState = @state.current.name
-			@http.post @API.registerCraftsman, @userDetails
+			url = @API.registerCraftsman
+			if curState is "anon.register.customer"
+				url = @API.registerCustomer
+			
+			@http.post url, @userDetails
 			.success =>
 				@log.success "You are now registered"
+				@state.transitionTo "anon.login"
 			.error (err) =>
 				@log.error err
 
