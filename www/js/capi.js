@@ -5,6 +5,7 @@ define(["app"], function(app) {
     tryLogin: "/isAuthenticated",
     registerCraftsman: "/user/registerCraftsman",
     registerCustomer: "/user/registerCustomer",
-    createJob: "/job/new"
+    createJob: "/job/new",
+    updateJob: "/job/{0}/update"
   });
 });

@@ -3,6 +3,7 @@ define [
 	"angular"
 	"app"
 	"capi"
+	"moment"
 	"jqueryui"
 	"toastr"
 	"ngBootstrap"

@@ -117,6 +117,14 @@ define(["app", "angular"], function(app, angular) {
           controller: "CreateJobCtrl"
         }
       }
+    }).state("customer.editJob", {
+      url: "/editJob/:jobId",
+      views: {
+        "shell@customer": {
+          templateUrl: "shared/templates/forms/editJob.html",
+          controller: "EditJobCtrl"
+        }
+      }
     });
     return $stateProvider.state("craftsman", {
       url: "/cr",

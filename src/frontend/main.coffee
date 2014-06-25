@@ -6,7 +6,7 @@ require.config
 	paths:
 		"cities": "../shared/resources/cities.json"
 		"categories": "../shared/resources/categories.json"
-		
+
 		"caterers_and_event": "../shared/resources/categories/caterers_and_event.json"
 		"computer_and_office": "../shared/resources/categories/computer_and_office.json"
 		"crafts_home_construction": "../shared/resources/categories/crafts_home_construction.json"
@@ -27,6 +27,7 @@ require.config
 		"toastr": "../vendor/angular/toastr"
 		"jquery": "../vendor/angular/jquery-2.0.3.min"
 		"jqueryui": "../vendor/jquery-ui/ui/minified/jquery-ui.min"
+		"moment": "../vendor/angular/moment.min"
 
 		"ngBootstrap": "../vendor/angular/bootstrap"
 		"ngBootstrapTpls": "../vendor/angular/ui-bootstrap-tpls-0.10.0"
@@ -50,7 +51,7 @@ require.config
 		
 		ngBootstrapTpls:
 			deps: [ "ngBootstrap" ]
-
+		
 		ngBootstrap:
 			deps: [ "angular" ]
 

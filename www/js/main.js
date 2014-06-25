@@ -24,6 +24,7 @@ require.config({
     "toastr": "../vendor/angular/toastr",
     "jquery": "../vendor/angular/jquery-2.0.3.min",
     "jqueryui": "../vendor/jquery-ui/ui/minified/jquery-ui.min",
+    "moment": "../vendor/angular/moment.min",
     "ngBootstrap": "../vendor/angular/bootstrap",
     "ngBootstrapTpls": "../vendor/angular/ui-bootstrap-tpls-0.10.0",
     "ngRoutes": "../vendor/angular/angular-route",

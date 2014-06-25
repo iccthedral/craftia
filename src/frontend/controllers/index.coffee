@@ -7,5 +7,6 @@ define [
 	"controllers/register"
 	"controllers/craftsmanMenu"
 	"controllers/createJob"
+	"controllers/editJob"
 ], ->
 	return

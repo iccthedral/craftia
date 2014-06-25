@@ -6,5 +6,6 @@ define [
 	"directives/ccNavigation"
 	"directives/crNotAuth"
 	"directives/crAuth"
+	"directives/crDate"
 ], ->
 	return

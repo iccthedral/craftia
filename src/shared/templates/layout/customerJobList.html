@@ -20,7 +20,7 @@
 				<div class="col-md-12">
 					<div class="widget wcyan">
 						<div data-cc-widget-header title="Current jobs" allow-collapse="true"></div>
-						<div class="widget-content text-center text-info widget-ul-list">
+						<div class="widget-content text-center widget-ul-list">
 
 							<ul style="list-style: none;" >
 								<li class="my-offer" id="{{$index}}" data-ng-repeat="p in user.createdJobs" ng-click="JobList.showJob($index)">
@@ -42,12 +42,12 @@
 
 										</div>
 										<div class="col-md-10 yellow-div right-job-div">
-											
+
 											<div class="row">
 												<div class="col-md-10">
 												</div>
 											</div>
-											
+
 											<div class="row">
 												<div class="col-md-4 date-div ">
 													<div class="row">
@@ -59,11 +59,10 @@
 
 																<div class="text-center col-md-6 black-div">
 																	<span class="white-span small-span helvetica-neue">
-																		Starting date:    
+																		Starting date:
 																	</span>
 																	<br>
-																	<span class="white-span small-span helvetica-neue">
-																		{{p.dateFrom}}    
+																	<span cr-date="{{p.dateFrom}}" class="white-span small-span helvetica-neue">
 																	</span>
 																</div>
 
@@ -72,8 +71,7 @@
 																		Ending date:   
 																	</span>
 																	<br>
-																	<span class="black-span small-span helvetica-neue">
-																		{{p.dateTo}}    
+																	<span cr-date="{{p.dateTo}}" class="black-span small-span helvetica-neue">
 																	</span>
 																</div>
 
@@ -81,11 +79,9 @@
 														</div>
 														<div class="col-md-1">
 														</div>
-
 													</div>
 
 													<div class="row address-div yellow-div text-center">
-
 														<div class="col-md-2">
 														</div>
 														<div class="col-md-4">
@@ -98,11 +94,14 @@
 														</div>
 														<div class="col-md-2">
 														</div>
-
-
 													</div>
-												</div>
 
+													<div class="row address-div yellow-div text-center">
+													<textarea style="height: 77px;" class="form-control" rows="2">{{p.description}}</textarea>
+													</div>
+												
+												</div>
+												
 
 												<div class="yellow-div info-div col-md-8 row">
 													<div class="col-md-1">
@@ -112,7 +111,7 @@
 														<span class="small-span black-span">
 															{{p.description}}
 														</span>
-
+														
 													</div>
 													<div class="col-md-1">
 													</div>
@@ -122,7 +121,36 @@
 									</div>
 									<div class="col-md-2"></div>
 
-									<div ng-include="'app/dashboard/jobButtons.html'" class="job-buttons peach-div row">
+									<div class="job-buttons peach-div row">
+										<a ui-sref="customer.editJob({jobId: p._id})" class="job-button col-md-2 col-sm-2 hover-glow-white">
+											<i class="fa fa-edit fa-2x"></i>
+											<span class="small-span">
+												Edit job
+											</span>
+										</a>
+										<div class="col-md-10 col-sm-10 row">
+											<div class="job-button col-md-4 col-sm-4 hover-glow-white" ng-click="deleteJob($index)">
+												<i class="fa fa-times fa-2x"></i>
+												<span class="small-span">
+													Delete job
+												</span>
+											</div>
+											<div class="col-md-8 col-sm-8">
+												<div class="job-button col-md-6 col-sm-6 hover-glow-white">
+													<i class="fa fa-check fa-2x"></i>
+													<span class="small-span">
+														Choose winner
+													</span>
+												</div>
+												<div class="job-button col-md-6 col-sm-6 hover-glow-white">
+													<i class="fa fa-info fa-2x"></i>
+													<span class="small-span">
+														Job info
+													</span>
+												</div>
+											</div>
+										</div>
+
 									</div>
 
 

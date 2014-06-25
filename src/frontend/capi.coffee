@@ -8,4 +8,5 @@ define ["app"], (app) ->
 		registerCraftsman: "/user/registerCraftsman"
 		registerCustomer: "/user/registerCustomer"
 		createJob: "/job/new"
+		updateJob: "/job/{0}/update"
 	}

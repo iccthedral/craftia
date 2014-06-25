@@ -100,7 +100,7 @@ module.exports.getNotifications = getNotifications = (usr, clb) ->
 
 module.exports.populateUser = populateUser = (usr, clb) ->
 	out = new Object
-
+	
 	getBiddedJobs usr, (err, jobs) ->
 		return clb err if err?
 		out.biddedJobs = jobs

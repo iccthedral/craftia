@@ -5,6 +5,10 @@ define ["./module"], (module) ->
 		"user"
 		($scope, user) ->
 			# $scope
-			console.log user
+			# console.log user
+			$scope.createdJobsPaged = ->
+				
+			$scope.deleteJob = (index) ->
+				console.log index
 	]
 		

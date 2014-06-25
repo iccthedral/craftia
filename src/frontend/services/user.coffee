@@ -14,10 +14,10 @@ define ["./module"], (module) ->
 				get: ->
 					return out.username?
 			}
-			
+
 			out.load = (data) ->
 				out[k] = v for k, v of data
-				
+			
 			out.logout = ->
 				$http.get API.logout
 				.success (data) ->

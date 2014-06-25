@@ -36,6 +36,18 @@ font-family: "vegur-regular";
 src: url("../fonts/Vegur-Regular.otf") format("truetype");
 }
 
+.hover-glow-white{
+transition: text-shadow 0.5s;
+-moz-transition: text-shadow 0.5s; /* Firefox 4 */
+-webkit-transition: text-shadow 0.5s; /* Safari and Chrome */
+-o-transition: text-shadow 0.5s; /* Opera */
+}
+
+.hover-glow-white:hover{
+  cursor: pointer;
+  text-shadow: 0 0 4px white;
+}
+
 .profile-details-widget {
   width: 100%;
   display: block;

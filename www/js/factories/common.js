@@ -4,6 +4,14 @@ define(["factories/module"], function(module) {
       var out;
       out = {};
       out.logger = logger;
+      out.format = out.f = function(s) {
+        var i;
+        i = arguments.length;
+        while (i--) {
+          s = s.replace(new RegExp("\\{" + i + "\\}", "gm"), arguments[i]);
+        }
+        return s;
+      };
       out.activateController = function(promises, controllerId) {
         out.broadcast(config.events.ToggleSpinner, {
           show: true

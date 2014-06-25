@@ -1,12 +1,15 @@
 define(["./module", "json!cities", "json!categories"], function(module, cities, categories) {
   return module.controller("CreateJobCtrl", [
-    "$scope", "$state", "$http", "logger", "cAPI", function($scope, $state, $http, log, API) {
+    "$scope", "$state", "$http", "user", "logger", "cAPI", function($scope, $state, $http, user, log, API) {
       var job;
       $scope.title1 = "Enter job details";
       $scope.title2 = "Upload job photos";
       $scope.firstStep = true;
       $scope.secondStep = false;
-      job = {};
+      job = {
+        dateFrom: new Date,
+        dateTo: new Date
+      };
       job.jobPhotos = [
         {
           img: null,
@@ -46,9 +49,11 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         }
       };
       $scope.create = function() {
-        console.log(job);
         return $http.post(API.createJob, job).success(function(data) {
           log.success("Job created!");
+          user.createdJobs || (user.createdJobs = []);
+          user.createdJobs.push(data);
+          console.log(user, user.createJobs);
           return $state.transitionTo("customer.jobs");
         }).error(function(err) {
           log.error(err);

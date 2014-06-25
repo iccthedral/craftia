@@ -4,16 +4,20 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 		"$scope"
 		"$state"
 		"$http"
+		"user"
 		"logger"
 		"cAPI"
-		($scope, $state, $http, log, API) ->
+		($scope, $state, $http, user, log, API) ->
 			$scope.title1 = "Enter job details"
 			$scope.title2 = "Upload job photos"
 
 			$scope.firstStep = true
 			$scope.secondStep = false
 
-			job = {}
+			job = 
+				dateFrom: new Date
+				dateTo: new Date
+
 			job.jobPhotos = [
 				{
 					img: null
@@ -55,10 +59,12 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					$scope.currentPhotoIndex = index
 
 			$scope.create = ->
-				console.log job
 				$http.post API.createJob, job
 				.success (data) ->
 					log.success "Job created!"
+					user.createdJobs or= []
+					user.createdJobs.push data
+					console.log user, user.createJobs
 					$state.transitionTo "customer.jobs"
 				.error (err) ->
 					log.error err
