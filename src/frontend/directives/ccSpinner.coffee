@@ -1,4 +1,4 @@
-define ["directives/module", "ngSpinner"], (module, Spinner) ->
+define ["./module", "ngSpinner"], (module, Spinner) ->
 	module.directive "ccSpinner", ["$window", ($window) ->
 		directive =
 			restrict: "A"

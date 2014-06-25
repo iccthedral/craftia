@@ -19,15 +19,21 @@ define(["CommonProvider"], function() {
         color: '#F58A00'
       };
       this.activate();
-      this.rootScope.$on("$routeChangeStart", function(event, next, curr) {
-        return this.toggleSpinner(true);
-      });
-      this.rootScope.$on(this.config.Events.ControllerActivatedSuccess, function(data) {
-        return this.toggleSpinner(false);
-      });
-      this.rootScope.$on(this.config.Events.SpinnerToggle, function(_, data) {
-        return this.toggleSpinner(data.show);
-      });
+      this.rootScope.$on("$routeChangeStart", (function(_this) {
+        return function(event, next, curr) {
+          return _this.toggleSpinner(true);
+        };
+      })(this));
+      this.rootScope.$on(this.config.Events.ControllerActivatedSuccess, (function(_this) {
+        return function(data) {
+          return _this.toggleSpinner(false);
+        };
+      })(this));
+      this.rootScope.$on(this.config.Events.SpinnerToggle, (function(_this) {
+        return function(_, data) {
+          return _this.toggleSpinner(data.show);
+        };
+      })(this));
     }
 
     Shell.prototype.toggleSpinner = function(toggle) {

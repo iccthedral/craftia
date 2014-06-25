@@ -1,9 +1,12 @@
-define(["controllers/module"], function(module) {
-  return module.controller("shellCtrl", [
-    "$scope", "common", function($scope, common) {
+define(["controllers/module", "angular"], function(module, angular) {
+  return module.controller("ShellCtrl", [
+    "$scope", "$rootScope", "$http", "$state", "config", "user", function($scope, $rootScope, $http, $state, config, user) {
+      if (!user.loaded) {
+        $state.transitionTo("index");
+      }
       $scope.busyMessage = "Loading...";
       $scope.isBusy = false;
-      return $scope.spinnerOptions = {
+      $scope.spinnerOptions = {
         radius: 40,
         lines: 7,
         length: 0,
@@ -13,6 +16,18 @@ define(["controllers/module"], function(module) {
         trail: 100,
         color: "#F58A00"
       };
+      $scope.toggleSpinner = function(val) {
+        return $scope.isBusy = val;
+      };
+      $rootScope.$on("$locationChangeStart", function(event, next, curr) {
+        return $scope.toggleSpinner(true);
+      });
+      $rootScope.$on("$locationChangeSuccess", function(event, next, curr) {
+        return $scope.toggleSpinner(false);
+      });
+      return $rootScope.$on(config.events.ToggleSpinner, function(_, data) {
+        return $scope.toggleSpinner(data.show);
+      });
     }
   ]);
 });

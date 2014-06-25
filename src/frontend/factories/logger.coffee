@@ -20,7 +20,7 @@ define ["factories/module", "toastr"], (module, toastr) ->
 				else
 					toastr.info(message)
 				
-		return out = 
+		return out =
 			getLogFn: (moduleId, fnName) ->
 				fname = fnName.toLowerCase()
 				return out[fname]

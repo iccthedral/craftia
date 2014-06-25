@@ -1,9 +1,7 @@
 define [], ->
-
-	class User
-		constructor: ({
-			@username, @password, @email, @address
-		}) ->
-			console.log @
-
-	return User
+	return new Object {
+		username:""
+		password:""
+		email: ""
+		address: ""
+	}

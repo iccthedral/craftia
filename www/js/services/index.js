@@ -1,1 +1,1 @@
-define(["services/testService"], function() {});
+define(["./user"], function() {});

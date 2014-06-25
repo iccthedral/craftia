@@ -1,15 +1,23 @@
-define(["./cmodule"], function(cmodule) {
-  var User;
-  User = (function() {
-    function User() {}
+define(["./cmodule", "services/module"], function(cmodule, serviceModule) {
+  var UserCtrl, instance;
+  UserCtrl = (function() {
+    function UserCtrl() {
+      Object.defineProperty(this, "isLoggedIn", {
+        get: function() {
+          return this.username != null;
+        }
+      });
+      return this;
+    }
 
-    User.prototype.load = function(_arg) {
-      this.username = _arg.username, this.password = _arg.password, this.email = _arg.email, this.address = _arg.address, this.type = _arg.type, this.createdJobs = _arg.createdJobs, this.inbox = _arg.inbox, this.notifications = _arg.notifications;
-      return console.log(this);
-    };
-
-    return User;
+    return UserCtrl;
 
   })();
-  return cmodule(User);
+  instance = cmodule(UserCtrl);
+  serviceModule.service("user", [
+    "$rootScope", function($rootScope) {
+      return $rootScope.user = instance;
+    }
+  ]);
+  return instance;
 });

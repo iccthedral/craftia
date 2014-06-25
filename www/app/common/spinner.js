@@ -16,7 +16,7 @@
         return service;
 
         function spinnerHide() { spinnerToggle(false); }
-
+        
         function spinnerShow() { spinnerToggle(true); }
 
         function spinnerToggle(show) {

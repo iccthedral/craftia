@@ -1,27 +1,35 @@
-define(["./cmodule", "./user"], function(module, User) {
+define(["./cmodule", "json!cities"], function(cmodule, cities) {
   var LoginCtrl;
   LoginCtrl = (function() {
     function LoginCtrl() {
-      this.user = {
+      this.loginDetails = {
         email: "",
-        password: ""
+        password: "",
+        rememberme: false
       };
-      this.rememberme = false;
     }
 
     return LoginCtrl;
 
   })();
   LoginCtrl.prototype.login = function() {
-    return $.post(this.API.login, this.user).fail((function(_this) {
+    return this.http.post(this.API.login, this.loginDetails).error((function(_this) {
       return function(err) {
-        return _this.log.error(err);
+        _this.log.error(err);
+        return _this.state.transitionTo("anon");
       };
-    })(this)).done((function(_this) {
-      return function(userData) {
-        return User.populate(userData);
+    })(this)).success((function(_this) {
+      return function(data) {
+        _this.user.load(data);
+        if (data.type === "Customer") {
+          return _this.state.transitionTo("customer");
+        } else if (data.type === "Craftsman") {
+          return _this.state.transitionTo("craftsman");
+        } else {
+          return _this.state.transitionTo("anon");
+        }
       };
     })(this));
   };
-  return module(LoginCtrl);
+  return cmodule(LoginCtrl, "user");
 });

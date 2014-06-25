@@ -1,14 +1,121 @@
-define(["app"], function(app) {
-  return app.config([
-    "$routeProvider", function(routeProvider) {
-      routeProvider.when("/blabla", {
-        templateUrl: "templates/layout/dljadlja.html",
-        controller: "shellCtrl"
-      });
-      return routeProvider.when("/login", {
-        templateUrl: "templates/layout/loginForm.html",
-        controller: "LoginCtrl"
-      });
-    }
-  ]);
+define(["app", "angular"], function(app, angular) {
+  return app.config(function($stateProvider, $urlRouterProvider) {
+    var resolveUser;
+    resolveUser = [
+      "$http", "$state", "$rootScope", "cAPI", "logger", "user", function($http, $state, $rootScope, API, logger, user) {
+        return $http.get(API.tryLogin).success(function(data) {
+          user.load(data);
+          user.loaded = true;
+          if (data.type === "Customer") {
+            return $state.transitionTo("customer");
+          } else if (data.type === "Craftsman") {
+            return $state.transitionTo("craftsman");
+          } else {
+            return $state.transitionTo("anon");
+          }
+        }).error(function(err) {
+          logger.error(err);
+          user.loaded = true;
+          return $state.transitionTo("anon");
+        });
+      }
+    ];
+    $stateProvider.state("index", {
+      url: "",
+      controller: resolveUser
+    });
+    $stateProvider.state("anon", {
+      url: "/anon",
+      views: {
+        "": {
+          templateUrl: "shared/templates/layout/shell.html",
+          controller: "ShellCtrl"
+        },
+        "navmenu@anon": {
+          templateUrl: "shared/templates/layout/anonMainNav.html"
+        },
+        "navbar@anon": {
+          templateUrl: "shared/templates/layout/anonUserBar.html"
+        },
+        "shell@anon": {
+          templateUrl: "shared/templates/layout/anonMainShell.html",
+          controller: "AnonCtrl"
+        }
+      }
+    }).state("anon.login", {
+      url: "/login",
+      views: {
+        "shell@anon": {
+          templateUrl: "shared/templates/forms/login.html",
+          controller: "LoginCtrl"
+        }
+      }
+    }).state("anon.register", {
+      url: "/register",
+      views: {
+        "shell@anon": {
+          templateUrl: "shared/templates/forms/registration.html"
+        }
+      }
+    }).state("anon.register.customer", {
+      url: "/customer",
+      views: {
+        "shell@anon": {
+          template: "Pozz Kolega"
+        }
+      }
+    }).state("anon.register.craftsman", {
+      url: "/craftsman",
+      views: {
+        "shell@anon": {
+          templateUrl: "shared/templates/forms/registerCraftsman.html",
+          controller: "RegisterCtrl"
+        }
+      }
+    });
+
+    /* When CUSTOMER is logged in */
+    return $stateProvider.state("customer", {
+      url: "/cu",
+      views: {
+        "": {
+          templateUrl: "shared/templates/layout/shell.html",
+          controller: "ShellCtrl"
+        },
+        "navmenu@customer": {
+          templateUrl: "shared/templates/layout/customerMainNav.html",
+          controller: "NavCtrl"
+        },
+        "navbar@customer": {
+          templateUrl: "shared/templates/layout/customerBar.html"
+        },
+        "shell@customer": {
+          template: "Pozz kolega!"
+        }
+      }
+    }).state("customer.messages", {
+      url: "/messages",
+      views: {
+        "shell@customer": {
+          template: "JEBI SE MALO"
+        }
+      }
+    }).state("customer.jobs", {
+      url: "/jobs",
+      views: {
+        "shell@customer": {
+          templateUrl: "shared/templates/layout/customersJobList.html",
+          controller: "CustomerCtrl"
+        }
+      }
+    }).state("customer.createJob", {
+      url: "/createJob",
+      views: {
+        "shell@customer": {
+          template: "<div ng-if=\"firstStep\" ng-include=\"'shared/templates/forms/createJob1.html'\"></div>\n<div ng-if=\"secondStep\" ng-include=\"'shared/templates/forms/createJob2.html'\"></div>",
+          controller: "CreateJobCtrl"
+        }
+      }
+    });
+  });
 });

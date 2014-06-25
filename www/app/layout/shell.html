@@ -1,5 +1,5 @@
 ﻿<div>
-    <div data-ng-include="'/app/layout/topnav.html'">
+    <div data-ng-include="'/shared/templates/layout/topnav.html'">
     </div>
     <div class="row">
         <div class="col-md-1 col-sm-1">
@@ -10,11 +10,11 @@
             <div class="page-splash-message page-splash-message-subtle">{{busyMessage}}
             </div>
         </div>
-        <div class="col-md-10 col-sm-10 shuffle-animation"></div>
+        <div class="col-md-10 col-sm-10 ui-view-container"></div>
         <span data-cc-scroll-to-top></span>
         <div class="col-md-1 col-sm-1">
         </div>
     </div>
-    <div data-ng-include="'/app/dashboard/footer.html'">
+    <div data-ng-include="'/shared/templates/layout/footer.html'">
     </div>
 </div>

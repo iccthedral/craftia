@@ -8,7 +8,7 @@ Comments and contributions welcome :)
 
 Proudly brought to you by the [@revolunet](http://twitter.com/revolunet) team.
 
-**NOTE :** if you use iOS<7 or Android<4 please include the [requestAnimationFrame polyfill](https://github.com/darius/requestAnimationFrame/blob/master/requestAnimationFrame.js) in your application.
+**NOTE :** if you use IE<=9, iOS<7 or Android<4 please include the [requestAnimationFrame polyfill](https://github.com/darius/requestAnimationFrame/blob/master/requestAnimationFrame.js) in your application.
 
 ## Usage :
 
@@ -45,12 +45,13 @@ angular.module('MyApp', ['angular-carousel']);
 ```
 
 
+
 ## Features :
  - Mobile friendly, tested on webkit+firefox
- - use CSS 3D transformations and `requestAnimationFrame`.
+ - Use CSS 3D transformations and `requestAnimationFrame`. (fallback to CSS 2D if 3D support not available)
  - DOM buffering
- - index data-binding
- - optional indicators
+ - Index data-binding
+ - Optional indicators
 
 ### Regular carousel :
  - `rn-carousel-index` two way binding to control the carousel position.
@@ -73,5 +74,5 @@ angular.module('MyApp', ['angular-carousel']);
  - http://ariya.ofilabs.com/2013/08/javascript-kinetic-scrolling-part-1.html
  - Thanks to all angular folks for all the tips :)
 
-## Licence
+## License
 As AngularJS itself, this module is released under the permissive [MIT license](http://revolunet.mit-license.org). Your contributions are always welcome.

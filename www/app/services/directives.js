@@ -127,7 +127,7 @@
     app.directive('crNotAuth', ['$rootScope', function($rootScope) {
         function link($scope, element, attrs) {
             var expr = $rootScope.isAuthenticated;
-
+            
             if(expr) {
                 element.hide();
             }

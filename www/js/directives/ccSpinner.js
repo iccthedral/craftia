@@ -1,4 +1,4 @@
-define(["directives/module", "ngSpinner"], function(module, Spinner) {
+define(["./module", "ngSpinner"], function(module, Spinner) {
   return module.directive("ccSpinner", [
     "$window", function($window) {
       var directive;

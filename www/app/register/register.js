@@ -71,7 +71,7 @@
                 return res;
             });
         }
-    
+        
         function activate() {
             common.activateController([], controllerId)
                 .then(function () { log('Activated Register View'); });

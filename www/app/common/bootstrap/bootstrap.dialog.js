@@ -37,7 +37,7 @@
         }
 
         function confirmationDialog(title, msg, okText, cancelText, scope) {
-
+            
             var modalOptions = {
                 templateUrl: 'modalDialog.tpl.html',
                 controller: ModalInstance,

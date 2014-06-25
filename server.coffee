@@ -33,8 +33,9 @@ app.configure ->
 	router app, passport
 
 app.use (err, req, res, next) ->
-	console.log err
-	res.send err
+	console.error err, err.message, typeof err
+	
+	res.status(422).send err.message
 
 app.use express.static "www/"
 app.listen PORT

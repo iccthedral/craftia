@@ -1,7 +1,10 @@
 define [
 	"controllers/shell"
-	"controllers/topNav"
-	"controllers/userCtrl"
-	"controllers/loginCtrl"
+	"controllers/navigation"
+	"controllers/login"
+	"controllers/anon"
+	"controllers/register"
+	"controllers/craftsmanMenu"
+	"controllers/createJob"
 ], ->
 	return

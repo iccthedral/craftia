@@ -6,28 +6,77 @@ async           		= require "async"
 fs              		= require "fs"
 _ 									= require "underscore"
 
+AuthLevels 					= require "../config/AuthLevels"
 UserModel       		= require "../models/User"
 CityModel       		= require "../models/City"
 JobModel        		= require "../models/Job"
 CategoryModel   		= require "../models/Category"
 MessageModel 				= require "../models/Message"
 NotificationsModel	= require "../models/Notification"
+JobCtrl 						= require "../controllers/Job"
 
 module.exports.setup = (app) ->
 	# logout user
-	app.get "/logout", logMeOut
+	app.get "/logout", logOutHandler
+
+	app.get "/user/craftsmen", listCraftsmenHandler
+
+	# is current session holder authenticated?
+	app.get "/isAuthenticated", isUserAuthenticated
 
 	# login user
-	app.post "/login", logMeIn
+	app.post "/login", logInHandler
 
 	# update user details
-	app.post "/user/update", updateMe
+	app.post "/user/update", updateProfileHandler
 
 	# uploads profile picture
-	app.post "/user/uploadpicture", uploadProfilePicture
+	app.post "/user/uploadpicture", uploadProfilePicHandler
+	
+	app.post "/user/registerCraftsman", registerCrafsmanHandler
+	app.post "/user/registerCustomer", registerCustomerHandler
 
-	# Is current session holder authenticated?
-	app.get "/isAuthenticated", isUserAuthenticated
+
+module.exports.saveUser = saveUser = (user, res) ->
+	user.save (err) ->
+		return res.status(422).send "Registering failed!" if err?
+		res.status(200).send user: user, msg: "Registering succeeded!"
+
+module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
+	UserModel
+	.find type: AuthLevels.CRAFTSMAN
+	.exec (err, out) ->
+		return res.send(422, err.message) if err?
+		res.send(out)
+
+module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, next) ->
+	data        = req.body
+	data.type   = AuthLevels.CRAFTSMAN
+	user        = new UserModel(data)
+	
+	resolveCity = (clb) -> clb()
+	if data.address?.city?
+		resolveCity = JobCtrl.findCity(data.address.city)
+
+	resolveCity((err, city) ->
+		return next err if err?
+		data.address.zip = city.zip
+		saveUser(user, res)
+	)
+
+module.exports.registerCustomerHandler = registerCustomerHandler = (req, res) ->
+	data        = req.body
+	data.type   = AuthLevels.CUSTOMER
+	user        = new UserModel(data)
+
+	resolveCity = (clb) -> clb()
+	if data.address?.city?
+		resolveCity = JobCtrl.findCity(data.address.city)
+
+	resolveCity((err, city) ->
+		data.address.zip = city.zip
+		module.exports.saveUser(user, res)
+	)
 
 module.exports.getBiddedJobs = getBiddedJobs = (usr, clb) ->
 	JobModel.find().elemMatch("bidders", _id:usr._id).exec (err, jobs) ->
@@ -79,11 +128,11 @@ module.exports.isUserAuthenticated = isUserAuthenticated = (req, res, next) ->
 		return next err if err?
 		res.send user
 
-logMeOut = (req, res) ->
+logOutHandler = (req, res) ->
 	req.logout()
 	res.redirect 200, "/"
 
-logMeIn = (req, res, next) ->
+logInHandler = (req, res, next) ->
 	if req.body.rememberme
 		req.session.cookie.maxAge = 30*24*60*60*1000
 	else
@@ -97,7 +146,7 @@ logMeIn = (req, res, next) ->
 				res.send user
 	pass req, res, next
 
-updateMe = (req, res) ->
+updateProfileHandler = (req, res) ->
 	usr = req.user
 	console.log usr
 	return res.status(422).send "You're not logged in" if not usr?
@@ -109,7 +158,7 @@ updateMe = (req, res) ->
 		return res.status(422).send(err.message) if err?
 		res.send(200)
 
-uploadProfilePicture = (req, res) ->
+uploadProfilePicHandler = (req, res) ->
 	usr = req.user
 	return res.status(422).send "You're not logged in" if not usr?
 	UserModel

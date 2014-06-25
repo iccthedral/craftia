@@ -1,7 +1,8 @@
-define(["services/module"], function(module) {
+define(["./module"], function(module) {
+  console.log("hi there");
   return module.service("testService", [
-    function($scope) {
-      return console.log("Evo nas");
+    function() {
+      return "ddd";
     }
   ]);
 });

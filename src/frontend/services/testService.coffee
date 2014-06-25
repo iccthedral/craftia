@@ -1,4 +1,5 @@
-define ["services/module"], (module) ->
-	module.service "testService", [($scope) ->
-		console.log "Evo nas"
+define ["./module"], (module) ->
+	console.log "hi there"
+	return module.service "testService", [->
+		return "ddd"
 	]

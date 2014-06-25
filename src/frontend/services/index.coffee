@@ -1,4 +1,4 @@
 define [
-	"services/testService"
+	"./user"
 ], ->
 	return

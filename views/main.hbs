@@ -42,25 +42,10 @@
     <!-- -->
 </head>
 <body>
-    <div class="body-slammer" ng-controller="shellCtrl">
-        <div data-ng-include="'/templates/layout/anonMainNav.html'">
-        </div>
-
-        <div class="row">
-            <div class="col-md-1 col-sm-1">
-            </div>
-            <div data-ng-show="isBusy" class=" page-splash dissolve-animation">
-                <div data-cc-spinner="spinnerOptions">
-                </div>
-                <div class="page-splash-message page-splash-message-subtle">{{busyMessage}}
-                </div>
-            </div>
-            <div data-ng-view class="col-md-10 col-sm-10 shuffle-animation"></div>
-            <span data-cc-scroll-to-top></span>
-            <div class="col-md-1 col-sm-1">
-            </div>
-        </div>
-
+    <div class="body-slammer">
+        
+        <div ui-view></div>
+        
         <div id="splash-page" data-ng-show="false">
             <div class="page-splash">
                 <div class="page-splash-message">
@@ -72,13 +57,13 @@
             </div>
         </div>
         
-        <div data-ng-include="'/app/dashboard/footer.html'">
+        <div data-ng-include="'/shared/templates/layout/footer.html'">
         </div>
     
     </div>
-
+    
     <span data-cc-scroll-to-top></span>
-
+    
     <!-- Vendor Scripts 
     <script src="vendor/jquery/dist/jquery.js"></script>
     <script src="vendor/jquery-ui/ui/jquery-ui.js"></script>

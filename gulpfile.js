@@ -21,15 +21,21 @@ var spawn = require("child_process").spawn
 	, writeFile = fs.createWriteStream
 	, fixtures = require("./createFixtures")
 	, isWindows = !!process.platform.match(/^win/)
-	, binCoffee = "./node_modules/coffee-script/bin/coffee"
+	, binCoffee = (isWindows) ? "coffee.cmd" : "coffee"
 	, args = {
 			mongo: [
 				"--dbpath",
 				"data/db"
 			],
-			supervisor: [
+			supervisor: (!isWindows) ? [
 				"-w",
-				"src/backend,server.coffee",
+				"./src/backend,./server.coffee",
+				"server.coffee"
+			] : [
+				"-w",
+				"./src/backend,./server.coffee",
+				"-x",
+				"coffee.cmd",
 				"server.coffee"
 			],
 			jobupdate: [
@@ -45,6 +51,10 @@ var spawn = require("child_process").spawn
 	,	log = console.log.bind(console)
 	, inProduction = process.env.NODE_ENV === "production"
 	;
+
+process.on("uncaughtException", function(err) {
+	util.log(err);
+});
 
 function pipeOut(thread, signature, color, consoleOut) {
 	if (!consoleOut) consoleOut = false;
@@ -101,7 +111,7 @@ function linkDir(source, dest) {
  	});
  	
 	function linkMe() {
-		fs.symlink(source, dest, function(err) {
+		fs.symlink(source, dest, "junction", function(err) {
 			if (err) {
 				throw err;
 			}

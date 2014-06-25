@@ -3,7 +3,6 @@ define ["factories/module"], (module) ->
 	module.provider "config", ->
 		@config = 
 			events:
-				ActivateController: "ActivateController"
 				ToggleSpinner: "ToggleSpinner"
 			
 			toastr: 

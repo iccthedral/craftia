@@ -1,7 +1,7 @@
-define(["controllers/module"], function(module) {
+define(["controllers/module", "./userCtrl"], function(module, userCtrl) {
   return module.controller("topNavCtrl", [
-    "$route", function() {
-      return {};
+    "$scope", "$route", function($scope) {
+      return $scope;
     }
   ]);
 });

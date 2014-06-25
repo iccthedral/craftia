@@ -1,19 +1,26 @@
 define ["factories/module"], (module) ->
 		
-	module.factory "common", ["$q", "$rootScope", "$timeout", "config", "logger" 
-	($q, $rootScope, $timeout, config, logger) ->
-		out = {}
-		logger.success "Hi there"
-		
-		out.activateController = (promises, controllerId) ->
-			return $q.all(promises).then (args) ->
-				data =
-					controllerId: controllerId
-				$broadcast config.Events.ControllerActivatedSuccess
-				
-		out.broadcast = ->
-			return $rootScope.$broadcast.apply $rootScope, arguments
-		return out
+	module.factory "common", [
+		"$q"
+		"$rootScope"
+		"$timeout"
+		"config"
+		"logger"
+		($q, $rootScope, $timeout, config, logger, spinner) ->
+			out = {}
+			out.logger = logger
+			out.activateController = (promises, controllerId) ->
+				out.broadcast config.events.ToggleSpinner, show:true
+				return $q.all promises
+				.then (args) ->
+					data =
+						controllerId: controllerId
+					out.broadcast config.events.ToggleSpinner, show:false
+					
+			out.broadcast = ->
+				return $rootScope.$broadcast.apply $rootScope, arguments
+
+			return out
 	]
 	
 	return module

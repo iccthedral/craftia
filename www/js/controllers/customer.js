@@ -1,1 +1,1 @@
-
+define(["./module"], function(module) {});

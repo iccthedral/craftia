@@ -2,7 +2,6 @@ define(["factories/module"], function(module) {
   return module.provider("config", function() {
     this.config = {
       events: {
-        ActivateController: "ActivateController",
         ToggleSpinner: "ToggleSpinner"
       },
       toastr: {

@@ -1,16 +1,21 @@
 define(["factories/module"], function(module) {
   module.factory("common", [
-    "$q", "$rootScope", "$timeout", "config", "logger", function($q, $rootScope, $timeout, config, logger) {
+    "$q", "$rootScope", "$timeout", "config", "logger", function($q, $rootScope, $timeout, config, logger, spinner) {
       var out;
       out = {};
-      logger.success("Hi there");
+      out.logger = logger;
       out.activateController = function(promises, controllerId) {
+        out.broadcast(config.events.ToggleSpinner, {
+          show: true
+        });
         return $q.all(promises).then(function(args) {
           var data;
           data = {
             controllerId: controllerId
           };
-          return $broadcast(config.Events.ControllerActivatedSuccess);
+          return out.broadcast(config.events.ToggleSpinner, {
+            show: false
+          });
         });
       };
       out.broadcast = function() {

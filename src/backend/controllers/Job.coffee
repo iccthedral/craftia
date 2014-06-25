@@ -247,7 +247,7 @@ createNewJobHandler = (req, res, next) ->
 	jobData = req.body
 	usr     = req.user
 	return next "User doesn't exist" if not usr?
-	saveJob usr, jobData, (err, usr, job) ->
+	saveJob usr, jobData, (err, job, usr) ->
 		return next err if err?
 		res.send job
 

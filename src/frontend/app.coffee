@@ -9,7 +9,10 @@ define [
 	
 	return ng.module "app", [
 		"ngRoute"
+		"ngAnimate"
 		"ui.router"
+		"ui.bootstrap"
+		"angular-carousel"
 		"app.customControllers"
 		"app.factories"
 		"app.services"
