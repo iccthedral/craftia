@@ -9,23 +9,28 @@ define ["./module"], (module) ->
 			out =
 				username: null
 				notifications: ""
+				type: "anon"
 					
 			Object.defineProperty out, "isLoggedIn", {
-				get: ->
-					return out.username?
+				get: -> out.username?
+			}
+			Object.defineProperty out, "getType", {
+				get: -> out.type?.toLowerCase()
 			}
 
 			out.load = (data) ->
 				out[k] = v for k, v of data
+				console.debug data
 			
 			out.logout = ->
 				$http.get API.logout
-				.success (data) ->
-					out = {}
-					$state.transitionTo "anon"
+				.success (data) =>
+					out =
+						type: "anon"
+					$state.transitionTo "index"
 				.error (err) ->
 					logger.error err
 
-			$rootScope.user = out
+			$rootScope.user = window.user = out
 			return out
 	]

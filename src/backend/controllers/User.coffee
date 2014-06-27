@@ -45,9 +45,10 @@ module.exports.saveUser = saveUser = (user, res) ->
 module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
 	UserModel
 	.find type: AuthLevels.CRAFTSMAN
+	.select "-password"
 	.exec (err, out) ->
 		return res.send(422, err.message) if err?
-		res.send(out)
+		res.send out
 
 module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, next) ->
 	data        = req.body
@@ -156,13 +157,13 @@ updateProfileHandler = (req, res) ->
 	.findByIdAndUpdate(usr._id, data)
 	.exec (err, cnt) ->
 		return res.status(422).send(err.message) if err?
-		res.send(200)
+		res.send 200
 
 uploadProfilePicHandler = (req, res) ->
 	usr = req.user
 	return res.status(422).send "You're not logged in" if not usr?
 	UserModel
-	.findById(req.user._id)
+	.findById req.user._id
 	.exec (err, user) ->
 		console.log req.files
 		file = req.files.file

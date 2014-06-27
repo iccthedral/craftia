@@ -4,31 +4,41 @@ define(["./module"], function(module) {
       var out;
       out = {
         username: null,
-        notifications: ""
+        notifications: "",
+        type: "anon"
       };
       Object.defineProperty(out, "isLoggedIn", {
         get: function() {
           return out.username != null;
         }
       });
+      Object.defineProperty(out, "getType", {
+        get: function() {
+          var _ref;
+          return (_ref = out.type) != null ? _ref.toLowerCase() : void 0;
+        }
+      });
       out.load = function(data) {
-        var k, v, _results;
-        _results = [];
+        var k, v;
         for (k in data) {
           v = data[k];
-          _results.push(out[k] = v);
+          out[k] = v;
         }
-        return _results;
+        return console.debug(data);
       };
       out.logout = function() {
-        return $http.get(API.logout).success(function(data) {
-          out = {};
-          return $state.transitionTo("anon");
-        }).error(function(err) {
+        return $http.get(API.logout).success((function(_this) {
+          return function(data) {
+            out = {
+              type: "anon"
+            };
+            return $state.transitionTo("index");
+          };
+        })(this)).error(function(err) {
           return logger.error(err);
         });
       };
-      $rootScope.user = out;
+      $rootScope.user = window.user = out;
       return out;
     }
   ]);

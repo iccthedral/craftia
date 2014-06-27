@@ -7,10 +7,7 @@ define ["controllers/module", "angular"], (module, angular) ->
 		"$state"
 		"config"
 		"user"
-		($scope, $rootScope, $http, $state, config, user) ->
-			if not user.loaded
-				$state.transitionTo "index"
-				
+		($scope, $rootScope, $http, $state, config, user) ->		
 			$scope.busyMessage = "Loading..."
 			$scope.isBusy = false
 			$scope.spinnerOptions =

@@ -11,6 +11,7 @@ define [
 	"ngRoutes"
 	"ngAnimate"
 	"ngSanitize"
+	"ngFileUpload"
 	"ngTouch"
 	"ngCarousel"
 	"ngUiRouter"

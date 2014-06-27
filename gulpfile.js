@@ -27,15 +27,8 @@ var spawn = require("child_process").spawn
 				"--dbpath",
 				"data/db"
 			],
-			supervisor: (!isWindows) ? [
+			server: [
 				"-w",
-				"./src/backend,./server.coffee",
-				"server.coffee"
-			] : [
-				"-w",
-				"./src/backend,./server.coffee",
-				"-x",
-				"coffee.cmd",
 				"server.coffee"
 			],
 			jobupdate: [
@@ -44,17 +37,16 @@ var spawn = require("child_process").spawn
 		}
 	, logs = {
 		mongo: {out: "logs/mongo.out.log", err: "logs/mongo.err.log"},
-		supervisor: {out: "logs/express.out.log", err: "logs/express.err.log"},
+		server: {out: "logs/express.out.log", err: "logs/express.err.log"},
 		jobupdate: {out: "logs/jobupdate.out.log", err: "logs/jobupdate.err.log"}
 	}
+	, serverInstance = null
+	, mongoInstance = null
+	, jobUpdateInstance = null
 	, DBDUMP_FILE = "dump.zip"
 	,	log = console.log.bind(console)
 	, inProduction = process.env.NODE_ENV === "production"
 	;
-
-process.on("uncaughtException", function(err) {
-	util.log(err);
-});
 
 function pipeOut(thread, signature, color, consoleOut) {
 	if (!consoleOut) consoleOut = false;
@@ -71,7 +63,7 @@ function pipeOut(thread, signature, color, consoleOut) {
 
 function pipeErr(thread, logFile) {
 	if (!inProduction) {
-		thread.stderr.pipe(process.stdout);
+		thread.stderr.pipe(process.stderr);
 	} else {
 		function pipe() {
 			thread.stderr.pipe(writeFile(logFile, {flags: "a"}), logFile);
@@ -257,26 +249,37 @@ gulp.task("dbRestore", function() {
 */
 gulp.task("serve", function() {
 	async.map(["./logs/", "./data/db/"], touchDir, function() {
-		var supervisorCmd = (isWindows) ? "supervisor.cmd" : "supervisor"
-			, mongo = spawn("mongod", args.mongo)
-			, supervisor = spawn(supervisorCmd, args.supervisor)
-			;
-
-		pipeOut(mongo, "MONGO", "green", logs.mongo.out);
-		pipeOut(supervisor, "EXPRESS", "red", logs.supervisor.out);
-
-		pipeErr(supervisor, logs.supervisor.err);
-		pipeErr(mongo, logs.mongo.err);
-	})
+		var spawnServer = function() {
+			serverInstance = spawn(binCoffee, args.server);
+			pipeOut(serverInstance, "EXPRESS", "red", logs.server.out);
+			pipeErr(serverInstance, logs.server.err);
+			serverInstance.on("close", function() {
+				util.log("server exited!".white.bold);
+				spawnServer();
+			});
+		}
+		, spawnMongo = function() {
+			mongoInstance = spawn("mongod", args.mongo);
+			pipeOut(mongoInstance, "MONGO", "green", logs.mongo.out);
+			pipeErr(mongoInstance, logs.mongo.err);
+			mongoInstance.on("close", function() {
+				util.log("mongo exited");
+				spawnMongo();
+			});
+		}
+		;
+		spawnServer();
+		spawnMongo();
+	});
 });
 
 /**
 	Run job update thread
 */
 gulp.task("runJobProcess", function() {
-	var jobUpdateProcess = spawn(binCoffee, args.jobupdate);
-	pipeOut(jobUpdateProcess, "JOBUPDATE-PROCESS", "yellow");
-	pipeErr(jobUpdateProcess, logs.jobupdate.err);
+	jobUpdateInstance = spawn(binCoffee, args.jobupdate);
+	pipeOut(jobUpdateInstance, "JOBUPDATE-PROCESS", "yellow");
+	pipeErr(jobUpdateInstance, logs.jobupdate.err);
 });
 
 /** 
@@ -285,10 +288,12 @@ gulp.task("runJobProcess", function() {
 gulp.task("watch", function() {
 	var src = {
 		frontend: "src/frontend/",
-		backend: "src/backend/"
+		backend: "src/backend/",
+		shared: "src/shared/"
 	}
 	, cwd = process.cwd()
 	,	findFrontend = cwd.length + src.frontend.length
+	, findShared = cwd.length + src.shared.length
 	, findBackend = cwd.length + src.backend.length
 	;
 
@@ -325,6 +330,41 @@ gulp.task("watch", function() {
 			})
 		});
 		gulp.watch(src.frontend + "**/*.coffee", compileFrontend);
+	});
+
+	function compileShared(file) {
+		var path = file.path
+			, type = file.type
+			, ind = isWindows ? path.lastIndexOf("\\") : path.lastIndexOf("/")
+			, name = path.substring(findShared + 1, path.length - 7)
+			;
+		
+		util.log(("Compiling " + name).yellow);
+
+		if (type === "changed") {
+			gulp.src(path)
+			.pipe(coffee({bare: true}).on("error", util.log))
+			.pipe(rename(name + ".js"))
+			.pipe(gulp.dest("www/js/"));
+		}
+	}
+	
+	glob(src.shared + "**/*.coffee", function(err, files) {
+		if (err) {
+			return util.log(err);
+		}
+		files.forEach(function(file) {
+			if (isWindows) {
+				file = cwd + "\\" + file.replace(/\//g, "\\");
+			} else {
+				file = cwd + "/" + file;
+			}
+			compileShared({
+				path: file, 
+				type: "changed"
+			})
+		});
+		gulp.watch(src.shared + "**/*.coffee", compileShared);
 	});
 	// .pipe(coffee())
 	// .pipe(uglify())

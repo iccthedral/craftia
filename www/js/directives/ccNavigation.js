@@ -4,12 +4,14 @@ define(["./module"], function(module) {
       var directive;
       $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
         var elem, k, markElem, menu, v;
-        menu = $rootScope.menu;
+        console.log("WTF");
+        menu = $rootScope._menu_;
         if (menu == null) {
           return;
         }
         for (k in menu) {
           v = menu[k];
+          console.log("K", k, "v", v);
           markElem = v.parent().find(".top-hmenu-item");
           markElem.removeClass("top-hmenu-item-current");
         }
@@ -25,14 +27,15 @@ define(["./module"], function(module) {
         link: function(scope, element, attrs) {
           var menu;
           menu = $(element);
-          $rootScope.menu = {};
+          $rootScope._menu_ = {};
           return menu.find("a").each(function(k, v) {
             var sref;
             sref = $(v).attr("ui-sref");
             if (sref[0] === ".") {
               sref = "/" + (sref.substring(1));
             }
-            return $rootScope.menu[sref] = $(v);
+            console.log(sref);
+            return $rootScope._menu_[sref] = $(v);
           });
         }
       };

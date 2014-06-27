@@ -9,6 +9,7 @@
     "requirejs-domready": "~2.0.1",
     "angular-ui-router": "~0.2.10",
     "requirejs-plugins": "~1.0.2",
-    "angular-carousel": "~0.2.3"
+    "angular-carousel": "~0.2.3",
+    "gmaps": "~0.4.13"
   }
 }

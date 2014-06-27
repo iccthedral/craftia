@@ -33,7 +33,7 @@
                 $rootScope.$broadcast(config.events.spinnerToggle, {show: false});
             })
         }
-
+        
         activate();
 
         $scope.cancel = function () {

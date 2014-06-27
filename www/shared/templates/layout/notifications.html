@@ -1,0 +1,13 @@
+<div class="widget wcyan col-md-12">
+<div cc-widget-header title="Notifications" allow-collapse="true"></div>
+<table class="table table-striped helvetica-neue widget-content">
+<thead><tr><th>Date sent</th><th>Type</th><th>Message</th></tr></thead>
+<tbody>
+  <tr ng-repeat="msg in notifications">
+    <td cr-date="{{msg.dateSent}}"></td>
+    <td>{{msg.type}}</td>
+    <td>{{msg.message}}</td>
+  </tr>
+</tbody>
+</table>
+</div>

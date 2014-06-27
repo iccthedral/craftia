@@ -10,7 +10,7 @@
             deleteDialog: deleteDialog,
             confirmationDialog: confirmationDialog
         };
-
+        
         $templateCache.put('modalDialog.tpl.html', 
             '<div>' +
             '    <div class="modal-header">' +

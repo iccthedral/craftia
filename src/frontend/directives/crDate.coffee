@@ -8,6 +8,4 @@ define ["./module", "moment"], (module, moment) ->
           console.log crDate
           # if typeof crDate isnt "string"
           # crDate = JSON.stringify(crDate)
-          element.text(moment(crDate).format("MMMM Do YYYY"))
-
-
+          element.text(moment(crDate).format("DD/MM/YY"))

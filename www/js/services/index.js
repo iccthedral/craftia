@@ -1,1 +1,1 @@
-define(["./user"], function() {});
+define(["./categoryPictures", "./user", "./gmaps"], function() {});

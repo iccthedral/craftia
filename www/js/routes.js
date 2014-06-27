@@ -1,28 +1,10 @@
 define(["app", "angular"], function(app, angular) {
   return app.config(function($stateProvider, $urlRouterProvider) {
-    var resolveUser;
-    resolveUser = [
-      "$http", "$state", "$rootScope", "cAPI", "logger", "user", function($http, $state, $rootScope, API, logger, user) {
-        return $http.get(API.tryLogin).success(function(data) {
-          user.load(data);
-          user.loaded = true;
-          if (data.type === "Customer") {
-            return $state.transitionTo("customer");
-          } else if (data.type === "Craftsman") {
-            return $state.transitionTo("craftsman");
-          } else {
-            return $state.transitionTo("anon");
-          }
-        }).error(function(err) {
-          logger.error(err);
-          user.loaded = true;
-          return $state.transitionTo("anon");
-        });
-      }
-    ];
     $stateProvider.state("index", {
-      url: "",
-      controller: resolveUser
+      url: "/",
+      controller: function($state, user) {
+        return $state.transitionTo(user.getType || "anon");
+      }
     });
     $stateProvider.state("anon", {
       url: "/anon",
@@ -34,12 +16,30 @@ define(["app", "angular"], function(app, angular) {
         "navmenu@anon": {
           templateUrl: "shared/templates/layout/anonMainNav.html"
         },
+        "navSubMenu@anon": {
+          templateUrl: "shared/templates/layout/navSubMenu.html"
+        },
         "navbar@anon": {
           templateUrl: "shared/templates/layout/anonUserBar.html"
         },
         "shell@anon": {
           templateUrl: "shared/templates/layout/anonMainShell.html",
           controller: "AnonCtrl"
+        }
+      }
+    }).state("anon.craftsmanMenu", {
+      url: "/craftsmanMenu",
+      views: {
+        "navSubMenu@anon": {
+          templateUrl: "shared/templates/layout/craftsmanMenu.html"
+        }
+      }
+    }).state("anon.craftsmanMenu.findJobs", {
+      url: "/findJobs:page",
+      views: {
+        "shell@anon": {
+          templateUrl: "shared/templates/layout/findJobs.html",
+          controller: "FindJobsCtrl"
         }
       }
     }).state("anon.login", {
@@ -77,7 +77,7 @@ define(["app", "angular"], function(app, angular) {
 
     /* When CUSTOMER is logged in */
     $stateProvider.state("customer", {
-      url: "/cu",
+      url: "/customer",
       views: {
         "": {
           templateUrl: "shared/templates/layout/shell.html",
@@ -91,14 +91,45 @@ define(["app", "angular"], function(app, angular) {
           templateUrl: "shared/templates/layout/customerBar.html"
         },
         "shell@customer": {
-          template: "Pozz kolega1!"
+          template: "    \n<div class=\"row\">\n				      <div class=\"col-md-12 col-sm-12 col-xs-12\">\n				          <input class=\"input-medium search-query\"\n				                 data-ng-model=\"contact\"\n				                 data-ng-keyup=\"search($event)\"\n				                 placeholder=\"live search...\">\n				          <div class=\"widget wcyan\">\n				              <div class=\"widget-head\">\n\n				                  <button type=\"button\" class=\"btn btn-secondary btn-lg\" ng-click=\"showInbox()\">\n				                      <i class=\"fa fa-arrow-circle-down\"></i> Inbox\n				                  </button>\n				                  <button type=\"button\" class=\"btn btn-secondary btn-lg\" ng-click=\"showOutbox()\">\n				                      <i class=\"fa fa-arrow-circle-up\"></i> Outbox\n				                  </button>\n\n				              </div>\n				              <div class=\"underConstruction\" style=\"width:100%;\">\n				              </div>\n				  				</div>\n	  				   </div>\n	  				</div>"
+        }
+      }
+    }).state("customer.profile", {
+      url: "/profile",
+      views: {
+        "shell@customer": {
+          templateUrl: "shared/templates/forms/customerProfile.html",
+          controller: "CustomerProfileCtrl"
+        }
+      }
+    }).state("customer.notifications", {
+      url: "/notifications",
+      views: {
+        "shell@customer": {
+          templateUrl: "shared/templates/layout/notifications.html",
+          controller: "NotificationsCtrl"
         }
       }
     }).state("customer.messages", {
       url: "/messages",
       views: {
         "shell@customer": {
-          template: "Pozz kolega2!"
+          templateUrl: "shared/templates/layout/inbox.html",
+          controller: "InboxCtrl"
+        }
+      }
+    }).state("customer.messages.sent", {
+      url: "/sent",
+      views: {
+        "main@customer.messages": {
+          templateUrl: "/shared/templates/layout/sentMessages.html"
+        }
+      }
+    }).state("customer.messages.received", {
+      url: "/received",
+      views: {
+        "main@customer.messages": {
+          templateUrl: "/shared/templates/layout/receivedMessages.html"
         }
       }
     }).state("customer.jobs", {
@@ -129,7 +160,7 @@ define(["app", "angular"], function(app, angular) {
       url: "/testPage",
       views: {
         "shell@customer": {
-          template: "\n\n\n\n\n",
+          template: " Hi kolega ",
           controller: function($scope) {
             return $scope.x = 10;
           }
@@ -137,13 +168,75 @@ define(["app", "angular"], function(app, angular) {
       }
     });
     return $stateProvider.state("craftsman", {
-      url: "/cr",
+      url: "/craftsman",
       views: {
         "": {
           templateUrl: "shared/templates/layout/shell.html",
           controller: "ShellCtrl"
         }
       }
+    }).state("craftsman.messages", {
+      url: "/messages",
+      views: {
+        "shell@craftsman": {
+          templateUrl: "shared/templates/layout/inbox.html",
+          controller: "InboxCtrl"
+        }
+      }
+    }).state("craftsman.messages.sent", {
+      url: "/sent",
+      views: {
+        "main@craftsman.messages": {
+          templateUrl: "/shared/templates/layout/sentMessages.html"
+        }
+      }
+    }).state("craftsman.messages.received", {
+      url: "/received",
+      views: {
+        "main@craftsman.messages": {
+          templateUrl: "/shared/templates/layout/receivedMessages.html"
+        }
+      }
     });
-  });
+  }).run([
+    "$state", "$location", "$http", "$rootScope", "$urlMatcherFactory", "cAPI", "logger", "user", function($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) {
+      var path;
+      path = $location.$$path;
+      path = "" + path;
+      $rootScope.$on("$stateChangeStart", function(ev, toState) {
+        var nextState, type;
+        type = user.getType;
+        nextState = toState.name;
+        if ((nextState.indexOf("customer") === 0) && type !== "customer") {
+          _.logp({
+            customer: ""
+          });
+          ev.preventDefault();
+          logger.error("You are not customer, wtf");
+          $state.transitionTo("index");
+        } else if ((nextState.indexOf("craftsman") === 0) && type !== "craftsman") {
+          _.logp({
+            craftsman: ""
+          });
+          ev.preventDefault();
+          logger.error("You are not craftsman, wtf");
+          $state.transitionTo("index");
+        }
+        if ((nextState.indexOf("anon") === 0) && type !== "anon") {
+          _.logp({
+            anon: ""
+          });
+          ev.preventDefault();
+          logger.error("You are not anon, wtf");
+          return $state.transitionTo("index");
+        }
+      });
+      return $http.get(API.tryLogin).success(function(data) {
+        user.load(data);
+        return logger.success("You're now logged in as " + user.username);
+      }).then(function(err) {
+        return $location.path(path);
+      });
+    }
+  ]);
 });

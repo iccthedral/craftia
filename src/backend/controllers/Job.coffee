@@ -236,12 +236,20 @@ rateJobHandler = (req, res, next) ->
 		res.send(job)
 
 listOpenJobsHandler = (req, res) ->
-	return res.status(403).send "You're not authorized" if not req.user?
+	page = req.params.page or 0
+	perPage = 5
 	JobModel
 	.find {status: "open"}
+	.limit perPage
+	.skip perPage * page
 	.exec (err, jobs) ->
 		return res.status(422).send err if err?
-		res.send jobs
+		out = {}
+		out.jobs = jobs
+		JobModel.count {}, (err, cnt) ->
+			return res.status(422).send err if err?
+			out.totalJobs = cnt
+			res.send out
 
 createNewJobHandler = (req, res, next) ->
 	jobData = req.body
@@ -257,7 +265,7 @@ module.exports.setup = (app) ->
 	app.post "/job/:id/:uid/cancelbid", cancelBidOnJobHandler
 	app.post "/job/:id/pickawinner/:winner", pickWinnerHandler
 	app.post "/job/new", createNewJobHandler
-	app.get "/job/list/all", listOpenJobsHandler
+	app.get "/job/list/:page", listOpenJobsHandler
 	app.post "/job/:id/delete", deleteJob
 	app.post "/job/:id/update", updateJob
 	app.post "/job/:id", findJob

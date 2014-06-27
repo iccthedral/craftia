@@ -36,16 +36,104 @@ font-family: "vegur-regular";
 src: url("../fonts/Vegur-Regular.otf") format("truetype");
 }
 
-.hover-glow-white{
-transition: text-shadow 0.5s;
--moz-transition: text-shadow 0.5s; /* Firefox 4 */
--webkit-transition: text-shadow 0.5s; /* Safari and Chrome */
--o-transition: text-shadow 0.5s; /* Opera */
+.table .borderless {
+  border :0px;
+}
+
+.table .padding-lr-12x {
+  padding-right: 12px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 12px;
+}
+
+.padding-4x {
+  padding: 4px;
+}
+
+.table .no-padding {
+  padding: 0px;
+}
+
+.table .float-left {
+  float: left;
+}
+
+.table .float-right {
+  float: right;
+}
+
+.table .bookmark-star {
+  padding: 0px;
+}
+.bookmark-star img {
+  margin-right: -4px;
+  margin-top: -4px;
+  float: right;
+}
+
+.scaled-img
+{
+  float: left;
+  display : inline-table;
+  padding: 0;
+  margin: 0;
+  background-color: #000;
+  border: 10px solid #fff;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.scaled-img img {
+  display: block;
+  min-height: 100%;
+  max-width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.hover-glow-white {
+  transition: text-shadow 0.5s;
+  -moz-transition: text-shadow 0.5s; /* Firefox 4 */
+  -webkit-transition: text-shadow 0.5s; /* Safari and Chrome */
+  -o-transition: text-shadow 0.5s; /* Opera */
+}
+
+.table .bottom-2-dashed {
+  border-bottom: 1px dashed #aaa;
+}
+.table .top-2-dashed {
+  border-top: 1px dashed #aaa;
+}
+.table .right-2-dashed {
+  border-right: 1px dashed #aaa;
+}
+.table .left-2-dashed {
+  border-left: 1px dashed #aaa;
+}
+.table .yellow-tblock {
+  background-color: #edb915;
 }
 
 .hover-glow-white:hover{
   cursor: pointer;
   text-shadow: 0 0 4px white;
+}
+
+.table .map-marker-3x {
+  transition: font-size 0.2s;
+  -moz-transition: font-size 0.2s; /* Firefox 4 */
+  -webkit-transition: font-size 0.2s; /* Safari and Chrome */
+  -o-transition: font-size 0.2s; /* Opera */
+}
+
+.table .map-marker-3x:hover {
+  cursor: pointer;
+  color: white;
+  font-size: 3.3em;
 }
 
 .profile-details-widget {
@@ -363,7 +451,6 @@ body {
   display: none;
 }
 
-
 .craftia-nav {
   display: inline;
   position: relative;
@@ -383,7 +470,6 @@ body {
   top: -18px;
   right: -5px;
 }
-
 
 .craftia-nav-envelope {
   position: relative;
@@ -627,8 +713,10 @@ nav .navbar-collapse {
   opacity: 0.01;  
 }
 .submenu {
- border-top : dashed 1px;
+ border-top : 2px dashed rgba(0, 0, 0, .1);
+ margin-top: 15px;
 }
+
 .dashboard-section {
   border-top: dashed 1px;
   padding-top: 50px;
@@ -778,7 +866,7 @@ list-style-type: none !important;
   height: 100%;
 }
 
-.other-yellow-span{
+.other-yellow-span {
   color: #eeba16;
 }
 
@@ -813,7 +901,7 @@ list-style-type: none !important;
 }
 
 .helvetica-neue {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: "Helvetica Neue", HelveticaNeue, Arimo, "Arimo", TeXGyreHeros, FreeSans, "Nimbus Sans L", "Liberation Sans", Arimo, Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 .black-span {

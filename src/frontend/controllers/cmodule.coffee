@@ -20,13 +20,11 @@ define ["angular"], (ng) ->
 				instance[name] = other.shift()
 			 	
 			for k, v of instance
-				console.log "KEY", k
 				if typeof v is "funciton"
 					instance[k].bind instance
 			
 			for k, v of Ctrl::
 				instance[k] = v
-				console.log "KEY::", k
 				if typeof v is "function"
 					instance[k].bind instance
 
@@ -36,7 +34,6 @@ define ["angular"], (ng) ->
 			$scope["scope"] = $scope
 			instance["scope"] = $scope
 			
-			console.log instance
 			return instance
 
 		controller = modules.controller name, deps

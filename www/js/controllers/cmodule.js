@@ -30,7 +30,6 @@ define(["angular"], function(ng) {
       }
       for (k in instance) {
         v = instance[k];
-        console.log("KEY", k);
         if (typeof v === "funciton") {
           instance[k].bind(instance);
         }
@@ -39,7 +38,6 @@ define(["angular"], function(ng) {
       for (k in _ref) {
         v = _ref[k];
         instance[k] = v;
-        console.log("KEY::", k);
         if (typeof v === "function") {
           instance[k].bind(instance);
         }
@@ -50,7 +48,6 @@ define(["angular"], function(ng) {
       }
       $scope["scope"] = $scope;
       instance["scope"] = $scope;
-      console.log(instance);
       return instance;
     });
     controller = modules.controller(name, deps);

@@ -1,0 +1,18 @@
+<table class="table table-striped helvetica-neue widget-content">
+<thead>
+	<tr>
+		<th>Date sent</th>
+		<th>To</th>
+		<th>Subject</th>
+		<th>Message</th>
+	</tr>
+</thead>
+<tbody>
+  <tr ng-repeat="msg in filteredMessages">
+    <td cr-date="{{msg.dateSent}}"></td>
+    <td>{{msg.to.username}}</td>
+    <td>{{msg.subject}}</td>
+    <td>{{msg.message}}</td>
+  </tr>
+</tbody>
+</table>

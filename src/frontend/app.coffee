@@ -10,6 +10,7 @@ define [
 	return ng.module "app", [
 		"ngRoute"
 		"ngAnimate"
+		"angularFileUpload"
 		"ui.router"
 		"ui.bootstrap"
 		"angular-carousel"

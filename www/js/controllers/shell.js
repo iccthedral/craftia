@@ -1,9 +1,6 @@
 define(["controllers/module", "angular"], function(module, angular) {
   return module.controller("ShellCtrl", [
     "$scope", "$rootScope", "$http", "$state", "config", "user", function($scope, $rootScope, $http, $state, config, user) {
-      if (!user.loaded) {
-        $state.transitionTo("index");
-      }
       $scope.busyMessage = "Loading...";
       $scope.isBusy = false;
       $scope.spinnerOptions = {

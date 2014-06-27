@@ -181,10 +181,10 @@ small {
     min-height: 2em;
 }
 
-.input-group[class*="col-"] {
+/*.input-group[class*="col-"] {
     width: 80%;
     margin: 0 1.5em;}
-
+*/
 .user .user-pic {
     display: block;
     margin: auto;

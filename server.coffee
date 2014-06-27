@@ -28,16 +28,24 @@ app.configure ->
 	app.use express.session secret:"ve2r@y#!se3cret_so!wow1#@*)much(9awe19_hoi"
 	app.use passport.initialize()
 	app.use passport.session()
-
+  
 	router = require "./src/backend/Router"
 	router app, passport
 
 app.use (err, req, res, next) ->
 	console.error err, err.message, typeof err
-	
 	res.status(422).send err.message
 
 app.use express.static "www/"
-app.listen PORT
 
-log "Running on: #{PORT}"
+process.on "close", ->
+	console.error "PORT: #{PORT} is busy!"
+
+process.on "uncaughtException", (err) ->
+	console.error err
+	process.exit()
+	server.close()
+
+server = app.listen PORT
+
+console.error "Running on: #{PORT}"

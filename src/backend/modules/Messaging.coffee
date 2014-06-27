@@ -9,6 +9,7 @@ module.exports.sendNotification = (notif, clb = ->) ->
 	UserModel
 	.findById notif.receiver
 	.exec (err, receiver) ->
+		return clb? err if err?
 		out = {}
 
 		msg = new Notification {
@@ -25,6 +26,7 @@ module.exports.sendMessage = (message, clb = ->) ->
 	UserModel
 	.find username:$in:[message.sender, message.receiver]
 	.exec (err, results) ->
+		return clb? err if err?
 		out = {}
 		
 		results.forEach (res) ->

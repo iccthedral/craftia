@@ -19,8 +19,9 @@ require.config
 		"support_and_care": "../shared/resources/categories/support_and_care.json"
 		"transport_and_removals": "../shared/resources/categories/transport_and_removals.json"
 		"car": "../shared/resources/categories/car.json"
-
+		
 		"text": "../vendor/requirejs-plugins/lib/text"
+		"async": "../vendor/requirejs-plugins/src/async"
 		"domReady": "../vendor/requirejs-domready/domReady"
 		"json": "../vendor/requirejs-plugins/src/json"
 		"angular" : "../vendor/angular/angular"
@@ -28,7 +29,9 @@ require.config
 		"jquery": "../vendor/angular/jquery-2.0.3.min"
 		"jqueryui": "../vendor/jquery-ui/ui/minified/jquery-ui.min"
 		"moment": "../vendor/angular/moment.min"
+		"gmaps": "../vendor/gmaps/gmaps"
 
+		"ngFileUpload": "../vendor/ng-file-upload/angular-file-upload"
 		"ngBootstrap": "../vendor/angular/bootstrap"
 		"ngBootstrapTpls": "../vendor/angular/ui-bootstrap-tpls-0.10.0"
 		"ngRoutes" : "../vendor/angular/angular-route"
@@ -42,12 +45,18 @@ require.config
 	shim:
 		jqueryui:
 			deps: [ "jquery" ]
-			
+		
 		angular: 
 			exports: "angular"
 		
 		toastr:
 			deps: [ "jquery" ]
+		
+		gmaps:
+			exports: "GMaps"
+
+		ngFileUpload:
+			deps: [ "angular" ]
 		
 		ngBootstrapTpls:
 			deps: [ "ngBootstrap" ]
@@ -73,9 +82,9 @@ require.config
 
 		ngCarousel:
 			deps: [ "angular", "ngTouch" ]
-
+			
 		ngTouch:
 			deps: [ "angular" ]
 		
-	deps: 
-		["bootstrap"]
+	deps:
+		[ "util", "bootstrap", "async!http://maps.google.com/maps/api/js?sensor=true" ]

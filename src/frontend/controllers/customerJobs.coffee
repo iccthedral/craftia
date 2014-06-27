@@ -12,8 +12,6 @@ define ["./module"], (module) ->
 
 			getPage = (pageIndex) ->
 				startIndex = $scope.sizePerPage * pageIndex
-				console.debug startIndex, $scope.sizePerPage
-
 				return user.createdJobs[startIndex...startIndex+$scope.sizePerPage]
 
 			$scope.createdJobsPaged = getPage 0

@@ -8,7 +8,7 @@ schema = mongoose.Schema
 	
 	subject:
 		type: String
-
+		
 	to:
 		type: mongoose.Schema.Types.ObjectId
 		ref: "User"

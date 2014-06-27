@@ -1,1 +1,1 @@
-define(["factories/common", "factories/logger", "factories/config"], function() {});
+define(["factories/common", "factories/logger", "factories/config", "factories/dialog"], function() {});

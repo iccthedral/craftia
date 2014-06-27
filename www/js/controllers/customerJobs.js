@@ -8,7 +8,6 @@ define(["./module"], function(module) {
       getPage = function(pageIndex) {
         var startIndex;
         startIndex = $scope.sizePerPage * pageIndex;
-        console.debug(startIndex, $scope.sizePerPage);
         return user.createdJobs.slice(startIndex, startIndex + $scope.sizePerPage);
       };
       $scope.createdJobsPaged = getPage(0);
