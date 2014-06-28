@@ -53,6 +53,7 @@ define(["./module"], function(module) {
         var scope;
         scope = {
           body: "msg body",
+          subject: "msg subject",
           sender: user.username,
           receiver: ""
         };

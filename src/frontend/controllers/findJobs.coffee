@@ -75,12 +75,12 @@ define ["./module"], (module) ->
 				
 			getPage 0
 			
-			# do activate = ->
-			# 	getJobsPaged = $http.get API.getPagedOpenJobs.format page
-			# 	.success (data) -> 
-			# 		$scope.filteredJobs = data
-			# 		$state.transitionTo "anon.craftsmanMenu.findJobs"
-			# 	.error (err) ->
-			# 		logger.error err
-			# 	common.activateController [getJobsPaged], "CraftsmanMenuCtrl"
+			do activate = ->
+				getJobsPaged = $http.get API.getPagedOpenJobs.format 0
+				.success (data) -> 
+					$scope.filteredJobs = data
+					$state.transitionTo "anon.craftsmanMenu.findJobs"
+				.error (err) ->
+					logger.error err
+				common.activateController [getJobsPaged], "CraftsmanMenuCtrl"
 	]

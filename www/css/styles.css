@@ -327,6 +327,10 @@ a {
     position: relative;
 }
 
+.shellic {
+    margin-top: -1px;
+}
+
 /*#endregion */
 
 /*#region Angular ng-include, ng-view, ng-repeat shuffle animations*/

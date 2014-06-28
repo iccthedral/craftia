@@ -18,44 +18,51 @@
 </div>
 -->
 
-<div class="widget wcyan">
-	<div class="widget-head">
-		<form class="form-inline" role="form">
+<div class="row">
+	<div class="col-md-1 col-sm-1 col-lg-1">
+	</div>  
+	<div class="col-md-10 col-sm-10 col-lg-10">
+		<div class="widget wcyan">
+			<div class="widget-head">
+				<form class="form-inline" role="form">
+					
+					<div class="form-group">
+						<input class="form-control" data-ng-model="searchQuery" data-ng-keyup="search($event)" placeholder="live search...">
+					</div>
+
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary btn-lg" ng-click="showInbox()">
+							<i class="fa fa-arrow-circle-down fa-2x"></i> Inbox
+						</button>
+					</div>
+								
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary btn-lg" ng-click="showOutbox()">
+							<i class="fa fa-arrow-circle-up fa-2x"></i> Outbox
+						</button>
+					</div>
+
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary btn-lg" ng-click="newMessage()">
+							<i class="fa fa-arrow-circle-down fa-2x"></i> New message
+						</button>
+					</div>
+
+				</form>
+			</div>
 			
-			<div class="form-group">
-				<input class="form-control" data-ng-model="searchQuery" data-ng-keyup="search($event)" placeholder="live search...">
+			<div ui-view="main" class="shellic">
 			</div>
 
-			<div class="form-group">
-				<button type="button" class="btn btn-secondary btn-lg" ng-click="showInbox()">
-					<i class="fa fa-arrow-circle-down fa-2x"></i> Inbox
-				</button>
+			<div class="row text-center">
+					<div class="clearfix"></div>
+					<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="totalLength - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
+					<div class="clearfix"></div>
 			</div>
-						
-			<div class="form-group">
-				<button type="button" class="btn btn-secondary btn-lg" ng-click="showOutbox()">
-					<i class="fa fa-arrow-circle-up fa-2x"></i> Outbox
-				</button>
-			</div>
-
-			<div class="form-group">
-				<button type="button" class="btn btn-secondary btn-lg" ng-click="newMessage()">
-					<i class="fa fa-arrow-circle-down fa-2x"></i> New message
-				</button>
-			</div>
-
-		</form>
+		</div>
+		<div class="underConstruction" style="width:100%;">
+		</div>
 	</div>
-	
-	<div ui-view="main" class="shellic">
-	</div>
-
-	<div class="row text-center">
-			<div class="clearfix"></div>
-			<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="totalLength - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
-			<div class="clearfix"></div>
-	</div>
-</div>
-
-<div class="underConstruction" style="width:100%;">
-</div>
+	<div class="col-md-1 col-sm-1 col-lg-1">
+	</div>  
+</div> 

@@ -4306,7 +4306,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   position: relative;
   min-height: 340px;
   margin-bottom: 20px;
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
 }
 
 .navbar:before,

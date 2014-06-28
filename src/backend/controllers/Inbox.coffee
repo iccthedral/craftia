@@ -57,6 +57,6 @@ getSentMessages = (req, res, next) ->
 
 sendMessage = (req, res, next) ->
 	msg = req.body
-	msg.subject = "Message from #{msg.sender}"
+	# msg.subject = "Message from #{msg.sender}"
 	Messaging.sendMessage msg, ->
 		res.send "Message sent!"

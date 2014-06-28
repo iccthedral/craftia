@@ -61,6 +61,7 @@ define [ "./module" ], (module) ->
 			$scope.newMessage = ->
 				scope = {
 					body: "msg body"
+					subject: "msg subject"
 					sender: user.username
 					receiver: ""
 				}

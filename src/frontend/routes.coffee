@@ -32,13 +32,13 @@ define ["app", "angular"], (app, angular) ->
 					controller: "AnonCtrl"
 		}
 			.state "anon.craftsmanMenu", {
-				url: "/anon/craftsmanMenu"
+				url: "/craftsmanMenu"
 				views:
 					"navSubMenu@anon": 
 						templateUrl: "shared/templates/layout/craftsmanMenu.html"
 			}
-			.state "anon.findJobs", {
-				url: "/anon/findJobs:page"
+			.state "anon.craftsmanMenu.findJobs", {
+				url: "/findJobs:page"
 				views:
 					"shell@anon":
 						templateUrl: "shared/templates/layout/findJobs.html"

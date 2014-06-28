@@ -1,7 +1,7 @@
 define(["./module"], function(module) {
   return module.controller("FindJobsCtrl", [
     "$scope", "$http", "$state", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", function($scope, $http, $state, API, logger, common, config, categoryPictures, gmaps) {
-      var getPage, state;
+      var activate, getPage, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -58,7 +58,17 @@ define(["./module"], function(module) {
         ($($scope.infoContainer)).slideToggle();
       };
       $scope.search = function() {};
-      return getPage(0);
+      getPage(0);
+      return (activate = function() {
+        var getJobsPaged;
+        getJobsPaged = $http.get(API.getPagedOpenJobs.format(0)).success(function(data) {
+          $scope.filteredJobs = data;
+          return $state.transitionTo("anon.craftsmanMenu.findJobs");
+        }).error(function(err) {
+          return logger.error(err);
+        });
+        return common.activateController([getJobsPaged], "CraftsmanMenuCtrl");
+      })();
     }
   ]);
 });
