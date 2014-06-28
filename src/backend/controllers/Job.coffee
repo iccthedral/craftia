@@ -260,14 +260,14 @@ listOpenJobsHandler = (req, res) ->
 	page = req.params.page or 0
 	perPage = 5
 	JobModel
-	.find {status: "open"}
+	.find status: "open"
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->
 		return res.status(422).send err if err?
 		out = {}
 		out.jobs = jobs
-		JobModel.count {}, (err, cnt) ->
+		JobModel.count status:"open", (err, cnt) ->
 			return res.status(422).send err if err?
 			out.totalJobs = cnt
 			res.send out
