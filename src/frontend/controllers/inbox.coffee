@@ -17,7 +17,7 @@ define [ "./module" ], (module) ->
 			state = "#{user.type.toLowerCase()}.messages"
 			apiURL = API.receivedMessages
 			page = ".received"
-
+			
 			allReceived = user.inbox.received
 			allSent = user.inbox.sent
 

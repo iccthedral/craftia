@@ -4,6 +4,8 @@ colors          = require "colors"
 util            = require "util"
 async           = require "async"
 fs              = require "fs"
+crypto 					= require "crypto"
+
 UserModel       = require "../models/User"
 CityModel       = require "../models/City"
 JobModel        = require "../models/Job"
@@ -17,7 +19,7 @@ UserCtrl				= require "../controllers/User"
 module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 	if usr.type isnt AuthLevels.CUSTOMER
 		return clb "You don't have permissions to create a new job"
-
+	
 	async.series [
 		findCity jobData.address.city
 		findCategory jobData
@@ -25,14 +27,33 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 	, (err, results) ->
 		return clb err if err?
 		delete jobData._id
-		job = new JobModel jobData
-		job.status = "open"
-		job.address.zip = results[0].zip
-		job.author = usr
-		job.save (err, job) ->
-			return clb err if err?
-			usr.save (err, cnt) ->
-				clb err, job, usr
+		
+		saveJobPhoto = (photo, clb) ->
+			base64img = photo.img
+			path = crypto.randomBytes(20).toString "hex"
+			console.log base64img
+			fs.writeFile path, base64img, {encoding: "base64"}, (err) ->
+				clb err, path
+
+		finish = ->
+			job = new JobModel jobData
+			job.status = "open"
+			job.address.zip = results[0].zip
+			job.author = usr
+			job.save (err, job) ->
+				return clb err if err?
+				usr.save (err, cnt) ->
+					clb err, job, usr
+		
+		photos = jobData.jobPhotos.slice()
+
+		if photos.length > 0
+			async.mapSeries photos, saveJobPhoto, (err, urls) ->
+				jobData.jobPhotos = jobData.jobPhotos.forEach (photo) ->
+					photo.img = urls.shift()
+				finish()
+		else finish()
+		
 
 module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 	if not usr? or (usr.type isnt AuthLevels.CRAFTSMAN)

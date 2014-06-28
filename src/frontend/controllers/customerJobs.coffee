@@ -13,7 +13,7 @@ define ["./module"], (module) ->
 			getPage = (pageIndex) ->
 				startIndex = $scope.sizePerPage * pageIndex
 				return user.createdJobs[startIndex...startIndex+$scope.sizePerPage]
-
+				
 			$scope.createdJobsPaged = getPage 0
 
 			$scope.deleteJob = (id) ->

@@ -26,6 +26,8 @@ define ["./module"], (module) ->
 				common.broadcast config.events.ToggleSpinner, show:true
 				$http.get API.getPagedOpenJobs.format("#{pageIndex}")
 				.success (data) ->
+					for job in data.jobs
+						job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
 					$scope.totalJobs = data.totalJobs
 					$scope.jobs = data.jobs
 					$scope.filteredJobs = data.jobs.slice()
@@ -51,6 +53,18 @@ define ["./module"], (module) ->
 						$scope.currentMap.refresh()
 						console.log 'iamdone'
 				}
+
+			$scope.showInfo = (job, index) ->
+				console.log job, index
+				($ $scope.infoContainer).slideToggle()
+
+				$scope.infoContainer = "#pics-div-#{index}"
+				($ $scope.infoContainer).slideToggle();
+				return
+
+				# if $scope.currentInfo?
+				# 	$scope.currentInfo = {}
+				# $scope.currentInfo = 	
 
 			$scope.search = ->
 				return

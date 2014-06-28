@@ -15,6 +15,14 @@ define(["./module"], function(module) {
           show: true
         });
         return $http.get(API.getPagedOpenJobs.format("" + pageIndex)).success(function(data) {
+          var job, _i, _len, _ref;
+          _ref = data.jobs;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            job = _ref[_i];
+            job.jobPhotos = job.jobPhotos.filter(function(img) {
+              return img.img != null;
+            });
+          }
           $scope.totalJobs = data.totalJobs;
           $scope.jobs = data.jobs;
           return $scope.filteredJobs = data.jobs.slice();
@@ -42,6 +50,12 @@ define(["./module"], function(module) {
             return console.log('iamdone');
           }
         });
+      };
+      $scope.showInfo = function(job, index) {
+        console.log(job, index);
+        ($($scope.infoContainer)).slideToggle();
+        $scope.infoContainer = "#pics-div-" + index;
+        ($($scope.infoContainer)).slideToggle();
       };
       $scope.search = function() {};
       return getPage(0);

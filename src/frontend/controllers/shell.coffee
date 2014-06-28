@@ -7,6 +7,7 @@ define ["controllers/module", "angular"], (module, angular) ->
 		"$state"
 		"config"
 		"user"
+		
 		($scope, $rootScope, $http, $state, config, user) ->		
 			$scope.busyMessage = "Loading..."
 			$scope.isBusy = false

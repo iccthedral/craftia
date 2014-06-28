@@ -17,11 +17,11 @@
 				<div class="col-sm-6 col-md-6 col-xs-6">
 					<div class="row col-sm-12">
 						<div class="col-md-3 col-sm-3 col-xs-3">
-							   <a ui-sref="{{user.getType || 'index'}}">
+							   <a ui-sref="index">
 								<img class="craftia-logo " src="img/logo3.png"/>
 								</a>
 								<br>
-								<a ui-sref="{{user.getType || 'index'}}">
+								<a ui-sref="index">
 									<span class="black-span logo-span vegur-regular sub-logo">Craftsmen portal!
 									</span>
 								</a>
@@ -37,7 +37,7 @@
 				<div class="row col-sm-12 col-xs-12 col-md-12" cc-navigation ui-view="navmenu">
 				</div>
 				
-				<div ui-view="navSubMenu"></div>
+				<div ui-view="navSubMenu" class="shellic"></div>
 	
 			</div>
 			<div class="yellow-div col-md-1 col-sm-1 col-xs-1">
@@ -56,9 +56,9 @@
 		</div>
 	</div>
 	
-	<div class="ui-view-container">
-		<div ui-view="shell" class="col-md-12 col-sm-10 col-lg-12 shellic"></div>
-	</div>
+	<!-- <div class="ui-view-container"> -->
+	<div ui-view="shell" class="col-md-12 col-sm-10 col-lg-12 shellic"></div>
+	<!-- </div> -->
 	
 	<span data-cc-scroll-to-top></span>
 	<div class="col-md-1 col-sm-1">

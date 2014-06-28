@@ -20,6 +20,7 @@ require.config
 		"transport_and_removals": "../shared/resources/categories/transport_and_removals.json"
 		"car": "../shared/resources/categories/car.json"
 		
+		"lzstring": "../vendor/lzstr"
 		"text": "../vendor/requirejs-plugins/lib/text"
 		"async": "../vendor/requirejs-plugins/src/async"
 		"domReady": "../vendor/requirejs-domready/domReady"
@@ -87,4 +88,4 @@ require.config
 			deps: [ "angular" ]
 		
 	deps:
-		[ "util", "bootstrap", "async!http://maps.google.com/maps/api/js?sensor=true" ]
+		[ "util", "bootstrap", "async!http://maps.google.com/maps/api/js?sensor=true", "lzstring"]

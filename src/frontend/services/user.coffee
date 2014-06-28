@@ -30,7 +30,7 @@ define ["./module"], (module) ->
 					$state.transitionTo "index"
 				.error (err) ->
 					logger.error err
-
+					
 			$rootScope.user = window.user = out
 			return out
 	]

@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3>{{selectedImageIndex}} / {{totalImages}} </h3>
+    <button class="lightbox-close btn btn-danger" data-ng-click="closeModal()">X</button>
+</div>
+<div class="modal-body lightbox-content">
+    <div class="lightbox-image">
+        <img ng-src="{{selectedImage.img}}"/>
+    </div>
+    <textarea disabled maxlength="200" class="form-control lightbox-description" rows="3">{{selectedImage.description}}
+    </textarea>
+</div>
+<div class="modal-footer lightbox-footer">
+    <button class="btn btn-primary" ng-click="prev()" ng-show="hasPrev()">Previous</button>
+    <button class="btn btn-primary" ng-click="next()" ng-show="hasNext()">Next</button>
+</div>

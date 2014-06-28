@@ -330,7 +330,7 @@ a {
 /*#endregion */
 
 /*#region Angular ng-include, ng-view, ng-repeat shuffle animations*/
-.shellic[ui-view] {
+/*.shellic[ui-view] {
 }
 
 [ui-view].ng-enter, [ui-view].ng-leave {
@@ -369,7 +369,7 @@ a {
   -webkit-transform:translate3d(100px, 0, 0);
   -moz-transform:translate3d(100px, 0, 0);
   transform:translate3d(100px, 0, 0);
-}
+}*/
 
 /*.shuffle-animation.ng-enter,
 .shuffle-animation.ng-leave {

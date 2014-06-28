@@ -7,5 +7,6 @@ define [
 	"directives/crNotAuth"
 	"directives/crAuth"
 	"directives/crDate"
+	"directives/lightbox"
 ], ->
 	return

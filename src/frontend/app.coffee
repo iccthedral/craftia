@@ -13,6 +13,7 @@ define [
 		"angularFileUpload"
 		"ui.router"
 		"ui.bootstrap"
+		"ui.bootstrap.modal"
 		"angular-carousel"
 		"app.customControllers"
 		"app.factories"
