@@ -11,6 +11,7 @@ define [
 	"controllers/editJob"
 	"controllers/notifications"
 	"controllers/inbox"
+	"controllers/yellowPages"
 ], ->
 	
 	return

@@ -61,7 +61,7 @@ define(["./module"], function(module) {
       getPage(0);
       return (activate = function() {
         var getJobsPaged;
-        getJobsPaged = $http.get(API.getPagedOpenJobs.format(0)).success(function(data) {
+        getJobsPaged = $http.get(API.getPagedOpenJobs.format($scope.currentPage)).success(function(data) {
           $scope.filteredJobs = data;
           return $state.transitionTo("anon.craftsmanMenu.findJobs");
         }).error(function(err) {

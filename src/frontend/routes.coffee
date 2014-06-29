@@ -30,7 +30,15 @@ define ["app", "angular"], (app, angular) ->
 				"shell@anon":
 					templateUrl: "shared/templates/layout/anonMainShell.html"
 					controller: "AnonCtrl"
-		}
+		}	
+			.state "anon.yellowPages", {
+				url: "/yellowPages"
+				views:
+					"shell@anon":
+						templateUrl: "/shared/templates/layout/yellowPages.html"
+						controller: "YellowPagesCtrl"
+			}
+
 			.state "anon.craftsmanMenu", {
 				url: "/craftsmanMenu"
 				views:
