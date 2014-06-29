@@ -77,7 +77,17 @@ schema = mongoose.Schema
 			default: 0
 			min: 0
 			max: 5
-	
+
+	# expertise: 
+	# 	categories: [
+	# 		category: 
+	# 			type: String
+	# 			subcategories: [
+	# 				subcategory: 
+	# 					type: String
+	# 			]
+	# 	]
+
 
 	profilePic:
 		type: String
