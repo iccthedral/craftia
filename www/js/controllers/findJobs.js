@@ -52,7 +52,6 @@ define(["./module"], function(module) {
         });
       };
       $scope.showInfo = function(job, index) {
-        console.log(job, index);
         ($($scope.infoContainer)).slideToggle();
         $scope.infoContainer = "#pics-div-" + index;
         ($($scope.infoContainer)).slideToggle();
@@ -62,12 +61,11 @@ define(["./module"], function(module) {
       return (activate = function() {
         var getJobsPaged;
         getJobsPaged = $http.get(API.getPagedOpenJobs.format($scope.currentPage)).success(function(data) {
-          $scope.filteredJobs = data;
-          return $state.transitionTo("anon.craftsmanMenu.findJobs");
+          return $scope.filteredJobs = data;
         }).error(function(err) {
           return logger.error(err);
         });
-        return common.activateController([getJobsPaged], "CraftsmanMenuCtrl");
+        return common.activateController([getJobsPaged], "FindJobsCtrl");
       })();
     }
   ]);

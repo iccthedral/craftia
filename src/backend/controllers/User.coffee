@@ -36,7 +36,6 @@ module.exports.setup = (app) ->
 	app.post "/user/registerCraftsman", registerCrafsmanHandler
 	app.post "/user/registerCustomer", registerCustomerHandler
 
-
 module.exports.saveUser = saveUser = (user, res) ->
 	user.save (err) ->
 		return res.status(422).send "Registering failed!" if err?
