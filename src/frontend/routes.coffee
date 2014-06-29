@@ -248,7 +248,7 @@ define ["app", "angular"], (app, angular) ->
 
 			$rootScope.$on "$stateChangeSuccess", (ev, toState) ->
 				$(".shellic").fadeIn(500)
-
+				
 				#console.trace type, nextState
 
 				# if (nextState.indexOf("customer") is 0) and type isnt "customer"

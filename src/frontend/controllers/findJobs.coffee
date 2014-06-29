@@ -36,7 +36,7 @@ define ["./module"], (module) ->
 			
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
-
+					
 			$scope.showMap = (job, index) ->
 				($ $scope.mapContainer).slideToggle()
 				

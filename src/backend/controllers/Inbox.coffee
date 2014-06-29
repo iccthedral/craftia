@@ -9,7 +9,6 @@ module.exports.setup = (app) ->
 
 getReceivedMessages = (req, res, next) ->
 	user = req.user
-	console.error user
 
 	return res.send(403) if not user?
 	
@@ -33,7 +32,6 @@ getReceivedMessages = (req, res, next) ->
 
 getSentMessages = (req, res, next) ->
 	user = req.user
-	console.error user
 
 	return res.send(403) if not user?
 	
@@ -57,6 +55,5 @@ getSentMessages = (req, res, next) ->
 
 sendMessage = (req, res, next) ->
 	msg = req.body
-	# msg.subject = "Message from #{msg.sender}"
 	Messaging.sendMessage msg, ->
 		res.send "Message sent!"
