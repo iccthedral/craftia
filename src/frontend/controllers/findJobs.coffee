@@ -76,7 +76,7 @@ define ["./module"], (module) ->
 			getPage 0
 			
 			do activate = ->
-				getJobsPaged = $http.get API.getPagedOpenJobs.format 0
+				getJobsPaged = $http.get API.getPagedOpenJobs.format $scope.currentPage
 				.success (data) -> 
 					$scope.filteredJobs = data
 					$state.transitionTo "anon.craftsmanMenu.findJobs"

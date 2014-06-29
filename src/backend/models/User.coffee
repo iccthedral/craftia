@@ -77,6 +77,7 @@ schema = mongoose.Schema
 			default: 0
 			min: 0
 			max: 5
+	
 
 	profilePic:
 		type: String

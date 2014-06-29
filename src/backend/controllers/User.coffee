@@ -19,7 +19,7 @@ module.exports.setup = (app) ->
 	# logout user
 	app.get "/logout", logOutHandler
 
-	app.get "/user/craftsmen", listCraftsmenHandler
+	app.get "/user/craftsmen/:page", listCraftsmenHandler
 
 	# is current session holder authenticated?
 	app.get "/isAuthenticated", isUserAuthenticated
@@ -43,12 +43,22 @@ module.exports.saveUser = saveUser = (user, res) ->
 		res.status(200).send user: user, msg: "Registering succeeded!"
 
 module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
+	page = req.params.page or 0
+	perPage = 5
 	UserModel
 	.find type: AuthLevels.CRAFTSMAN
 	.select "-password"
-	.exec (err, out) ->
+	.limit perPage
+	.skip perPage * page
+	.exec (err, craftsmen) ->
 		return res.send(422, err.message) if err?
-		res.send out
+		out = {}
+		out.craftsmen = craftsmen
+		UserModel.count type: AuthLevels.CRAFTSMAN, (err, cnt) ->
+			return res.status(422).send err if err?
+			out.totalCraftsmen = cnt
+			res.send out
+
 
 module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, next) ->
 	data        = req.body

@@ -103,16 +103,16 @@ src: url("../fonts/Vegur-Regular.otf") format("truetype");
 }
 
 .table .bottom-2-dashed {
-  border-bottom: 1px dashed #aaa;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }
 .table .top-2-dashed {
-  border-top: 1px dashed #aaa;
+  border-top: 1px dashed rgba(0, 0, 0, 0.1);
 }
 .table .right-2-dashed {
-  border-right: 1px dashed #aaa;
+  border-right: 1px dashed rgba(0, 0, 0, 0.1);
 }
 .table .left-2-dashed {
-  border-left: 1px dashed #aaa;
+  border-left: 1px dashed rgba(0, 0, 0, 0.1);
 }
 .table .yellow-tblock {
   background-color: #edb915;
@@ -983,6 +983,10 @@ list-style-type: none !important;
 }
 
 .find-jobs-menu {
+  background-color : #1a1a1a;
+}
+
+.yellow-pages-menu {
   background-color : #1a1a1a;
 }
 
