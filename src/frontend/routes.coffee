@@ -1,8 +1,8 @@
 define ["app", "angular"], (app, angular) ->
 
+	app.config ($stateProvider, $urlRouterProvider) ->
+		$urlRouterProvider.otherwise "index"
 
-	app
-	.config ($stateProvider, $urlRouterProvider) ->
 		$stateProvider
 		.state "index", {
 			url: ""
@@ -30,7 +30,7 @@ define ["app", "angular"], (app, angular) ->
 				"shell@anon":
 					templateUrl: "shared/templates/layout/anonMainShell.html"
 					controller: "AnonCtrl"
-		}	
+		}
 			.state "anon.yellowPages", {
 				url: "/yellowPages"
 				views:
@@ -38,40 +38,6 @@ define ["app", "angular"], (app, angular) ->
 						templateUrl: "/shared/templates/layout/yellowPages.html"
 						controller: "YellowPagesCtrl"
 			}
-
-			.state "anon.craftsmanMenu", {
-				url: "/craftsmanMenu"
-				views:
-					"navSubMenu@anon": 
-						templateUrl: "shared/templates/layout/craftsmanMenu.html"
-			}
-			.state "anon.craftsmanMenu.findJobs", {
-				url: "/findJobs:page"
-				views:
-					"shell@anon":
-						templateUrl: "shared/templates/layout/findJobs.html"
-						controller: "FindJobsCtrl"
-			}
-
-			.state "anon.craftsmanMenu.requirements", {
-				url: "/requirements"
-				views:
-					"shell@anon":
-						templateUrl: "shared/templates/layout/requirements.html"
-			}
-			.state "anon.craftsmanMenu.howto", {
-				url: "/howto"
-				views:
-					"shell@anon":
-						templateUrl: "shared/templates/layout/howto.html"
-			}
-			.state "anon.craftsmanMenu.prices", {
-				url: "/prices"
-				views:
-					"shell@anon":
-						templateUrl: "shared/templates/layout/prices.html"
-			}
-
 			.state "anon.login", {
 				url: "/login"
 				views:
@@ -98,6 +64,39 @@ define ["app", "angular"], (app, angular) ->
 					"shell@anon":
 						templateUrl: "shared/templates/forms/registerCraftsman.html"
 						controller: "RegisterCtrl"
+			}
+
+			.state "craftsmanMenu", {
+				url: "/craftsmanMenu"
+				parent: "anon"
+				views:
+					"navSubMenu@anon": 
+						templateUrl: "shared/templates/layout/craftsmanMenu.html"
+			}
+			.state "craftsmanMenu.findJobs", {
+				url: "/findJobs:page"
+				views:
+					"shell@anon":
+						templateUrl: "shared/templates/layout/findJobs.html"
+						controller: "FindJobsCtrl"
+			}
+			.state "craftsmanMenu.requirements", {
+				url: "/requirements"
+				views:
+					"shell@anon":
+						templateUrl: "shared/templates/layout/requirements.html"
+			}
+			.state "craftsmanMenu.howto", {
+				url: "/howto"
+				views:
+					"shell@anon":
+						templateUrl: "shared/templates/layout/howto.html"
+			}
+			.state "craftsmanMenu.prices", {
+				url: "/prices"
+				views:
+					"shell@anon":
+						templateUrl: "shared/templates/layout/prices.html"
 			}
 
 		## When CUSTOMER is logged in ###
@@ -206,6 +205,20 @@ define ["app", "angular"], (app, angular) ->
 						controller: ($scope) ->
 							$scope.x = 10
 			}
+			.state "customer.findJobs", {
+				url: "/findJobs"
+				views:
+					"shell@anon":
+						templateUrl: "shared/templates/layout/findJobs.html"
+						controller: "FindJobsCtrl"
+			}
+			.state "customer.yellowPages", {
+				url: "/yellowPages"
+				views:
+					"shell@customer":
+						templateUrl: "/shared/templates/layout/yellowPages.html"
+						controller: "CustomerYellowPagesCtrl"
+			}
 
 		$stateProvider.state "craftsman", {
 			url: "/craftsman"
@@ -233,6 +246,21 @@ define ["app", "angular"], (app, angular) ->
 					"main@craftsman.messages":
 						templateUrl: "/shared/templates/layout/receivedMessages.html"
 			}
+			.state "craftsman.findJobs", {
+				url: "/findJobs"
+				views:
+					"shell@anon":
+						templateUrl: "shared/templates/layout/findJobs.html"
+						controller: "FindJobsCtrl"
+			}
+			.state "craftsman.yellowPages", {
+				url: "/yellowPages"
+				views:
+					"shell@craftsman":
+						templateUrl: "/shared/templates/layout/yellowPages.html"
+						controller: "CraftsmanYellowPagesCtrl"
+			}
+
 	.run [
 		"$state"
 		"$location"
@@ -242,21 +270,20 @@ define ["app", "angular"], (app, angular) ->
 		"cAPI"
 		"logger"
 		"user"
-		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) ->
-			# $urlRouterProvider.when "", user.getType
 
+		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) ->
 			path = $location.$$path
 			# path = "#{path}"
 			console.log path
 			
 			$rootScope.$on "$stateChangeStart", (ev, toState) ->
-				$(".shellic").fadeOut(500)
+				#$(".shellic").fadeOut(500)
 				type = user.getType
 				nextState = toState.name
 
 			$rootScope.$on "$stateChangeSuccess", (ev, toState) ->
-				$(".shellic").fadeIn(500)
-
+				#$(".shellic").fadeIn(500)
+				
 				#console.trace type, nextState
 
 				# if (nextState.indexOf("customer") is 0) and type isnt "customer"

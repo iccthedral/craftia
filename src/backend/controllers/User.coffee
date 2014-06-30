@@ -36,7 +36,6 @@ module.exports.setup = (app) ->
 	app.post "/user/registerCraftsman", registerCrafsmanHandler
 	app.post "/user/registerCustomer", registerCustomerHandler
 
-
 module.exports.saveUser = saveUser = (user, res) ->
 	user.save (err) ->
 		return res.status(422).send "Registering failed!" if err?
@@ -113,7 +112,7 @@ module.exports.getNotifications = getNotifications = (usr, clb) ->
 		clb err, notifications
 
 module.exports.populateUser = populateUser = (usr, clb) ->
-	out = new Object
+	out = {}
 	
 	getBiddedJobs usr, (err, jobs) ->
 		return clb err if err?

@@ -36,7 +36,7 @@ define ["./module"], (module) ->
 			
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
-
+					
 			$scope.showMap = (job, index) ->
 				($ $scope.mapContainer).slideToggle()
 				
@@ -55,16 +55,11 @@ define ["./module"], (module) ->
 				}
 
 			$scope.showInfo = (job, index) ->
-				console.log job, index
 				($ $scope.infoContainer).slideToggle()
 
 				$scope.infoContainer = "#pics-div-#{index}"
 				($ $scope.infoContainer).slideToggle();
 				return
-
-				# if $scope.currentInfo?
-				# 	$scope.currentInfo = {}
-				# $scope.currentInfo = 	
 
 			$scope.search = ->
 				return
@@ -79,8 +74,7 @@ define ["./module"], (module) ->
 				getJobsPaged = $http.get API.getPagedOpenJobs.format $scope.currentPage
 				.success (data) -> 
 					$scope.filteredJobs = data
-					$state.transitionTo "anon.craftsmanMenu.findJobs"
 				.error (err) ->
 					logger.error err
-				common.activateController [getJobsPaged], "CraftsmanMenuCtrl"
+				common.activateController [getJobsPaged], "FindJobsCtrl"
 	]
