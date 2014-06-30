@@ -28,7 +28,7 @@
 					<select ng-change="attachSubcategories2(selectedCategory);" class="menu-select" data-ng-model="selectedCategory" data-ng-options="cat as cat.name for cat in categories">
 					</select>
 				</div>
-			</div>    
+			</div>
 			<div class="col-sm-6">
 			</div>
 			<div class="col-sm-6 col-md-6 row">
@@ -61,9 +61,18 @@
 			  <tr>
 			    <td rowspan="4" colspan="2" class="borderless yellow-tblock" style="border-right: 3px solid white; width: 30%;">
 			    	<div class="text-center"> 
-			    		<img  class="img-thumbnail" style="max-height: 50%; max-width: 50%"  ng-src="img/default_user.jpg" src="img/default_user.jpg">
+			    		<img  class="img-thumbnail" style="max-height: 50%; max-width: 50%"  ng-src="{{craftsman.profilePic}}" >
 							<p class="bold-span" style="height: 30%">
-								CRAFTSMAN'S CATEGORIES:
+								<!-- CRAFTSMAN'S CATEGORIES: -->
+								<span class="rating-stars">
+	              	<rating data-toggle="tooltip" title="{{craftsman.rating.avgRate}}" readonly="true" value="craftsman.rating.avgRate"></rating>
+	            	</span>
+			    			<p class="bold-span small-span">
+			    				<!-- {{craftsman.name}} {{craftsman.surname}} -->
+				    			<i class="fa fa-envelope hover-glow-white">
+			    				</i>
+			    				{{craftsman.username}}
+			    			</p>
 							</p>
 			    	</div>
 			    </td>
@@ -71,28 +80,25 @@
 
 			  <tr>
 			    <td class="borderless yellow-tblock text-center bottom-2-dashed" colspan="4">
-			    	{{craftsman.name}} {{craftsman.surname}}
 			    </td>
 
 			    <td class="bottom-2-dashed borderless yellow-tblock" colspan="4">
 		    		<p class="bold-span" style="height: 30%">
-							CRAFTSMAN'S RATING: 
-							<span class="rating-stars">
-	                <rating data-toggle="tooltip" title="{{craftsman.rating.avgRate}}" readonly="true" value="craftsman.rating.avgRate"></rating>
-	            </span>
+							<!-- CRAFTSMAN'S RATING:  -->
 						</p>
-
 			    </td>
-
 			 
 			  </tr>
 
 			  <tr>
 			    <td class="borderless yellow-tblock text-center" colspan="4">
-			    	<span class="black-div white-span helvetica-neue bold-span padding-4x" cr-date="{{job.dateFrom}}">
+			    	<span class="black-div white-span helvetica-neue bold-span padding-4x">
+			    		{{craftsman.address.city}}
 			    	</span>
-			    	<span class="peach-div bold-span helvetica-neue padding-4x" cr-date="{{job.dateTo}}">
+			    	<span class="peach-div bold-span helvetica-neue padding-4x">
+			    		{{craftsman.address.line1}}
 			    	</span>
+			    	<span class="peach-div bold-span helvetica-neue padding-4x">{{craftsman.address.line2}}</span>
 			    </td>
 
 			    <td colspan="4" rowspan="2" class="borderless yellow-tblock left-2-dashed">
@@ -120,7 +126,6 @@
 			  <tr>
 			    <td class="borderless yellow-tblock text-center" colspan="4">
 			    	<i ng-click="showMap(job, $index)" class="fa fa-map-marker map-marker-3x fa-3x"></i>
-			    	<span class="bold-span">{{job.address.city}}</span>
 			    </td>
 			  </tr>
 			</tbody>

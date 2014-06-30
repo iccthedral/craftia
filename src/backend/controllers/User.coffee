@@ -89,6 +89,9 @@ module.exports.registerCustomerHandler = registerCustomerHandler = (req, res) ->
 		module.exports.saveUser(user, res)
 	)
 
+module.exports.getOwnFinishedJobs = getOwnFinishedJobs = (user, clb) ->
+	
+
 module.exports.getBiddedJobs = getBiddedJobs = (usr, clb) ->
 	JobModel.find().elemMatch("bidders", _id:usr._id).exec (err, jobs) ->
 		clb err, jobs
