@@ -80,9 +80,10 @@ define(["./module"], function(module) {
           curEl.slideDown();
         }
       };
-      $scope.showMap = function(job, index) {
-        var curEl, prevEl;
+      $scope.showMap = function(index) {
+        var curEl, job, prevEl;
         prevEl = $($scope.mapContainer);
+        job = $scope.filteredJobs[index];
         $scope.mapContainer = "#gmaps-div-" + index;
         curEl = $($scope.mapContainer);
         if (prevEl.is(curEl)) {
@@ -100,6 +101,9 @@ define(["./module"], function(module) {
           done: function() {
             $scope.currentMap.refresh();
             return console.log('iamdone');
+          },
+          error: function(err) {
+            return logger.error(err);
           }
         });
       };
@@ -135,9 +139,9 @@ define(["./module"], function(module) {
           }
         });
       };
-      $scope.showPics = showPics = function(job, index) {
+      $scope.showPics = showPics = function(index) {
         var curEl, prevEl;
-        prevEl = $($scope.mapContainer);
+        prevEl = $($scope.picsContainer);
         $scope.picsContainer = "#pics-div-" + index;
         curEl = $($scope.picsContainer);
         if (prevEl.is(curEl)) {
