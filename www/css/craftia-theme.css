@@ -67,8 +67,8 @@ src: url("../fonts/Vegur-Regular.otf") format("truetype");
   padding: 0px;
 }
 .bookmark-star img {
-  margin-right: -4px;
-  margin-top: -4px;
+  margin-right: -5px;
+  margin-top: -5px;
   float: right;
 }
 

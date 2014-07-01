@@ -52,8 +52,7 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 				jobData.jobPhotos = jobData.jobPhotos.forEach (photo) ->
 					photo.img = urls.shift()
 				finish()
-		else finish()
-		
+		else finish()		
 
 module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 	if not usr? or (usr.type isnt AuthLevels.CRAFTSMAN)
@@ -203,7 +202,7 @@ updateJob = (req, res) ->
 		"author"
 		"winner"
 		"bidders"
-		"jobPhotos": 
+		"jobPhotos":
 			default: []
 	]
 	if not usr? or usr.type isnt AuthLevels.CUSTOMER 

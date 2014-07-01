@@ -96,9 +96,9 @@ define ["./module"], (module) ->
 					curEl.slideDown()
 				return		
 
-			$scope.showMap = (job, index) ->
+			$scope.showMap = (index) ->
 				prevEl = ($ $scope.mapContainer)
-				
+				job = $scope.filteredJobs[index];
 				$scope.mapContainer = "#gmaps-div-#{index}"
 				curEl = ($ $scope.mapContainer)
 				if prevEl.is curEl
@@ -117,6 +117,8 @@ define ["./module"], (module) ->
 					done: ->
 						$scope.currentMap.refresh()
 						console.log 'iamdone'
+					error: (err)->
+						logger.error err 	
 				}
 
 			$scope.sendMessage = sendMessage = (bidder)->
@@ -147,8 +149,8 @@ define ["./module"], (module) ->
 						console.log "Cancel", scope
 				}	
 
-			$scope.showPics = showPics = (job, index) ->
-				prevEl = ($ $scope.mapContainer)
+			$scope.showPics = showPics = (index) ->
+				prevEl = ($ $scope.picsContainer)
 				
 				$scope.picsContainer = "#pics-div-#{index}"
 				curEl = ($ $scope.picsContainer)
