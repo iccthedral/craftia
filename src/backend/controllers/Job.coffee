@@ -198,6 +198,14 @@ updateJob = (req, res) ->
 	usr     = req.user
 	jobData = req.body
 
+	reserved = [
+		"status"
+		"author"
+		"winner"
+		"bidders"
+		"jobPhotos": 
+			default: []
+	]
 	if not usr? or usr.type isnt AuthLevels.CUSTOMER 
 		console.log "OH NOEES"
 		return res.send(403)

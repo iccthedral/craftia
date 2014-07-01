@@ -69,6 +69,7 @@ schema = mongoose.Schema
 	jobPhotos:
 		type: Array
 		default: []
+		required: true
 
 JobModel = mongoose.model("Job", schema)
 module.exports = JobModel
