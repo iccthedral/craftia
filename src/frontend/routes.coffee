@@ -1,13 +1,14 @@
 define ["app", "angular"], (app, ng) ->
 
+	#controller: ($state, user) ->
+	#console.debug "okej"
+	#$state.transitionTo user.getType or "anon"
+	
 	app.config ($stateProvider, $urlRouterProvider) ->
-		# $stateProvider
-		# .state "index", {
-		# 	url: ""
-		# 	controller: ($state, user) ->
-		# 		console.debug "okej"
-		# 		$state.transitionTo user.getType or "anon"
-		# }
+		$stateProvider
+		.state "index", {
+			url: ""
+		}
 
 		$stateProvider
 		.state "anon", {
@@ -76,45 +77,39 @@ define ["app", "angular"], (app, ng) ->
 			}
 
 		$stateProvider
-		.state "craftsmanMenu", {
+		.state "anon.craftsmanMenu", {
 			url: "/craftsmanMenu"
 			views:
 				"":
 					templateUrl: "shared/templates/layout/shell.html"
 					controller: "ShellCtrl"
 
-				"navmenu@craftsmanMenu":
-					templateUrl: "shared/templates/layout/anonMainNav.html"
-
-				"navbar@craftsmanMenu":
-					templateUrl: "shared/templates/layout/anonUserBar.html"
-
-				"navSubMenu@craftsmanMenu": 
+				"navSubMenu@anon": 
 					templateUrl: "shared/templates/layout/craftsmanMenu.html"
 		}
-			.state "craftsmanMenu.findJobs", {
+			.state "anon.findJobs", {
 				url: "/findJobs"
 				views:
-					"shell@craftsmanMenu":
+					"shell@anon":
 						templateUrl: "shared/templates/layout/findJobs.html"
 						controller: "FindJobsCtrl"
 			}
-			.state "craftsmanMenu.requirements", {
+			.state "anon.requirements", {
 				url: "/requirements"
 				views:
-					"shell@craftsmanMenu":
+					"shell@anon":
 						templateUrl: "shared/templates/layout/requirements.html"
 			}
-			.state "craftsmanMenu.howto", {
+			.state "anon.howto", {
 				url: "/howto"
 				views:
-					"shell@craftsmanMenu":
+					"shell@anon":
 						templateUrl: "shared/templates/layout/howto.html"
 			}
-			.state "craftsmanMenu.prices", {
+			.state "anon.prices", {
 				url: "/prices"
 				views:
-					"shell@craftsmanMenu":
+					"shell@anon":
 						templateUrl: "shared/templates/layout/prices.html"
 			}
 
@@ -283,18 +278,10 @@ define ["app", "angular"], (app, ng) ->
 		"user"
 
 		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) ->
-
-			# $rootScope.$on "$stateChangeSuccess", ->
-				# alert "HI"
-				# doc = ng.element(window.document)
-				# console.log doc.find "[data-toggle=offcanvas]"
-			#path = $location.$$path
-			# path = "#{path}"
-			#console.log path
 			
 			$rootScope.$on "$stateChangeStart", (ev, toState, toParams, fromState, fromParams) ->
 				type = user.getType
-				
+				typeRe = new RegExp "^#{type}.*", "g"
 				nextState = toState.name
 
 				$(".shellic").fadeOut(500)
@@ -302,35 +289,15 @@ define ["app", "angular"], (app, ng) ->
 				
 				logger.log "utype: #{type}, #{fromState.name} -> #{toState.name}"
 
-				# console.log $state.$current.parent.includes(type)
-				console.log toState, fromState, $state.$current
-
-				# if nextState.includes type
-
-				# if (nextState.indexOf("customer") is 0) and type isnt "customer"
-				# 	logger.error "You are not customer, wtf"
-				# 	ev.preventDefault()
-				# else if (nextState.indexOf("craftsman") is 0) and type isnt "craftsman"
-				# 	logger.error "You are not craftsman, wtf"
-				# 	ev.preventDefault()
-				# if (nextState.indexOf("anon") is 0) and type isnt "anon"
-				# 	logger.error "You are not anon, wtf"
-				# 	ev.preventDefault()
+				if not typeRe.test nextState
+					logger.error "Access denied to state #{toState.name}"
+					ev.preventDefault()
 
 			$http.get API.tryLogin
 			.success (data) ->
 				user.load data
 				logger.success "You're now logged in as #{user.username}"
 			.finally ->
-				$location.path $location.path()
-
-				# $state.go user.getType
-
-			# .finally ->
-			# 	$state.go user.getType
-
-			# .then (err) ->
-				# console.log "PATH", path
-				# $location.path path
+				$state.go user.getType
 	]
 

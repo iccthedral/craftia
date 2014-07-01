@@ -1,13 +1,10 @@
-define([], function() {
-  var User;
-  User = (function() {
-    function User(_arg) {
-      this.username = _arg.username, this.password = _arg.password, this.email = _arg.email, this.address = _arg.address;
-      console.log(this);
+define(["./module"], function(module) {
+  return module.controller("CustomerCtrl", [
+    "$scope", "user", function($scope, user) {
+      $scope.createdJobsPaged = function() {};
+      return $scope.deleteJob = function(index) {
+        return console.log(index);
+      };
     }
-
-    return User;
-
-  })();
-  return User;
+  ]);
 });

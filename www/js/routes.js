@@ -1,5 +1,8 @@
 define(["app", "angular"], function(app, ng) {
   return app.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider.state("index", {
+      url: ""
+    });
     $stateProvider.state("anon", {
       url: "/anon",
       views: {
@@ -69,49 +72,43 @@ define(["app", "angular"], function(app, ng) {
         }
       }
     });
-    $stateProvider.state("craftsmanMenu", {
+    $stateProvider.state("anon.craftsmanMenu", {
       url: "/craftsmanMenu",
       views: {
         "": {
           templateUrl: "shared/templates/layout/shell.html",
           controller: "ShellCtrl"
         },
-        "navmenu@craftsmanMenu": {
-          templateUrl: "shared/templates/layout/anonMainNav.html"
-        },
-        "navbar@craftsmanMenu": {
-          templateUrl: "shared/templates/layout/anonUserBar.html"
-        },
-        "navSubMenu@craftsmanMenu": {
+        "navSubMenu@anon": {
           templateUrl: "shared/templates/layout/craftsmanMenu.html"
         }
       }
-    }).state("craftsmanMenu.findJobs", {
+    }).state("anon.findJobs", {
       url: "/findJobs",
       views: {
-        "shell@craftsmanMenu": {
+        "shell@anon": {
           templateUrl: "shared/templates/layout/findJobs.html",
           controller: "FindJobsCtrl"
         }
       }
-    }).state("craftsmanMenu.requirements", {
+    }).state("anon.requirements", {
       url: "/requirements",
       views: {
-        "shell@craftsmanMenu": {
+        "shell@anon": {
           templateUrl: "shared/templates/layout/requirements.html"
         }
       }
-    }).state("craftsmanMenu.howto", {
+    }).state("anon.howto", {
       url: "/howto",
       views: {
-        "shell@craftsmanMenu": {
+        "shell@anon": {
           templateUrl: "shared/templates/layout/howto.html"
         }
       }
-    }).state("craftsmanMenu.prices", {
+    }).state("anon.prices", {
       url: "/prices",
       views: {
-        "shell@craftsmanMenu": {
+        "shell@anon": {
           templateUrl: "shared/templates/layout/prices.html"
         }
       }
@@ -284,19 +281,23 @@ define(["app", "angular"], function(app, ng) {
   }).run([
     "$state", "$location", "$http", "$rootScope", "$urlMatcherFactory", "cAPI", "logger", "user", function($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) {
       $rootScope.$on("$stateChangeStart", function(ev, toState, toParams, fromState, fromParams) {
-        var nextState, type;
+        var nextState, type, typeRe;
         type = user.getType;
+        typeRe = new RegExp("^" + type + ".*", "g");
         nextState = toState.name;
         $(".shellic").fadeOut(500);
         $(".shellic").fadeIn(500);
         logger.log("utype: " + type + ", " + fromState.name + " -> " + toState.name);
-        return console.log(toState, fromState, $state.$current);
+        if (!typeRe.test(nextState)) {
+          logger.error("Access denied to state " + toState.name);
+          return ev.preventDefault();
+        }
       });
       return $http.get(API.tryLogin).success(function(data) {
         user.load(data);
         return logger.success("You're now logged in as " + user.username);
       })["finally"](function() {
-        return $location.path($location.path());
+        return $state.go(user.getType);
       });
     }
   ]);
