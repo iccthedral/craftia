@@ -14,6 +14,7 @@ define(["app"], function(app) {
     getPagedOpenJobs: "/job/list/{0}",
     getMyJobs: "/user/getMyJobs/{0}/{1}",
     bidOnJob: "job/{0}/bid",
-    pickWinner: "job/{0}/pickawinner/{1}"
+    pickWinner: "job/{0}/pickawinner/{1}",
+    getNotifications: "/user/getNotifications/{0}"
   });
 });

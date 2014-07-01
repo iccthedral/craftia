@@ -1,7 +1,7 @@
 define(["./module"], function(module) {
   return module.controller("CustomerJobsCtrl", [
     "$scope", "$http", "$state", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, API, logger, common, config, categoryPictures, gmaps, dialog) {
-      var activate, getPage, pickWinner, sendMessage, showProfile, state;
+      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showProfile, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -11,6 +11,27 @@ define(["./module"], function(module) {
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
       $scope.jobStatus = "all";
+      $scope.mapContainer = "#gmaps-div-0";
+      $scope.picsContainer = "#pics-div-0";
+      $scope.infoContainer = "#info-div-0";
+      $scope.profileContainer = "#profile-div-0";
+      $scope.tempJob = {};
+      $scope.editIndex = $scope.sizePerPage;
+      $scope.editJob = editJob = function(index) {
+        return $scope.editIndex = index;
+      };
+      $scope.saveJob = saveJob = function(index, jobId) {
+        jobId = $scope.filteredJobs[index]._id;
+        $scope.editIndex = $scope.sizePerPage;
+        return $http.post(API.updateJob.format("" + jobId), $scope.tempJob).success(function(data) {
+          $scope.filteredJobs[index] = _.extend(true, {}, data);
+          logger.success("Job updated!");
+          return $state.transitionTo("customer.jobs");
+        }).error(function(err) {
+          logger.error(err);
+          return $state.transitionTo("customer");
+        });
+      };
       $scope.getPage = getPage = function(pageIndex, jobStatus) {
         if ($scope.currentPage === pageIndex && $scope.jobStatus === jobStatus) {
           return;
@@ -74,7 +95,7 @@ define(["./module"], function(module) {
           $($scope.currentMap.el).empty();
         }
         return $scope.currentMap = gmaps.showAddress({
-          address: job.address.city,
+          address: job.address.city + job.address.line1,
           container: $scope.mapContainer,
           done: function() {
             $scope.currentMap.refresh();
@@ -82,14 +103,12 @@ define(["./module"], function(module) {
           }
         });
       };
-      $scope.sendMessage = sendMessage = function(index) {
-        var job, scope;
-        job = $scope.filteredJobs[index];
+      $scope.sendMessage = sendMessage = function(bidder) {
+        var scope;
         scope = {
           body: "msg body",
           subject: "msg subject",
-          sender: user.username,
-          receiver: job.author.username
+          receiver: bidder
         };
         return dialog.confirmationDialog({
           title: "Send message",
@@ -116,6 +135,18 @@ define(["./module"], function(module) {
           }
         });
       };
+      $scope.showPics = showPics = function(job, index) {
+        var curEl, prevEl;
+        prevEl = $($scope.mapContainer);
+        $scope.picsContainer = "#pics-div-" + index;
+        curEl = $($scope.picsContainer);
+        if (prevEl.is(curEl)) {
+          prevEl.slideToggle();
+        } else {
+          prevEl.slideUp();
+          curEl.slideDown();
+        }
+      };
       $scope.pickWinner = pickWinner = function(bidderId, index) {
         var job;
         job = $scope.filteredJobs[index];
@@ -135,10 +166,18 @@ define(["./module"], function(module) {
           }
         });
       };
-      $scope.showInfo = function(job, index) {
-        ($($scope.infoContainer)).slideToggle();
-        $scope.infoContainer = "#pics-div-" + index;
-        ($($scope.infoContainer)).slideToggle();
+      $scope.showInfo = showInfo = function(index) {
+        var curEl, prevEl;
+        $scope.tempJob = _.extend(true, {}, $scope.filteredJobs[index]);
+        prevEl = $($scope.infoContainer);
+        $scope.infoContainer = "#info-div-" + index;
+        curEl = $($scope.infoContainer);
+        if (prevEl.is(curEl)) {
+          prevEl.slideToggle();
+        } else {
+          prevEl.slideUp();
+          curEl.slideDown();
+        }
       };
       $scope.search = function() {};
       return (activate = function() {

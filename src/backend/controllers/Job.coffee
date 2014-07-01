@@ -199,7 +199,8 @@ updateJob = (req, res) ->
 	jobData = req.body
 
 	if not usr? or usr.type isnt AuthLevels.CUSTOMER 
-		return res.send(422)
+		console.log "OH NOEES"
+		return res.send(403)
 
 	if jobData.address?.city? 
 		checkCity = findCity(jobData.address.city) 
@@ -207,7 +208,7 @@ updateJob = (req, res) ->
 		checkCity = (clb) -> clb(null, null)
 
 	if jobData.category?.subcategory?
-		findCat = findCategory(jobData)
+		findCat = findCategory(jobDa03)
 	else 
 		findCat = (clb) -> clb(null, null)
 
@@ -218,7 +219,8 @@ updateJob = (req, res) ->
 		id = req.params.id
 		JobModel.findByIdAndUpdate(id, jobData)
 		.exec (err, results) ->
-			return res.send(422) if err? or results < 1
+			console.log err
+			return res.send(404) if err? or results < 1
 			JobModel
 			.findById(id)
 			.exec (err, job) ->

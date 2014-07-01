@@ -1,13 +1,36 @@
-<div class="widget wcyan col-md-12">
-<div cc-widget-header title="Notifications" allow-collapse="true"></div>
-<table class="table table-striped helvetica-neue widget-content">
-<thead><tr><th>Date sent</th><th>Type</th><th>Message</th></tr></thead>
-<tbody>
-  <tr ng-repeat="msg in notifications">
-    <td cr-date="{{msg.dateSent}}"></td>
-    <td>{{msg.type}}</td>
-    <td>{{msg.message}}</td>
-  </tr>
-</tbody>
-</table>
+<div class="row">
+	<div class="col-md-1">
+	</div>
+	<div class="col-md-10">
+		<div class="widget wcyan">
+			<div cc-widget-header title="Notifications"  allow-collapse="true">
+			</div>
+			<div class="row">
+				<div class="col-md-1">
+				</div>
+				<div class="col-md-10">
+					<table class="table table-striped helvetica-neue widget-content">
+					<thead><tr><th>Date sent</th><th>Type</th><th>Message</th></tr>
+					</thead>
+					<tbody>
+					  <tr ng-repeat="msg in notifications">
+					    <td cr-date="{{msg.dateSent}}"></td>
+					    <td>{{msg.type}}</td>
+					    <td>{{msg.message}}</td>
+					  </tr>
+					</tbody>
+					</table>
+					<div class="row text-center">
+							<div class="clearfix"></div>
+							<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="totalLength - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
+							<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="col-md-1">
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div class="col-md-1">
+	</div>
 </div>

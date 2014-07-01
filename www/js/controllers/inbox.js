@@ -49,13 +49,13 @@ define(["./module"], function(module) {
         $scope.totalLength = allSent.length;
         return getPage(0);
       };
-      $scope.newMessage = function() {
-        var scope;
+      $scope.newMessage = function(receiver, index) {
+        var msg, scope;
+        msg = $scope.filteredMessages[index];
         scope = {
           body: "msg body",
-          subject: "msg subject",
-          sender: user.username,
-          receiver: ""
+          subject: "RE: " + msg.subject,
+          receiver: receiver
         };
         return dialog.confirmationDialog({
           title: "Send message",

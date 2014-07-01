@@ -23,6 +23,8 @@ module.exports.setup = (app) ->
 
 	app.get "/user/craftsmen/:page", listCraftsmenHandler
 
+	app.get "/user/getNotifications/:page" , notificationsHandler
+
 	# is current session holder authenticated?
 	app.get "/isAuthenticated", isUserAuthenticated
 
@@ -44,6 +46,26 @@ module.exports.saveUser = saveUser = (user, res) ->
 		return res.status(422).send "Registering failed!" if err?
 		res.send {user: user, msg: "Registering succeeded!"}
 
+
+module.exports.notificationsHandler = notificationsHandler = (req, res) ->
+	page = req.params.page or 0
+	user = req.user
+	perPage = 5
+	user = req.user
+	out = {}
+	queryParams = 
+		to : user
+
+	NotificationsModel
+		.find queryParams
+		.limit perPage
+		.skip perPage * page
+		.exec (err, notifications) ->
+			out.notifications = notifications
+			NotificationsModel.count queryParams, (err, cnt) ->
+				return res.status(422).send err if err?
+				out.totalNotifications = cnt
+				res.send out
 
 module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 	page = req.params.page or 0
@@ -180,7 +202,7 @@ module.exports.isUserAuthenticated = isUserAuthenticated = (req, res, next) ->
 logOutHandler = (req, res) ->
 	req.logout()
 	res.redirect 200, "/"
-
+ 
 logInHandler = (req, res, next) ->
 	if req.body.rememberme
 		req.session.cookie.maxAge = 30*24*60*60*1000

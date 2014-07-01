@@ -4,7 +4,6 @@ define [ "./module" ], (module) ->
 		"$scope"
 		"$http"
 		"$state"
-
 		"user"
 		"cAPI"
 		"dialog"
@@ -58,12 +57,12 @@ define [ "./module" ], (module) ->
 				$scope.totalLength = allSent.length
 				getPage 0
 			
-			$scope.newMessage = ->
+			$scope.newMessage = (receiver, index) ->
+				msg = $scope.filteredMessages[index]
 				scope = {
 					body: "msg body"
-					subject: "msg subject"
-					sender: user.username
-					receiver: ""
+					subject: "RE: "+ msg.subject 
+					receiver: receiver
 				}
 
 				dialog.confirmationDialog {

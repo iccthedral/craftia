@@ -3,7 +3,7 @@ define(["directives/module"], function(module) {
     var directive;
     return directive = {
       restrict: "A",
-      templateUrl: "shared/templates/layout/widgetHeader.html",
+      templateUrl: "/shared/templates/layout/widgetHeader.html",
       scope: {
         "title": "@",
         "subtitle": "@",

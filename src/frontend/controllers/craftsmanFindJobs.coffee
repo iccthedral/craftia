@@ -26,7 +26,9 @@ define ["./module"], (module) ->
 			$scope.picsContainer = "#pics-div-0"
 			$scope.infoContainer = "#info-div-0"
 			$scope.profileContainer = "#profile-div-0"
-			
+
+
+
 			$scope.getPage = getPage = (pageIndex, ignore) ->
 				if ignore 
 					return
