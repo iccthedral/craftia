@@ -29,7 +29,7 @@ var spawn = require("child_process").spawn
 				"--journal"
 			],
 			server: [
-				"server.js"
+				"server.coffee"
 			],
 			watch: [
 				"-wc",
@@ -255,7 +255,7 @@ gulp.task("dbRestore", function() {
 gulp.task("serve", function() {
 	async.map(["./logs/", "./data/db/"], touchDir, function() {
 		var spawnServer = function() {
-			serverInstance = spawn("node", args.server);
+			serverInstance = spawn(binCoffee, args.server);
 			pipeOut(serverInstance, "EXPRESS", "red", logs.server.out);
 			pipeErr(serverInstance, logs.server.err);
 			serverInstance.on("close", function() {
@@ -304,13 +304,11 @@ gulp.task("runJobProcess", function() {
 gulp.task("watch", function() {
 	var src = {
 		frontend: "src/frontend/",
-		backend: "src/backend/",
 		shared: "src/shared/"
 	}
 	, cwd = process.cwd()
 	,	findFrontend = cwd.length + src.frontend.length
 	, findShared = cwd.length + src.shared.length
-	, findBackend = cwd.length + src.backend.length
 	;
 
 	function compileFrontend(file) {
