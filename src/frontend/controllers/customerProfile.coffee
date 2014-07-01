@@ -4,13 +4,13 @@ define [ "./module" ], (module) ->
 		"$scope"
 		"$http"
 		"$upload"
-		"user"
+		"appUser"
 		"common"
 		"config"
 		"logger"
 		"cAPI"
 		
-		($scope, $http, $upload, user, common, config, log, API) ->
+		($scope, $http, $upload, appUser, common, config, log, API) ->
 			spinnerEv = config.events.ToggleSpinner
 
 			$scope.uploadPhoto = (files) ->
@@ -20,7 +20,7 @@ define [ "./module" ], (module) ->
 					file: files[0]
 				})
 				.success (picurl) ->
-					user.profilePic = picurl
+					appUser.profilePic = picurl
 				.then ->
 					common.broadcast spinnerEv, show:false
 			

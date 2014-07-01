@@ -5,13 +5,13 @@
         <div class="rightbtr"></div>
         <div class="userland-profile-btn">
             <i class="glyphicon glyphicon-user userland-icon" ui-sref=".profile"></i>
-            <span class="userland-name">{{user.username}}</span>
+            <span class="userland-name">{{appUser.username}}</span>
             <br>
             <div class="row userland-mail-btn">
                 <a ui-sref=".messages">
                     <i class="glyphicon glyphicon-envelope userland-mail-icon"></i>
                     <span class="userland-mail-count1">
-                        {{user.notifications.length}} new
+                        {{appUser.notifications.length}} new
                     </span>
                     <span class="userland-mail-count2">
                         messages
@@ -19,10 +19,10 @@
                     <br>
                 </a>
                 <a href="#">
-                    <span class="logout-icon" ng-click="user.logout()">
+                    <span class="logout-icon" ng-click="appUser.logout()">
                         <i class="glyphicon glyphicon-log-out"></i>
                     </span> 
-                    <span class="logout-span" ng-click="user.logout()">
+                    <span class="logout-span" ng-click="appUser.logout()">
                         Log out
                     </span>   
                 </a>

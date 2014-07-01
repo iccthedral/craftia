@@ -4,12 +4,12 @@ define [ "./module" ], (module) ->
 		"$scope"
 		"$http"
 		"$state"
-		"user"
+		"appUser"
 		"cAPI"
 		"common"
 		"config"
 		"logger"
-		($scope, $http, $state, user, API, common, config, logger) ->
+		($scope, $http, $state, appUser, API, common, config, logger) ->
 
 			$scope.searchQuery = ""
 			$scope.sizePerPage = 5
@@ -17,9 +17,8 @@ define [ "./module" ], (module) ->
 			$scope.currentPage = 0
 			$scope.notifications = []
 			$scope.filteredNotifications = []
-			state = "#{user.type.toLowerCase()}"
+			state = "#{appUser.type.toLowerCase()}"
 			page = ".notifications"
-
 			
 			getPage = (pageIndex) ->
 				common.broadcast config.events.ToggleSpinner, show:true
@@ -39,6 +38,6 @@ define [ "./module" ], (module) ->
 				text = $scope.searchQuery
 				$scope.filteredNotifications = $scope.notifications.filter (msg) ->
 					msg.type.indexOf(text) isnt -1 or msg.message.indexOf(text) isnt -1	
-
+					
 			getPage 0			
 	]

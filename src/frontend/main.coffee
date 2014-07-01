@@ -87,5 +87,18 @@ require.config
 		ngTouch:
 			deps: [ "angular" ]
 		
-	deps:
-		[ "util", "jqueryui", "bootstrap", "async!http://maps.google.com/maps/api/js?sensor=true", "lzstring"]
+	deps: [
+		"util"
+		"jqueryui"
+		"async!http://maps.google.com/maps/api/js?sensor=true"
+		"lzstring"
+		"angular"
+		"ngRoutes"
+		"ngUiRouter"
+		"ngAnimate"
+		"ngCarousel"
+		"ngFileUpload"
+		"ngBootstrap"
+		"ngBootstrapTpls"
+		"bootstrap"
+	]

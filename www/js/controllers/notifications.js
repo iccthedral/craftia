@@ -1,6 +1,6 @@
 define(["./module"], function(module) {
   return module.controller("NotificationsCtrl", [
-    "$scope", "$http", "$state", "user", "cAPI", "common", "config", "logger", function($scope, $http, $state, user, API, common, config, logger) {
+    "$scope", "$http", "$state", "appUser", "cAPI", "common", "config", "logger", function($scope, $http, $state, appUser, API, common, config, logger) {
       var getPage, page, state;
       $scope.searchQuery = "";
       $scope.sizePerPage = 5;
@@ -8,7 +8,7 @@ define(["./module"], function(module) {
       $scope.currentPage = 0;
       $scope.notifications = [];
       $scope.filteredNotifications = [];
-      state = "" + (user.type.toLowerCase());
+      state = "" + (appUser.type.toLowerCase());
       page = ".notifications";
       getPage = function(pageIndex) {
         common.broadcast(config.events.ToggleSpinner, {

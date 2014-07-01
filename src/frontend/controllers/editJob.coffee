@@ -4,15 +4,15 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 		"$scope"
 		"$state"
 		"$http"
-		"user"
+		"appUser"
 		"logger"
 		"common"
 		"cAPI"
-		($scope, $state, $http, user, log, common, API) ->
+		($scope, $state, $http, appUser, log, common, API) ->
 			jobId = $state.params.jobId
 			$scope.title = "Update job"
 
-			$scope.job = job = (user.createdJobs.filter (job) ->
+			$scope.job = job = (appUser.createdJobs.filter (job) ->
 				return job._id is jobId)[0]
 			
 			job.dateFrom = new Date JSON.parse(JSON.stringify(job.dateFrom))

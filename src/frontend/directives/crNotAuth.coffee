@@ -1,15 +1,14 @@
 define ["directives/module"], (module) ->
-	module.directive "crNotAuth", ["user", "$rootScope"
-		(user, $rootScope) ->
+	module.directive "crNotAuth", ["appUser", "$rootScope"
+		(appUser, $rootScope) ->
 			return {
 				link: ($scope, element, attrs) ->
-					user = $rootScope.user
 					element = $(element)
-					expr = user.isLoggedIn
+					expr = appUser.isLoggedIn
 					if expr
 						element.hide()
 					
-					$rootScope.$watch "user.isLoggedIn", (newVal, oldVal) ->
+					$rootScope.$watch "appUser.isLoggedIn", (newVal, oldVal) ->
 						if newVal is oldVal
 							return
 						if newVal

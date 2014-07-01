@@ -157,9 +157,9 @@
 					</thead>
 					<tbody>
 					  <tr>
-					  	<td>{{user.username}}</td>
-					    <td>{{user.name}}</td>
-					    <td>{{user.surname}}</td>
+					  	<td>{{appUser.username}}</td>
+					    <td>{{appUser.name}}</td>
+					    <td>{{appUser.surname}}</td>
 					    <td cr-date="{{job.dateFrom}}"></td>
 					    <td cr-date="{{job.dateTo}}"></td>
 					    <td>
@@ -218,7 +218,7 @@
 </div>
 
 <!-- 	<div class="clearfix"></div>
-	<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="user.createdJobs.length - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
+	<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="appUser.createdJobs.length - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
 	<div class="clearfix"></div>
  -->
 </div>

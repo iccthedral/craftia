@@ -4,21 +4,21 @@ define [ "./module" ], (module) ->
 		"$scope"
 		"$http"
 		"$state"
-		"user"
+		"appUser"
 		"cAPI"
 		"dialog"
 		"logger"
 		"common"
 		"config"
 		
-		($scope, $http, $state, user, API, dialog, log, common, config) ->
+		($scope, $http, $state, appUser, API, dialog, log, common, config) ->
 
-			state = "#{user.type.toLowerCase()}.messages"
+			state = "#{appUser.type.toLowerCase()}.messages"
 			apiURL = API.receivedMessages
 			page = ".received"
 			
-			allReceived = user.inbox.received
-			allSent = user.inbox.sent
+			allReceived = appUser.inbox.received
+			allSent = appUser.inbox.sent
 
 			$scope.totalLength = allReceived.length
 			$scope.searchQuery = ""

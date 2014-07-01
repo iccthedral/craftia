@@ -1,5 +1,5 @@
-define(["app"], function(app) {
-  return app.constant("cAPI", {
+define([], function() {
+  return {
     login: "/login",
     logout: "/logout",
     tryLogin: "/isAuthenticated",
@@ -16,5 +16,5 @@ define(["app"], function(app) {
     bidOnJob: "job/{0}/bid",
     pickWinner: "job/{0}/pickawinner/{1}",
     getNotifications: "/user/getNotifications/{0}"
-  });
+  };
 });

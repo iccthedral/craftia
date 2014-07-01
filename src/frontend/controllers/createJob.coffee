@@ -4,13 +4,13 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 		"$scope"
 		"$state"
 		"$http"
-		"user"
+		"appUser"
 		"logger"
 		"cAPI"
-		($scope, $state, $http, user, log, API) ->
+		($scope, $state, $http, appUser, log, API) ->
 			$scope.title1 = "Enter job details"
 			$scope.title2 = "Upload job photos"
-
+			
 			$scope.firstStep = true
 			$scope.secondStep = false
 
@@ -62,9 +62,9 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				$http.post API.createJob, job
 				.success (data) ->
 					log.success "Job created!"
-					user.createdJobs or= []
-					user.createdJobs.push data
-					console.log user, user.createJobs
+					appUser.createdJobs or= []
+					appUser.createdJobs.push data
+					console.log appUser, appUser.createJobs
 					$state.transitionTo "customer.jobs"
 				.error (err) ->
 					log.error err

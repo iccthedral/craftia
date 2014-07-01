@@ -1,18 +1,17 @@
 define ["./module"], (module) ->
-
 	module.controller "CraftsmanFindJobsCtrl" , [
 		"$scope"
 		"$http"
 		"$state"
 		"cAPI"
+		"appUser"
 		"logger"
 		"common"
 		"config"
 		"categoryPictures"
 		"gmaps"
 		"dialog"
-
-		($scope, $http, $state, API, logger, common, config, categoryPictures, gmaps, dialog) ->
+		($scope, $http, $state, API, appUser, logger, common, config, categoryPictures, gmaps, dialog) ->
 			state = $state.current.name
 			
 			$scope.categoryPictures = categoryPictures
@@ -27,10 +26,8 @@ define ["./module"], (module) ->
 			$scope.infoContainer = "#info-div-0"
 			$scope.profileContainer = "#profile-div-0"
 
-
-
 			$scope.getPage = getPage = (pageIndex, ignore) ->
-				if ignore 
+				if ignore
 					return
 				common.broadcast config.events.ToggleSpinner, show:true
 				$http.get API.getPagedOpenJobs.format("#{pageIndex}")
@@ -58,7 +55,7 @@ define ["./module"], (module) ->
 							.success ->
 								getPage($scope.currentPage)
 								logger.success "nBid successful!"
-							.error (err)->
+							.error (err) ->
 								logger.error
 						onCancel: ->
 							logger.info "Action canceled"
@@ -66,9 +63,7 @@ define ["./module"], (module) ->
 
 			$scope.isBidder = isBidder = (index) ->
 				job = $scope.filteredJobs[index]
-				_.findOne job.bidders, "_id", user._id
-
-
+				_.findOne job.bidders, "_id", appUser._id
 
 			$scope.showMap = (job, index) ->
 				prevEl = ($ $scope.mapContainer)
@@ -90,7 +85,6 @@ define ["./module"], (module) ->
 					container: $scope.mapContainer
 					done: ->
 						$scope.currentMap.refresh()
-						console.log 'iamdone'
 				}
 
 			$scope.showPics = showPics = (job, index) ->
@@ -106,21 +100,18 @@ define ["./module"], (module) ->
 					curEl.slideDown()
 				return
 
-			$scope.showProfile= showProfile = (index) ->
+			$scope.showProfile = showProfile = (index) ->
 				prevEl = ($ $scope.profileContainer)
-				
 				$scope.profileContainer = "#profile-div-#{index}"
 				curEl = ($ $scope.profileContainer)
 				if prevEl.is curEl
-
 					prevEl.slideToggle()
 				else
 					prevEl.slideUp()
 					curEl.slideDown()
 				return	
 
-
-			$scope.showInfo= showInfo = (index) ->
+			$scope.showInfo = showInfo = (index) ->
 				prevEl = ($ $scope.infoContainer)
 				
 				$scope.infoContainer = "#info-div-#{index}"
@@ -138,7 +129,7 @@ define ["./module"], (module) ->
 				scope = {
 					body: "msg body"
 					subject: "msg subject"
-					sender: user.username
+					sender: appUser.username
 					receiver: job.author.username
 				}
 
@@ -165,12 +156,10 @@ define ["./module"], (module) ->
 
 			$scope.search = ->
 				return
-
 				# text = $scope.searchQuery
 				# $scope.filteredMessages = $scope.messages.filter (msg) ->
 				# 	msg.subject.indexOf(text) isnt -1 or msg.message.indexOf(text) isnt -1
 				
 			do activate = ->
-				getJobsPaged = getPage 0
-				common.activateController [getJobsPaged], "CraftsmanFindJobsCtrl"
+				common.activateController [ getPage 0 ], "CraftsmanFindJobsCtrl"
 	]

@@ -9,7 +9,7 @@
 					<div class="form-group">
 						<label class="col-md-8 control-label" for="email">E-mail</label>
 						<div class="col-md-8">
-							<input ng-disabled="!editable" ng-model="user.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
+							<input ng-disabled="!editable" ng-model="appUser.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
 						</div>
 					</div>
 					
@@ -17,7 +17,7 @@
 					<div class="form-group">
 						<label class="col-md-8 control-label" for="username">Username</label>
 						<div class="col-md-8">
-							<input ng-disabled="!editable" ng-model="user.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+							<input ng-disabled="!editable" ng-model="appUser.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
 						</div>
 					</div>
 
@@ -26,7 +26,7 @@
 					<div class="form-group">
 						<label class="col-md-8 control-label" for="name">Name</label>
 						<div class="col-md-8">
-							<input ng-disabled="!editable" ng-model="user.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+							<input ng-disabled="!editable" ng-model="appUser.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
 						</div>
 					</div>
 
@@ -34,7 +34,7 @@
 					<div class="form-group">
 						<label class="col-md-8 control-label" for="surname">Surname</label>
 						<div class="col-md-8">
-							<input ng-disabled="!editable" ng-model="user.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+							<input ng-disabled="!editable" ng-model="appUser.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
 						</div>
 					</div>
 
@@ -42,7 +42,7 @@
 					<div class="form-group">
 						<label class="col-md-8 control-label" for="telephone">Telephone</label>
 						<div class="col-md-8">
-							<input ng-disabled="!editable" ng-model="user.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+							<input ng-disabled="!editable" ng-model="appUser.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
 						</div>
 					</div>
 					
@@ -54,10 +54,10 @@
 <div class="fluid-container col-md-6 widget wcyan">
 	<div class="fileinput fileinput-new" data-provides="fileinput">
 		<div class="fileinput-new thumbnail profile-picture">
-			<img ng-src="{{user.profilePic}}"/>
+			<img ng-src="{{appUser.profilePic}}"/>
 			<br>
 			<div class="user-rating-box rating-stars">
-				<rating readonly="true" value="user.rating.avgRate"></rating>
+				<rating readonly="true" value="appUser.rating.avgRate"></rating>
 			</div>
 			<form class="form-horizontal upload-picture-form">
 				 <div class="fileUpload btn btn-primary">

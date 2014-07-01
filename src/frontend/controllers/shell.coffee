@@ -6,9 +6,9 @@ define ["controllers/module", "angular"], (module, ng) ->
 		"$http"
 		"$state"
 		"config"
-		"user"
+		"appUser"
 		
-		($scope, $rootScope, $http, $state, config, user) ->		
+		($scope, $rootScope, $http, $state, config, appUser) ->		
 			$scope.busyMessage = "Loading..."
 			$scope.isBusy = false
 			$scope.spinnerOptions =

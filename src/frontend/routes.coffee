@@ -1,16 +1,6 @@
 define ["app", "angular"], (app, ng) ->
 
-	#console.debug "okej"
-	#
-	
 	app.config ($stateProvider, $urlRouterProvider) ->
-		$stateProvider
-		.state "index", {
-			url: ""
-			# controller: ($state, user) ->
-			# 	$state.go user.getType
-		}
-
 		$stateProvider
 		.state "anon", {
 			url: "/anon"
@@ -76,18 +66,16 @@ define ["app", "angular"], (app, ng) ->
 						templateUrl: "shared/templates/forms/registerCraftsman.html"
 						controller: "RegisterCtrl"
 			}
+			.state "anon.craftsmanMenu", {
+				url: "/craftsmanMenu"
+				views:
+					"":
+						templateUrl: "shared/templates/layout/shell.html"
+						controller: "ShellCtrl"
 
-		$stateProvider
-		.state "anon.craftsmanMenu", {
-			url: "/craftsmanMenu"
-			views:
-				"":
-					templateUrl: "shared/templates/layout/shell.html"
-					controller: "ShellCtrl"
-
-				"navSubMenu@anon": 
-					templateUrl: "shared/templates/layout/craftsmanMenu.html"
-		}
+					"navSubMenu@anon": 
+						templateUrl: "shared/templates/layout/craftsmanMenu.html"
+			}
 			.state "anon.findJobs", {
 				url: "/findJobs"
 				views:
@@ -215,7 +203,7 @@ define ["app", "angular"], (app, ng) ->
 
 				"navbar@craftsman":
 					templateUrl: "shared/templates/layout/craftsmanBar.html"
-			}
+		}
 			.state "craftsman.messages", {
 				url: "/messages"
 				views:
@@ -267,40 +255,37 @@ define ["app", "angular"], (app, ng) ->
 		"$urlMatcherFactory"
 		"cAPI"
 		"logger"
-		"user"
+		"appUser"
 
-		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) ->
-			lastState = $state.current.name
-
+		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, appUser) ->
+			lastState = null
 			$rootScope
 			.$on "$stateChangeStart", (ev, toState, toParams, fromState, fromParams) ->
-				type = user.getType
+				isLoggedIn = appUser.isLoggedIn
+				type = appUser.getType
 				typeRe = new RegExp "^#{type}.*", "g"
 				nextState = toState.name
+				fromState = fromState.name
 
-				$(".shellic").fadeOut(500)
-				$(".shellic").fadeIn(500)
+				$(".shellic").fadeOut 500
+				$(".shellic").fadeIn 500
 				
-				logger.log "utype: #{type}, #{fromState.name} -> #{toState.name}"
+				logger.log "lastState: #{lastState}, isLogged: #{isLoggedIn}, utype: #{type}, #{fromState} -> #{toState.name}"
 
 				if not typeRe.test nextState
-					lastState or= nextState
+					logger.log "Access denied to state #{nextState}"
+					ev.preventDefault()
 					if lastState isnt nextState
-						logger.log "Access denied to state #{nextState}"
+						lastState or= appUser.getType
 						logger.log "Trying state #{lastState}"
 						$state.go lastState
-						lastState = fromState.name
-					ev.preventDefault()
-			
+
+				logger.log "Next state: #{nextState}"
+				logger.log "Last good state: #{lastState}"
+
 			$rootScope
 			.$on "$stateChangeSuccess", (ev, toState, toParams, fromState, fromParams) ->
 				lastState = toState.name
-
-			$http.get API.tryLogin
-			.success (data) ->
-				user.load data
-				logger.success "You're now logged in as #{user.username}"
-			.finally ->
-				$state.go user.getType
+				logger.log "Activated state #{lastState}"
 	]
 
