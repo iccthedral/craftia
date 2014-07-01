@@ -26,7 +26,7 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 	]
 	, (err, results) ->
 		return clb err if err?
-		delete jobData._id
+		delete jobData._id 
 		
 		saveJobPhoto = (photo, clb) ->
 			base64img = photo.img
