@@ -50,14 +50,13 @@ module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
 	.limit perPage
 	.skip perPage * page
 	.exec (err, craftsmen) ->
-		return res.send(422, err.message) if err?
+		return res.status(422).send err if err?
 		out = {}
 		out.craftsmen = craftsmen
 		UserModel.count type: AuthLevels.CRAFTSMAN, (err, cnt) ->
 			return res.status(422).send err if err?
 			out.totalCraftsmen = cnt
 			res.send out
-
 
 module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, next) ->
 	data        = req.body
@@ -84,8 +83,9 @@ module.exports.registerCustomerHandler = registerCustomerHandler = (req, res) ->
 		resolveCity = JobCtrl.findCity(data.address.city)
 
 	resolveCity((err, city) ->
+		return next err if err?
 		data.address.zip = city.zip
-		module.exports.saveUser(user, res)
+		saveUser(user, res)
 	)
 
 module.exports.getOwnFinishedJobs = getOwnFinishedJobs = (user, clb) ->

@@ -1,6 +1,7 @@
-LocalStrategy = require("passport-local").Strategy
+passport      = require "passport"
 UserModel     = require "../backend/models/User"
 UserCtrl      = require "../backend/controllers/User"
+LocalStrategy = passport.Strategy
 
 module.exports = (passport) ->
   passport.serializeUser (user, done) ->
@@ -27,7 +28,7 @@ module.exports = (passport) ->
   strat = new LocalStrategy usernameField: "email", (email, password, done) ->
     UserModel.findOne email:email, (err, user) ->
       return done err if err?    
-      if not user
+      if not user or user?
         return done null, false, message: "User doesn't exist"
       user.comparePassword password, (err, isMatch) ->
         return done err if err?

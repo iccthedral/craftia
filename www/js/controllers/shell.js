@@ -1,4 +1,4 @@
-define(["controllers/module", "angular"], function(module, angular) {
+define(["controllers/module", "angular"], function(module, ng) {
   return module.controller("ShellCtrl", [
     "$scope", "$rootScope", "$http", "$state", "config", "user", function($scope, $rootScope, $http, $state, config, user) {
       $scope.busyMessage = "Loading...";
@@ -13,6 +13,12 @@ define(["controllers/module", "angular"], function(module, angular) {
         trail: 100,
         color: "#F58A00"
       };
+      $scope.$on("$viewContentLoaded", function() {
+        return ng.element("[data-toggle=offcanvas]").on("click", function() {
+          ng.element(".row-offcanvas").toggleClass("active");
+          return ng.element(".showhide").toggle();
+        });
+      });
       $scope.toggleSpinner = function(val) {
         return $scope.isBusy = val;
       };
@@ -23,6 +29,7 @@ define(["controllers/module", "angular"], function(module, angular) {
         return $scope.toggleSpinner(false);
       });
       return $rootScope.$on(config.events.ToggleSpinner, function(_, data) {
+        console.log("TOGGLING SPINNER", data.show);
         return $scope.toggleSpinner(data.show);
       });
     }

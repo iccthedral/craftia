@@ -49,8 +49,13 @@
   bottom: 0px;
 }
 
+.hmenu-item-spacing {
+  margin-right: 10px;
+}
+
 .top-hmenu-item-wrapper {
-    width: 150px;
+    min-width: 100px;
+    max-width: 150px;
     height: 30px;
     cursor: pointer;
     z-index: 2;

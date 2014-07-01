@@ -84,5 +84,5 @@ require.config({
       deps: ["angular"]
     }
   },
-  deps: ["util", "bootstrap", "async!http://maps.google.com/maps/api/js?sensor=true", "lzstring"]
+  deps: ["util", "jqueryui", "bootstrap", "async!http://maps.google.com/maps/api/js?sensor=true", "lzstring"]
 });

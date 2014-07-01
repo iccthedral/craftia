@@ -7,7 +7,7 @@ define ["factories/module", "toastr"], (module, toastr) ->
 		logIt = (message, data, source, showToast = true, toastType) ->
 			write = if (toastType is 'error') then $log.error else $log.log
 			source = if source then '[' + source + '] ' else ''
-
+			
 			write(source, message, data)
 
 			if showToast

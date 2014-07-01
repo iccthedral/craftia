@@ -1,4 +1,4 @@
-define ["controllers/module", "angular"], (module, angular) ->
+define ["controllers/module", "angular"], (module, ng) ->
 
 	module.controller "ShellCtrl", [
 		"$scope"
@@ -20,10 +20,18 @@ define ["controllers/module", "angular"], (module, angular) ->
 				corners: 1.0
 				trail: 100
 				color: "#F58A00"
-			
+
+			$scope.$on "$viewContentLoaded", ->
+				ng.element "[data-toggle=offcanvas]"
+				.on "click", ->
+					ng.element ".row-offcanvas"
+					.toggleClass "active"
+					ng.element ".showhide"
+					.toggle()
+
 			$scope.toggleSpinner = (val) ->
 				$scope.isBusy = val
-				
+
 			$rootScope.$on "$locationChangeStart", (event, next, curr) ->
 				$scope.toggleSpinner true
 
@@ -31,5 +39,6 @@ define ["controllers/module", "angular"], (module, angular) ->
 				$scope.toggleSpinner false
 				
 			$rootScope.$on config.events.ToggleSpinner, (_, data) ->
+				console.log "TOGGLING SPINNER", data.show
 				$scope.toggleSpinner data.show
 	]

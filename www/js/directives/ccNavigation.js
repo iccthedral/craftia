@@ -1,11 +1,9 @@
 define(["./module"], function(module) {
   return module.directive("ccNavigation", [
     "$state", "$rootScope", function($state, $rootScope) {
-      var directive;
-      return directive = {
-        restrict: "A",
-        link: function(scope, element, attrs) {}
-      };
+      return $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+        return console.log("state changed", menu);
+      });
     }
   ]);
 });

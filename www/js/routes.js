@@ -1,12 +1,5 @@
-define(["app", "angular"], function(app, angular) {
+define(["app", "angular"], function(app, ng) {
   return app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("index");
-    $stateProvider.state("index", {
-      url: "",
-      controller: function($state, user) {
-        return $state.transitionTo(user.getType || "anon");
-      }
-    });
     $stateProvider.state("anon", {
       url: "/anon",
       views: {
@@ -26,6 +19,14 @@ define(["app", "angular"], function(app, angular) {
         "shell@anon": {
           templateUrl: "shared/templates/layout/anonMainShell.html",
           controller: "AnonCtrl"
+        }
+      }
+    }).state("anon.createJob", {
+      url: "/createJob",
+      views: {
+        "shell@anon": {
+          template: "<div ng-if=\"firstStep\" ng-include=\"'shared/templates/forms/createJob1.html'\"></div>\n<div ng-if=\"secondStep\" ng-include=\"'shared/templates/forms/createJob2.html'\"></div>",
+          controller: "CreateJobCtrl"
         }
       }
     }).state("anon.yellowPages", {
@@ -67,18 +68,28 @@ define(["app", "angular"], function(app, angular) {
           controller: "RegisterCtrl"
         }
       }
-    }).state("craftsmanMenu", {
+    });
+    $stateProvider.state("craftsmanMenu", {
       url: "/craftsmanMenu",
-      parent: "anon",
       views: {
-        "navSubMenu@anon": {
+        "": {
+          templateUrl: "shared/templates/layout/shell.html",
+          controller: "ShellCtrl"
+        },
+        "navmenu@craftsmanMenu": {
+          templateUrl: "shared/templates/layout/anonMainNav.html"
+        },
+        "navbar@craftsmanMenu": {
+          templateUrl: "shared/templates/layout/anonUserBar.html"
+        },
+        "navSubMenu@craftsmanMenu": {
           templateUrl: "shared/templates/layout/craftsmanMenu.html"
         }
       }
     }).state("craftsmanMenu.findJobs", {
-      url: "/findJobs:page",
+      url: "/findJobs",
       views: {
-        "shell@anon": {
+        "shell@craftsmanMenu": {
           templateUrl: "shared/templates/layout/findJobs.html",
           controller: "FindJobsCtrl"
         }
@@ -86,21 +97,21 @@ define(["app", "angular"], function(app, angular) {
     }).state("craftsmanMenu.requirements", {
       url: "/requirements",
       views: {
-        "shell@anon": {
+        "shell@craftsmanMenu": {
           templateUrl: "shared/templates/layout/requirements.html"
         }
       }
     }).state("craftsmanMenu.howto", {
       url: "/howto",
       views: {
-        "shell@anon": {
+        "shell@craftsmanMenu": {
           templateUrl: "shared/templates/layout/howto.html"
         }
       }
     }).state("craftsmanMenu.prices", {
       url: "/prices",
       views: {
-        "shell@anon": {
+        "shell@craftsmanMenu": {
           templateUrl: "shared/templates/layout/prices.html"
         }
       }
@@ -118,9 +129,6 @@ define(["app", "angular"], function(app, angular) {
         },
         "navbar@customer": {
           templateUrl: "shared/templates/layout/customerBar.html"
-        },
-        "shell@customer": {
-          template: "    \n<div class=\"row\">\n				      <div class=\"col-md-12 col-sm-12 col-xs-12\">\n				          <input class=\"input-medium search-query\"\n				                 data-ng-model=\"contact\"\n				                 data-ng-keyup=\"search($event)\"\n				                 placeholder=\"live search...\">\n				          <div class=\"widget wcyan\">\n				              <div class=\"widget-head\">\n\n				                  <button type=\"button\" class=\"btn btn-secondary btn-lg\" ng-click=\"showInbox()\">\n				                      <i class=\"fa fa-arrow-circle-down\"></i> Inbox\n				                  </button>\n				                  <button type=\"button\" class=\"btn btn-secondary btn-lg\" ng-click=\"showOutbox()\">\n				                      <i class=\"fa fa-arrow-circle-up\"></i> Outbox\n				                  </button>\n\n				              </div>\n				              <div class=\"underConstruction\" style=\"width:100%;\">\n				              </div>\n				  				</div>\n	  				   </div>\n	  				</div>"
         }
       }
     }).state("customer.profile", {
@@ -199,8 +207,7 @@ define(["app", "angular"], function(app, angular) {
       url: "/findJobs",
       views: {
         "shell@anon": {
-          templateUrl: "shared/templates/layout/findJobs.html",
-          controller: "FindJobsCtrl"
+          templateUrl: "shared/templates/layout/findJobs.html"
         }
       }
     }).state("customer.yellowPages", {
@@ -212,12 +219,19 @@ define(["app", "angular"], function(app, angular) {
         }
       }
     });
-    return $stateProvider.state("craftsman", {
+    $stateProvider.state("craftsman", {
       url: "/craftsman",
       views: {
         "": {
           templateUrl: "shared/templates/layout/shell.html",
           controller: "ShellCtrl"
+        },
+        "navmenu@craftsman": {
+          templateUrl: "shared/templates/layout/craftsmanMainNav.html",
+          controller: "NavCtrl"
+        },
+        "navbar@craftsman": {
+          templateUrl: "shared/templates/layout/craftsmanBar.html"
         }
       }
     }).state("craftsman.messages", {
@@ -245,9 +259,8 @@ define(["app", "angular"], function(app, angular) {
     }).state("craftsman.findJobs", {
       url: "/findJobs",
       views: {
-        "shell@anon": {
-          templateUrl: "shared/templates/layout/findJobs.html",
-          controller: "FindJobsCtrl"
+        "shell@craftsman": {
+          templateUrl: "shared/templates/layout/findJobs.html"
         }
       }
     }).state("craftsman.yellowPages", {
@@ -258,23 +271,32 @@ define(["app", "angular"], function(app, angular) {
           controller: "CraftsmanYellowPagesCtrl"
         }
       }
+    }).state("craftsman.notifications", {
+      url: "/notifications",
+      views: {
+        "shell@craftsman": {
+          templateUrl: "shared/templates/layout/notifications.html",
+          controller: "NotificationsCtrl"
+        }
+      }
     });
+    return $urlRouterProvider.otherwise("");
   }).run([
     "$state", "$location", "$http", "$rootScope", "$urlMatcherFactory", "cAPI", "logger", "user", function($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) {
-      var path;
-      path = $location.$$path;
-      console.log(path);
-      $rootScope.$on("$stateChangeStart", function(ev, toState) {
+      $rootScope.$on("$stateChangeStart", function(ev, toState, toParams, fromState, fromParams) {
         var nextState, type;
         type = user.getType;
-        return nextState = toState.name;
+        nextState = toState.name;
+        $(".shellic").fadeOut(500);
+        $(".shellic").fadeIn(500);
+        logger.log("utype: " + type + ", " + fromState.name + " -> " + toState.name);
+        return console.log(toState, fromState, $state.$current);
       });
-      $rootScope.$on("$stateChangeSuccess", function(ev, toState) {});
       return $http.get(API.tryLogin).success(function(data) {
         user.load(data);
         return logger.success("You're now logged in as " + user.username);
-      }).then(function(err) {
-        return console.log("PATH", path);
+      })["finally"](function() {
+        return $location.path($location.path());
       });
     }
   ]);

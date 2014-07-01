@@ -11,10 +11,10 @@ define(["./module"], function(module) {
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
       getPage = function(pageIndex) {
-        common.broadcast(config.events.ToggleSpinner, {
-          show: true
-        });
-        return $http.get(API.getPagedOpenJobs.format("" + pageIndex)).success(function(data) {
+        if (pageIndex == null) {
+          pageIndex = 0;
+        }
+        return common.get(API.getPagedOpenJobs.format("" + pageIndex)).success(function(data) {
           var job, _i, _len, _ref;
           _ref = data.jobs;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -26,10 +26,6 @@ define(["./module"], function(module) {
           $scope.totalJobs = data.totalJobs;
           $scope.jobs = data.jobs;
           return $scope.filteredJobs = data.jobs.slice();
-        }).then(function() {
-          return common.broadcast(config.events.ToggleSpinner, {
-            show: false
-          });
         });
       };
       $scope.pageSelected = function(page) {
@@ -57,15 +53,8 @@ define(["./module"], function(module) {
         ($($scope.infoContainer)).slideToggle();
       };
       $scope.search = function() {};
-      getPage(0);
       return (activate = function() {
-        var getJobsPaged;
-        getJobsPaged = $http.get(API.getPagedOpenJobs.format($scope.currentPage)).success(function(data) {
-          return $scope.filteredJobs = data;
-        }).error(function(err) {
-          return logger.error(err);
-        });
-        return common.activateController([getJobsPaged], "FindJobsCtrl");
+        return common.activateController([getPage], "FindJobsCtrl");
       })();
     }
   ]);

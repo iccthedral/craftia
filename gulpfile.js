@@ -25,10 +25,15 @@ var spawn = require("child_process").spawn
 	, args = {
 			mongo: [
 				"--dbpath",
-				"data/db"
+				"data/db",
+				"--journal"
 			],
 			server: [
-				"-w",
+				"server.js"
+			],
+			watch: [
+				"-wc",
+				"./src/backend/",
 				"server.coffee"
 			],
 			jobupdate: [
@@ -250,7 +255,7 @@ gulp.task("dbRestore", function() {
 gulp.task("serve", function() {
 	async.map(["./logs/", "./data/db/"], touchDir, function() {
 		var spawnServer = function() {
-			serverInstance = spawn(binCoffee, args.server);
+			serverInstance = spawn("node", args.server);
 			pipeOut(serverInstance, "EXPRESS", "red", logs.server.out);
 			pipeErr(serverInstance, logs.server.err);
 			serverInstance.on("close", function() {
@@ -267,9 +272,18 @@ gulp.task("serve", function() {
 				spawnMongo();
 			});
 		}
+		, restartServer = function() {
+			if (serverInstance) {
+				serverInstance.kill();
+			} else {
+				spawnServer();
+			}
+		}
 		;
-		spawnServer();
+		
 		spawnMongo();
+		gulp.watch("server.coffee", restartServer);
+		gulp.watch("./src/backend/**/*.coffee", restartServer);
 	});
 });
 
@@ -364,6 +378,7 @@ gulp.task("watch", function() {
 				type: "changed"
 			})
 		});
+
 		gulp.watch(src.shared + "**/*.coffee", compileShared);
 	});
 	// .pipe(coffee())

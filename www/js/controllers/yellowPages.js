@@ -1,7 +1,7 @@
 define(["./module"], function(module) {
   return module.controller("YellowPagesCtrl", [
     "$scope", "$http", "$state", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", function($scope, $http, $state, API, logger, common, config, categoryPictures, gmaps) {
-      var activate, getPage, state;
+      var getPage, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredCraftsmen = [];
@@ -11,17 +11,14 @@ define(["./module"], function(module) {
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
       getPage = function(pageIndex) {
-        common.broadcast(config.events.ToggleSpinner, {
-          show: true
-        });
-        return $http.get(API.craftsmen.format("" + pageIndex)).success(function(data) {
+        if (pageIndex == null) {
+          pageIndex = 0;
+        }
+        console.debug(common);
+        return common.get(API.craftsmen.format("" + pageIndex)).success(function(data) {
           $scope.totalCraftsmen = data.totalCraftsmen;
           $scope.craftsmen = data.craftsmen;
           return $scope.filteredCraftsmen = data.craftsmen.slice();
-        }).then(function() {
-          return common.broadcast(config.events.ToggleSpinner, {
-            show: false
-          });
         });
       };
       $scope.pageSelected = function(page) {
@@ -34,17 +31,7 @@ define(["./module"], function(module) {
         ($($scope.infoContainer)).slideToggle();
       };
       $scope.search = function() {};
-      getPage(0);
-      return (activate = function() {
-        var getCraftsmanPaged;
-        getCraftsmanPaged = $http.get(API.craftsmen.format($scope.currentPage)).success(function(data) {
-          $scope.filteredJobs = data;
-          return $state.transitionTo("anon.yellowPages");
-        }).error(function(err) {
-          return logger.error(err);
-        });
-        return common.activateController([getCraftsmanPaged], "YellowPagesCtrl");
-      })();
+      return common.activateController([getPage()], "YellowPagesCtrl");
     }
   ]);
 });

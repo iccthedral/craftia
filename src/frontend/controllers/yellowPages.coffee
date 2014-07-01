@@ -22,19 +22,16 @@ define ["./module"], (module) ->
 			$scope.selectedPage = 0
 			$scope.currentPage = 0
 			
-			getPage = (pageIndex) ->
-				common.broadcast config.events.ToggleSpinner, show:true
-				$http.get API.craftsmen.format("#{pageIndex}")
+			getPage = (pageIndex = 0) ->
+				console.debug common
+				common.get API.craftsmen.format("#{pageIndex}")
 				.success (data) ->
 					$scope.totalCraftsmen = data.totalCraftsmen
 					$scope.craftsmen = data.craftsmen
 					$scope.filteredCraftsmen = data.craftsmen.slice()
-				.then ->
-					common.broadcast config.events.ToggleSpinner, show:false
 			
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
-
 
 			$scope.showInfo = (job, index) ->
 				console.log job, index
@@ -43,20 +40,9 @@ define ["./module"], (module) ->
 				$scope.infoContainer = "#pics-div-#{index}"
 				($ $scope.infoContainer).slideToggle();
 				return
-
 	
 			$scope.search = ->
 				return
-
-
-			getPage 0
 			
-			do activate = ->
-				getCraftsmanPaged = $http.get API.craftsmen.format $scope.currentPage
-				.success (data) -> 
-					$scope.filteredJobs = data
-					$state.transitionTo "anon.yellowPages"
-				.error (err) ->
-					logger.error err
-				common.activateController [getCraftsmanPaged], "YellowPagesCtrl"
+			common.activateController [getPage()], "YellowPagesCtrl"
 	]

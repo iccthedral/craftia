@@ -1,14 +1,13 @@
-define ["app", "angular"], (app, angular) ->
+define ["app", "angular"], (app, ng) ->
 
 	app.config ($stateProvider, $urlRouterProvider) ->
-		$urlRouterProvider.otherwise "index"
-
-		$stateProvider
-		.state "index", {
-			url: ""
-			controller: ($state, user) ->
-				$state.transitionTo user.getType or "anon"
-		}
+		# $stateProvider
+		# .state "index", {
+		# 	url: ""
+		# 	controller: ($state, user) ->
+		# 		console.debug "okej"
+		# 		$state.transitionTo user.getType or "anon"
+		# }
 
 		$stateProvider
 		.state "anon", {
@@ -31,6 +30,16 @@ define ["app", "angular"], (app, angular) ->
 					templateUrl: "shared/templates/layout/anonMainShell.html"
 					controller: "AnonCtrl"
 		}
+			.state "anon.createJob", {
+				url: "/createJob"
+				views:
+					"shell@anon":
+						template: """
+							<div ng-if="firstStep" ng-include="'shared/templates/forms/createJob1.html'"></div>
+							<div ng-if="secondStep" ng-include="'shared/templates/forms/createJob2.html'"></div>
+						"""
+						controller: "CreateJobCtrl"
+			}
 			.state "anon.yellowPages", {
 				url: "/yellowPages"
 				views:
@@ -66,41 +75,52 @@ define ["app", "angular"], (app, angular) ->
 						controller: "RegisterCtrl"
 			}
 
-			.state "craftsmanMenu", {
-				url: "/craftsmanMenu"
-				parent: "anon"
-				views:
-					"navSubMenu@anon": 
-						templateUrl: "shared/templates/layout/craftsmanMenu.html"
-			}
+		$stateProvider
+		.state "craftsmanMenu", {
+			url: "/craftsmanMenu"
+			views:
+				"":
+					templateUrl: "shared/templates/layout/shell.html"
+					controller: "ShellCtrl"
+
+				"navmenu@craftsmanMenu":
+					templateUrl: "shared/templates/layout/anonMainNav.html"
+
+				"navbar@craftsmanMenu":
+					templateUrl: "shared/templates/layout/anonUserBar.html"
+
+				"navSubMenu@craftsmanMenu": 
+					templateUrl: "shared/templates/layout/craftsmanMenu.html"
+		}
 			.state "craftsmanMenu.findJobs", {
-				url: "/findJobs:page"
+				url: "/findJobs"
 				views:
-					"shell@anon":
+					"shell@craftsmanMenu":
 						templateUrl: "shared/templates/layout/findJobs.html"
 						controller: "FindJobsCtrl"
 			}
 			.state "craftsmanMenu.requirements", {
 				url: "/requirements"
 				views:
-					"shell@anon":
+					"shell@craftsmanMenu":
 						templateUrl: "shared/templates/layout/requirements.html"
 			}
 			.state "craftsmanMenu.howto", {
 				url: "/howto"
 				views:
-					"shell@anon":
+					"shell@craftsmanMenu":
 						templateUrl: "shared/templates/layout/howto.html"
 			}
 			.state "craftsmanMenu.prices", {
 				url: "/prices"
 				views:
-					"shell@anon":
+					"shell@craftsmanMenu":
 						templateUrl: "shared/templates/layout/prices.html"
 			}
 
 		## When CUSTOMER is logged in ###
-		$stateProvider.state "customer", {
+		$stateProvider
+		.state "customer", {
 			url: "/customer"
 			views:
 				"":
@@ -113,32 +133,6 @@ define ["app", "angular"], (app, angular) ->
 
 				"navbar@customer":
 					templateUrl: "shared/templates/layout/customerBar.html"
-
-				"shell@customer":
-					template: """    
-					  <div class="row">
-				      <div class="col-md-12 col-sm-12 col-xs-12">
-				          <input class="input-medium search-query"
-				                 data-ng-model="contact"
-				                 data-ng-keyup="search($event)"
-				                 placeholder="live search...">
-				          <div class="widget wcyan">
-				              <div class="widget-head">
-
-				                  <button type="button" class="btn btn-secondary btn-lg" ng-click="showInbox()">
-				                      <i class="fa fa-arrow-circle-down"></i> Inbox
-				                  </button>
-				                  <button type="button" class="btn btn-secondary btn-lg" ng-click="showOutbox()">
-				                      <i class="fa fa-arrow-circle-up"></i> Outbox
-				                  </button>
-
-				              </div>
-				              <div class="underConstruction" style="width:100%;">
-				              </div>
-				  				</div>
-	  				   </div>
-	  				</div>
-       """
 		}
 			.state "customer.profile", {
 				url: "/profile"
@@ -210,7 +204,7 @@ define ["app", "angular"], (app, angular) ->
 				views:
 					"shell@anon":
 						templateUrl: "shared/templates/layout/findJobs.html"
-						controller: "FindJobsCtrl"
+						# controller: "FindJobsCtrl"
 			}
 			.state "customer.yellowPages", {
 				url: "/yellowPages"
@@ -220,13 +214,21 @@ define ["app", "angular"], (app, angular) ->
 						controller: "CustomerYellowPagesCtrl"
 			}
 
-		$stateProvider.state "craftsman", {
+		$stateProvider
+		.state "craftsman", {
 			url: "/craftsman"
 			views:
 				"":
 					templateUrl: "shared/templates/layout/shell.html"
 					controller: "ShellCtrl"
-		}
+
+				"navmenu@craftsman":
+					templateUrl: "shared/templates/layout/craftsmanMainNav.html"
+					controller: "NavCtrl"
+
+				"navbar@craftsman":
+					templateUrl: "shared/templates/layout/craftsmanBar.html"
+			}
 			.state "craftsman.messages", {
 				url: "/messages"
 				views:
@@ -249,9 +251,9 @@ define ["app", "angular"], (app, angular) ->
 			.state "craftsman.findJobs", {
 				url: "/findJobs"
 				views:
-					"shell@anon":
+					"shell@craftsman":
 						templateUrl: "shared/templates/layout/findJobs.html"
-						controller: "FindJobsCtrl"
+						# controller: "CraftsmanFindJobsCtrl"
 			}
 			.state "craftsman.yellowPages", {
 				url: "/yellowPages"
@@ -260,6 +262,15 @@ define ["app", "angular"], (app, angular) ->
 						templateUrl: "/shared/templates/layout/yellowPages.html"
 						controller: "CraftsmanYellowPagesCtrl"
 			}
+			.state "craftsman.notifications", {
+				url: "/notifications"
+				views:
+					"shell@craftsman":
+						templateUrl: "shared/templates/layout/notifications.html"
+						controller: "NotificationsCtrl"
+			}
+
+		$urlRouterProvider.otherwise ""
 
 	.run [
 		"$state"
@@ -272,42 +283,54 @@ define ["app", "angular"], (app, angular) ->
 		"user"
 
 		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) ->
-			path = $location.$$path
+
+			# $rootScope.$on "$stateChangeSuccess", ->
+				# alert "HI"
+				# doc = ng.element(window.document)
+				# console.log doc.find "[data-toggle=offcanvas]"
+			#path = $location.$$path
 			# path = "#{path}"
-			console.log path
+			#console.log path
 			
-			$rootScope.$on "$stateChangeStart", (ev, toState) ->
-				#$(".shellic").fadeOut(500)
+			$rootScope.$on "$stateChangeStart", (ev, toState, toParams, fromState, fromParams) ->
 				type = user.getType
+				
 				nextState = toState.name
 
-			$rootScope.$on "$stateChangeSuccess", (ev, toState) ->
-				#$(".shellic").fadeIn(500)
+				$(".shellic").fadeOut(500)
+				$(".shellic").fadeIn(500)
 				
-				#console.trace type, nextState
+				logger.log "utype: #{type}, #{fromState.name} -> #{toState.name}"
+
+				# console.log $state.$current.parent.includes(type)
+				console.log toState, fromState, $state.$current
+
+				# if nextState.includes type
 
 				# if (nextState.indexOf("customer") is 0) and type isnt "customer"
-				# 	_.logp {customer:""}
 				# 	logger.error "You are not customer, wtf"
-				# 	$state.transitionTo "index"
 				# 	ev.preventDefault()
 				# else if (nextState.indexOf("craftsman") is 0) and type isnt "craftsman"
-				# 	_.logp {craftsman:""}
 				# 	logger.error "You are not craftsman, wtf"
-				# 	$state.transitionTo "index"
 				# 	ev.preventDefault()
 				# if (nextState.indexOf("anon") is 0) and type isnt "anon"
-				# 	_.logp {anon:""}
 				# 	logger.error "You are not anon, wtf"
-				# 	$state.transitionTo "index"
 				# 	ev.preventDefault()
 
 			$http.get API.tryLogin
 			.success (data) ->
 				user.load data
 				logger.success "You're now logged in as #{user.username}"
-			.then (err) ->
-				console.log "PATH", path
+			.finally ->
+				$location.path $location.path()
+
+				# $state.go user.getType
+
+			# .finally ->
+			# 	$state.go user.getType
+
+			# .then (err) ->
+				# console.log "PATH", path
 				# $location.path path
 	]
 

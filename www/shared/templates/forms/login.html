@@ -15,8 +15,7 @@
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="email">Email</label>
                                     <div class="col-md-10">
-                                        <input ng-model="loginDetails.email" id="email" name="email" type="text" placeholder="" class="form-control input-md" required="" auto-fill-sync>
-
+                                        <input ng-model="loginDetails.email" id="email" name="email" type="email" placeholder="" class="form-control input-md" required="" auto-fill-sync>
                                     </div>
                                 </div>
 
@@ -25,23 +24,21 @@
                                     <label class="col-md-2 control-label" for="password">Password</label>
                                     <div class="col-md-10">
                                         <input ng-model="loginDetails.password" id="password" name="password" type="password" placeholder="" class="form-control input-md" required="" auto-fill-sync>
-
                                     </div>
                                 </div>
 
                                 <!-- Multiple Checkboxes (inline) -->
                                 <div class="form-group">
-                                    <label class="control-label" for="checkboxes">Remember me
+                                    <label class="control-label" for="remember">Remember me
                                     </label>
                                     <span>
-                                        <input ng-model="loginDetails.rememberme" type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
+                                        <input ng-model="loginDetails.rememberme" type="checkbox" name="remember" id="remember-0" value="1">
                                     </span>
                                 </div>
 
                                 <div class="form-group">
-                                 <button id="" name="" class="btn btn-success">Login
-                                 </button>
-                             </div>
+                                 <input type="submit" id="" name="" class="btn btn-success" value="Login"/>
+                                </div>
                          </fieldset>
                      </form>
 

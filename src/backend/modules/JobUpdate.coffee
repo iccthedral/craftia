@@ -28,11 +28,11 @@ do jobUpdate = -> JobModel.find {}, (err, results) ->
 	, (job, clb) ->
 			d = job.dateTo
 			expiredOrClosed = (Date.now() > d.getTime())
-
+			
 			log "Job expired or closed?", expiredOrClosed, job.status, job.winner?
 			if not expiredOrClosed or job.status is "finished"
 				return clb null, null
-				
+			
 			job.status = "finished"
 			notifAuthor = {
 				receiver: job.author

@@ -2,7 +2,7 @@ var __slice = [].slice;
 
 define(["factories/module"], function(module) {
   module.factory("common", [
-    "$q", "$rootScope", "$timeout", "config", "logger", function($q, $rootScope, $timeout, config, logger, spinner) {
+    "$http", "$q", "$rootScope", "$timeout", "config", "logger", function($http, $q, $rootScope, $timeout, config, logger, spinner) {
       var out;
       out = {};
       out.logger = logger;
@@ -15,15 +15,30 @@ define(["factories/module"], function(module) {
         }
         return s;
       };
+      out.get = function(url) {
+        var defer;
+        out.broadcast(config.events.ToggleSpinner, {
+          show: true
+        });
+        defer = $http.get(url);
+        defer["finally"](function() {
+          return out.broadcast(config.events.ToggleSpinner, {
+            show: false
+          });
+        });
+        return defer;
+      };
       out.activateController = function(promises, controllerId) {
         out.broadcast(config.events.ToggleSpinner, {
           show: true
         });
+        logger.log("Activating " + controllerId + " controller");
         return $q.all(promises).then(function(args) {
           var data;
           data = {
             controllerId: controllerId
           };
+          logger.success("Controller " + controllerId + " activated");
           return out.broadcast(config.events.ToggleSpinner, {
             show: false
           });
