@@ -1,13 +1,14 @@
 define ["app", "angular"], (app, ng) ->
 
-	#controller: ($state, user) ->
 	#console.debug "okej"
-	#$state.transitionTo user.getType or "anon"
+	#
 	
 	app.config ($stateProvider, $urlRouterProvider) ->
 		$stateProvider
 		.state "index", {
 			url: ""
+			# controller: ($state, user) ->
+			# 	$state.go user.getType
 		}
 
 		$stateProvider
@@ -186,14 +187,6 @@ define ["app", "angular"], (app, ng) ->
 						templateUrl: "shared/templates/forms/editJob.html"
 						controller: "EditJobCtrl"
 			}
-			.state "customer.testpage", {
-				url: "/testPage"
-				views:
-					"shell@customer":
-						template: """ Hi kolega """
-						controller: ($scope) ->
-							$scope.x = 10
-			}
 			.state "customer.findJobs", {
 				url: "/findJobs"
 				views:
@@ -277,8 +270,10 @@ define ["app", "angular"], (app, ng) ->
 		"user"
 
 		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) ->
-			
-			$rootScope.$on "$stateChangeStart", (ev, toState, toParams, fromState, fromParams) ->
+			lastState = $state.current.name
+
+			$rootScope
+			.$on "$stateChangeStart", (ev, toState, toParams, fromState, fromParams) ->
 				type = user.getType
 				typeRe = new RegExp "^#{type}.*", "g"
 				nextState = toState.name
@@ -289,8 +284,17 @@ define ["app", "angular"], (app, ng) ->
 				logger.log "utype: #{type}, #{fromState.name} -> #{toState.name}"
 
 				if not typeRe.test nextState
-					logger.error "Access denied to state #{toState.name}"
+					lastState or= nextState
+					if lastState isnt nextState
+						logger.log "Access denied to state #{nextState}"
+						logger.log "Trying state #{lastState}"
+						$state.go lastState
+						lastState = fromState.name
 					ev.preventDefault()
+			
+			$rootScope
+			.$on "$stateChangeSuccess", (ev, toState, toParams, fromState, fromParams) ->
+				lastState = toState.name
 
 			$http.get API.tryLogin
 			.success (data) ->
