@@ -1,0 +1,15 @@
+<div class="lightbox">
+    <div class="lightbox-tiles">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+          <span data-ng-repeat="i in images" ng-click="displayImage(i)">
+            <div class="col-xs-2 col-md-2">
+              <a href="javascript:void()" class="thumbnail">
+                <img width="{{tileWidth}}px" height="{{tileHeight}}px" data-ng-src="{{i.img}}">
+              </a>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+</div>
