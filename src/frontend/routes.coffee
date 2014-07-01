@@ -113,32 +113,6 @@ define ["app", "angular"], (app, angular) ->
 
 				"navbar@customer":
 					templateUrl: "shared/templates/layout/customerBar.html"
-
-				"shell@customer":
-					template: """    
-					  <div class="row">
-				      <div class="col-md-12 col-sm-12 col-xs-12">
-				          <input class="input-medium search-query"
-				                 data-ng-model="contact"
-				                 data-ng-keyup="search($event)"
-				                 placeholder="live search...">
-				          <div class="widget wcyan">
-				              <div class="widget-head">
-
-				                  <button type="button" class="btn btn-secondary btn-lg" ng-click="showInbox()">
-				                      <i class="fa fa-arrow-circle-down"></i> Inbox
-				                  </button>
-				                  <button type="button" class="btn btn-secondary btn-lg" ng-click="showOutbox()">
-				                      <i class="fa fa-arrow-circle-up"></i> Outbox
-				                  </button>
-
-				              </div>
-				              <div class="underConstruction" style="width:100%;">
-				              </div>
-				  				</div>
-	  				   </div>
-	  				</div>
-       """
 		}
 			.state "customer.profile", {
 				url: "/profile"
@@ -226,7 +200,14 @@ define ["app", "angular"], (app, angular) ->
 				"":
 					templateUrl: "shared/templates/layout/shell.html"
 					controller: "ShellCtrl"
-		}
+
+				"navmenu@craftsman":
+					templateUrl: "shared/templates/layout/craftsmanMainNav.html"
+					controller: "NavCtrl"
+
+				"navbar@craftsman":
+					templateUrl: "shared/templates/layout/craftsmanBar.html"
+			}
 			.state "craftsman.messages", {
 				url: "/messages"
 				views:
@@ -249,9 +230,9 @@ define ["app", "angular"], (app, angular) ->
 			.state "craftsman.findJobs", {
 				url: "/findJobs"
 				views:
-					"shell@anon":
-						templateUrl: "shared/templates/layout/findJobs.html"
-						controller: "FindJobsCtrl"
+					"shell@craftsman":
+						templateUrl: "shared/templates/layout/craftsmanFindJobs.html"
+						controller: "CraftsmanFindJobsCtrl"
 			}
 			.state "craftsman.yellowPages", {
 				url: "/yellowPages"
@@ -259,6 +240,13 @@ define ["app", "angular"], (app, angular) ->
 					"shell@craftsman":
 						templateUrl: "/shared/templates/layout/yellowPages.html"
 						controller: "CraftsmanYellowPagesCtrl"
+			}
+			.state "craftsman.notifications", {
+				url: "/notifications"
+				views:
+					"shell@craftsman":
+						templateUrl: "shared/templates/layout/notifications.html"
+						controller: "NotificationsCtrl"
 			}
 
 	.run [
@@ -272,16 +260,16 @@ define ["app", "angular"], (app, angular) ->
 		"user"
 
 		($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) ->
-			path = $location.$$path
-			# path = "#{path}"
-			console.log path
 			
-			$rootScope.$on "$stateChangeStart", (ev, toState) ->
-				#$(".shellic").fadeOut(500)
-				type = user.getType
-				nextState = toState.name
+			#path = $location.$$path
+			# path = "#{path}"
+			#console.log path
+			
+			#$rootScope.$on "$stateChangeStart", (ev, toState) ->
+			#	type = user.getType
+			#	nextState = toState.name
 
-			$rootScope.$on "$stateChangeSuccess", (ev, toState) ->
+				#$(".shellic").fadeOut(500)
 				#$(".shellic").fadeIn(500)
 				
 				#console.trace type, nextState
@@ -306,8 +294,10 @@ define ["app", "angular"], (app, angular) ->
 			.success (data) ->
 				user.load data
 				logger.success "You're now logged in as #{user.username}"
-			.then (err) ->
-				console.log "PATH", path
+				$state.go "index"
+
+			# .then (err) ->
+				# console.log "PATH", path
 				# $location.path path
 	]
 

@@ -61,9 +61,10 @@ schema = mongoose.Schema
 		type: mongoose.Schema.Types.ObjectId
 		ref: "User"
 
-	bidders:
-		type: Array
-		default: []
+	bidders: [
+		type: mongoose.Schema.Types.ObjectId
+		ref: "User"
+	]
 	
 	jobPhotos:
 		type: Array

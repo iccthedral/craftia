@@ -26,7 +26,7 @@ define(["./module"], function(module) {
           $scope.totalJobs = data.totalJobs;
           $scope.jobs = data.jobs;
           return $scope.filteredJobs = data.jobs.slice();
-        }).then(function() {
+        })["finally"](function() {
           return common.broadcast(config.events.ToggleSpinner, {
             show: false
           });
@@ -36,9 +36,9 @@ define(["./module"], function(module) {
         return getPage(page.page - 1);
       };
       $scope.showMap = function(job, index) {
-        ($($scope.mapContainer)).slideToggle();
+        ($($scope.mapContainer)).slideUp();
         $scope.mapContainer = "#gmaps-div-" + index;
-        ($($scope.mapContainer)).slideToggle();
+        ($($scope.mapContainer)).slideDown();
         if ($scope.currentMap != null) {
           $($scope.currentMap.el).empty();
         }
@@ -52,9 +52,9 @@ define(["./module"], function(module) {
         });
       };
       $scope.showInfo = function(job, index) {
-        ($($scope.infoContainer)).slideToggle();
+        ($($scope.infoContainer)).slideUp();
         $scope.infoContainer = "#pics-div-" + index;
-        ($($scope.infoContainer)).slideToggle();
+        ($($scope.infoContainer)).slideDown();
       };
       $scope.search = function() {};
       getPage(0);

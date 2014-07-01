@@ -11,6 +11,9 @@ define(["app"], function(app) {
     receivedMessages: "/inbox/received/{0}",
     sentMessages: "/inbox/sent/{0}",
     craftsmen: "/user/craftsmen/{0}",
-    getPagedOpenJobs: "/job/list/{0}"
+    getPagedOpenJobs: "/job/list/{0}",
+    getMyJobs: "/user/getMyJobs/{0}/{1}",
+    bidOnJob: "job/{0}/bid",
+    pickWinner: "job/{0}/pickawinner/{1}"
   });
 });

@@ -31,7 +31,7 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 		saveJobPhoto = (photo, clb) ->
 			base64img = photo.img
 			path = crypto.randomBytes(20).toString "hex"
-			console.log base64img
+			#console.log base64img
 			fs.writeFile path, base64img, {encoding: "base64"}, (err) ->
 				clb err, path
 
@@ -45,7 +45,7 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 				usr.save (err, cnt) ->
 					clb err, job, usr
 		
-		photos = jobData.jobPhotos.slice()
+		photos = jobData.jobPhotos.slice().filter (photo) -> return photo.img?
 
 		if photos.length > 0
 			async.mapSeries photos, saveJobPhoto, (err, urls) ->
@@ -80,14 +80,18 @@ module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 	if not user? or user.type isnt AuthLevels.CUSTOMER
 		return clb "You don't have permissions to pick winning bid"
 
-	JobModel.findById(jobId).elemMatch("bidders", _id:winner._id)
+	JobModel
+	.findOne {_id: jobId, bidders: winner}
 	.exec (err, job) ->
-		return clb err if err?
-		return clb(new Error "You haven't bidded yet", clb) unless job?
-		job.winner = winner
-		job.status = "closed"
-		job.save (err, job) ->
-			clb err, job
+		return clb "You haven't bidded yet for this job" unless (job? and not err?)
+		UserModel
+		.findById winner
+		.exec (err, winUser) ->
+			return clb "No such user #{winner}" if err?
+			job.winner = winUser
+			job.status = "closed"
+			job.save (err, job) ->
+				clb err, job
 
 module.exports.findJob = findJob = (req, res, next) ->
 	JobModel
@@ -234,8 +238,8 @@ pickWinnerHandler = (req, res, next) ->
 	winnerId    = req.params.winner
 	jobId 			= req.params.id
 	
-	pickwinner user, winnerId, jobId, (err, job) -> 
-		return res.status(422).send err if err?
+	pickWinner user, winnerId, jobId, (err, job) -> 
+		return next err if err?
 		res.send job
 
 cancelBidOnJobHandler = (req, res, next) ->
@@ -261,6 +265,11 @@ listOpenJobsHandler = (req, res) ->
 	perPage = 5
 	JobModel
 	.find status: "open"
+	.populate {
+		path: "author"
+		select: "-password"
+		model: "User"
+	}
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->

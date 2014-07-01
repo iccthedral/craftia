@@ -34,7 +34,7 @@ define [ "./module" ], (module) ->
 					$scope.messages = data
 					$scope.filteredMessages = data.slice()
 					$state.transitionTo "#{state}#{page}"
-				.then ->
+				.finally ->
 					common.broadcast config.events.ToggleSpinner, show:false
 			
 			$scope.pageSelected = (page) ->
@@ -79,10 +79,10 @@ define [ "./module" ], (module) ->
 							log.success "Message sent!"
 						.error (err) ->
 							log.error err
-						.then ->
+						.finally ->
 							common.broadcast config.events.ToggleSpinner, show:false
 						console.log "Send", scope
-
+						
 					onCancel: ->
 						console.log "Cancel", scope
 				}

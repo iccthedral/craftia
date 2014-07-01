@@ -20,7 +20,7 @@ getReceivedMessages = (req, res, next) ->
 	MessageModel
 	.find to:user
 	.populate {
-		path: "to"
+		path: "author"
 		select: "-password"
 		model: "User"
 	}
@@ -55,5 +55,6 @@ getSentMessages = (req, res, next) ->
 
 sendMessage = (req, res, next) ->
 	msg = req.body
+	msg.sender = req.user.username
 	Messaging.sendMessage msg, ->
 		res.send "Message sent!"

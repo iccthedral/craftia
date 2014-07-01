@@ -14,4 +14,7 @@ define ["app"], (app) ->
 		sentMessages: "/inbox/sent/{0}"
 		craftsmen: "/user/craftsmen/{0}"
 		getPagedOpenJobs: "/job/list/{0}"
+		getMyJobs: "/user/getMyJobs/{0}/{1}"
+		bidOnJob: "job/{0}/bid"
+		pickWinner: "job/{0}/pickawinner/{1}"
 	}

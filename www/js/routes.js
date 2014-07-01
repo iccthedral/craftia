@@ -118,9 +118,6 @@ define(["app", "angular"], function(app, angular) {
         },
         "navbar@customer": {
           templateUrl: "shared/templates/layout/customerBar.html"
-        },
-        "shell@customer": {
-          template: "    \n<div class=\"row\">\n				      <div class=\"col-md-12 col-sm-12 col-xs-12\">\n				          <input class=\"input-medium search-query\"\n				                 data-ng-model=\"contact\"\n				                 data-ng-keyup=\"search($event)\"\n				                 placeholder=\"live search...\">\n				          <div class=\"widget wcyan\">\n				              <div class=\"widget-head\">\n\n				                  <button type=\"button\" class=\"btn btn-secondary btn-lg\" ng-click=\"showInbox()\">\n				                      <i class=\"fa fa-arrow-circle-down\"></i> Inbox\n				                  </button>\n				                  <button type=\"button\" class=\"btn btn-secondary btn-lg\" ng-click=\"showOutbox()\">\n				                      <i class=\"fa fa-arrow-circle-up\"></i> Outbox\n				                  </button>\n\n				              </div>\n				              <div class=\"underConstruction\" style=\"width:100%;\">\n				              </div>\n				  				</div>\n	  				   </div>\n	  				</div>"
         }
       }
     }).state("customer.profile", {
@@ -218,6 +215,13 @@ define(["app", "angular"], function(app, angular) {
         "": {
           templateUrl: "shared/templates/layout/shell.html",
           controller: "ShellCtrl"
+        },
+        "navmenu@craftsman": {
+          templateUrl: "shared/templates/layout/craftsmanMainNav.html",
+          controller: "NavCtrl"
+        },
+        "navbar@craftsman": {
+          templateUrl: "shared/templates/layout/craftsmanBar.html"
         }
       }
     }).state("craftsman.messages", {
@@ -245,9 +249,9 @@ define(["app", "angular"], function(app, angular) {
     }).state("craftsman.findJobs", {
       url: "/findJobs",
       views: {
-        "shell@anon": {
-          templateUrl: "shared/templates/layout/findJobs.html",
-          controller: "FindJobsCtrl"
+        "shell@craftsman": {
+          templateUrl: "shared/templates/layout/craftsmanFindJobs.html",
+          controller: "CraftsmanFindJobsCtrl"
         }
       }
     }).state("craftsman.yellowPages", {
@@ -258,23 +262,21 @@ define(["app", "angular"], function(app, angular) {
           controller: "CraftsmanYellowPagesCtrl"
         }
       }
+    }).state("craftsman.notifications", {
+      url: "/notifications",
+      views: {
+        "shell@craftsman": {
+          templateUrl: "shared/templates/layout/notifications.html",
+          controller: "NotificationsCtrl"
+        }
+      }
     });
   }).run([
     "$state", "$location", "$http", "$rootScope", "$urlMatcherFactory", "cAPI", "logger", "user", function($state, $location, $http, $rootScope, $urlMatcherFactory, API, logger, user) {
-      var path;
-      path = $location.$$path;
-      console.log(path);
-      $rootScope.$on("$stateChangeStart", function(ev, toState) {
-        var nextState, type;
-        type = user.getType;
-        return nextState = toState.name;
-      });
-      $rootScope.$on("$stateChangeSuccess", function(ev, toState) {});
       return $http.get(API.tryLogin).success(function(data) {
         user.load(data);
-        return logger.success("You're now logged in as " + user.username);
-      }).then(function(err) {
-        return console.log("PATH", path);
+        logger.success("You're now logged in as " + user.username);
+        return $state.go("index");
       });
     }
   ]);

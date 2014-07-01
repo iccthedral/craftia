@@ -10,8 +10,6 @@ module.exports.sendNotification = (notif, clb = ->) ->
 	.findById notif.receiver
 	.exec (err, receiver) ->
 		return clb? err if err?
-		out = {}
-
 		msg = new Notification {
 			type: "system"
 			message: notif.body
@@ -19,7 +17,6 @@ module.exports.sendNotification = (notif, clb = ->) ->
 			isRead: false
 			to: receiver
 		}
-		
 		msg.save clb
 			
 module.exports.sendMessage = (message, clb = ->) ->

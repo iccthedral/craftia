@@ -42,9 +42,12 @@
     <!-- -->
 </head>
 <body>
-    <div class="body-slammer">
-        
-        <div ui-view=""></div>
+    <div class="body-slammer container-fluid">
+        <div class="row row-offcanvas row-offcanvas-right">
+            <div class="visible-sm visible-md visible-lg">
+                <div ui-view=""></div>
+            </div>
+        </div>
         
         <div id="splash-page" data-ng-show="false">
             <div class="page-splash">

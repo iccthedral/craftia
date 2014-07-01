@@ -20,7 +20,7 @@ define(["./module"], function(module) {
           $scope.messages = data;
           $scope.filteredMessages = data.slice();
           return $state.transitionTo("" + state + page);
-        }).then(function() {
+        })["finally"](function() {
           return common.broadcast(config.events.ToggleSpinner, {
             show: false
           });
@@ -70,7 +70,7 @@ define(["./module"], function(module) {
               return log.success("Message sent!");
             }).error(function(err) {
               return log.error(err);
-            }).then(function() {
+            })["finally"](function() {
               return common.broadcast(config.events.ToggleSpinner, {
                 show: false
               });
