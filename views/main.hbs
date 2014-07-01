@@ -25,6 +25,7 @@
 
     <link href="css/ie10mobile.css" rel="stylesheet" />
     <link href="css/bootstrap.css" rel="stylesheet" />
+
     <link href="css/font-awesome.min.css" rel="stylesheet" />
     <link href="css/toastr.css" rel="stylesheet" />
     <link href="css/customtheme.css" rel="stylesheet">
@@ -36,36 +37,44 @@
     <link href="css/craftia-topmenu.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'/>
     <link href='http://fonts.googleapis.com/css?family=Arimo:400,700,700italic,400italic' rel='stylesheet' type='text/css'/>
+    
     <!-- Angular carousel -->
     <link href="vendor/angular-carousel/dist/angular-carousel.css" rel="stylesheet" />
     <link href="css/craftia-topmenu.css" rel="stylesheet" />
+    
     <!-- -->
+    <link href="css/off-canvas.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="body-slammer container-fluid">
+    <div ui-view=""></div>
+
+    <script type="text/javascript" src="vendor/requirejs/require.js" data-main="js/main.js">
+    </script>
+
+</body>
+</html>
+
+<!--     <div class="body-slammer container-fluid">
         <div class="row row-offcanvas row-offcanvas-right">
             <div class="visible-sm visible-md visible-lg">
-                <div ui-view=""></div>
             </div>
-        </div>
-        
-        <div id="splash-page" data-ng-show="false">
-            <div class="page-splash">
-                <div class="page-splash-message">
-                    Craftia
-                </div>
-                <div class="progress progress-striped active page-progress-bar">
-                    <div class="bar"></div>
+            <div id="splash-page" data-ng-show="false">
+                <div class="page-splash">
+                    <div class="page-splash-message">
+                        Craftia
+                    </div>
+                    <div class="progress progress-striped active page-progress-bar">
+                        <div class="bar"></div>
+                    </div>
                 </div>
             </div>
+            
+            <div data-ng-include="'/shared/templates/layout/footer.html'">
+            </div>
         </div>
-        
-        <div data-ng-include="'/shared/templates/layout/footer.html'">
-        </div>
+    </div> -->
     
-    </div>
-    
-    <span data-cc-scroll-to-top></span>
+    <!-- <span data-cc-scroll-to-top></span> -->
     
     <!-- Vendor Scripts 
     <script src="vendor/jquery/dist/jquery.js"></script>
@@ -137,8 +146,3 @@
     <script type="text/javascript" src="vendor/angular-carousel/dist/angular-carousel.min.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
      -->
-
-    <script type="text/javascript" src="vendor/requirejs/require.js" data-main="js/main.js"></script>
-
-</body>
-</html>

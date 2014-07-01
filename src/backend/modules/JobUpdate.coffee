@@ -29,11 +29,10 @@ do jobUpdate = ->
 		, (job, clb) ->
 				d = job.dateTo
 				expiredOrClosed = (Date.now() > d.getTime())
-
 				log "Job expired:", expiredOrClosed
 				log "Job status:", job.status
 				log "Job winner:", job.winner
-				
+			
 				if not expiredOrClosed or job.status is "finished"
 					return clb null, null
 					

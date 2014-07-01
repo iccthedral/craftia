@@ -7,7 +7,7 @@ define [
 	"services/index"
 ], (ng) ->
 	
-	return ng.module "app", [
+	ng.module "app", [
 		"ngRoute"
 		"ngAnimate"
 		"angularFileUpload"

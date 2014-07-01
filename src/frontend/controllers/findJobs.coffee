@@ -10,7 +10,7 @@ define ["./module"], (module) ->
 		"config"
 		"categoryPictures"
 		"gmaps"
-
+		
 		($scope, $http, $state, API, logger, common, config, categoryPictures, gmaps) ->
 			state = $state.current.name
 			
@@ -22,17 +22,14 @@ define ["./module"], (module) ->
 			$scope.selectedPage = 0
 			$scope.currentPage = 0
 			
-			getPage = (pageIndex) ->
-				common.broadcast config.events.ToggleSpinner, show:true
-				$http.get API.getPagedOpenJobs.format("#{pageIndex}")
+			getPage = (pageIndex = 0) ->
+				common.get API.getPagedOpenJobs.format("#{pageIndex}")
 				.success (data) ->
 					for job in data.jobs
 						job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
 					$scope.totalJobs = data.totalJobs
 					$scope.jobs = data.jobs
 					$scope.filteredJobs = data.jobs.slice()
-				.finally ->
-					common.broadcast config.events.ToggleSpinner, show:false
 			
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
@@ -56,25 +53,16 @@ define ["./module"], (module) ->
 
 			$scope.showInfo = (job, index) ->
 				($ $scope.infoContainer).slideUp()
-
 				$scope.infoContainer = "#pics-div-#{index}"
 				($ $scope.infoContainer).slideDown();
 				return
 
 			$scope.search = ->
 				return
-
 				# text = $scope.searchQuery
 				# $scope.filteredMessages = $scope.messages.filter (msg) ->
 				# 	msg.subject.indexOf(text) isnt -1 or msg.message.indexOf(text) isnt -1
-				
-			getPage 0
-			
+						
 			do activate = ->
-				getJobsPaged = $http.get API.getPagedOpenJobs.format $scope.currentPage
-				.success (data) -> 
-					$scope.filteredJobs = data
-				.error (err) ->
-					logger.error err
-				common.activateController [getJobsPaged], "FindJobsCtrl"
+				common.activateController [getPage], "FindJobsCtrl"
 	]

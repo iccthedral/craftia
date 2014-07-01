@@ -1,3 +1,5 @@
 data/db
 node_modules
 logs
+www/shared
+www/js

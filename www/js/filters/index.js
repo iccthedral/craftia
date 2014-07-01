@@ -1,1 +1,0 @@
-define(["filters/testFilter"], function() {});

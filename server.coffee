@@ -9,7 +9,6 @@ db = require "./src/backend/config/Database"
 passport = require "./src/backend/config/Passport.coffee"
 shims = require "./src/backend/Shims.coffee"
 
-# ./node_modules/coffee-script/bin/coffee
 PORT = process.env.PORT || 3000
 
 app = express()

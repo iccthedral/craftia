@@ -304,13 +304,11 @@ gulp.task("runJobProcess", function() {
 gulp.task("watch", function() {
 	var src = {
 		frontend: "src/frontend/",
-		backend: "src/backend/",
 		shared: "src/shared/"
 	}
 	, cwd = process.cwd()
 	,	findFrontend = cwd.length + src.frontend.length
 	, findShared = cwd.length + src.shared.length
-	, findBackend = cwd.length + src.backend.length
 	;
 
 	function compileFrontend(file) {
