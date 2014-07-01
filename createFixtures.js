@@ -22,7 +22,7 @@
 			status: "open",
 			jobPhotos: []
 		}
-	, JOB_DATE_TO = 0
+	, JOB_DATE_TO = 10
 	;
 
 function customerNames() {

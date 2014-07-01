@@ -199,7 +199,6 @@ define ["app", "angular"], (app, ng) ->
 				views:
 					"shell@anon":
 						templateUrl: "shared/templates/layout/findJobs.html"
-						# controller: "FindJobsCtrl"
 			}
 			.state "customer.yellowPages", {
 				url: "/yellowPages"
@@ -247,8 +246,8 @@ define ["app", "angular"], (app, ng) ->
 				url: "/findJobs"
 				views:
 					"shell@craftsman":
-						templateUrl: "shared/templates/layout/findJobs.html"
-						# controller: "CraftsmanFindJobsCtrl"
+						templateUrl: "shared/templates/layout/craftsmanFindJobs.html"
+						controller: "CraftsmanFindJobsCtrl"
 			}
 			.state "craftsman.yellowPages", {
 				url: "/yellowPages"

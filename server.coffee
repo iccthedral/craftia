@@ -33,17 +33,17 @@ app.configure ->
 
 app.use (err, req, res, next) ->
 	console.error err, err.message, typeof err
-	res.status(422).send err.message
+	res.send err
 
 app.use express.static "www/"
 
-process.on "close", ->
-	console.error "PORT: #{PORT} is busy!"
+# process.on "close", ->
+# 	console.error "PORT: #{PORT} is busy!"
 
-process.on "uncaughtException", (err) ->
-	console.error err
-	process.exit()
-	server.close()
+# process.on "uncaughtException", (err) ->
+# 	console.error err
+# 	process.exit()
+# 	server.close()
 
 server = app.listen PORT
 

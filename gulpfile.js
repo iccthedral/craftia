@@ -280,9 +280,11 @@ gulp.task("serve", function() {
 			}
 		}
 		;
-		
+
 		spawnMongo();
-		gulp.watch("server.coffee", restartServer);
+		gulp.watch("./server.coffee", function() {
+			restartServer();
+		});
 		gulp.watch("./src/backend/**/*.coffee", restartServer);
 	});
 });

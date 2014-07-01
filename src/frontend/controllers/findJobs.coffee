@@ -35,10 +35,10 @@ define ["./module"], (module) ->
 				getPage (page.page - 1)
 					
 			$scope.showMap = (job, index) ->
-				($ $scope.mapContainer).slideToggle()
+				($ $scope.mapContainer).slideUp()
 				
 				$scope.mapContainer = "#gmaps-div-#{index}"
-				($ $scope.mapContainer).slideToggle()
+				($ $scope.mapContainer).slideDown()
 
 				if $scope.currentMap?
 					$($scope.currentMap.el).empty()
@@ -52,9 +52,9 @@ define ["./module"], (module) ->
 				}
 
 			$scope.showInfo = (job, index) ->
-				($ $scope.infoContainer).slideToggle()
+				($ $scope.infoContainer).slideUp()
 				$scope.infoContainer = "#pics-div-#{index}"
-				($ $scope.infoContainer).slideToggle();
+				($ $scope.infoContainer).slideDown();
 				return
 
 			$scope.search = ->

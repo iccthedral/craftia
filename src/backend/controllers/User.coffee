@@ -19,6 +19,8 @@ module.exports.setup = (app) ->
 	# logout user
 	app.get "/logout", logOutHandler
 
+	app.get "/user/getMyJobs/:page/:jobStatus", getMyJobsHandler
+
 	app.get "/user/craftsmen/:page", listCraftsmenHandler
 
 	# is current session holder authenticated?
@@ -38,8 +40,43 @@ module.exports.setup = (app) ->
 
 module.exports.saveUser = saveUser = (user, res) ->
 	user.save (err) ->
+		#console.error "SAVING USER", err
 		return res.status(422).send "Registering failed!" if err?
-		res.status(200).send user: user, msg: "Registering succeeded!"
+		res.send {user: user, msg: "Registering succeeded!"}
+
+
+module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
+	page = req.params.page or 0
+	user = req.user
+	jobStatus = req.params.jobStatus or "all"
+	perPage = 5
+	
+	queryParams = 
+		status: jobStatus
+		author: user
+
+	if jobStatus is "all"
+		delete queryParams.status
+
+	#console.error queryParams
+	
+	JobModel
+	.find queryParams
+	.populate {
+		path: "bidders"
+		select: "-password"
+		model: "User"
+	}
+	.limit perPage
+	.skip perPage * page
+	.exec (err, jobs) ->
+		return res.status(422).send err if err?
+		out = {}
+		out.jobs = jobs
+		JobModel.count queryParams, (err, cnt) ->
+			return res.status(422).send err if err?
+			out.totalJobs = cnt
+			res.send out
 
 module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
 	page = req.params.page or 0
@@ -90,7 +127,6 @@ module.exports.registerCustomerHandler = registerCustomerHandler = (req, res) ->
 
 module.exports.getOwnFinishedJobs = getOwnFinishedJobs = (user, clb) ->
 	
-
 module.exports.getBiddedJobs = getBiddedJobs = (usr, clb) ->
 	JobModel.find().elemMatch("bidders", _id:usr._id).exec (err, jobs) ->
 		clb err, jobs
@@ -161,7 +197,7 @@ logInHandler = (req, res, next) ->
 
 updateProfileHandler = (req, res) ->
 	usr = req.user
-	console.log usr
+	#console.log usr
 	return res.status(422).send "You're not logged in" if not usr?
 	data = req.body
 	delete data._id
@@ -177,7 +213,7 @@ uploadProfilePicHandler = (req, res) ->
 	UserModel
 	.findById req.user._id
 	.exec (err, user) ->
-		console.log req.files
+		#console.log req.files
 		file = req.files.file
 		fs.readFile file.path, (err, data) ->
 			imguri  = "img/#{usr.username}.png"

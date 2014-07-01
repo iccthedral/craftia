@@ -20,7 +20,7 @@
 		<tbody>
 		  <tr ng-repeat="msg in filteredMessages">
 		    <td col span="1" cr-date="{{msg.dateSent}}"></td>
-		    <td col span="1">{{msg.to.username}}</td>
+		    <td col span="1">{{msg.author.username}}</td>
 		    <td col span="1">{{msg.subject}}</td>
 		    <td col span="1">{{msg.message}}</td>
 		  </tr>

@@ -1,169 +1,228 @@
-<section class="matter">
-	<div class="container">
-		<div class="row">
-<!-- 			<div class="widget wcyan">
-			   <div class="widget-head" title="">
-				<button type="button" class="btn btn-secondary btn-lg" ng-click="JobPanel.addNewJob()">
-					<span class="glyphicon glyphicon-plus"></span> Add new job
-				</button>
-
-				Need ng-hide for show/hide animations
-				<span ng-show="JobPanel.isChanged()" class="dissolve-animation flag-haschanges ng-hide">
-					<i class="fa fa-asterisk fa fa-asterisk-large" rel="tooltip" title="You have changes"></i>
-				</span>
-			</div> -->
-
-			<div class="row">
-				<div class="col-lg-2 col-md-2"></div>
-				<div class="col-md-10 col-lg-10">
-					<div class="widget wcyan">
-						<div data-cc-widget-header title="Current jobs" allow-collapse="true"></div>
-						<div class="widget-content text-center widget-ul-list">
-
-							<ul style="list-style: none;" >
-								<li class="my-offer" id="{{$index}}" data-ng-repeat="p in createdJobsPaged" ng-click="JobList.showJob($index)">
-									<div class="row job-div">
-
-										<div class="col-md-2">
-											<div class="black-div cat-div text-center">
-												<span class="small-span white-span helvetica-neue">
-													{{p.category}} :
-												</span>
-												<span class="small-span white-span helvetica-neue">
-													{{p.subcategory}}
-												</span>
-											</div>
-
-											<div class="text-center">
-												<img class="job-pic" src="/img/default_user.jpg">
-											</div>
-
-										</div>
-										<div class="col-md-10 yellow-div right-job-div">
-
-											<div class="row">
-												<div class="col-md-10">
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-md-4 date-div ">
-													<div class="row">
-														<div class="col-md-1">
-														</div>
-														<div class="row col-md-10 yellow-div">
-															<div class="row">
-
-
-																<div class="text-center col-md-6 black-div">
-																	<span class="white-span small-span helvetica-neue">
-																		Starting date:
-																	</span>
-																	<br>
-																	<span cr-date="{{p.dateFrom}}" class="white-span small-span helvetica-neue">
-																	</span>
-																</div>
-
-																<div class="text-center col-md-6 peach-div">
-																	<span class="helvetica-neue small-span black-span">
-																		Ending date:   
-																	</span>
-																	<br>
-																	<span cr-date="{{p.dateTo}}" class="black-span small-span helvetica-neue">
-																	</span>
-																</div>
-
-															</div>   
-														</div>
-														<div class="col-md-1">
-														</div>
-													</div>
-
-													<div class="row address-div yellow-div text-center">
-														<div class="col-md-2">
-														</div>
-														<div class="col-md-4">
-															<img src="/img/address_selector.jpg">
-														</div>
-														<div class="col-md-4 text-center">
-															<span clas="helvetica-neue black-span tiny-span">
-																{{p.address.city}}
-															</span>
-														</div>
-														<div class="col-md-2">
-														</div>
-													</div>
-
-													<div class="row address-div yellow-div text-center">
-													<textarea style="height: 83px;" class="form-control" rows="2">{{p.description}}</textarea>
-													</div>
-												
-												</div>
-												
-
-												<div class="yellow-div info-div col-md-8 row">
-													<div class="col-md-1">
-													</div>
-													<div class="col-md-10 text-left">
-
-														<span class="small-span black-span">
-															{{p.description}}
-														</span>
-														
-													</div>
-													<div class="col-md-1">
-													</div>
-												</div>
-											</div>  
-										</div>
-									</div>
-									<div class="col-md-2"></div>
-
-									<div class="job-buttons peach-div row">
-										<a ui-sref="customer.editJob({jobId: p._id})" class="job-button col-md-2 col-sm-2 hover-glow-white">
-											<i class="fa fa-edit fa-2x"></i>
-											<span class="small-span">
-												Edit job
-											</span>
-										</a>
-										<div class="col-md-10 col-sm-10 row">
-											<div class="job-button col-md-4 col-sm-4 hover-glow-white" ng-click="deleteJob($index)">
-												<i class="fa fa-times fa-2x"></i>
-												<span class="small-span">
-													Delete job
-												</span>
-											</div>
-											<div class="col-md-8 col-sm-8">
-												<div class="job-button col-md-6 col-sm-6 hover-glow-white">
-													<i class="fa fa-check fa-2x"></i>
-													<span class="small-span">
-														Choose winner
-													</span>
-												</div>
-												<div class="job-button col-md-6 col-sm-6 hover-glow-white">
-													<i class="fa fa-info fa-2x"></i>
-													<span class="small-span">
-														Job info
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-
-
-								<div ng-show="JobList.isToggled($index)" ng-include="rightPartial" onload="JobPanel.partialInit()">
-									</div>
-								</li>
-
-							</ul>
-							<div class="clearfix"></div>
-							<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="user.createdJobs.length - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
-							<div class="clearfix"></div>
-						</div>
-					</div>
+<div class="find-jobs-menu">
+	<div class="menu-row row">
+		<div class="col-md-1 col-sm-1 col-lg-1"></div>
+		<div class="col-md-10 col-sm-10 col-lg-10 row">
+			<div class="col-sm-12 col-md-6 row">
+				<div class="col-md-3 col-sm-3">
+					<span class="small-span bold-span yellow-span">
+						CITY
+					</span>
+					<select class="menu-select" data-ng-model="jobCitySearch" data-ng-options="city as city.name for city in cities">
+					</select>
 				</div>
-				<div class="col-lg-2 col-md-2"></div>
+				<div class="col-md-2 col-sm-2">
+					<span class="small-span bold-span yellow-span">
+						DISTANCE
+					</span>
+					<input class="menu-input" data-ng-model="jobDistanceSearch"
+					data-ng-keyup="search($event)"
+					placeholder="search by distance...">
+				</div>    
+				<div class="col-md-1 col-sm-1">
+				</div>  
+				<div class="col-md-6 col-sm-6">
+					<span class="small-span bold-span yellow-span">
+						CATEGORY
+					</span>
+					<select ng-change="attachSubcategories2(selectedCategory);" class="menu-select" data-ng-model="selectedCategory" data-ng-options="cat as cat.name for cat in categories">
+					</select>
+				</div>
+			</div>    
+			<div class="col-sm-6">
+			</div>
+			<div class="col-sm-6 col-md-6 row">
+				<div class="col-md-6 col-sm-12">
+					<span class="small-span bold-span yellow-span">
+						SUBCATEGORY
+					</span>
+					<select class="menu-select" data-ng-model="selectedSubcategory" data-ng-options="subcat as subcat.name for subcat in subcategories" type="text" placeholder="subcategory">
+					</select>
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<span class="small-span bold-span yellow-span">
+						SEARCH
+					</span>
+					<input class="menu-input" type="text" placeholder="serach">
+				</div>
+			</div>    
+		</div>
+		<div class="col-md-1 col-sm-1 col-lg-1"></div>
+	</div>
+	<div class="menu-row row">
+		<div class="col-md-1 col-sm-1">
+		</div>
+		<div class="col-md-10 col-sm-10 row">
+			<div class="col-md-6 ">
+
+			</div>
+			<div class="col-md-6 row col-sm-12">
+				<div ng-class="{graydiv : jobStatus != 'open'}" class="text-center white-div col-md-3 col-sm-3">
+					<a ng-click="getPage(currentPage, 'open')">
+						OPEN
+					</a>
+				</div>
+				<div class="col-md-1 col-sm-1">
+				</div>
+				<div ng-class="{graydiv : jobStatus != 'finished'}" class="text-center white-div col-sm-4 col-md-4" >
+					<a ng-click="getPage(currentPage, 'finished')">
+						CLOSED
+					</a>
+				</div>
+				<div class="col-md-1 col-sm-1">
+				</div>
+				<div ng-class="{graydiv : jobStatus != 'all'}" class="text-center white-div col-md-3 col-sm-3" >
+					<a ng-click="getPage(currentPage, 'all')">
+						ALL
+					</a>
+				</div>
 			</div>
 		</div>
+		<div class="col-md-1 col-sm-1">
+		</div>
 	</div>
-</section>
+</div>
+
+
+<div class="col-md-2 col-sm-2 col-lg-2"></div>
+
+
+<div class="col-md-8 col-sm-8 col-lg-8">
+	<br>
+	<p style="border-top: 1px dashed #ccc;"></p>
+	<br>
+
+	<div id="{{$index}}" data-ng-repeat="job in filteredJobs">
+
+		<div class="row" style="clear:both;margin-top:10px">
+			<div class="col-md-12 col-sm-12 col-lg-12">
+				<table class="table helvetica-neue widget-content ">
+				<tbody class="height: 30%">
+				  <tr>
+				    <td rowspan="4" colspan="2" class="borderless yellow-tblock" style="border-right: 3px solid white; width: 30%;">
+				    	<div class="text-center"> 
+				    		<img class="img-thumbnail" style="max-height: 50%; max-width: 50%" ng-src="img/cats/{{categoryPictures[job.category]}}"/>
+								<p class="bold-span" style="height: 30%">
+									{{job.category.toUpperCase()}} / {{job.subcategory.toUpperCase()}}
+								</p>
+				    	</div>
+				    </td>
+				  </tr>
+
+				  <tr>
+				    <td class="borderless yellow-tblock text-center bottom-2-dashed" colspan="4">
+				    </td>
+
+				    <td class="bottom-2-dashed borderless yellow-tblock">
+				    	Nesto 1C
+				    </td>
+
+				    <td class="bottom-2-dashed borderless yellow-tblock">
+				    	Nesto 1D
+				    </td>
+
+				    <td class="bottom-2-dashed borderless yellow-tblock">
+				    	Nesto 1E
+				    </td>
+
+				    <td class="bottom-2-dashed borderless yellow-tblock">
+				    	
+				    </td>
+				  </tr>
+
+				  <tr>
+				    <td class="borderless yellow-tblock text-center" colspan="4">
+				    	<span class="black-div white-span helvetica-neue bold-span padding-4x" cr-date="{{job.dateFrom}}">
+				    	</span>
+				    	<span class="peach-div bold-span helvetica-neue padding-4x" cr-date="{{job.dateTo}}">
+				    	</span>
+				    </td>
+
+				    <td colspan="4" rowspan="2" class="borderless yellow-tblock left-2-dashed">
+						<table ng-show="job.status==='open'" class="table bidders-table table-striped helvetica-neue widget-content">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>Name</th>
+								<th>Surname</th>
+								<th>Rating</th>
+								<th>Pick winner </th>
+							</tr>
+						</thead>
+						<tbody>
+						  <tr ng-repeat="bidder in job.bidders">
+						  	<td>{{bidder.username}}</td>
+						    <td>{{bidder.name}}</td>
+						    <td>{{bidder.surname}}</td>
+						    <td>{{bidder.rating.avgRate}}</td>
+						    <td>
+						    	<button ng-click="pickWinner(bidder._id,$parent.$index)" >
+						    		 Accept
+					    		</button>
+						    </td>
+						  </tr>
+						</tbody>
+						</table>
+				    </td>
+				  </tr>
+				  
+				  <tr>
+				    <td class="borderless yellow-tblock text-center" colspan="4">
+				    	<i ng-click="showMap(job, $index)" class="fa fa-map-marker map-marker-3x fa-3x"></i>
+				    	<span class="bold-span">{{job.address.city}}</span>
+				    </td>
+				  </tr>
+				</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div id="gmaps-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
+		</div>
+
+		<div id="pics-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
+			<lightbox images="job.jobPhotos"></lightbox>
+		</div>
+		
+		<div class="job-buttons peach-div row">
+			<a ui-sref="userProfile" class="job-button col-md-2 col-sm-2 hover-glow-white text-center">
+				<i class="fa fa-user fa-2x"></i>
+				<span class="small-span">
+					client profile
+				</span>
+			</a>
+			<div class="job-buttons peach-div row">
+						<a ng-click="showProfile($index)" class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
+							<i class="fa fa-user fa-2x"></i>
+							<span class="small-span">
+								Client profile
+							</span>
+						</a>
+						<a class="job-button col-md-3 col-sm-3 hover-glow-white text-center" ng-click="sendMessage($index)">
+							<i class="fa fa-envelope fa-2x"></i>
+							<span class="small-span">
+								Send message
+							</span>
+						</a>
+						<a class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
+							<i class="fa fa-mail-forward fa-2x"></i>
+							<span class="small-span">
+								View photos
+							</span>
+						</a>
+						<a ng-click="showInfo($index)" class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
+							<i  class="fa fa-info fa-2x"></i>
+							<span class="small-span">
+								More info
+							</span>
+						</a>
+				</div>
+		</div>
+
+	</div>
+
+<!-- 	<div class="clearfix"></div>
+	<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="user.createdJobs.length - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
+	<div class="clearfix"></div>
+ -->
+</div>
+<div class="col-md-2 col-sm-2 col-lg-2"></div>
