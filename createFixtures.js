@@ -1,11 +1,9 @@
 	var cs = require("coffee-script/register")
-	, DB = require("./src/backend/config/Database")
 	, UserModel = require("./src/backend/models/User")
-	, jobCtrl = require("./src/backend/controllers/Job")
-	, saveJob = jobCtrl.saveJob
-	, bidOnJob = jobCtrl.bidOnJob
+	, JobCtrl = require("./src/backend/controllers/Job")
+	, saveJob = JobCtrl.saveJob
+	, bidOnJob = JobCtrl.bidOnJob
 	, async = require("async")
-	, createCatsAndCities = require("./src/backend/modules/ExportToDB")
 	, carCategory = require("./src/shared/resources/categories/car.json")
 	, cities = require("./src/shared/resources/cities.json")
 	, names = ["gogs", "sale", "doks", "roks", "moks"]
@@ -39,7 +37,8 @@ function craftsmanNames() {
 
 function createCustomer(name, clb) {
 	var out = {}
-		, randCity = cities[Math.round(Math.random())];
+		, randCity = cities[Math.round(Math.random())]
+		;
 	out.username = name;
 	out.email = name + "@customer.com";
 	out.password = "1234";
@@ -150,24 +149,28 @@ function bidOnJobs(jobs, craftsmen, clb) {
 }
 
 function create(clb) {
-	createCatsAndCities(function(err, catsAndCities) {
-		if (err) {
-			DB.close();
-			return clb(err, catsAndCities);
-		}
-		createUsers(function(err, users) {
-			console.log("Created", users.length, "users");
+	var DB = require("./src/backend/config/Database");
+	var createCatsAndCities = require("./src/backend/modules/ExportToDB");
+	DB.once("open", function() {
+		createCatsAndCities(function(err, catsAndCities) {
 			if (err) {
 				DB.close();
-				return clb(err, users);
+				return clb(err, catsAndCities);
 			}
-			createJobs(createdCustomers, function(err, jobs) {
-				console.log("Created", jobs.length, "jobs");
-				bidOnJobs(jobs, createdCraftsmen, function(err, jobs) {
-					clb(err, users.concat(jobs));
-				});
-			});
-		});
+			createUsers(function(err, users) {
+				console.log("Created", users.length, "users");
+				if (err) {
+					DB.close();
+					return clb(err, users);
+				}
+				createJobs(createdCustomers, function(err, jobs) {
+					console.log("Created", jobs.length, "jobs");
+					bidOnJobs(jobs, createdCraftsmen, function(err, jobs) {
+						clb(err, users.concat(jobs));
+					})
+				})
+			})
+		})
 	});
 }
 

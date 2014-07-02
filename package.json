@@ -44,7 +44,7 @@
   "devDependencies": {
     "archiver": "^0.10.1",
     "rimraf": "^2.2.8",
-    "unzip": "^0.1.9",
+    "unzip": "^0.1.9"
   },
   "subdomain": "craftia",
   "engines": {
