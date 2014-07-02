@@ -134,7 +134,10 @@ function linkDir(source, dest, clb) {
  	});
  	
 	function linkMe() {
-		fs.symlink(source, dest, "junction", clb);
+		fs.symlink(source, dest, "junction", function(err) {
+			if (err) throw err;
+			clb();
+		});
 	}
 };
 
@@ -195,7 +198,7 @@ gulp.task("jitsu", [
 
 gulp.task("link-shared", function(next) {
 	var cwd = process.cwd();
-	linkDir(cwd + sharedDir, cwd + "/www/shared", function() {
+	linkDir(cwd + "/src/shared", cwd + "/www/shared", function() {
 		util.log("Shared folder linked".green);
 		next();
 	});
