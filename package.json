@@ -3,7 +3,7 @@
   "version": "0.0.1-5",
   "private": true,
   "scripts": {
-    "start": "node ./node_modules/gulp/bin/gulp.js linkShared",
+    "start": "node ./node_modules/gulp/bin/gulp.js jitsu",
     "postinstall": "./node_modules/bower/bin/bower install"
   },
   "author": {
