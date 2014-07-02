@@ -48,9 +48,9 @@ var spawn = require("child_process").spawn
 	, serverInstance = null
 	, mongoInstance = null
 	, jobUpdateInstance = null
-	, DBDUMP_FILE = "dump.zip"
 	,	log = console.log.bind(console)
 	, inProduction = process.env.NODE_ENV === "production"
+	, DBDUMP_FILE = "dump.zip"
 	;
 
 function pipeOut(thread, signature, color, consoleOut) {
@@ -91,7 +91,7 @@ function touchDir(dir, clb) {
 		if (!itDoes) {
 			mkdirp(dir, clb);
 		} else {
-			clb();
+			clb(null, null);
 		}
 	})
 }
@@ -116,11 +116,23 @@ function linkDir(source, dest) {
 	}
 }
 
-gulp.task("default", ["linkShared", "watch", "serve", "runJobProcess"], function() {
+gulp.task("default", [
+	"link-shared", 
+	"create-logs", 
+	"create-dbpath", 
+	"serve-mongo",
+	"serve-express", 
+	"watch",
+	"job-process"
+], function(next) {
 	
 });
 
-gulp.task("linkShared", function() {
+gulp.task("jitsu", ["link-shared", "create-logs", "serve-express", "job-process"], function() {
+  util.log("Craftia deployed".red);
+});
+
+gulp.task("link-shared", function() {
 	var cwd = process.cwd()
 		, sharedPath = cwd + "/src/shared";
 	linkDir(sharedPath, cwd + "/www/shared");
@@ -249,50 +261,57 @@ gulp.task("dbRestore", function() {
 	input.pipe(unzip.Extract({path: "."}));
 });
 
+gulp.task("create-logs", function(next) {
+	touchDir("./logs/", next);
+});
+
+gulp.task("create-dbpath", function(next) {
+	touchDir("./data/db/", next);
+});
 /**
 	Default dev tasks
 */
-gulp.task("serve", function() {
-	async.map(["./logs/", "./data/db/"], touchDir, function() {
-		var spawnServer = function() {
-			serverInstance = spawn(binCoffee, args.server);
-			pipeOut(serverInstance, "EXPRESS", "red", logs.server.out);
-			pipeErr(serverInstance, logs.server.err);
-			serverInstance.on("close", function() {
-				util.log("server exited!".white.bold);
-				spawnServer();
-			});
-		}
-		, spawnMongo = function() {
-			mongoInstance = spawn("mongod", args.mongo);
-			pipeOut(mongoInstance, "MONGO", "green", logs.mongo.out);
-			pipeErr(mongoInstance, logs.mongo.err);
-			mongoInstance.on("close", function() {
-				util.log("mongo exited");
-				spawnMongo();
-			});
-		}
-		, restartServer = function() {
-			if (serverInstance) {
-				serverInstance.kill();
-			} else {
-				spawnServer();
-			}
-		}
-		;
-
-		spawnMongo();
-		gulp.watch("./server.coffee", function() {
-			restartServer();
+gulp.task("serve-express", function(next) {
+	var spawnServer = function() {
+		serverInstance = spawn(binCoffee, args.server);
+		pipeOut(serverInstance, "EXPRESS", "red", logs.server.out);
+		pipeErr(serverInstance, logs.server.err);
+		serverInstance.on("close", function() {
+			util.log("server exited!".white.bold);
+			spawnServer();
 		});
-		gulp.watch("./src/backend/**/*.coffee", restartServer);
-	});
+		serverInstance.stdout.once("data", next);			
+	}
+	, restartServer = function() {
+		if (serverInstance) {
+			serverInstance.kill();
+		} else {
+			spawnServer();
+		}
+	}
+	;
+	gulp.watch("./server.coffee", restartServer);
+	gulp.watch("./src/backend/**/*.coffee", restartServer);
+});
+
+gulp.task("serve-mongo", function(next) {
+	var spawnMongo = function() {
+		mongoInstance = spawn("mongod", args.mongo);
+		pipeOut(mongoInstance, "MONGO", "green", logs.mongo.out);
+		pipeErr(mongoInstance, logs.mongo.err);
+		mongoInstance.stdout.once("data", next);
+		mongoInstance.on("close", function() {
+			util.log("mongo exited");
+			spawnMongo();
+		});
+	};
+	spawnMongo();
 });
 
 /**
 	Run job update thread
 */
-gulp.task("runJobProcess", function() {
+gulp.task("job-process", function() {
 	jobUpdateInstance = spawn(binCoffee, args.jobupdate);
 	pipeOut(jobUpdateInstance, "JOBUPDATE-PROCESS", "yellow");
 	pipeErr(jobUpdateInstance, logs.jobupdate.err);
