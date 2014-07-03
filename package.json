@@ -1,9 +1,10 @@
 {
   "name": "craftia",
-  "version": "0.0.1-11",
+  "version": "0.0.1-28",
   "private": true,
   "scripts": {
-    "start": "node ./node_modules/gulp/bin/gulp.js jitsu",
+    "predeploy": "node ./node_modules/gulp/bin/gulp.js predeploy",
+    "start": "./node_modules/coffee-script/bin/coffee server.coffee",
     "postinstall": "./node_modules/bower/bin/bower install"
   },
   "author": {
@@ -42,7 +43,8 @@
     "gulp-git": "^0.4.3",
     "archiver": "^0.10.1",
     "rimraf": "^2.2.8",
-    "unzip": "^0.1.9"
+    "unzip": "^0.1.9",
+    "node-notifier": "^3.0.6"
   },
   "devDependencies": {},
   "subdomain": "craftia",
