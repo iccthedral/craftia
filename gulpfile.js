@@ -21,7 +21,7 @@ var spawn = require("child_process").spawn
 	, readFile = fs.createReadStream
 	, writeFile = fs.createWriteStream
 	, isWindows = !!process.platform.match(/^win/)
-	, binCoffee = "./node_modules/coffee-script/bin/coffee"
+	, binCoffee = (isWindows) ? "coffee.cmd" : "./node_modules/coffee-script/bin/coffee"
 	, backendDir = "./src/backend/"
 	, logsDir = "./logs/"
 	, dbPathDir = "./data/db/"
@@ -189,9 +189,8 @@ gulp.task("default", [
 gulp.task("jitsu", [
 	"link-shared", 
 	"create-logs", 
-	"compile-shared", 
+	"compile-shared",
 	"compile-frontend",
-	"serve-express", 
 	"job-process"], function(next) {
   util.log("Craftia deployed".green);
 });
