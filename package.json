@@ -1,10 +1,11 @@
 {
   "name": "craftia",
-  "version": "0.0.1-12",
+  "version": "0.0.1-14",
   "private": true,
   "scripts": {
-    "start": "node ./node_modules/gulp/bin/gulp.js jitsu",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "predeploy": "echo This will be run before deploying the app",
+    "postdeploy": "./node_modules/bower/bin/bower install",
+    "start": "node ./node_modules/gulp/bin/gulp.js jitsu"
   },
   "author": {
     "name": "Goran & Sale",
