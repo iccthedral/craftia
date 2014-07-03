@@ -189,9 +189,8 @@ gulp.task("default", [
 gulp.task("jitsu", [
 	"link-shared", 
 	"create-logs", 
-	"compile-shared", 
+	"compile-shared",
 	"compile-frontend",
-	"serve-express", 
 	"job-process"], function(next) {
   util.log("Craftia deployed".green);
 });

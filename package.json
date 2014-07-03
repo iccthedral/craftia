@@ -39,12 +39,12 @@
     "passport-local": "1.0.0",
     "underscore": "^1.6.0",
     "wrench": "1.5.8",
-    "gulp-git": "^0.4.3"
-  },
-  "devDependencies": {
+    "gulp-git": "^0.4.3",
     "archiver": "^0.10.1",
     "rimraf": "^2.2.8",
     "unzip": "^0.1.9"
+  },
+  "devDependencies": {
   },
   "subdomain": "craftia",
   "engines": {
