@@ -1,6 +1,6 @@
 {
   "name": "craftia",
-  "version": "0.0.1-5",
+  "version": "0.0.1-11",
   "private": true,
   "scripts": {
     "start": "node ./node_modules/gulp/bin/gulp.js jitsu",
@@ -44,8 +44,7 @@
     "rimraf": "^2.2.8",
     "unzip": "^0.1.9"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "subdomain": "craftia",
   "engines": {
     "node": "0.10.x"

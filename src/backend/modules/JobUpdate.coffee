@@ -25,37 +25,37 @@ log "Running job update thread at interval of #{INTERVAL} ms"
 do jobUpdate = -> 
 	JobModel.find {}
 	.exec (err, results) ->
-		async.map results
-		, (job, clb) ->
-				d = job.dateTo
-				expiredOrClosed = (Date.now() > d.getTime())
-				log "Job expired:", expiredOrClosed
-				log "Job status:", job.status
-				log "Job winner:", job.winner
-			
-				if not expiredOrClosed or job.status is "finished"
-					return clb null, null
-					
-				job.status = "finished"
-				notifAuthor = {
-					receiver: job.author
-					body:
-						if job.winner? then AUTHOR_NOTIF_WINNING job
-						else AUTHOR_NOTIF_FINISHED job
-				}
-
-				if job.winner?
-					notifWinner = {
-						receiver: job.winner
-						body: WINNER_NOTIF job
-					}
-					Messaging.sendNotification notifWinner
-				Messaging.sendNotification notifAuthor
+		async.map(results , (job, clb) ->
+			d = job.dateTo
+			expiredOrClosed = (Date.now() > d.getTime())
+			log "Job expired:", expiredOrClosed
+			log "Job status:", job.status
+			log "Job winner:", job.winner
+		
+			if not expiredOrClosed or job.status is "finished"
+				return clb null, null
 				
-				job.save (err, cnt) ->
-					return clb err, cnt if err?
-					log "Job updated!"
+			job.status = "finished"
+			notifAuthor = {
+				receiver: job.author
+				body:
+					if job.winner? then AUTHOR_NOTIF_WINNING job
+					else AUTHOR_NOTIF_FINISHED job
+			}
+
+			if job.winner?
+				notifWinner = {
+					receiver: job.winner
+					body: WINNER_NOTIF job
+				}
+				Messaging.sendNotification notifWinner
+			Messaging.sendNotification notifAuthor
+			
+			job.save (err, cnt) ->
+				return clb err, cnt if err?
+				log "Job updated!"
 				clb null, job
 		, (err, results) ->
 				log "Jobs updating finished"
 				setTimeout jobUpdate, INTERVAL
+		)
