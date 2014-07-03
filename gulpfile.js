@@ -94,7 +94,7 @@ function pipeOut(thread, signature, color, consoleOut) {
 
 function pipeErr(thread, logFile) {
 	if (!inProduction) {
-		thread.stderr.pipe(process.stderr);
+		// thread.stderr.pipe(process.stderr);
 	} else {
 		function pipe() {
 			thread.stderr.pipe(writeFile(logFile, {flags: "a"}), logFile);

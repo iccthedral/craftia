@@ -25,6 +25,7 @@ log "Running job update thread at interval of #{INTERVAL} ms"
 do jobUpdate = -> 
 	JobModel.find {}
 	.exec (err, results) ->
+		return if err? or not results? or results.length is 0
 		async.map(results , (job, clb) ->
 			d = job.dateTo
 			expiredOrClosed = (Date.now() > d.getTime())

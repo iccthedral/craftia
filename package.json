@@ -1,6 +1,6 @@
 {
   "name": "craftia",
-  "version": "0.0.1-11",
+  "version": "0.0.1-12",
   "private": true,
   "scripts": {
     "start": "node ./node_modules/gulp/bin/gulp.js jitsu",
