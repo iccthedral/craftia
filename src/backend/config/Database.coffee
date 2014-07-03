@@ -1,6 +1,7 @@
 mongoose = require "mongoose"
 
 localURL = "mongodb://localhost/craftia"
+
 dbURL = process.env.MONGOLAB_URI or localURL
 
 log = console.log.bind console

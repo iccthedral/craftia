@@ -17,6 +17,7 @@ var spawn = require("child_process").spawn
 	, unzip = require("unzip")
 	, rimraf = require("rimraf")
 	, archiver = require("archiver")
+	, notification = require("node-notifier")
 	, fixtures = require("./createFixtures")
 	, readFile = fs.createReadStream
 	, writeFile = fs.createWriteStream
@@ -77,7 +78,9 @@ function pipeOut(thread, signature, color, consoleOut) {
 		fs.exists(consoleOut, function(itDoes) {
 			if (!itDoes) {
 				fs.writeFile(consoleOut, "", function(err) {
-					if (err) throw err
+					if (err) {
+						return throwError(err);
+					}
 					pipe()
 				})
 			} else {
@@ -94,22 +97,26 @@ function pipeOut(thread, signature, color, consoleOut) {
 
 function pipeErr(thread, logFile) {
 	if (!inProduction) {
-		// thread.stderr.pipe(process.stderr);
-	} else {
-		function pipe() {
-			thread.stderr.pipe(writeFile(logFile, {flags: "a"}), logFile);
-		}
-		fs.exists(logFile, function(itDoes) {
-			if (!itDoes) {
-				fs.writeFile(logFile, "", function(err) {
-					if (err) throw err;
-					pipe();
-				});
-			} else {
-				pipe();
-			}
+		thread.stderr.on("data", function(data) {
+			throwError(new Error(data));
 		});
 	}
+
+	function pipe() {
+		thread.stderr.pipe(writeFile(logFile, {flags: "a"}), logFile);
+	}
+	fs.exists(logFile, function(itDoes) {
+		if (!itDoes) {
+			fs.writeFile(logFile, "", function(err) {
+				if (err) {
+					return throwError(err);
+				}
+				pipe();
+			});
+		} else {
+			pipe();
+		}
+	});
 }
 
 function touchDir(dir, clb) {
@@ -135,7 +142,9 @@ function linkDir(source, dest, clb) {
  	
 	function linkMe() {
 		fs.symlink(source, dest, "junction", function(err) {
-			if (err) throw err;
+			if (err) {
+				return throwError(err);
+			}
 			clb();
 		});
 	}
@@ -150,7 +159,7 @@ function compileFrontend(file, next) {
 	
 	gulp
 	.src(path)
-	.pipe(coffee({bare: true}).on("error", util.log))
+	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name + ".js"))
 	.pipe(gulp.dest(jsDir))
 	.end(next);
@@ -165,11 +174,30 @@ function compileShared(file, next) {
 	
 	gulp
 	.src(path)
-	.pipe(coffee({bare: true}).on("error", util.log))
+	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name + ".js"))
 	.pipe(gulp.dest(jsDir))
 	.end(next)
 };
+
+function throwError(err) {
+	util.log(err);
+	util.beep();
+	notifier = new notification();
+	notifier.notify({
+			title: "ERROR",
+	    message: err.message
+	});
+}
+
+util.log("In production:", inProduction);
+
+if (inProduction) {
+	// process.stderr.pipe(process.stdout);
+	// process.stderr.on("data", function(data) {
+	// 	util.log("ERROR", err);
+	// });
+}
 
 gulp.task("default", [
 	"link-shared", 
@@ -183,16 +211,23 @@ gulp.task("default", [
 	"watch-frontend",
 	"watch-shared"
 ], function(next) {
-	
+	util.log("Up and running");
 });
 
-gulp.task("jitsu", [
-	"link-shared", 
-	"create-logs", 
+gulp.task("predeploy", [
 	"compile-shared",
 	"compile-frontend",
-	"job-process",
-	"serve-express"], function(next) {
+	"create-logs"
+], function() {
+
+});
+
+gulp.task("start-craftia", [
+	"link-shared"
+	//, "job-process"
+	, "create-logs"
+	, "serve-express"
+	], function(next) {
   util.log("Craftia deployed".green);
 });
 
@@ -239,9 +274,13 @@ gulp.task("createFixtures", function(next) {
 	dbconnection.on("open", function() {
 		dbconnection.db.dropDatabase(function(err) {
 			util.log("Dropped database!".red);
-			if (err) throw err;
+			if (err) {
+				return throwError(err);
+			}
 			fixtures.create(function(err, res) {
-				if (err) throw err;
+				if (err) {
+					return throwError(err);
+				}
 				util.log(("Created in total " + res.length + " fixtures!").yellow.bold);
 				dbconnection.close();
 				next();
@@ -275,12 +314,14 @@ gulp.task("dbDump", function() {
 	  });
 
 		rimraf("dump", function(err) {
-			if (err) throw err;
+			if (err) {
+				return throwError(err);
+			}
 		});
 	});
 
 	archive.on("error", function(err) {
-		throw err;
+		return throwError(err);
 	});
 
 	archive.pipe(output);
@@ -303,14 +344,16 @@ gulp.task("dbRestore", function() {
 	var input = readFile(DBDUMP_FILE);
 
 	input.on("error", function(err) {
-		throw err;
+		return throwError(err);
 	});
 
 	input.on("close", function() {
 		spawn("mongorestore")
 		.on("close", function() {
 			rimraf("dump", function(err) {
-				if (err) throw err;
+				if (err) {
+					return throwError(err);
+				}
 			});
 			util.log("DB restore finished".yellow.bold);
 		})
@@ -341,14 +384,14 @@ gulp.task("serve-express", function(next) {
 		serverInstance = spawn(binCoffee, args.server);
 		pipeOut(serverInstance, "EXPRESS", "red", logFiles.server.out);
 		pipeErr(serverInstance, logFiles.server.err);
+		serverInstance.stdout.once("data", function() {
+			util.log("Express is up!".green.bold);
+			next();
+		});
 		serverInstance.on("close", function() {
 			util.log("Server exited!".white.bold);
 			spawnServer();
 		});
-		serverInstance.stdout.once("data", function() {
-			util.log("Express is up!".green.bold);
-			next();
-		});			
 	};
 
 	var restartServer = function() {

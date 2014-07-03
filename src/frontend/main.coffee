@@ -86,7 +86,7 @@ require.config
 			
 		ngTouch:
 			deps: [ "angular" ]
-		
+	
 	deps: [
 		"util"
 		"jqueryui"
