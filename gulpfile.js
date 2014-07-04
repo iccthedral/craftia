@@ -19,6 +19,7 @@ var spawn = require("child_process").spawn
 	, archiver = require("archiver")
 	, notification = require("node-notifier")
 	, fixtures = require("./createFixtures")
+	, Path = require("path")
 	, readFile = fs.createReadStream
 	, writeFile = fs.createWriteStream
 	, isWindows = !!process.platform.match(/^win/)
@@ -154,35 +155,33 @@ function compileFrontend(file, next) {
 	var flInd = process.cwd().length + frontendDir.length
 		, path = file.path
 		, type = file.type
-		, name = path.substring(flInd + 1, path.length - 7)
+		, name = util.replaceExtension(Path.relative(frontendDir, path), ".js")
 		;
-	
+	util.log("Compiling", name)
 	gulp
 	.src(path)
 	.pipe(coffee({bare: true}).on("error", throwError))
-	.pipe(rename(name + ".js"))
+	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
-	.end(next);
 };
 
 function compileShared(file, next) {
 	var flInd = process.cwd().length + sharedDir.length
 		, path = file.path
 		, type = file.type
-		, name = path.substring(flInd + 1, path.length - 7)
+		, name = util.replaceExtension(Path.relative(sharedDir, path), ".js")
 		;
-	
+	util.log("Compiling", name)
 	gulp
 	.src(path)
 	.pipe(coffee({bare: true}).on("error", throwError))
-	.pipe(rename(name + ".js"))
+	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
 	.end(next)
 };
 
 function throwError(err) {
 	util.log(err);
-	util.beep();
 	notifier = new notification();
 	notifier.notify({
 			title: "ERROR",
