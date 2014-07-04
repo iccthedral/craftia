@@ -24,7 +24,6 @@ define ["./module"], (module) ->
 			$scope.selectedPage = 0
 			$scope.currentPage = 0
 			$scope.jobStatus = "all"
-			$scope.rateIndex = $scope.sizePerPage;
 			$scope.mapContainer = "#gmaps-div-0"
 			$scope.picsContainer = "#pics-div-0"
 			$scope.infoContainer = "#info-div-0"
@@ -32,34 +31,6 @@ define ["./module"], (module) ->
 			$scope.tempJob = {}
 			$scope.editIndex = $scope.sizePerPage;
 
-
-
-			bindRateClick = (index) ->
-				$scope.rateIndex = index
-				$("#rate-div-#{index}").bind 'rated', (event, value) ->
-		 			dialog.confirmationDialog {
-						title: "Rate job?"
-						template: "confirm"
-						okText: "Yes"
-						scope : {
-							mark : $ ("#rate-div-#{$scope.rateIndex}").rateit 'value'
-							jobId : $scope.filteredJobs[rateIndex]
-						}
-						onOk: ->
-							$http.post API.rateJob.format("#{scope.jobId}","#{scope.mark}") 
-							.success ->
-								common.broadcast config.events.ToggleSpinner, show:true
-								logger.success "Job rated!"
-							.error (err) ->
-								logger.error err
-							.finally ->
-								common.broadcast config.events.ToggleSpinner, show:false
-							console.log "Send", scope
-						onCancel: ->
-							console.log "Cancel", scope
-					}	
-
-			$timeout bindRateClick, 0
 
 			$scope.showStars = showStars = (index) -> 
 				$("#rate-div-"+index).rateit { max: 5, step: 1, backingfld: "#rate-div-"+index}

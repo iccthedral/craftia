@@ -84,12 +84,11 @@ module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 	if not user? or user.type isnt AuthLevels.CUSTOMER
 		return clb "You don't have permissions to pick winning bid"
 
-	console.error winner, jobId
+
 	JobModel
 	.findById jobId
 	.elemMatch "bidders", _id:mongoose.Types.ObjecId winner
 	.exec (err, job) ->
-		console.error job, err
 		return clb "You haven't bidded yet for this job" unless (job? and not err?)
 		UserModel
 		.findById winner
@@ -214,7 +213,6 @@ updateJob = (req, res) ->
 			default: []
 	]
 	if not usr? or usr.type isnt AuthLevels.CUSTOMER 
-		console.log "OH NOEES"
 		return res.send(403)
 
 	if jobData.address?.city? 
@@ -234,7 +232,6 @@ updateJob = (req, res) ->
 		id = req.params.id
 		JobModel.findByIdAndUpdate(id, jobData)
 		.exec (err, results) ->
-			console.log err
 			return res.send(404) if err? or results < 1
 			JobModel
 			.findById(id)
