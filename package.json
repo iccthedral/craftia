@@ -1,6 +1,6 @@
 {
   "name": "craftia",
-  "version": "0.0.1-29",
+  "version": "0.0.1-30",
   "private": true,
   "scripts": {
     "predeploy": "node ./node_modules/gulp/bin/gulp.js predeploy",

@@ -25,12 +25,17 @@ define [
 
 	$q 					= ngInjector.get "$q"
 	$http 			= ngInjector.get "$http"
+	$timeout 		= ngInjector.get "$timeout"
 
 	loadingClass 	= "deferred-bootstrap-loading"
 	errorClass 		= "deferred-bootstrap-error"
 	bodyElement 	= null
 
+	appInjector = ng.injector ["ng", "app.factories"]
+	config = appInjector.get "config"
+
 	addLoadingClass = ->
+		$("#shell").fadeIn(400)
 		bodyElement.addClass loadingClass
 
 	removeLoadingClass = ->
@@ -88,7 +93,6 @@ define [
 				throw new Error "Resolve for '#{constantName}' is not a valid dependency injection format."
 			injector = createInjector injectorModules
 			result = injector.instantiate resolveFn
-			console.debug "results", result
 			if isPromise result
 				promises.push result
 			else
@@ -141,9 +145,9 @@ define [
 				]
 		}
 
-		app.run (USER_DETAILS, appUser, logger, $state) ->
+		app.run (USER_DETAILS, $state, $rootScope, appUser, logger, common) ->
+			$("#splash").fadeOut(500)
 			appUser.load USER_DETAILS
-			logger.success appUser.username, appUser.isLoggedIn
 			$state.go "anon" if not appUser.isLoggedIn
 
 		app.config ($provide) ->

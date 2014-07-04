@@ -1,5 +1,4 @@
 define ["factories/module"], (module) ->
-		
 	module.factory "common", [
 		"$http"
 		"$q"
@@ -7,8 +6,7 @@ define ["factories/module"], (module) ->
 		"$timeout"
 		"config"
 		"logger"
-
-		($http, $q, $rootScope, $timeout, config, logger, spinner) ->
+		($http, $q, $rootScope, $timeout, config, logger) ->
 			out = {}
 			out.logger = logger
 			out.format = out.f = (s, args...) ->
@@ -23,7 +21,7 @@ define ["factories/module"], (module) ->
 				defer.finally ->
 					out.broadcast config.events.ToggleSpinner, show:false
 				return defer
-
+				
 			out.activateController = (promises, controllerId) ->
 				out.broadcast config.events.ToggleSpinner, show:true
 				logger.log "Activating #{controllerId} controller"
@@ -35,9 +33,8 @@ define ["factories/module"], (module) ->
 					out.broadcast config.events.ToggleSpinner, show:false
 					
 			out.broadcast = ->
+				console.log arguments
 				return $rootScope.$broadcast.apply $rootScope, arguments
 
 			return out
 	]
-	
-	return module

@@ -1,8 +1,8 @@
 var __slice = [].slice;
 
 define(["factories/module"], function(module) {
-  module.factory("common", [
-    "$http", "$q", "$rootScope", "$timeout", "config", "logger", function($http, $q, $rootScope, $timeout, config, logger, spinner) {
+  return module.factory("common", [
+    "$http", "$q", "$rootScope", "$timeout", "config", "logger", function($http, $q, $rootScope, $timeout, config, logger) {
       var out;
       out = {};
       out.logger = logger;
@@ -45,10 +45,10 @@ define(["factories/module"], function(module) {
         });
       };
       out.broadcast = function() {
+        console.log(arguments);
         return $rootScope.$broadcast.apply($rootScope, arguments);
       };
       return out;
     }
   ]);
-  return module;
 });

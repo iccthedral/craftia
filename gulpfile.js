@@ -198,7 +198,7 @@ if (inProduction) {
 gulp.task("minify-css", function() {
 	minifyCss = require("gulp-minify-css");
 	gulp.src("./www/css/**/*.css")
-	.pipe(minifyCss())
+	.pipe(minifyCss({keepBreaks: true}))
 	.pipe(rename("bundle.css"))
 	.pipe(gulp.dest("./www/css/"))
 });

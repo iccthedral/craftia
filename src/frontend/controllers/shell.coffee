@@ -28,6 +28,15 @@ define ["controllers/module", "angular"], (module, ng) ->
 					.toggleClass "active"
 					ng.element ".showhide"
 					.toggle()
+			
+			$scope.$watch "isBusy", (newVal, oldVal) ->				
+				return if newVal is oldVal
+				sp = $("#splash").stop()
+				if newVal
+					sp.fadeIn(100)
+				else
+					sp.fadeOut(100)
+				return newVal
 
 			$scope.toggleSpinner = (val) ->
 				$scope.isBusy = val

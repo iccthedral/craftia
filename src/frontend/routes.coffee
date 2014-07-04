@@ -15,7 +15,6 @@ define ["app", "angular"], (app, ng) ->
 			views:
 				"":
 					templateUrl: "shared/templates/layout/shell.html"
-					controller: "ShellCtrl"
 				
 				"navmenu@anon":
 					templateUrl: "shared/templates/layout/anonMainNav.html"
@@ -77,10 +76,6 @@ define ["app", "angular"], (app, ng) ->
 			.state "anon.craftsmanMenu", {
 				url: "/craftsmanMenu"
 				views:
-					"":
-						templateUrl: "shared/templates/layout/shell.html"
-						controller: "ShellCtrl"
-
 					"navSubMenu@anon": 
 						templateUrl: "shared/templates/layout/craftsmanMenu.html"
 			}
@@ -117,7 +112,6 @@ define ["app", "angular"], (app, ng) ->
 			views:
 				"":
 					templateUrl: "shared/templates/layout/shell.html"
-					controller: "ShellCtrl"
 				
 				"navmenu@customer":
 					templateUrl: "shared/templates/layout/customerMainNav.html"
@@ -203,7 +197,6 @@ define ["app", "angular"], (app, ng) ->
 			views:
 				"":
 					templateUrl: "shared/templates/layout/shell.html"
-					controller: "ShellCtrl"
 
 				"navmenu@craftsman":
 					templateUrl: "shared/templates/layout/craftsmanMainNav.html"

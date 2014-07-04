@@ -4,7 +4,6 @@ define ["./module", "ngSpinner"], (module, Spinner) ->
 			restrict: "A"
 			link: (scope, element, attrs) ->
 				scope.spinner = null
-				
 				scope.$watch attrs.ccSpinner
 				, (opts) ->
 					if scope.spinner?

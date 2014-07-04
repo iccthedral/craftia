@@ -40,6 +40,14 @@
     {{/if}}
 </head>
 <body>
+
+    <div id="splash" ng-controller="ShellCtrl" class="page-splash dissolve-animation">
+        <div cc-spinner="spinnerOptions">
+        </div>
+        <div class="page-splash-message page-splash-message-subtle">{{busyMessage}}
+        </div>
+    </div>
+
     <div ui-view=""></div>
     <script type="text/javascript" src="js/config.js">
     </script>

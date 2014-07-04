@@ -1,7 +1,11 @@
 define(["./module"], function(module) {
   return module.controller("CustomerJobsCtrl", [
     "$scope", "$http", "$state", "$timeout", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, $timeout, API, logger, common, config, categoryPictures, gmaps, dialog) {
+<<<<<<< HEAD
       var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showProfile, showStars, state;
+=======
+      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, state;
+>>>>>>> 8c142120f97e32867695e2d3d9f20c316f5a67b7
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -14,9 +18,10 @@ define(["./module"], function(module) {
       $scope.mapContainer = "#gmaps-div-0";
       $scope.picsContainer = "#pics-div-0";
       $scope.infoContainer = "#info-div-0";
-      $scope.profileContainer = "#profile-div-0";
+      $scope.ratingContainer = "#rating-div-0";
       $scope.tempJob = {};
       $scope.editIndex = $scope.sizePerPage;
+<<<<<<< HEAD
       $scope.showStars = showStars = function(index) {
         $("#rate-div-" + index).rateit({
           max: 5,
@@ -24,8 +29,23 @@ define(["./module"], function(module) {
           backingfld: "#rate-div-" + index
         }).show();
       };
+=======
+>>>>>>> 8c142120f97e32867695e2d3d9f20c316f5a67b7
       $scope.editJob = editJob = function(index) {
         return $scope.editIndex = index;
+      };
+      $scope.showRating = function(index) {
+        var curEl, prevEl;
+        $scope.currentRating = $scope.filteredJobs[index];
+        prevEl = $($scope.ratingContainer);
+        $scope.ratingContainer = "#rating-div-" + index;
+        curEl = $($scope.ratingContainer);
+        if (prevEl.is(curEl)) {
+          prevEl.slideToggle();
+        } else {
+          prevEl.slideUp();
+          curEl.slideDown();
+        }
       };
       $scope.saveJob = saveJob = function(index, jobId) {
         jobId = $scope.filteredJobs[index]._id;
@@ -74,18 +94,6 @@ define(["./module"], function(module) {
       };
       $scope.pageSelected = function(page) {
         return getPage(page.page - 1);
-      };
-      $scope.showProfile = showProfile = function(index) {
-        var curEl, prevEl;
-        prevEl = $($scope.profileContainer);
-        $scope.profileContainer = "#profile-div-" + index;
-        curEl = $($scope.profileContainer);
-        if (prevEl.is(curEl)) {
-          prevEl.slideToggle();
-        } else {
-          prevEl.slideUp();
-          curEl.slideDown();
-        }
       };
       $scope.showMap = function(index) {
         var curEl, job, prevEl;
