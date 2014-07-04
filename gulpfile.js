@@ -131,16 +131,16 @@ function touchDir(dir, clb) {
 };
 
 function linkDir(source, dest, clb) {
- 	fs.exists(dest, function(exists) {
- 		if (exists) {
- 			rimraf(dest, function() {
- 				linkMe()
- 			})
- 		} else {
- 			linkMe();
- 		}
- 	});
- 	
+	fs.exists(dest, function(exists) {
+		if (exists) {
+			rimraf(dest, function() {
+				linkMe()
+			})
+		} else {
+			linkMe();
+		}
+	});
+	
 	function linkMe() {
 		fs.symlink(source, dest, "junction", function(err) {
 			if (err) {
@@ -152,8 +152,7 @@ function linkDir(source, dest, clb) {
 };
 
 function compileFrontend(file, next) {
-	var flInd = process.cwd().length + frontendDir.length
-		, path = file.path
+	var path = file.path
 		, type = file.type
 		, name = util.replaceExtension(Path.relative(frontendDir, path), ".js")
 		;
@@ -166,8 +165,7 @@ function compileFrontend(file, next) {
 };
 
 function compileShared(file, next) {
-	var flInd = process.cwd().length + sharedDir.length
-		, path = file.path
+	var path = file.path
 		, type = file.type
 		, name = util.replaceExtension(Path.relative(sharedDir, path), ".js")
 		;
@@ -177,7 +175,6 @@ function compileShared(file, next) {
 	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
-	.end(next)
 };
 
 function throwError(err) {
@@ -185,7 +182,7 @@ function throwError(err) {
 	notifier = new notification();
 	notifier.notify({
 			title: "ERROR",
-	    message: err.message
+			message: err.message
 	});
 }
 
@@ -216,18 +213,31 @@ gulp.task("default", [
 gulp.task("predeploy", [
 	"compile-shared",
 	"compile-frontend",
+	"rjs",
 	"create-logs"
 ], function() {
 
 });
 
+gulp.task("rjs", function() {
+	var rjs = require("gulp-requirejs");
+	var cfg = require("./www/js/config.js");
+	
+	cfg.baseUrl = "www/js";
+	cfg.name = "bootstrap";
+	cfg.out = "dist.js";
+	cfg.insertRequire = ["jquery", "angular", "toastr", "bootstrap"]
+	rjs(cfg)
+	.pipe(gulp.dest("www/js/"));
+});
+
 gulp.task("start-craftia", [
 	"link-shared"
-	//, "job-process"
+	, "job-process"
 	, "create-logs"
 	, "serve-express"
 	], function(next) {
-  util.log("Craftia deployed".green);
+	util.log("Craftia deployed".green);
 });
 
 gulp.task("link-shared", function(next) {
@@ -240,31 +250,31 @@ gulp.task("link-shared", function(next) {
 
 gulp.task("add", function() {
 	util.log("git-add".yellow.bold);
-  return gulp.src(".")
-  .pipe(git.add());
+	return gulp.src(".")
+	.pipe(git.add());
 });
 
 gulp.task("commit", function() {
 	util.log("git-commit".yellow.bold);
 	return gulp.src(".")
-  .pipe(git.commit(gulp.env.m || "gulp commited", {args: "-s"}));
+	.pipe(git.commit(gulp.env.m || "gulp commited", {args: "-s"}));
 });
 
 gulp.task("push", function() {
 	util.log("git-push".yellow.bold);
-  return git.push("heroku", "master")
-  .end();
+	return git.push("heroku", "master")
+	.end();
 });
 
 gulp.task("reset", function() {
 	/* git rev-parse HEAD || heroku/master */
 	util.log("git-reset".yellow.bold);
-  return git.reset("SHA");
+	return git.reset("SHA");
 });
 
 gulp.task("pull", function() {
 	util.log("git-pull".yellow.bold);
-  return git.pull("heroku", "master");
+	return git.pull("heroku", "master");
 });
 
 /** Create test fixtures */
@@ -299,18 +309,18 @@ gulp.task("dbDump", function() {
 	
 	output.on("close", function() {
 		util.log((DBDUMP_FILE + " created.").yellow, "Wrote", archive.pointer(), "bytes");
-	  
-	  /* add dump.zip */
-	  gulp.src(DBDUMP_FILE)
-	  .pipe(git.add())
-	  .on("end", function() {
-		  /* then commit and push */
-		 	gulp.src(DBDUMP_FILE)
-		 	.pipe(git.commit(DBDUMP_FILE + " updated", {args: "-a -s"}))
-		 	.end(function() {
-		 		gulp.start("pull", "push");
-		 	});
-	  });
+		
+		/* add dump.zip */
+		gulp.src(DBDUMP_FILE)
+		.pipe(git.add())
+		.on("end", function() {
+			/* then commit and push */
+			gulp.src(DBDUMP_FILE)
+			.pipe(git.commit(DBDUMP_FILE + " updated", {args: "-a -s"}))
+			.end(function() {
+				gulp.start("pull", "push");
+			});
+		});
 
 		rimraf("dump", function(err) {
 			if (err) {

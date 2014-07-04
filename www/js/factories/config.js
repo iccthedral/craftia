@@ -1,6 +1,7 @@
 define(["factories/module"], function(module) {
-  return module.provider("config", function() {
-    this.config = {
+  return module.factory("config", function() {
+    var config;
+    config = {
       events: {
         ToggleSpinner: "ToggleSpinner"
       },
@@ -14,9 +15,6 @@ define(["factories/module"], function(module) {
       errorPrefix: "[CRAFTIA ERROR]",
       showErrors: true
     };
-    this.$get = function() {
-      return this.config;
-    };
-    return this;
+    return config;
   });
 });

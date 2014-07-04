@@ -1,4 +1,4 @@
-define(["angular", "capi", "factories/index", "controllers/index", "directives/index", "filters/index", "services/index", "moment", "toastr"], function(ng, API) {
+define(["angular", "capi", "factories/index", "controllers/index", "directives/index", "filters/index", "services/index"], function(ng, API) {
   ng.module("app.constants", []).factory("cAPI", function() {
     return API;
   });

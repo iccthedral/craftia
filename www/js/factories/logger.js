@@ -1,4 +1,4 @@
-define(["factories/module", "toastr"], function(module, toastr) {
+define(["factories/module"], function(module) {
   return module.factory("logger", [
     "$log", "config", function($log, config) {
       var logIt, out;

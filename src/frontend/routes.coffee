@@ -289,7 +289,7 @@ define ["app", "angular"], (app, ng) ->
 			.$on "$stateChangeStart", (ev, toState, toParams, fromState, fromParams) ->
 				isLoggedIn = appUser.isLoggedIn
 				type = appUser.getType
-				typeRe = new RegExp "^#{type}.*", "g"
+				typeRe = new RegExp "^[#{type}|index]+.*", "g"
 				nextState = toState.name
 				fromState = fromState.name
 

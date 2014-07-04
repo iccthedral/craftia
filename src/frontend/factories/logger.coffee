@@ -1,5 +1,4 @@
-define ["factories/module", "toastr"], (module, toastr) ->
-		
+define ["factories/module"], (module) ->
 	module.factory "logger", ["$log", "config"
 	($log, config) ->
 		$.extend toastr.options, config.toastr

@@ -11,6 +11,7 @@
     "requirejs-plugins": "~1.0.2",
     "angular-carousel": "~0.2.3",
     "gmaps": "~0.4.13",
-    "holderjs": "~2.3.2"
+    "holderjs": "~2.3.2",
+    "toastr": "~2.0.3"
   }
 }

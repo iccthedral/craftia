@@ -1,4 +1,5 @@
-define(["require", "angular", "routes", "app"], function(require, ng, routes, app) {
+"use strict";
+define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls"], function(ng, _, routes, app) {
   var $http, $q, addErrorClass, addLoadingClass, bodyElement, bootstrap, checkConfig, createBootstrap, createInjector, errorClass, forEach, isArray, isFunction, isObject, isPromise, isString, loadingClass, ngInjector, removeLoadingClass;
   forEach = ng.forEach;
   isString = ng.isString;

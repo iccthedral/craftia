@@ -6,8 +6,6 @@ define [
 	"directives/index"
 	"filters/index"
 	"services/index"
-	"moment"
-	"toastr"
 ], (ng, API) ->
 	
 	ng.module("app.constants", [])

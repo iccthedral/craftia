@@ -297,7 +297,7 @@ define(["app", "angular"], function(app, ng) {
         var isLoggedIn, nextState, type, typeRe;
         isLoggedIn = appUser.isLoggedIn;
         type = appUser.getType;
-        typeRe = new RegExp("^" + type + ".*", "g");
+        typeRe = new RegExp("^[" + type + "|index]+.*", "g");
         nextState = toState.name;
         fromState = fromState.name;
         $(".shellic").fadeOut(500);

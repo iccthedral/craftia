@@ -1,9 +1,20 @@
+"use strict"
+
 define [
-	"require"
 	"angular"
+	"util"
 	"routes"
 	"app"
-], (require, ng, routes, app) ->
+	"gmaps"
+	"rateit"
+	"ngRoutes"
+	"ngUiRouter"
+	"ngAnimate"
+	"ngCarousel"
+	"ngFileUpload"
+	"ngBootstrap"
+	"ngBootstrapTpls"
+], (ng, _, routes, app) ->
 
 	forEach 		= ng.forEach
 	isString 		= ng.isString

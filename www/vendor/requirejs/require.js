@@ -1225,6 +1225,8 @@ var requirejs, require, define;
             //Make sure any remaining defQueue items get properly processed.
             while (defQueue.length) {
                 args = defQueue.shift();
+                console.log("args[0]", args[0]);
+                console.log("args[1]", args[1]);
                 if (args[0] === null) {
                     return onError(makeError('mismatch', 'Mismatched anonymous define() module: ' + args[args.length - 1]));
                 } else {
