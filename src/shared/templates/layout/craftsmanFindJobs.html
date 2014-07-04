@@ -48,38 +48,6 @@
 		</div>
 		<div class="col-md-1 col-sm-1 col-lg-1"></div>
 	</div>
-	<div class="menu-row row">
-		<div class="col-md-1 col-sm-1">
-		</div>
-		<div class="col-md-10 col-sm-10 row">
-			<div class="col-md-6 ">
-			</div>
-			
-			<div class="col-md-6 row col-sm-12">
-				<div ng-class="{graydiv : jobStatus != 'open'}" class="text-center white-div col-md-3 col-sm-3">
-					<a ng-click="getPage(currentPage, 'open')">
-						OPEN
-					</a>
-				</div>
-				<div class="col-md-1 col-sm-1">
-				</div>
-				<div ng-class="{graydiv : jobStatus != 'finished'}" class="text-center white-div col-sm-4 col-md-4" >
-					<a ng-click="getPage(currentPage, 'finished')">
-						CLOSED
-					</a>
-				</div>
-				<div class="col-md-1 col-sm-1">
-				</div>
-				<div ng-class="{graydiv : jobStatus != 'all'}" class="text-center white-div col-md-3 col-sm-3" >
-					<a ng-click="getPage(currentPage, 'all')">
-						ALL
-					</a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-1 col-sm-1">
-		</div>
-	</div>
 </div>
 
 
@@ -141,31 +109,14 @@
 				    </td>
 
 				    <td colspan="4" rowspan="2" class="borderless yellow-tblock left-2-dashed">
-							<table class="table bidders-table table-striped helvetica-neue widget-content">
-						<thead>
-							<tr>
-								<th>Username</th>
-								<th>Name</th>
-								<th>Surname</th>
-								<th>Rating</th>
-							</tr>
-						</thead>
-						<tbody>
-						  <tr ng-repeat="bidder in job.bidders">
-						  	<td>{{bidder.username}}</td>
-						    <td>{{bidder.name}}</td>
-						    <td>{{bidder.surname}}</td>
-						    <td>{{bidder.rating.avgRate}}</td>
-						  </tr>
-						</tbody>
-						</table>
+		
 				    </td>
 				  </tr>
 				  
 				  <tr>
 				    <td class="borderless yellow-tblock text-center" colspan="4">
 				    	<i ng-click="showMap(job, $index)" class="fa fa-map-marker map-marker-3x fa-3x"></i>
-				    	<span class="bold-span">{{job.address.city}}</span>
+				    	<span class="bold-span">{{job.address.city}}, {{job.address.line1}}</span>
 				    </td>
 				  </tr>
 				</tbody>
@@ -175,43 +126,53 @@
 
 		<div id="gmaps-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
 		</div>
-		<div id="profile-div-{{$index}}" style="height: 70px; display: none" class="peach-div row">
-			<table class="table bidders-table table-striped helvetica-neue widget-content">
-						<thead>
-							<tr>
-								<th>Username</th>
-								<th>Name</th>
-								<th>Surname</th>
-								<th>E-mail</th>
-							</tr>
-						</thead>
-						<tbody>
-						  <tr>
-						  	<td>{{job.author.username}}</td>
-						    <td>{{job.author.name}}</td>
-						    <td>{{job.author.surname}}</td>
-						    <td>{{job.author.email}}</td>
-						  </tr>
-						</tbody>
-						</table>
-		</div>
+	
 		<div id="pics-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
 			<lightbox images="job.jobPhotos"></lightbox>
 		</div>
 
-		<div id="info-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
-			<span>
-				{{job.description}}
-			</span>
-		</div>
+		<div id="info-div-{{$index}}" style="height: 70px; display: none" class="peach-div row">
+			<table  class="table bidders-table table-striped helvetica-neue widget-content">
+					<thead>
+						<tr>
+							<th>Author</th>
+							<th>Name</th>
+							<th>Surname</th>
+							<th>Start date</th>
+							<th>End date </th>
+							<th>Material supplier</th>
+							<th>Budget</th>
+							<th ng-show="job.status === 'open'">Bid</th>
+						</tr>
+					</thead>
+					<tbody>
+					  <tr>
+					  	<td>{{job.author.username}}</td>
+					    <td>{{job.author.name}}</td>
+					    <td>{{job.author.surname}}</td>
+					    <td cr-date="{{job.dateFrom}}"></td>
+					    <td cr-date="{{job.dateTo}}"></td>
+					    <td>
+				    		<span  placeholder="{{job.materialProvider}}"> {{job.materialProvider}}
+                </span>
+              </td>
+					    <td>
+					    	<span>
+					    		{{job.materialProvider}}
+					    	</span>
+				    	</td>
+					    <td>
+					    	<button class="btn btn-success" ng-hide="isBidder($index)" ng-click="bidOnJob($index)" >
+					    		 Bid on job
+				    		</button>
+					    </td>
+					  </tr>
+					</tbody>
+					</table>			
+				</div>
 		
 		<div class="job-buttons peach-div row">
-			<a ng-click="showProfile($index)" class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
-				<i class="fa fa-user fa-2x"></i>
-				<span class="small-span">
-					Client profile
-				</span>
-			</a>
+		
 			<a class="job-button col-md-3 col-sm-3 hover-glow-white text-center" ng-click="sendMessage($index)">
 				<i class="fa fa-envelope fa-2x"></i>
 				<span class="small-span">

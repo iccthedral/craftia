@@ -239,6 +239,14 @@ define(["app", "angular"], function(app, ng) {
           templateUrl: "/shared/templates/layout/receivedMessages.html"
         }
       }
+    }).state("craftsman.myJobs", {
+      url: "/myJobs",
+      views: {
+        "shell@craftsman": {
+          templateUrl: "shared/templates/layout/craftsmanMyJobs.html",
+          controller: "CraftsmanMyJobsCtrl"
+        }
+      }
     }).state("craftsman.findJobs", {
       url: "/findJobs",
       views: {
@@ -261,6 +269,14 @@ define(["app", "angular"], function(app, ng) {
         "shell@craftsman": {
           templateUrl: "shared/templates/layout/notifications.html",
           controller: "NotificationsCtrl"
+        }
+      }
+    }).state("craftsman.profile", {
+      url: "/profile",
+      views: {
+        "shell@craftsman": {
+          templateUrl: "shared/templates/forms/craftsmanProfile.html",
+          controller: "CraftsmanProfileCtrl"
         }
       }
     });

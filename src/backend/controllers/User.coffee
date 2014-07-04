@@ -116,7 +116,7 @@ module.exports.getBiddedJobsHandler = getBiddedJobsHandler = (req, res) ->
 	.find queryParams
 	.elemMatch("bidders", _id:user._id)
 	.populate {
-		path: "bidders"
+		path: "author"
 		select: "-password"
 		model: "User"
 	}

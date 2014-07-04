@@ -79,9 +79,12 @@ module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 	if not user? or user.type isnt AuthLevels.CUSTOMER
 		return clb "You don't have permissions to pick winning bid"
 
+	console.error winner, jobId
 	JobModel
-	.findOne {_id: jobId, bidders: winner}
+	.findById jobId
+	.elemMatch "bidders", _id:mongoose.Types.ObjecId winner
 	.exec (err, job) ->
+		console.error job, err
 		return clb "You haven't bidded yet for this job" unless (job? and not err?)
 		UserModel
 		.findById winner

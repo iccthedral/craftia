@@ -254,6 +254,15 @@ define ["app", "angular"], (app, ng) ->
 						controller: "NotificationsCtrl"
 			}
 
+			.state "craftsman.profile", {
+				url: "/profile"
+				views:
+					"shell@craftsman":
+						templateUrl: "shared/templates/forms/craftsmanProfile.html"
+						controller: "CraftsmanProfileCtrl"
+			}
+
+
 		$urlRouterProvider.otherwise ""
 
 	.run [

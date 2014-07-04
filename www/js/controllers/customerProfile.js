@@ -3,6 +3,7 @@ define(["./module"], function(module) {
     "$scope", "$http", "$upload", "appUser", "common", "config", "logger", "cAPI", function($scope, $http, $upload, appUser, common, config, log, API) {
       var spinnerEv;
       spinnerEv = config.events.ToggleSpinner;
+      $scope.editing = false;
       $scope.uploadPhoto = function(files) {
         common.broadcast(spinnerEv, {
           show: true
@@ -18,8 +19,12 @@ define(["./module"], function(module) {
           });
         });
       };
+      $scope.editProfile = function() {
+        return $scope.editing = true;
+      };
       return $scope.updateProfile = function() {
-        return $http.post(API.updateProfile).success(function() {
+        $scope.editing = false;
+        return $http.post(API.updateProfile, appUser).success(function() {
           return log.success("Profile updated");
         }).error(function(e) {
           return log.error(e);
