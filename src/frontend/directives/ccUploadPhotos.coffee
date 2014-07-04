@@ -51,11 +51,11 @@ define ["./module"], (module) ->
 							return false
 
 						setupClassic = ->
-							
+							return false
+
 						setupDnD = ->
 							parent = $(element).find(".photo-uploader")
 							holders = parent.find(".photo-holder")
-
 							previewFile = (holder, file) ->
 								return if file.type not in acceptedTypes
 								reader = new FileReader()

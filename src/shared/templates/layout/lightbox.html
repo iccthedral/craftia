@@ -1,15 +1,17 @@
-<div class="lightbox">
-    <div class="lightbox-tiles">
-      <div class="row">
-        <div class="col-xs-12 col-md-12">
-          <span data-ng-repeat="i in images" ng-click="displayImage(i)">
-            <div class="col-xs-2 col-md-2">
-              <a href="javascript:void()" class="thumbnail">
-                <img width="{{tileWidth}}px" height="{{tileHeight}}px" ng-src="img/{{i.src}}">
-              </a>
+<div class="fluid-container panel panel-default photo-uploader">
+  <script src="holder.js">
+  </script>
+  <div class="row panel-body lightbox-tiles text-center">
+          <div data-ng-repeat="i in images" ng-click="displayImage(i)" class="col-xs-6 col-md-3">
+            <div class="thumbnail photo-holder lightbox-photo">
+              <img src="holder.js/200x200/text:Photo" ng-src="img/{{i.src}}" alt="..." >
             </div>
-          </span>
-        </div>
-      </div>
-    </div>
+          </div>
+
+          <div class="row text-center"> 
+            <textarea ng-show="inFocus" ng-model="focused.description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea">
+              {{focused.description}}
+            </textarea>
+          </div>
+  </div>
 </div>

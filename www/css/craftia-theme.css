@@ -114,6 +114,12 @@ src: url("../fonts/Vegur-Regular.otf") format("truetype");
   border-color: rgb(217, 237, 247);
 }
 
+.lightbox-photo:hover {
+  border-style: dashed;
+  border-width: 4px;
+  border-color: rgb(217, 237, 247);
+}
+
 .table .bottom-2-dashed {
   border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }

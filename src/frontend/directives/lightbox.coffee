@@ -49,7 +49,7 @@ define ["./module"], (module) ->
 								selectedImageIndex: ->
 									return $scope.selectedImageIndex
 						}
-
+						
 					$scope.displayImage = (img) ->
 						$scope.selectedImageIndex = $scope.images.indexOf img
 						$scope.open()

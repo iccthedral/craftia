@@ -79,7 +79,7 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 	
 	queryParams = 
 		status: jobStatus
-		author: user
+		author: mongoose.Types.ObjectId user._id
 
 	if jobStatus is "all"
 		delete queryParams.status
@@ -91,9 +91,11 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 		select: "-password"
 		model: "User"
 	}
+	.select("-bidders.password")
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->
+		console.error(jobs.length);
 		return res.status(422).send err if err?
 		out = {}
 		out.jobs = jobs

@@ -32,6 +32,8 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 		
 		saveJobPhoto = (photo, clb) ->
 			base64img = photo.src
+			base64img = base64img.split(";base64,")[1]
+
 			randPath = crypto.randomBytes(20).toString "hex"
 			path = "#{usr._id}/#{randPath}"
 			fs.writeFile "#{IMG_FOLDER}#{path}", base64img, {encoding: "base64"}, (err) ->
@@ -46,7 +48,8 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 				return clb err if err?
 				usr.save (err, cnt) ->
 					clb err, job, usr
-		photos = jobData.jobPhotos.slice().filter (photo) -> return photo.src?
+					
+		photos = jobData.jobPhotos.slice().filter (photo) -> photo if photo?.src?
 
 		if photos?.length > 0
 			async.mapSeries photos, saveJobPhoto, (err, urls) ->
