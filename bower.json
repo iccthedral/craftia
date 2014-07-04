@@ -10,6 +10,7 @@
     "angular-ui-router": "~0.2.10",
     "requirejs-plugins": "~1.0.2",
     "angular-carousel": "~0.2.3",
-    "gmaps": "~0.4.13"
+    "gmaps": "~0.4.13",
+    "holderjs": "~2.3.2"
   }
 }

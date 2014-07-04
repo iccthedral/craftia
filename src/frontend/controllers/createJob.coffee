@@ -18,27 +18,8 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				dateFrom: new Date
 				dateTo: new Date
 
-			job.jobPhotos = [
-				{
-					img: null
-					description: ""
-				}
-				{
-					img: null
-					description: ""
-				}
-				{
-					img: null
-					description: ""
-				}
-				{
-					img: null
-					description: ""
-				}
-			]
-
+			job.jobPhotos = []
 			$scope.job = job
-			$scope.currentPhotoIndex = 0
 			$scope.subcategories = []
 			$scope.categories = Object.keys(categories)
 			
@@ -52,15 +33,10 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					$scope.subcategories = data.subcategories.slice()
 					$scope.$digest()
 
-			$scope.setFocusOnPhoto = (index) ->
-				if not job.jobPhotos[index].img?
-					$scope.currentPhotoIndex = null
-				else
-					$scope.currentPhotoIndex = index
-
 			$scope.create = ->
 				$http.post API.createJob, job
 				.success (data) ->
+					console.log data
 					log.success "Job created!"
 					appUser.createdJobs or= []
 					appUser.createdJobs.push data
@@ -78,7 +54,8 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				$scope.firstStep = true
 				$scope.secondStep = false
 
-			$scope.storeJobPhoto = (img, index) ->
-				$scope.currentPhotoIndex = index
-				job.jobPhotos[index].img = img.src;
+			$scope.photoUploaded = (file, content) ->
+				console.log file, content
+				console.log job
+				# job.jobPhotos[index].img = content
 	]

@@ -4,6 +4,7 @@ define [
 	"directives/ccWidgetMinimize"
 	"directives/ccWidgetClose"
 	"directives/ccNavigation"
+	"directives/ccUploadPhotos"
 	"directives/crNotAuth"
 	"directives/crAuth"
 	"directives/crDate"

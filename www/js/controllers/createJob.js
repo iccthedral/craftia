@@ -10,23 +10,8 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         dateFrom: new Date,
         dateTo: new Date
       };
-      job.jobPhotos = [
-        {
-          img: null,
-          description: ""
-        }, {
-          img: null,
-          description: ""
-        }, {
-          img: null,
-          description: ""
-        }, {
-          img: null,
-          description: ""
-        }
-      ];
+      job.jobPhotos = [];
       $scope.job = job;
-      $scope.currentPhotoIndex = 0;
       $scope.subcategories = [];
       $scope.categories = Object.keys(categories);
       $scope.getCities = function() {
@@ -41,15 +26,9 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
           return $scope.$digest();
         });
       };
-      $scope.setFocusOnPhoto = function(index) {
-        if (job.jobPhotos[index].img == null) {
-          return $scope.currentPhotoIndex = null;
-        } else {
-          return $scope.currentPhotoIndex = index;
-        }
-      };
       $scope.create = function() {
         return $http.post(API.createJob, job).success(function(data) {
+          console.log(data);
           log.success("Job created!");
           appUser.createdJobs || (appUser.createdJobs = []);
           appUser.createdJobs.push(data);
@@ -68,9 +47,9 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         $scope.firstStep = true;
         return $scope.secondStep = false;
       };
-      return $scope.storeJobPhoto = function(img, index) {
-        $scope.currentPhotoIndex = index;
-        return job.jobPhotos[index].img = img.src;
+      return $scope.photoUploaded = function(file, content) {
+        console.log(file, content);
+        return console.log(job);
       };
     }
   ]);

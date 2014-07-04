@@ -31,6 +31,7 @@ require.config
 		"jqueryui": "../vendor/jquery-ui/ui/minified/jquery-ui.min"
 		"moment": "../vendor/angular/moment.min"
 		"gmaps": "../vendor/gmaps/gmaps"
+		"holder": "../vendor/holderjs/holder"
 
 		"ngFileUpload": "../vendor/ng-file-upload/angular-file-upload"
 		"ngBootstrap": "../vendor/angular/bootstrap"
@@ -52,7 +53,7 @@ require.config
 		
 		toastr:
 			deps: [ "jquery" ]
-		
+
 		gmaps:
 			exports: "GMaps"
 
@@ -90,6 +91,7 @@ require.config
 	deps: [
 		"util"
 		"jqueryui"
+		"holder"
 		"async!http://maps.google.com/maps/api/js?sensor=true"
 		"lzstring"
 		"angular"

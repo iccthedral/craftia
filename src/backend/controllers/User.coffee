@@ -15,6 +15,8 @@ MessageModel 				= require "../models/Message"
 NotificationsModel	= require "../models/Notification"
 JobCtrl 						= require "../controllers/Job"
 
+IMG_FOLDER = "#{process.cwd()}/www/img/"
+
 module.exports.setup = (app) ->
 	# logout user
 	app.get "/logout", logOutHandler
@@ -41,11 +43,11 @@ module.exports.setup = (app) ->
 	app.post "/user/registerCustomer", registerCustomerHandler
 
 module.exports.saveUser = saveUser = (user, res) ->
-	user.save (err) ->
-		#console.error "SAVING USER", err
+	user.save (err, user) ->
 		return res.status(422).send "Registering failed!" if err?
-		res.send {user: user, msg: "Registering succeeded!"}
-
+		fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
+			return res.status(422).send "Registering failed!" if err?
+			res.send {user: user, msg: "Registering succeeded!"}
 
 module.exports.notificationsHandler = notificationsHandler = (req, res) ->
 	page = req.params.page or 0

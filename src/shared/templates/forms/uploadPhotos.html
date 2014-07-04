@@ -1,0 +1,28 @@
+<script src="holder.js">
+</script>
+
+<div class="fluid-container panel panel-default photo-uploader">
+	<div class="row panel-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<header>
+					<h5>You can drag & drop here</h5>
+					<progress id="progress" min="0" max="100" value="0" class="text-center">0</progress>
+				</header>
+
+			  <div ng-repeat="img in photos" class="col-xs-6 col-md-3">
+			    <div class="thumbnail photo-holder" ng-click="onClick(img)" photo-id="{{$index}}">
+			    	<input type="file" id="file-{{$index}}" name="file-{{$index}}" ng-show="dndDisabled"/>
+			      <img src="holder.js/200x200/text:Photo" alt="...">
+			    </div>
+			  </div>
+
+				<div class="row text-center"> 
+		    	<textarea ng-show="inFocus" ng-model="focused.description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea">
+		    		{{focused.description}}
+		    	</textarea>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

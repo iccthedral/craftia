@@ -69,7 +69,7 @@ define ["./module"], (module) ->
 				$http.get API.getMyJobs.format("#{pageIndex}","#{jobStatus}")
 				.success (data) ->
 					for job in data.jobs
-						job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
+						job.jobPhotos = job.jobPhotos.filter (img) -> img?.src?
 					$scope.totalJobs = data.totalJobs
 					$scope.jobs = data.jobs
 					$scope.filteredJobs = data.jobs.slice()

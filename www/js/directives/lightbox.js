@@ -10,7 +10,7 @@ define(["./module"], function(module) {
         $scope.selectedImageIndex = selectedImageIndex + 1;
         $scope.selectedImage = images[selectedImageIndex];
         $scope.source = function(img) {
-          return img.img;
+          return img.src;
         };
         $scope.hasPrev = function() {
           return $scope.selectedImageIndex !== 0;

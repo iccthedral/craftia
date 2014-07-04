@@ -115,7 +115,7 @@ define(["require", "angular", "routes", "app"], function(require, ng, routes, ap
       document: document,
       element: document,
       module: "app",
-      injectorModules: ["ng", "ngRoute", "app.customControllers", "app.factories", "app.services", "app.controllers", "app.filters", "app.directives", "app.constants"],
+      injectorModules: ["ng", "ngRoute", "app.customControllers", "app.factories", "app.services", "app.controllers", "app.filters", "app.constants"],
       onError: function() {
         return alert("TERRIBLE ERROR!");
       },

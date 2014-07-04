@@ -102,6 +102,18 @@ src: url("../fonts/Vegur-Regular.otf") format("truetype");
   -o-transition: text-shadow 0.5s; /* Opera */
 }
 
+.photo-holder {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: rgb(217, 237, 247);
+}
+
+.photo-holder-hover {
+  border-style: dashed;
+  border-width: 4px;
+  border-color: rgb(217, 237, 247);
+}
+
 .table .bottom-2-dashed {
   border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }

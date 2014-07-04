@@ -110,13 +110,12 @@ define [
 				"app.services"
 				"app.controllers"
 				"app.filters"
-				"app.directives"
 				"app.constants"
 			]
 			
 			onError: ->
 				alert "TERRIBLE ERROR!"
-
+				
 			resolve:
 				USER_DETAILS: [
 					"cAPI"

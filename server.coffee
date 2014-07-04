@@ -1,4 +1,5 @@
 cs = require "coffee-script/register"
+fixtures = require "./createFixtures.js"
 express = require "express"
 mongoose = require "mongoose"
 handlebars = require "express3-handlebars"
@@ -46,11 +47,14 @@ app.configure ->
 	router app, passport
 
 app.use (err, req, res, next) ->
-	console.error err, err.message, typeof err
 	res.send err
 
 app.use express.static "www/"
 
 linkDir cwd + "/src/shared", cwd + "/www/shared", ->
-	server = app.listen PORT
-	console.log "Running on: #{PORT}"
+	console.error err if err?
+	createCatsAndCities = require "./src/backend/modules/ExportToDB.coffee"
+	createCatsAndCities (err) ->
+		console.error err if err?
+		server = app.listen PORT
+		console.log "Running on: #{PORT}"

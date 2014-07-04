@@ -16,6 +16,8 @@ _ 							= require "underscore"
 AuthLevels      = require "../config/AuthLevels"
 UserCtrl				= require "../controllers/User"
 
+IMG_FOLDER = "#{process.cwd()}/www/img/"
+
 module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 	if usr.type isnt AuthLevels.CUSTOMER
 		return clb "You don't have permissions to create a new job"
@@ -26,13 +28,13 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 	]
 	, (err, results) ->
 		return clb err if err?
-		delete jobData._id 
+		delete jobData._id
 		
 		saveJobPhoto = (photo, clb) ->
-			base64img = photo.img
-			path = crypto.randomBytes(20).toString "hex"
-			#console.log base64img
-			fs.writeFile path, base64img, {encoding: "base64"}, (err) ->
+			base64img = photo.src
+			randPath = crypto.randomBytes(20).toString "hex"
+			path = "#{usr._id}/#{randPath}"
+			fs.writeFile "#{IMG_FOLDER}#{path}", base64img, {encoding: "base64"}, (err) ->
 				clb err, path
 
 		finish = ->
@@ -44,15 +46,15 @@ module.exports.saveJob = saveJob = (usr, jobData, clb) ->
 				return clb err if err?
 				usr.save (err, cnt) ->
 					clb err, job, usr
-		
-		photos = jobData.jobPhotos.slice().filter (photo) -> return photo.img?
+		photos = jobData.jobPhotos.slice().filter (photo) -> return photo.src?
 
-		if photos.length > 0
+		if photos?.length > 0
 			async.mapSeries photos, saveJobPhoto, (err, urls) ->
-				jobData.jobPhotos = jobData.jobPhotos.forEach (photo) ->
-					photo.img = urls.shift()
+				jobData.jobPhotos = jobData.jobPhotos.map (photo) ->
+					photo.src = urls.shift()
+					return photo
 				finish()
-		else finish()		
+		else finish()
 
 module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 	if not usr? or (usr.type isnt AuthLevels.CRAFTSMAN)

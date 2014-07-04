@@ -49,7 +49,7 @@ define(["./module"], function(module) {
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             job = _ref[_i];
             job.jobPhotos = job.jobPhotos.filter(function(img) {
-              return img.img != null;
+              return (img != null ? img.src : void 0) != null;
             });
           }
           $scope.totalJobs = data.totalJobs;

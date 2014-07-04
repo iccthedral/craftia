@@ -1,5 +1,13 @@
 define(["app", "angular"], function(app, ng) {
   return app.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider.state("index", {
+      url: "",
+      controller: [
+        "$state", "appUser", function($state, appUser) {
+          return $state.go(appUser.getType);
+        }
+      ]
+    });
     $stateProvider.state("anon", {
       url: "/anon",
       views: {
@@ -278,22 +286,18 @@ define(["app", "angular"], function(app, ng) {
         fromState = fromState.name;
         $(".shellic").fadeOut(500);
         $(".shellic").fadeIn(500);
-        logger.log("lastState: " + lastState + ", isLogged: " + isLoggedIn + ", utype: " + type + ", " + fromState + " -> " + toState.name);
         if (!typeRe.test(nextState)) {
           logger.log("Access denied to state " + nextState);
           ev.preventDefault();
           if (lastState !== nextState) {
             lastState || (lastState = appUser.getType);
             logger.log("Trying state " + lastState);
-            $state.go(lastState);
+            return $state.go(lastState);
           }
         }
-        logger.log("Next state: " + nextState);
-        return logger.log("Last good state: " + lastState);
       });
       return $rootScope.$on("$stateChangeSuccess", function(ev, toState, toParams, fromState, fromParams) {
-        lastState = toState.name;
-        return logger.log("Activated state " + lastState);
+        return lastState = toState.name;
       });
     }
   ]);

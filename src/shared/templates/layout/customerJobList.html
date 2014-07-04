@@ -139,27 +139,11 @@
 		</div>
 
 		<div id="pics-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
-			<div class="job-photo-upload-form" id="job-photo-upload-form">
-
-            <span id="holder1" class="job-photo-holder" ng-click="setFocusOnPhoto(0)" ng-src="job.photos[0]">
-            </span>
-
-            <span id="holder2" class="job-photo-holder" ng-click="setFocusOnPhoto(1)" ng-src="job.photos[1]">
-            </span>
-
-            <span id="holder3" class="job-photo-holder" ng-click="setFocusOnPhoto(2)" ng-src="job.photos[2]">
-            </span> 
-
-            <span id="holder4" class="job-photo-holder" ng-click="setFocusOnPhoto(3)" ng-src="job.photos[3]">
-            </span>
-          
-          <textarea ng-show="currentPhotoIndex!==null" ng-model="job.jobPhotos[currentPhotoIndex].description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea"></textarea>
-          </div>
-			
+			<lightbox images="{{job.jobPhotos}}"></lightbox>			
 		</div>
 		
 		<div id="info-div-{{$index}}" style="height: 70px; display: none" class="peach-div row">
-			<table  class="table bidders-table table-striped helvetica-neue widget-content">
+			<table class="table bidders-table table-striped helvetica-neue widget-content">
 					<thead>
 						<tr>
 							<th>Author</th>

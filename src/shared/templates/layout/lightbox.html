@@ -5,7 +5,7 @@
           <span data-ng-repeat="i in images" ng-click="displayImage(i)">
             <div class="col-xs-2 col-md-2">
               <a href="javascript:void()" class="thumbnail">
-                <img width="{{tileWidth}}px" height="{{tileHeight}}px" data-ng-src="{{i.img}}">
+                <img width="{{tileWidth}}px" height="{{tileHeight}}px" ng-src="img/{{i.src}}">
               </a>
             </div>
           </span>

@@ -2,6 +2,14 @@ define ["app", "angular"], (app, ng) ->
 
 	app.config ($stateProvider, $urlRouterProvider) ->
 		$stateProvider
+		.state "index", {
+			url: ""
+			controller: ["$state", "appUser", ($state, appUser) ->
+				$state.go appUser.getType
+			]
+		}
+		
+		$stateProvider
 		.state "anon", {
 			url: "/anon"
 			views:
@@ -270,7 +278,7 @@ define ["app", "angular"], (app, ng) ->
 				$(".shellic").fadeOut 500
 				$(".shellic").fadeIn 500
 				
-				logger.log "lastState: #{lastState}, isLogged: #{isLoggedIn}, utype: #{type}, #{fromState} -> #{toState.name}"
+				#logger.log "lastState: #{lastState}, isLogged: #{isLoggedIn}, utype: #{type}, #{fromState} -> #{toState.name}"
 
 				if not typeRe.test nextState
 					logger.log "Access denied to state #{nextState}"
@@ -280,12 +288,12 @@ define ["app", "angular"], (app, ng) ->
 						logger.log "Trying state #{lastState}"
 						$state.go lastState
 
-				logger.log "Next state: #{nextState}"
-				logger.log "Last good state: #{lastState}"
+				#logger.log "Next state: #{nextState}"
+				#logger.log "Last good state: #{lastState}"
+				#logger.log "Activated state #{lastState}"
 
 			$rootScope
 			.$on "$stateChangeSuccess", (ev, toState, toParams, fromState, fromParams) ->
 				lastState = toState.name
-				logger.log "Activated state #{lastState}"
 	]
 

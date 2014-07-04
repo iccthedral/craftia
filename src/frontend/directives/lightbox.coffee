@@ -13,7 +13,7 @@ define ["./module"], (module) ->
 				$scope.selectedImage = images[selectedImageIndex]
 
 				$scope.source = (img) ->
-					return img.img
+					return img.src
 
 				$scope.hasPrev = ->
 					return $scope.selectedImageIndex isnt 0
@@ -50,7 +50,7 @@ define ["./module"], (module) ->
 									return $scope.selectedImageIndex
 						}
 
-					$scope.displayImage =  (img) ->
+					$scope.displayImage = (img) ->
 						$scope.selectedImageIndex = $scope.images.indexOf img
 						$scope.open()
 			}

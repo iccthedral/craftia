@@ -1,6 +1,7 @@
 	var cs = require("coffee-script/register")
 	, UserModel = require("./src/backend/models/User")
 	, JobCtrl = require("./src/backend/controllers/Job")
+	, fs = require("fs")
 	, saveJob = JobCtrl.saveJob
 	, bidOnJob = JobCtrl.bidOnJob
 	, async = require("async")
@@ -21,6 +22,8 @@
 			jobPhotos: []
 		}
 	, JOB_DATE_TO = 10
+	, DB = require("./src/backend/config/Database")
+	, IMG_FOLDER = process.cwd() + "/www/img/"
 	;
 
 function customerNames() {
@@ -53,8 +56,10 @@ function createCustomer(name, clb) {
 	};
 	out.profilePic = "img/" + pics[Math.round(Math.random())] + ".jpg";
 	var user = new UserModel(out);
-	user.save(function(err, res) {
-		clb(err, res);
+	user.save(function(err, user) {
+		fs.mkdir(IMG_FOLDER + user._id, function(err) {
+			clb(err, user);
+		});
 	})
 
 	createdCustomers.push(user);
@@ -78,8 +83,10 @@ function createCraftsman(name, clb) {
 	};
 	out.profilePic = "img/" + pics[Math.round(Math.random())] + ".jpg";
 	var user = new UserModel(out);
-	user.save(function(err, res) {
-		clb(err, res);
+	user.save(function(err, user) {
+		fs.mkdir(IMG_FOLDER + user._id, function(err) {
+			clb(err, user);
+		});
 	})
 	createdCraftsmen.push(user);
 };
@@ -117,7 +124,7 @@ function createJob(customer, clb) {
 	
 	var numPhotos = ~~(Math.random() * jobPhotos.length);
 	while (numPhotos-- > 0) {
-		job.jobPhotos.push("img/" + jobPhotos[numPhotos] + ".jpg");
+		//job.jobPhotos.push("img/" + jobPhotos[numPhotos] + ".jpg");
 	}
 	
 	saveJob(customer, job, clb);
@@ -149,18 +156,17 @@ function bidOnJobs(jobs, craftsmen, clb) {
 }
 
 function create(clb) {
-	var DB = require("./src/backend/config/Database");
-	var createCatsAndCities = require("./src/backend/modules/ExportToDB");
-	DB.once("open", function() {
+	var createCatsAndCities = require("./src/backend/modules/ExportToDB.coffee");
+	var create_ = function() {
+		console.log(clb, "creating callbacks")
 		createCatsAndCities(function(err, catsAndCities) {
+			console.log("creating cats")
 			if (err) {
-				DB.close();
 				return clb(err, catsAndCities);
 			}
 			createUsers(function(err, users) {
 				console.log("Created", users.length, "users");
 				if (err) {
-					DB.close();
 					return clb(err, users);
 				}
 				createJobs(createdCustomers, function(err, jobs) {
@@ -170,8 +176,9 @@ function create(clb) {
 					})
 				})
 			})
-		})
-	});
+		});
+	};
+	create_();
 }
 
 module.exports.customerNames = customerNames;

@@ -1,15 +1,29 @@
-<div class="widget wcyan">
-    <div data-cc-widget-header title="{{title2}}"
-         allow-collapse="true"></div>
+<div class="col-md-2"></div>
+<div class="widget wcyan col-md-8">
+  <div data-cc-widget-header title="{{title2}}" allow-collapse="true">
+  </div>
+  <cc-upload-photos upload="photoUploaded(file, rawImg)" photos="job.jobPhotos" num="4">
+  </cc-upload-photos>
+  
+  <div class="btn-group col-md-12 text-center">
+       <span>
+          <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="prevStep()"><i class="fa fa-arrow-left"></i> Previous</button>
+      </span>
+      <span>
+          <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="create()"><i class="fa fa-check"></i>Create</button>
+      </span>
+  </div>
 
-    <div class="widget-content right-partial-view fluid-container">
-        <form class="form-horizontal">
+</div>
+<div class="col-md-2"></div>
+
+    <!-- <div class="widget-content right-partial-view fluid-container"> -->
+<!--         <form class="form-horizontal">
             <fieldset>
                 <header>
                   <h5>You can drag & drop here</h5>
                 </header>
-                <div class="job-photo-upload-form" id="job-photo-upload-form">
-
+                <div class="job-photo-upload-form" id="job-photo-upload-form" cc-upload-photos>
                   <span id="holder1" class="job-photo-holder" ng-click="setFocusOnPhoto(0)" ng-src="job.photos[0]">
                     <input name="photo1" id="uploadBtn" type="file" class="upload" />
                   </span>
@@ -26,10 +40,10 @@
                     <input name="photo4" id="uploadBtn" type="file" class="upload" />
                   </span>
                 
-                <textarea ng-show="currentPhotoIndex!==null" ng-model="job.jobPhotos[currentPhotoIndex].description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea"></textarea>
+                  <textarea ng-show="currentPhotoIndex!==null" ng-model="job.jobPhotos[currentPhotoIndex].description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea"></textarea>
                 </div>
                 
-                <!-- Button -->
+                < Button 
                 <div class="btn-group col-md-12 text-center">
                      <span>
                         <button id="register-submit" name="register-submit" class="btn btn-primary" ng-click="prevStep()"><i class="fa fa-arrow-left"></i> Previous</button>
@@ -39,9 +53,8 @@
                     </span>
                 </div>
             </fieldset>
-        </form>
-    </div>
-</div>
+        </form> -->
+
 <script>
 
 var $holders = $("span[id^='holder'");
