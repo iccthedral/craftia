@@ -29,6 +29,7 @@ require.config({
     "moment": "../vendor/angular/moment.min",
     "gmaps": "../vendor/gmaps/gmaps",
     "holder": "../vendor/holderjs/holder",
+    "rateit": "../vendor/jquery.rateit.min",
     "ngFileUpload": "../vendor/ng-file-upload/angular-file-upload",
     "ngBootstrap": "../vendor/angular/bootstrap",
     "ngBootstrapTpls": "../vendor/angular/ui-bootstrap-tpls-0.10.0",
@@ -41,6 +42,9 @@ require.config({
     "ngAnimate": "../vendor/angular/angular-animate"
   },
   shim: {
+    rateit: {
+      deps: ["jquery"]
+    },
     jqueryui: {
       deps: ["jquery"]
     },
@@ -85,5 +89,5 @@ require.config({
       deps: ["angular"]
     }
   },
-  deps: ["util", "jqueryui", "holder", "async!http://maps.google.com/maps/api/js?sensor=true", "lzstring", "angular", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls", "bootstrap"]
+  deps: ["util", "jqueryui", "holder", "rateit", "async!http://maps.google.com/maps/api/js?sensor=true", "lzstring", "angular", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls", "bootstrap"]
 });

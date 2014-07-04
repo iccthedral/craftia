@@ -23,6 +23,8 @@ module.exports.setup = (app) ->
 
 	app.get "/user/getMyJobs/:page/:jobStatus", getMyJobsHandler
 
+	app.get "/user/getBiddedJobs/:page/:jobStatus", getBiddedJobsHandler
+
 	app.get "/user/craftsmen/:page", listCraftsmenHandler
 
 	app.get "/user/getNotifications/:page" , notificationsHandler
@@ -81,13 +83,42 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 
 	if jobStatus is "all"
 		delete queryParams.status
-
-	#console.error queryParams
 	
 	JobModel
 	.find queryParams
 	.populate {
 		path: "bidders"
+		select: "-password"
+		model: "User"
+	}
+	.limit perPage
+	.skip perPage * page
+	.exec (err, jobs) ->
+		return res.status(422).send err if err?
+		out = {}
+		out.jobs = jobs
+		JobModel.count queryParams, (err, cnt) ->
+			return res.status(422).send err if err?
+			out.totalJobs = cnt
+			res.send out
+
+module.exports.getBiddedJobsHandler = getBiddedJobsHandler = (req, res) ->
+	page = req.params.page or 0
+	user = req.user
+	jobStatus = req.params.jobStatus or "all"
+	perPage = 5
+	
+	queryParams = 
+		status: jobStatus
+
+	if jobStatus is "all"
+		delete queryParams.status
+	
+	JobModel
+	.find queryParams
+	.elemMatch("bidders", _id:user._id)
+	.populate {
+		path: "author"
 		select: "-password"
 		model: "User"
 	}

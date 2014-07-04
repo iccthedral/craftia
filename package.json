@@ -46,7 +46,9 @@
     "unzip": "^0.1.9",
     "node-notifier": "^3.0.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mongo-edit": "^0.6.0"
+  },
   "subdomain": "craftia",
   "engines": {
     "node": "0.10.x"

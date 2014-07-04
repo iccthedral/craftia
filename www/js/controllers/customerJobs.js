@@ -1,7 +1,7 @@
 define(["./module"], function(module) {
   return module.controller("CustomerJobsCtrl", [
-    "$scope", "$http", "$state", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, API, logger, common, config, categoryPictures, gmaps, dialog) {
-      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showProfile, state;
+    "$scope", "$http", "$state", "$timeout", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, $timeout, API, logger, common, config, categoryPictures, gmaps, dialog) {
+      var activate, bindRateClick, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showProfile, showStars, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -11,12 +11,53 @@ define(["./module"], function(module) {
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
       $scope.jobStatus = "all";
+      $scope.rateIndex = $scope.sizePerPage;
       $scope.mapContainer = "#gmaps-div-0";
       $scope.picsContainer = "#pics-div-0";
       $scope.infoContainer = "#info-div-0";
       $scope.profileContainer = "#profile-div-0";
       $scope.tempJob = {};
       $scope.editIndex = $scope.sizePerPage;
+      bindRateClick = function(index) {
+        $scope.rateIndex = index;
+        return $("#rate-div-" + index).bind('rated', function(event, value) {
+          return dialog.confirmationDialog({
+            title: "Rate job?",
+            template: "confirm",
+            okText: "Yes",
+            scope: {
+              mark: $(("#rate-div-" + $scope.rateIndex).rateit('value')),
+              jobId: $scope.filteredJobs[rateIndex]
+            },
+            onOk: function() {
+              $http.post(API.rateJob.format("" + scope.jobId, "" + scope.mark)).success(function() {
+                common.broadcast(config.events.ToggleSpinner, {
+                  show: true
+                });
+                return logger.success("Job rated!");
+              }).error(function(err) {
+                return logger.error(err);
+              })["finally"](function() {
+                return common.broadcast(config.events.ToggleSpinner, {
+                  show: false
+                });
+              });
+              return console.log("Send", scope);
+            },
+            onCancel: function() {
+              return console.log("Cancel", scope);
+            }
+          });
+        });
+      };
+      $timeout(bindRateClick, 0);
+      $scope.showStars = showStars = function(index) {
+        $("#rate-div-" + index).rateit({
+          max: 5,
+          step: 1,
+          backingfld: "#rate-div-" + index
+        }).show();
+      };
       $scope.editJob = editJob = function(index) {
         return $scope.editIndex = index;
       };
@@ -151,9 +192,7 @@ define(["./module"], function(module) {
           curEl.slideDown();
         }
       };
-      $scope.pickWinner = pickWinner = function(bidderId, index) {
-        var job;
-        job = $scope.filteredJobs[index];
+      $scope.pickWinner = pickWinner = function(bidderId, job) {
         return dialog.confirmationDialog({
           title: "Pick winner?",
           template: "confirm",

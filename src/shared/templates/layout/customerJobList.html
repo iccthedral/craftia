@@ -91,43 +91,53 @@
 				    </td>
 
 				    <td colspan="4" rowspan="2" class="borderless yellow-tblock left-2-dashed">
-						<table ng-show="job.status==='open'" class="table bidders-table table-striped helvetica-neue widget-content">
-						<thead>
-							<tr>
-								<th>Username</th>
-								<th>Name</th>
-								<th>Surname</th>
-								<th>Rating</th>
-								<th>Send message </th>
-								<th>Pick winner </th>
-							</tr>
-						</thead>
-						<tbody>
-						  <tr ng-repeat="bidder in job.bidders">
-						  	<td>{{bidder.username}}</td>
-						    <td>{{bidder.name}}</td>
-						    <td>{{bidder.surname}}</td>
-						    <td>{{bidder.rating.avgRate}}</td>
-						    <td>
-						    	<button class="btn btn-success" ng-click="sendMessage(bidder.username)" >
-						    		 Send message
-					    		</button>
-						    </td>
-						    <td>
-						    	<button class="btn btn-success" ng-click="pickWinner(bidder._id,$parent.$index)" >
-						    		 Accept
-					    		</button>
-						    </td>
-						  </tr>
-						</tbody>
-						</table>
+
+				    	<button ng-show="job.status==='finished'" class="btn btn-success" ng-click="showStars($index)"> Rate job</button>
+					    <div class="rateit bigstars" id="rate-div-{{$index}}" data-rateit-starwidth="32" data-rateit-starheight="32">
+					    	
+					    </div>
+
+							<table ng-show="job.status==='open'" class="table bidders-table table-striped helvetica-neue widget-content">
+								<thead>
+									<tr>
+										<th>Username</th>
+										<th>Name</th>
+										<th>Surname</th>
+										<th>Rating</th>
+										<th>Send message </th>
+										<th>Pick winner </th>
+									</tr>
+								</thead>
+								<tbody>
+								  <tr ng-repeat="bidder in job.bidders">
+								  	<td>{{bidder.username}}</td>
+								    <td>{{bidder.name}}</td>
+								    <td>{{bidder.surname}}</td>
+								    <td>
+								    	<div class="user-rating-box rating-stars">
+		 										<rating readonly="true" value="bidder.rating.avgRate"></rating>
+											</div>
+								    </td>
+								    <td>
+								    	<button class="btn btn-success" ng-click="sendMessage(bidder.username)" >
+								    		 Send message
+							    		</button>
+								    </td>
+								    <td>
+								    	<button class="btn btn-success" ng-click="pickWinner(bidder._id, job)" >
+								    		 Accept
+							    		</button>
+								    </td>
+								  </tr>
+								</tbody>
+							</table>
 				    </td>
 				  </tr>
 				  
 				  <tr>
 				    <td class="borderless yellow-tblock text-center" colspan="4">
 				    	<i ng-click="showMap($index)" class="fa fa-map-marker map-marker-3x fa-3x"></i>
-				    	<span class="bold-span">{{job.address.city}} {{job.address.line1}}</span>
+				    	<span class="bold-span">{{job.address.city}}, {{job.address.line1}}</span>
 				    </td>
 				  </tr>
 				</tbody>
@@ -159,9 +169,9 @@
 					</thead>
 					<tbody>
 					  <tr>
-					  	<td>{{appUser.username}}</td>
-					    <td>{{appUser.name}}</td>
-					    <td>{{appUser.surname}}</td>
+					  	<td>{{job.author.username}}</td>
+					    <td>{{job.author.name}}</td>
+					    <td>{{job.author.surname}}</td>
 					    <td cr-date="{{job.dateFrom}}"></td>
 					    <td cr-date="{{job.dateTo}}"></td>
 					    <td>

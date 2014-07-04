@@ -1,5 +1,5 @@
 define ["./module"], (module) ->
-	module.controller "CraftsmanFindJobsCtrl" , [
+	module.controller "CraftsmanMyJobsCtrl" , [
 		"$scope"
 		"$http"
 		"$state"
@@ -25,20 +25,23 @@ define ["./module"], (module) ->
 			$scope.picsContainer = "#pics-div-0"
 			$scope.infoContainer = "#info-div-0"
 			$scope.profileContainer = "#profile-div-0"
+			$scope.jobStatus = "all"
 
-			$scope.getPage = getPage = (pageIndex, ignore) ->
-				if ignore
+			$scope.getPage = getPage = (pageIndex, status) ->
+				if status is $scope.jobStatus && pageIndex is $scope.currentPage
 					return
-				common.broadcast config.events.ToggleSpinner, show:true
-				$http.get API.getPagedOpenJobs.format("#{pageIndex}")
-				.success (data) ->
-					for job in data.jobs
-						job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
-					$scope.totalJobs = data.totalJobs
-					$scope.jobs = data.jobs
-					$scope.filteredJobs = data.jobs.slice()
-				.finally ->
-					common.broadcast config.events.ToggleSpinner, show:false
+				else 
+					$scope.jobStatus = status
+					common.broadcast config.events.ToggleSpinner, show:true
+					$http.get API.getBiddedJobs.format("#{pageIndex}","#{$scope.jobStatus}")
+					.success (data) ->
+						for job in data.jobs
+							job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
+						$scope.totalJobs = data.totalJobs
+						$scope.jobs = data.jobs
+						$scope.filteredJobs = data.jobs.slice()
+					.finally ->
+						common.broadcast config.events.ToggleSpinner, show:false
 					
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
@@ -161,5 +164,5 @@ define ["./module"], (module) ->
 				# 	msg.subject.indexOf(text) isnt -1 or msg.message.indexOf(text) isnt -1
 				
 			do activate = ->
-				common.activateController [ getPage 0 ], "CraftsmanFindJobsCtrl"
+				common.activateController [ getPage 0 ], "CraftsmanMyJobsCtrl"
 	]

@@ -32,6 +32,7 @@ require.config
 		"moment": "../vendor/angular/moment.min"
 		"gmaps": "../vendor/gmaps/gmaps"
 		"holder": "../vendor/holderjs/holder"
+		"rateit": "../vendor/jquery.rateit.min"
 
 		"ngFileUpload": "../vendor/ng-file-upload/angular-file-upload"
 		"ngBootstrap": "../vendor/angular/bootstrap"
@@ -45,6 +46,9 @@ require.config
 		"ngAnimate": "../vendor/angular/angular-animate"
 
 	shim:
+		rateit:
+			deps: [ "jquery" ]
+
 		jqueryui:
 			deps: [ "jquery" ]
 		
@@ -92,6 +96,7 @@ require.config
 		"util"
 		"jqueryui"
 		"holder"
+		"rateit"
 		"async!http://maps.google.com/maps/api/js?sensor=true"
 		"lzstring"
 		"angular"

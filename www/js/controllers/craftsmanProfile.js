@@ -1,5 +1,5 @@
 define(["./module"], function(module) {
-  return module.controller("CustomerProfileCtrl", [
+  return module.controller("CraftsmanProfileCtrl", [
     "$scope", "$http", "$upload", "appUser", "common", "config", "logger", "cAPI", function($scope, $http, $upload, appUser, common, config, log, API) {
       var spinnerEv;
       spinnerEv = config.events.ToggleSpinner;

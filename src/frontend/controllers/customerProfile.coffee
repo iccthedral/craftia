@@ -13,6 +13,8 @@ define [ "./module" ], (module) ->
 		($scope, $http, $upload, appUser, common, config, log, API) ->
 			spinnerEv = config.events.ToggleSpinner
 
+			$scope.editing = false
+
 			$scope.uploadPhoto = (files) ->
 				common.broadcast spinnerEv, show:true
 				$scope.upload = ($upload.upload {
@@ -24,8 +26,12 @@ define [ "./module" ], (module) ->
 				.then ->
 					common.broadcast spinnerEv, show:false
 			
+			$scope.editProfile = ->
+				$scope.editing = true
+
 			$scope.updateProfile = ->
-				$http.post API.updateProfile
+				$scope.editing = false
+				$http.post API.updateProfile, appUser
 				.success ->
 					log.success "Profile updated"
 				.error (e) ->
