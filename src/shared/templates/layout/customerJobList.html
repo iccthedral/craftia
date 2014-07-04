@@ -34,7 +34,6 @@
 </div>
 
 
-
 <div class="col-md-1 col-sm-1 col-lg-1">
 </div>
 
@@ -92,11 +91,6 @@
 
 				    <td colspan="4" rowspan="2" class="borderless yellow-tblock left-2-dashed">
 
-				    	<button ng-show="job.status==='finished'" class="btn btn-success" ng-click="showStars($index)"> Rate job</button>
-					    <div class="rateit bigstars" id="rate-div-{{$index}}" data-rateit-starwidth="32" data-rateit-starheight="32">
-					    	
-					    </div>
-
 							<table ng-show="job.status==='open'" class="table bidders-table table-striped helvetica-neue widget-content">
 								<thead>
 									<tr>
@@ -148,6 +142,19 @@
 		<div id="gmaps-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
 		</div>
 
+		<div id="rating-div-{{$index}}" style="height: 125px; display: none" class="peach-div row">
+			<form class="form">
+				<div class="form-group">
+					<label for="rating" >Rating
+					</label>
+					<rating name="rating" class="" ng-model="currentRating" max="5" readonly="isReadonly($index)" on-hover="hoveringOver(value)" on-leave="overStar = null">
+					</rating>
+				</div>
+				<textarea ng-model="currentComment">
+				</textarea>
+			</form>		
+		</div>
+
 		<div id="pics-div-{{$index}}" style="height: 250px; display: none" class="peach-div row">
 			<lightbox images="job.jobPhotos"></lightbox>			
 		</div>
@@ -156,41 +163,41 @@
 			<table class="table bidders-table table-striped helvetica-neue widget-content">
 					<thead>
 						<tr>
-							<th>Author</th>
-							<th>Name</th>
-							<th>Surname</th>
 							<th>Start date</th>
 							<th>End date </th>
 							<th>Material supplier</th>
 							<th>Budget</th>
 							<th>Address</th>
-							<th>Edit</th>
+							<th ng-show="job.status==='open'">Edit</th>
 						</tr>
 					</thead>
 					<tbody>
 					  <tr>
-					  	<td>{{job.author.username}}</td>
-					    <td>{{job.author.name}}</td>
-					    <td>{{job.author.surname}}</td>
 					    <td cr-date="{{job.dateFrom}}"></td>
 					    <td cr-date="{{job.dateTo}}"></td>
 					    <td>
-				    		<select ng-model="tempJob.materialProvider" placeholder="{{tempJob.materialProvider}}" ng-disabled="$index!==editIndex" id="selectbasic" name="selectbasic" class="form-control"  required="true">
+					    	<span ng-show="tempJob.status!=='open'" placeholder="{{tempJob.materialProvider}}"> {{tempJob.materialProvider}}
+                </span>
+				    		<select ng-hide="tempJob.status!=='open'" ng-model="tempJob.materialProvider" placeholder="{{tempJob.materialProvider}}" ng-disabled="$index!==editIndex" id="selectbasic" name="selectbasic" class="form-control"  required="true">
                   <option ng-selected="selected" value="Customer">Customer</option>
                   <option value="Craftsman">Craftsman</option>
                 </select>
               </td>
 					    <td>
-					    	<input ng-model="tempJob.budget" ng-disabled="$index!==editIndex" id="appendedtext" name="appendedtext" class="form-control" placeholder="tempJob.budget" type="text" required="true">
+					    	<span ng-show="tempJob.status!=='open'" placeholder="{{tempJob.budget}}"> {{tempJob.budget}}
+                </span>
+					    	<input ng-hide="tempJob.status!=='open'" ng-model="tempJob.budget" ng-disabled="$index!==editIndex" id="appendedtext" name="appendedtext" class="form-control" placeholder="tempJob.budget" type="text" required="true">
 				    	</td>
 					    <td>
-                <input ng-model="tempJob.address.line1" ng-disabled="$index!==editIndex"  id="textinput" name="textinput" type="text" placeholder="{{tempJob.address.line1}}" class="form-control input-md"  required="true">
+					    	<span ng-show="tempJob.status!=='open'" placeholder="{{tempJob.address.line1}}"> {{tempJob.address.line1}}
+                </span>
+                <input ng-hide="tempJob.status!=='open'" ng-model="tempJob.address.line1" ng-disabled="$index!==editIndex"  id="textinput" name="textinput" type="text" placeholder="{{tempJob.address.line1}}" class="form-control input-md"  required="true">
 							</td>
 					    <td>
-					    	<button class="btn btn-success" ng-show="job.status === 'open' && $index !== editIndex" ng-click="editJob($index)" >
+					    	<button class="btn btn-success" ng-show="tempJob.status === 'open' && $index !== editIndex" ng-click="editJob($index)" >
 					    		 Edit job
 				    		</button>
-				    		<button class="btn btn-success" ng-show="job.status === 'open' && $index === editIndex" ng-click="saveJob($index)" >
+				    		<button class="btn btn-success" ng-show="tempJob.status === 'open' && $index === editIndex" ng-click="saveJob($index)" >
 					    		 Save job
 				    		</button>
 					    </td>
@@ -200,18 +207,13 @@
 		</div>
 		
 		<div class="job-buttons peach-div row">
-					<!-- <a ng-click="showProfile($index)" class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
-						<i class="fa fa-user fa-2x"></i>
+
+					<a class="job-button col-md-3 col-sm-3 hover-glow-white text-center" ng-click="showRating($index)">
+						<i class="fa fa-star fa-2x"></i>
 						<span class="small-span">
-							Client profile
+							Rate job
 						</span>
-					</a> -->
-					<!-- <a class="job-button col-md-3 col-sm-3 hover-glow-white text-center" ng-click="sendMessage($index)">
-						<i class="fa fa-envelope fa-2x"></i>
-						<span class="small-span">
-							Send message
-						</span>
-					</a> -->
+					</a>
 					<a ng-click="showPics($index)"  class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
 						<i class="fa fa-mail-forward fa-2x"></i>
 						<span class="small-span">

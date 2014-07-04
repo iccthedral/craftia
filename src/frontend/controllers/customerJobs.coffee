@@ -28,56 +28,25 @@ define ["./module"], (module) ->
 			$scope.mapContainer = "#gmaps-div-0"
 			$scope.picsContainer = "#pics-div-0"
 			$scope.infoContainer = "#info-div-0"
-			$scope.profileContainer = "#profile-div-0"
+			$scope.ratingContainer = "#rating-div-0"
 			$scope.tempJob = {}
 			$scope.editIndex = $scope.sizePerPage;
-
-
-
-			bindRateClick = (index) ->
-				$scope.rateIndex = index
-				$("#rate-div-#{index}").bind 'rated', (event, value) ->
-		 			dialog.confirmationDialog {
-						title: "Rate job?"
-						template: "confirm"
-						okText: "Yes"
-						scope : {
-							mark : $ ("#rate-div-#{$scope.rateIndex}").rateit 'value'
-							jobId : $scope.filteredJobs[rateIndex]
-						}
-						onOk: ->
-							$http.post API.rateJob.format("#{scope.jobId}","#{scope.mark}") 
-							.success ->
-								common.broadcast config.events.ToggleSpinner, show:true
-								logger.success "Job rated!"
-							.error (err) ->
-								logger.error err
-							.finally ->
-								common.broadcast config.events.ToggleSpinner, show:false
-							console.log "Send", scope
-						onCancel: ->
-							console.log "Cancel", scope
-					}	
-
-			$timeout bindRateClick, 0
-
-			$scope.showStars = showStars = (index) -> 
-				$("#rate-div-"+index).rateit { max: 5, step: 1, backingfld: "#rate-div-"+index}
-				.show()
-				return
 
 			$scope.editJob = editJob = (index) ->
 				$scope.editIndex = index 
 
-			# $scope.update = ->
-			# $http.post (common.format API.updateJob, jobId), job
-			# .success (data) ->
-			# 	$.extend $scope.job, data
-			# 	log.success "Job updated!"
-			# 	$state.transitionTo "customer.jobs"
-			# .error (err) ->
-			# 	log.error err
-			# 	$state.transitionTo "customer"
+			$scope.showRating = (index) ->
+				$scope.currentRating = $scope.filteredJobs[index]
+				prevEl = ($ $scope.ratingContainer)
+				
+				$scope.ratingContainer = "#rating-div-#{index}"
+				curEl = ($ $scope.ratingContainer)
+				if prevEl.is curEl
+					prevEl.slideToggle()
+				else
+					prevEl.slideUp()
+					curEl.slideDown()
+				return	
 
 			$scope.saveJob = saveJob = (index, jobId) ->
 				jobId = $scope.filteredJobs[index]._id
@@ -90,7 +59,6 @@ define ["./module"], (module) ->
 				.error (err) ->
 					logger.error err
 					$state.transitionTo "customer"
-
 
 			$scope.getPage = getPage = (pageIndex, jobStatus) ->
 				if $scope.currentPage is pageIndex and $scope.jobStatus is jobStatus
@@ -116,20 +84,8 @@ define ["./module"], (module) ->
 			
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
-			
-			$scope.showProfile= showProfile = (index) ->
-				prevEl = ($ $scope.profileContainer)
 				
-				$scope.profileContainer = "#profile-div-#{index}"
-				curEl = ($ $scope.profileContainer)
-				if prevEl.is curEl
-
-					prevEl.slideToggle()
-				else
-					prevEl.slideUp()
-					curEl.slideDown()
-				return		
-
+				
 			$scope.showMap = (index) ->
 				prevEl = ($ $scope.mapContainer)
 				job = $scope.filteredJobs[index];
@@ -227,7 +183,6 @@ define ["./module"], (module) ->
 
 			$scope.search = ->
 				return
-
 				# text = $scope.searchQuery
 				# $scope.filteredMessages = $scope.messages.filter (msg) ->
 				# 	msg.subject.indexOf(text) isnt -1 or msg.message.indexOf(text) isnt -1

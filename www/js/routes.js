@@ -12,8 +12,7 @@ define(["app", "angular"], function(app, ng) {
       url: "/anon",
       views: {
         "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
+          templateUrl: "shared/templates/layout/shell.html"
         },
         "navmenu@anon": {
           templateUrl: "shared/templates/layout/anonMainNav.html"
@@ -79,10 +78,6 @@ define(["app", "angular"], function(app, ng) {
     }).state("anon.craftsmanMenu", {
       url: "/craftsmanMenu",
       views: {
-        "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
-        },
         "navSubMenu@anon": {
           templateUrl: "shared/templates/layout/craftsmanMenu.html"
         }
@@ -121,8 +116,7 @@ define(["app", "angular"], function(app, ng) {
       url: "/customer",
       views: {
         "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
+          templateUrl: "shared/templates/layout/shell.html"
         },
         "navmenu@customer": {
           templateUrl: "shared/templates/layout/customerMainNav.html",
@@ -214,8 +208,7 @@ define(["app", "angular"], function(app, ng) {
       url: "/craftsman",
       views: {
         "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
+          templateUrl: "shared/templates/layout/shell.html"
         },
         "navmenu@craftsman": {
           templateUrl: "shared/templates/layout/craftsmanMainNav.html",

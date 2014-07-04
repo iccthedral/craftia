@@ -1,6 +1,6 @@
 "use strict";
 define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls"], function(ng, _, routes, app) {
-  var $http, $q, addErrorClass, addLoadingClass, bodyElement, bootstrap, checkConfig, createBootstrap, createInjector, errorClass, forEach, isArray, isFunction, isObject, isPromise, isString, loadingClass, ngInjector, removeLoadingClass;
+  var $http, $q, $timeout, addErrorClass, addLoadingClass, appInjector, bodyElement, bootstrap, checkConfig, config, createBootstrap, createInjector, errorClass, forEach, isArray, isFunction, isObject, isPromise, isString, loadingClass, ngInjector, removeLoadingClass;
   forEach = ng.forEach;
   isString = ng.isString;
   isArray = ng.isArray;
@@ -9,10 +9,14 @@ define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUi
   ngInjector = ng.injector(["ng"]);
   $q = ngInjector.get("$q");
   $http = ngInjector.get("$http");
+  $timeout = ngInjector.get("$timeout");
   loadingClass = "deferred-bootstrap-loading";
   errorClass = "deferred-bootstrap-error";
   bodyElement = null;
+  appInjector = ng.injector(["ng", "app.factories"]);
+  config = appInjector.get("config");
   addLoadingClass = function() {
+    $("#shell").fadeIn(400);
     return bodyElement.addClass(loadingClass);
   };
   removeLoadingClass = function() {
@@ -82,7 +86,6 @@ define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUi
       }
       injector = createInjector(injectorModules);
       result = injector.instantiate(resolveFn);
-      console.debug("results", result);
       if (isPromise(result)) {
         return promises.push(result);
       } else {
@@ -135,9 +138,9 @@ define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUi
         ]
       }
     });
-    app.run(function(USER_DETAILS, appUser, logger, $state) {
+    app.run(function(USER_DETAILS, $state, $rootScope, appUser, logger, common) {
+      $("#splash").fadeOut(500);
       appUser.load(USER_DETAILS);
-      logger.success(appUser.username, appUser.isLoggedIn);
       if (!appUser.isLoggedIn) {
         return $state.go("anon");
       }

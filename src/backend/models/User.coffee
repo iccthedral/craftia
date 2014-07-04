@@ -66,6 +66,9 @@ schema = mongoose.Schema
 			comment: 
 				type: String
 				default: ""
+			rate:
+				type: Number
+				default: 0	
 		]
 
 		totalVotes: 

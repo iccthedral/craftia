@@ -19,6 +19,19 @@ define(["controllers/module", "angular"], function(module, ng) {
           return ng.element(".showhide").toggle();
         });
       });
+      $scope.$watch("isBusy", function(newVal, oldVal) {
+        var sp;
+        if (newVal === oldVal) {
+          return;
+        }
+        sp = $("#splash").stop();
+        if (newVal) {
+          sp.fadeIn(100);
+        } else {
+          sp.fadeOut(100);
+        }
+        return newVal;
+      });
       $scope.toggleSpinner = function(val) {
         return $scope.isBusy = val;
       };
