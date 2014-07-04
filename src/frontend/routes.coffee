@@ -223,6 +223,15 @@ define ["app", "angular"], (app, ng) ->
 					"main@craftsman.messages":
 						templateUrl: "/shared/templates/layout/receivedMessages.html"
 			}
+
+			.state "craftsman.myJobs", {
+				url: "/myJobs"
+				views:
+					"shell@craftsman":
+						templateUrl: "shared/templates/layout/craftsmanMyJobs.html"
+						controller: "CraftsmanMyJobsCtrl"
+			}
+
 			.state "craftsman.findJobs", {
 				url: "/findJobs"
 				views:

@@ -13,6 +13,7 @@ define [
 	"controllers/inbox"
 	"controllers/yellowPages"
 	"controllers/craftsmanFindJobs"
+	"controllers/craftsmanMyJobs"
 ], ->
 	
 	return

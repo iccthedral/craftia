@@ -151,27 +151,25 @@ function bidOnJobs(jobs, craftsmen, clb) {
 function create(clb) {
 	var DB = require("./src/backend/config/Database");
 	var createCatsAndCities = require("./src/backend/modules/ExportToDB");
-	DB.once("open", function() {
-		createCatsAndCities(function(err, catsAndCities) {
+	createCatsAndCities(function(err, catsAndCities) {
+		if (err) {
+			DB.close();
+			return clb(err, catsAndCities);
+		}
+		createUsers(function(err, users) {
+			console.log("Created", users.length, "users");
 			if (err) {
 				DB.close();
-				return clb(err, catsAndCities);
+				return clb(err, users);
 			}
-			createUsers(function(err, users) {
-				console.log("Created", users.length, "users");
-				if (err) {
-					DB.close();
-					return clb(err, users);
-				}
-				createJobs(createdCustomers, function(err, jobs) {
-					console.log("Created", jobs.length, "jobs");
-					bidOnJobs(jobs, createdCraftsmen, function(err, jobs) {
-						clb(err, users.concat(jobs));
-					})
+			createJobs(createdCustomers, function(err, jobs) {
+				console.log("Created", jobs.length, "jobs");
+				bidOnJobs(jobs, createdCraftsmen, function(err, jobs) {
+					clb(err, users.concat(jobs));
 				})
 			})
 		})
-	});
+	})
 }
 
 module.exports.customerNames = customerNames;

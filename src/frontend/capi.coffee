@@ -12,6 +12,7 @@ define [], -> {
 	craftsmen: "/user/craftsmen/{0}"
 	getPagedOpenJobs: "/job/list/{0}"
 	getMyJobs: "/user/getMyJobs/{0}/{1}"
+	getBiddedJobs: "/user/getBiddedJobs/{0}/{1}"
 	bidOnJob: "job/{0}/bid"
 	pickWinner: "job/{0}/pickawinner/{1}"
 	getNotifications: "/user/getNotifications/{0}"
