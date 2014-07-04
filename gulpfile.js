@@ -195,6 +195,14 @@ if (inProduction) {
 	// });
 }
 
+gulp.task("minify-css", function() {
+	minifyCss = require("gulp-minify-css");
+	gulp.src("./www/css/**/*.css")
+	.pipe(minifyCss())
+	.pipe(rename("bundle.css"))
+	.pipe(gulp.dest("./www/css/"))
+});
+
 gulp.task("default", [
 	"link-shared", 
 	"create-logs", 
@@ -214,6 +222,7 @@ gulp.task("predeploy", [
 	"compile-shared",
 	"compile-frontend",
 	"rjs",
+	"minify-css",
 	"create-logs"
 ], function() {
 

@@ -2,8 +2,6 @@
 <html>
 <head>
     <style>
-        /* This helps the ng-show/ng-hide animations start at the right place. */
-        /* Since Angular has this but needs to load, this gives us the class early. */
         .ng-hide {
             display: none!important;
         }
@@ -23,28 +21,23 @@
         }
     </script>
 
-    <link href="css/ie10mobile.css" rel="stylesheet" />
-    <link href="css/bootstrap.css" rel="stylesheet" />
-
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
-    <link href="css/toastr.css" rel="stylesheet" />
-    <link href="css/customtheme.css" rel="stylesheet">
-    <link href="css/rateit.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/craftia-theme.css" rel="stylesheet" />
-    <link href="css/lightbox.css" rel="stylesheet" />
-    <link href="css/animate.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.css"/>
-    <link href="css/craftia-topmenu.css" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'/>
-    <link href='http://fonts.googleapis.com/css?family=Arimo:400,700,700italic,400italic' rel='stylesheet' type='text/css'/>
-    
-    <!-- Angular carousel -->
-    <link href="vendor/angular-carousel/dist/angular-carousel.css" rel="stylesheet" />
-    <link href="css/craftia-topmenu.css" rel="stylesheet" />
-    
-    <!-- -->
-    <link href="css/off-canvas.css" rel="stylesheet"/>
+    {{#if production}}
+        <link rel="stylesheet" type="text/css" href="css/bundle.css">
+    {{else}}
+        <link href="css/ie10mobile.css" rel="stylesheet" />
+        <link href="css/bootstrap.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/toastr.css" rel="stylesheet" />
+        <link href="css/customtheme.css" rel="stylesheet">
+        <link href="css/rateit.css" rel="stylesheet">
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/craftia-theme.css" rel="stylesheet" />
+        <link href="css/lightbox.css" rel="stylesheet" />
+        <link href="css/animate.min.css" rel="stylesheet" />
+        <link href="css/craftia-topmenu.css" rel="stylesheet" />
+        <link href="css/craftia-topmenu.css" rel="stylesheet" />
+        <link href="css/off-canvas.css" rel="stylesheet"/>
+    {{/if}}
 </head>
 <body>
     <div ui-view=""></div>
