@@ -307,4 +307,3 @@ define ["app", "angular"], (app, ng) ->
 			.$on "$stateChangeSuccess", (ev, toState, toParams, fromState, fromParams) ->
 				lastState = toState.name
 	]
-

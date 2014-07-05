@@ -508,8 +508,3 @@ gulp.task("compile-shared", function(next) {
 		})
 	})
 });
-
-	// .pipe(coffee())
-	// .pipe(uglify())
-	// .pipe(concat("craftia.min.js"))
-	// .pipe(gulp.dest(jsDir));
