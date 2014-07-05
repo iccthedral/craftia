@@ -291,7 +291,7 @@ define ["app", "angular"], (app, ng) ->
 				
 				#logger.log "lastState: #{lastState}, isLogged: #{isLoggedIn}, utype: #{type}, #{fromState} -> #{toState.name}"
 
-				if not typeRe.test nextState and nextState isnt "index"
+				if not typeRe.test nextState #or nextState isnt "index"
 					logger.log "Access denied to state #{nextState}"
 					ev.preventDefault()
 					if lastState isnt nextState

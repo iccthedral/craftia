@@ -29,17 +29,13 @@ define ["./module"], (module) ->
 			$scope.infoContainer = "#info-div-0"
 			$scope.ratingContainer = "#rating-div-0"
 			$scope.tempJob = {}
-			$scope.editIndex = $scope.sizePerPage;
-
-<<<<<<< HEAD
+			$scope.editIndex = $scope.sizePerPage
 
 			$scope.showStars = showStars = (index) -> 
 				$("#rate-div-"+index).rateit { max: 5, step: 1, backingfld: "#rate-div-"+index}
 				.show()
 				return
 
-=======
->>>>>>> 8c142120f97e32867695e2d3d9f20c316f5a67b7
 			$scope.editJob = editJob = (index) ->
 				$scope.editIndex = index 
 
