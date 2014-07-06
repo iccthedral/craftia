@@ -61,9 +61,7 @@ define(["./module"], function(module) {
                 return logger.error;
               });
             },
-            onCancel: function() {
-              return logger.info("Action canceled");
-            }
+            onCancel: function() {}
           });
         }
       };
@@ -159,9 +157,7 @@ define(["./module"], function(module) {
             });
             return console.log("Send", scope);
           },
-          onCancel: function() {
-            return console.log("Cancel", scope);
-          }
+          onCancel: function() {}
         });
       };
       $scope.search = function() {};

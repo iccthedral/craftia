@@ -33,6 +33,7 @@ define ["./module"], (module) ->
 			$scope.editIndex = $scope.sizePerPage;
 
 			$scope.editJob = editJob = (index) ->
+				
 				$scope.editIndex = index 
 
 			$scope.showRating = (index) ->
@@ -53,7 +54,7 @@ define ["./module"], (module) ->
 				$scope.editIndex = $scope.sizePerPage
 				$http.post API.updateJob.format("#{jobId}"), $scope.tempJob
 				.success (data) ->
-					$scope.filteredJobs[index] = _.extend(true, {}, data)
+					angular.copy data, $scope.filteredJobs[index]
 					logger.success "Job updated!"
 					$state.transitionTo "customer.jobs"
 				.error (err) ->
@@ -168,7 +169,7 @@ define ["./module"], (module) ->
 				}		
 
 			$scope.showInfo= showInfo = (index) ->
-				$scope.tempJob = _.extend(true, {}, $scope.filteredJobs[index])
+				angular.copy $scope.filteredJobs[index], $scope.tempJob
 				prevEl = ($ $scope.infoContainer)
 				
 				$scope.infoContainer = "#info-div-#{index}"

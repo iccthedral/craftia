@@ -1,12 +1,13 @@
 <section>
 	<div class="row">
-		<div class="widget wcyan">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-10 widget wcyan">
 			<div cc-widget-header title="Register as a customer"></div>
 			<div class="widget-content user">
 				<div class="row">
-					<div class="col-md-6">
-						<div class="widget wcyan">
-							<div class="profile-details-widget fluid-container">
+						<div class="widget wcyan col-md-5">
+							<div class="profile-details-widget ">
 								<form class="form-horizontal" ng-submit="register()">
 									<fieldset>
 
@@ -27,7 +28,6 @@
 											<label class="col-md-9 control-label" for="username">Username</label>
 											<div class="col-md-9">
 												<input ng-model="userDetails.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
-
 											</div>
 										</div>
 
@@ -105,8 +105,8 @@
 
 										<!-- Button -->
 										<div class="form-group">
-											<div class="col-md-9 col-md-offset-5">
-												<input value="Register" type="submit" id="register-submit" name="register-submit" class="btn btn-primary">
+											<div >
+												<input value="Register" type="submit" id="register-submit" name="register-submit" class="pull-left btn btn-black">
 											</div>
 										</div>
 
@@ -115,17 +115,19 @@
 
 							</div>
 						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="widget wcyan fluid-container">
+						<div class="col-md-6">
+						<div class="col-md-8 widget wcyan fluid-container">
 							<h3>Terms & Conditions</h3>
-							<textarea readonly class="col-xs-12" rows="20">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							<textarea readonly  rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 							</textarea>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="col-md-1">
 		</div>
+		</div>
+
 	</div>
 </section>

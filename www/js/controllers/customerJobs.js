@@ -38,7 +38,7 @@ define(["./module"], function(module) {
         jobId = $scope.filteredJobs[index]._id;
         $scope.editIndex = $scope.sizePerPage;
         return $http.post(API.updateJob.format("" + jobId), $scope.tempJob).success(function(data) {
-          $scope.filteredJobs[index] = _.extend(true, {}, data);
+          angular.copy(data, $scope.filteredJobs[index]);
           logger.success("Job updated!");
           return $state.transitionTo("customer.jobs");
         }).error(function(err) {
@@ -172,7 +172,7 @@ define(["./module"], function(module) {
       };
       $scope.showInfo = showInfo = function(index) {
         var curEl, prevEl;
-        $scope.tempJob = _.extend(true, {}, $scope.filteredJobs[index]);
+        angular.copy($scope.filteredJobs[index], $scope.tempJob);
         prevEl = $($scope.infoContainer);
         $scope.infoContainer = "#info-div-" + index;
         curEl = $($scope.infoContainer);
