@@ -197,9 +197,9 @@ if (inProduction) {
 
 gulp.task("minify-css", function() {
 	minifyCss = require("gulp-minify-css");
-	gulp.src("./www/css/**/*.css")
+	gulp.src(["./www/css/**/*.css", "!./www/css/**/*.min.css"])
 	.pipe(minifyCss())
-	.pipe(rename("bundle.css"))
+	.pipe(concat("bundle.min.css"))
 	.pipe(gulp.dest("./www/css/"))
 });
 
@@ -508,8 +508,3 @@ gulp.task("compile-shared", function(next) {
 		})
 	})
 });
-
-	// .pipe(coffee())
-	// .pipe(uglify())
-	// .pipe(concat("craftia.min.js"))
-	// .pipe(gulp.dest(jsDir));

@@ -1,7 +1,7 @@
 define(["./module"], function(module) {
   return module.controller("CustomerJobsCtrl", [
     "$scope", "$http", "$state", "$timeout", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, $timeout, API, logger, common, config, categoryPictures, gmaps, dialog) {
-      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, state;
+      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showStars, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -11,13 +11,19 @@ define(["./module"], function(module) {
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
       $scope.jobStatus = "all";
-      $scope.rateIndex = $scope.sizePerPage;
       $scope.mapContainer = "#gmaps-div-0";
       $scope.picsContainer = "#pics-div-0";
       $scope.infoContainer = "#info-div-0";
       $scope.ratingContainer = "#rating-div-0";
       $scope.tempJob = {};
       $scope.editIndex = $scope.sizePerPage;
+      $scope.showStars = showStars = function(index) {
+        $("#rate-div-" + index).rateit({
+          max: 5,
+          step: 1,
+          backingfld: "#rate-div-" + index
+        }).show();
+      };
       $scope.editJob = editJob = function(index) {
         return $scope.editIndex = index;
       };

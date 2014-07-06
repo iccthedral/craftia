@@ -282,7 +282,7 @@ define ["app", "angular"], (app, ng) ->
 			.$on "$stateChangeStart", (ev, toState, toParams, fromState, fromParams) ->
 				isLoggedIn = appUser.isLoggedIn
 				type = appUser.getType
-				typeRe = new RegExp "^[#{type}|index]+.*", "g"
+				typeRe = new RegExp "^#{type}.*", "g"
 				nextState = toState.name
 				fromState = fromState.name
 
@@ -291,7 +291,7 @@ define ["app", "angular"], (app, ng) ->
 				
 				#logger.log "lastState: #{lastState}, isLogged: #{isLoggedIn}, utype: #{type}, #{fromState} -> #{toState.name}"
 
-				if not typeRe.test nextState
+				if not typeRe.test nextState #or nextState isnt "index"
 					logger.log "Access denied to state #{nextState}"
 					ev.preventDefault()
 					if lastState isnt nextState
@@ -307,4 +307,3 @@ define ["app", "angular"], (app, ng) ->
 			.$on "$stateChangeSuccess", (ev, toState, toParams, fromState, fromParams) ->
 				lastState = toState.name
 	]
-

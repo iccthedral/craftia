@@ -24,13 +24,17 @@ define ["./module"], (module) ->
 			$scope.selectedPage = 0
 			$scope.currentPage = 0
 			$scope.jobStatus = "all"
-			$scope.rateIndex = $scope.sizePerPage;
 			$scope.mapContainer = "#gmaps-div-0"
 			$scope.picsContainer = "#pics-div-0"
 			$scope.infoContainer = "#info-div-0"
 			$scope.ratingContainer = "#rating-div-0"
 			$scope.tempJob = {}
-			$scope.editIndex = $scope.sizePerPage;
+			$scope.editIndex = $scope.sizePerPage
+
+			$scope.showStars = showStars = (index) -> 
+				$("#rate-div-"+index).rateit { max: 5, step: 1, backingfld: "#rate-div-"+index}
+				.show()
+				return
 
 			$scope.editJob = editJob = (index) ->
 				

@@ -890,8 +890,8 @@ define('factories/module',["angular"], function(ng) {
 var __slice = [].slice;
 
 define('factories/common',["factories/module"], function(module) {
-  module.factory("common", [
-    "$http", "$q", "$rootScope", "$timeout", "config", "logger", function($http, $q, $rootScope, $timeout, config, logger, spinner) {
+  return module.factory("common", [
+    "$http", "$q", "$rootScope", "$timeout", "config", "logger", function($http, $q, $rootScope, $timeout, config, logger) {
       var out;
       out = {};
       out.logger = logger;
@@ -934,12 +934,12 @@ define('factories/common',["factories/module"], function(module) {
         });
       };
       out.broadcast = function() {
+        console.log(arguments);
         return $rootScope.$broadcast.apply($rootScope, arguments);
       };
       return out;
     }
   ]);
-  return module;
 });
 
 define('factories/logger',["factories/module"], function(module) {
@@ -1106,6 +1106,19 @@ define('controllers/shell',["controllers/module", "angular"], function(module, n
           return ng.element(".showhide").toggle();
         });
       });
+      $scope.$watch("isBusy", function(newVal, oldVal) {
+        var sp;
+        if (newVal === oldVal) {
+          return;
+        }
+        sp = $("#splash").stop();
+        if (newVal) {
+          sp.fadeIn(100);
+        } else {
+          sp.fadeOut(100);
+        }
+        return newVal;
+      });
       $scope.toggleSpinner = function(val) {
         return $scope.isBusy = val;
       };
@@ -1233,7 +1246,7 @@ define('controllers/anon',["./cmodule"], function(cmodule) {
 define('controllers/customerJobs',["./module"], function(module) {
   return module.controller("CustomerJobsCtrl", [
     "$scope", "$http", "$state", "$timeout", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, $timeout, API, logger, common, config, categoryPictures, gmaps, dialog) {
-      var activate, bindRateClick, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showProfile, showStars, state;
+      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showStars, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -1243,46 +1256,12 @@ define('controllers/customerJobs',["./module"], function(module) {
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
       $scope.jobStatus = "all";
-      $scope.rateIndex = $scope.sizePerPage;
       $scope.mapContainer = "#gmaps-div-0";
       $scope.picsContainer = "#pics-div-0";
       $scope.infoContainer = "#info-div-0";
-      $scope.profileContainer = "#profile-div-0";
+      $scope.ratingContainer = "#rating-div-0";
       $scope.tempJob = {};
       $scope.editIndex = $scope.sizePerPage;
-      bindRateClick = function(index) {
-        $scope.rateIndex = index;
-        return $("#rate-div-" + index).bind('rated', function(event, value) {
-          return dialog.confirmationDialog({
-            title: "Rate job?",
-            template: "confirm",
-            okText: "Yes",
-            scope: {
-              mark: $(("#rate-div-" + $scope.rateIndex).rateit('value')),
-              jobId: $scope.filteredJobs[rateIndex]
-            },
-            onOk: function() {
-              $http.post(API.rateJob.format("" + scope.jobId, "" + scope.mark)).success(function() {
-                common.broadcast(config.events.ToggleSpinner, {
-                  show: true
-                });
-                return logger.success("Job rated!");
-              }).error(function(err) {
-                return logger.error(err);
-              })["finally"](function() {
-                return common.broadcast(config.events.ToggleSpinner, {
-                  show: false
-                });
-              });
-              return console.log("Send", scope);
-            },
-            onCancel: function() {
-              return console.log("Cancel", scope);
-            }
-          });
-        });
-      };
-      $timeout(bindRateClick, 0);
       $scope.showStars = showStars = function(index) {
         $("#rate-div-" + index).rateit({
           max: 5,
@@ -1292,6 +1271,19 @@ define('controllers/customerJobs',["./module"], function(module) {
       };
       $scope.editJob = editJob = function(index) {
         return $scope.editIndex = index;
+      };
+      $scope.showRating = function(index) {
+        var curEl, prevEl;
+        $scope.currentRating = $scope.filteredJobs[index];
+        prevEl = $($scope.ratingContainer);
+        $scope.ratingContainer = "#rating-div-" + index;
+        curEl = $($scope.ratingContainer);
+        if (prevEl.is(curEl)) {
+          prevEl.slideToggle();
+        } else {
+          prevEl.slideUp();
+          curEl.slideDown();
+        }
       };
       $scope.saveJob = saveJob = function(index, jobId) {
         jobId = $scope.filteredJobs[index]._id;
@@ -1340,18 +1332,6 @@ define('controllers/customerJobs',["./module"], function(module) {
       };
       $scope.pageSelected = function(page) {
         return getPage(page.page - 1);
-      };
-      $scope.showProfile = showProfile = function(index) {
-        var curEl, prevEl;
-        prevEl = $($scope.profileContainer);
-        $scope.profileContainer = "#profile-div-" + index;
-        curEl = $($scope.profileContainer);
-        if (prevEl.is(curEl)) {
-          prevEl.slideToggle();
-        } else {
-          prevEl.slideUp();
-          curEl.slideDown();
-        }
       };
       $scope.showMap = function(index) {
         var curEl, job, prevEl;
@@ -5388,8 +5368,7 @@ define('routes',["app", "angular"], function(app, ng) {
       url: "/anon",
       views: {
         "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
+          templateUrl: "shared/templates/layout/shell.html"
         },
         "navmenu@anon": {
           templateUrl: "shared/templates/layout/anonMainNav.html"
@@ -5455,10 +5434,6 @@ define('routes',["app", "angular"], function(app, ng) {
     }).state("anon.craftsmanMenu", {
       url: "/craftsmanMenu",
       views: {
-        "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
-        },
         "navSubMenu@anon": {
           templateUrl: "shared/templates/layout/craftsmanMenu.html"
         }
@@ -5497,8 +5472,7 @@ define('routes',["app", "angular"], function(app, ng) {
       url: "/customer",
       views: {
         "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
+          templateUrl: "shared/templates/layout/shell.html"
         },
         "navmenu@customer": {
           templateUrl: "shared/templates/layout/customerMainNav.html",
@@ -5590,8 +5564,7 @@ define('routes',["app", "angular"], function(app, ng) {
       url: "/craftsman",
       views: {
         "": {
-          templateUrl: "shared/templates/layout/shell.html",
-          controller: "ShellCtrl"
+          templateUrl: "shared/templates/layout/shell.html"
         },
         "navmenu@craftsman": {
           templateUrl: "shared/templates/layout/craftsmanMainNav.html",
@@ -5673,7 +5646,7 @@ define('routes',["app", "angular"], function(app, ng) {
         var isLoggedIn, nextState, type, typeRe;
         isLoggedIn = appUser.isLoggedIn;
         type = appUser.getType;
-        typeRe = new RegExp("^[" + type + "|index]+.*", "g");
+        typeRe = new RegExp("^" + type + ".*", "g");
         nextState = toState.name;
         fromState = fromState.name;
         $(".shellic").fadeOut(500);
@@ -5812,7 +5785,7 @@ define("ngBootstrapTpls", ["ngBootstrap"], function(){});
 
 
 define('bootstrap',["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls"], function(ng, _, routes, app) {
-  var $http, $q, addErrorClass, addLoadingClass, bodyElement, bootstrap, checkConfig, createBootstrap, createInjector, errorClass, forEach, isArray, isFunction, isObject, isPromise, isString, loadingClass, ngInjector, removeLoadingClass;
+  var $http, $q, $timeout, addErrorClass, addLoadingClass, appInjector, bodyElement, bootstrap, checkConfig, config, createBootstrap, createInjector, errorClass, forEach, isArray, isFunction, isObject, isPromise, isString, loadingClass, ngInjector, removeLoadingClass;
   forEach = ng.forEach;
   isString = ng.isString;
   isArray = ng.isArray;
@@ -5821,10 +5794,14 @@ define('bootstrap',["angular", "util", "routes", "app", "gmaps", "rateit", "ngRo
   ngInjector = ng.injector(["ng"]);
   $q = ngInjector.get("$q");
   $http = ngInjector.get("$http");
+  $timeout = ngInjector.get("$timeout");
   loadingClass = "deferred-bootstrap-loading";
   errorClass = "deferred-bootstrap-error";
   bodyElement = null;
+  appInjector = ng.injector(["ng", "app.factories"]);
+  config = appInjector.get("config");
   addLoadingClass = function() {
+    $("#shell").fadeIn(400);
     return bodyElement.addClass(loadingClass);
   };
   removeLoadingClass = function() {
@@ -5894,7 +5871,6 @@ define('bootstrap',["angular", "util", "routes", "app", "gmaps", "rateit", "ngRo
       }
       injector = createInjector(injectorModules);
       result = injector.instantiate(resolveFn);
-      console.debug("results", result);
       if (isPromise(result)) {
         return promises.push(result);
       } else {
@@ -5947,9 +5923,9 @@ define('bootstrap',["angular", "util", "routes", "app", "gmaps", "rateit", "ngRo
         ]
       }
     });
-    app.run(function(USER_DETAILS, appUser, logger, $state) {
+    app.run(function(USER_DETAILS, $state, $rootScope, appUser, logger, common) {
+      $("#splash").fadeOut(500);
       appUser.load(USER_DETAILS);
-      logger.success(appUser.username, appUser.isLoggedIn);
       if (!appUser.isLoggedIn) {
         return $state.go("anon");
       }
