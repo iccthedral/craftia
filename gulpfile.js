@@ -211,7 +211,6 @@ gulp.task("default", [
 	"compile-frontend",
 	"serve-mongo",
 	"serve-express",
-	"job-process",
 	"watch-frontend",
 	"watch-shared"
 ], function(next) {

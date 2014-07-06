@@ -58,6 +58,5 @@ linkDir cwd + "/src/shared", cwd + "/www/shared", ->
 		console.error err if err?
 		server = app.listen PORT
 		console.log "Running on: #{PORT}"
-
 		# Start Job update process 
 		jobProcess = require "./src/backend/modules/JobUpdate.coffee"

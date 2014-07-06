@@ -68,7 +68,9 @@ schema = mongoose.Schema
 				default: ""
 			rate:
 				type: Number
-				default: 0	
+				default: 0
+				min: 1
+				max: 5
 		]
 
 		totalVotes: 
