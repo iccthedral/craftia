@@ -95,6 +95,7 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->
+		# console.error(jobs.length);
 		return res.status(422).send err if err?
 		out = {}
 		out.jobs = jobs

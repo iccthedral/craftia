@@ -63,7 +63,7 @@ module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 
 	JobModel
 	.findById jobId
-	.elemMatch "bidders", _id:mongoose.Types.ObjecId winner
+	.elemMatch("bidders", _id:user._id)
 	.exec (err, job) ->
 		return clb "You haven't bidded yet for this job" unless (job? and not err?)
 		UserModel

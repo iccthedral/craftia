@@ -58,7 +58,7 @@ define ["./module"], (module) ->
 							.error (err) ->
 								logger.error
 						onCancel: ->
-							logger.info "Action canceled"
+							return
 					}
 
 			$scope.isBidder = isBidder = (index) ->
@@ -151,7 +151,7 @@ define ["./module"], (module) ->
 						console.log "Send", scope
 						
 					onCancel: ->
-						console.log "Cancel", scope
+						return
 				}	
 
 			$scope.search = ->

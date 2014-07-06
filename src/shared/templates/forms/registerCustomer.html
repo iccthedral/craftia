@@ -1,107 +1,102 @@
-	<div class="col-md-1"></div>
-	<div class="row col-md-10">
-		<div class="widget wcyan">
-			<div cc-widget-header title="Register as a customer"></div>
-			<div class="widget-content user">
-				<div class="row">
-					<form class="form-horizontal" ng-submit="register()">
+<div class="col-md-1"></div>
+<div class="row col-md-10">
+	<div class="widget wcyan">
+		<div cc-widget-header title="Register as a customer"></div>
+		<div class="widget-content user">
+			<div class="row">
+				<form class="form-horizontal" ng-submit="register()">
 					<div class="col-md-6">
 						<div class="widget wcyan">
 							<div class="profile-details-widget fluid-container">
-								
-									<fieldset>
+								<fieldset>
+									<!-- Form Name -->
+									<h3>Profile Details</h3>
 
-										<!-- Form Name -->
-										<h3>Profile Details</h3>
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="email">E-mail</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="email">E-mail</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
-
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="username">Username</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
-
-											</div>
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="username">Username</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
 										</div>
+									</div>
 
-										<!-- Password input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="password">Password</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+									<!-- Password input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="password">Password</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Password input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="rep-password">Repeat password</label>
-											<div class="col-md-9">
-												<input id="rep-password" name="rep-password" type="password" placeholder="repeat password" class="form-control input-md" required="">
-											</div>
+									<!-- Password input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="rep-password">Repeat password</label>
+										<div class="col-md-9">
+											<input id="rep-password" name="rep-password" type="password" placeholder="repeat password" class="form-control input-md" required="">
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="name">Name</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="name">Name</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="surname">Surname</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="surname">Surname</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="telephone">Telephone</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="telephone">Telephone</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="telephone">City</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
-											</div>
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="telephone">City</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
 										</div>
-										
+									</div>
+									
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="telephone">Address</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
-											</div>
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="telephone">Address</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
 										</div>
-									</fieldset>
+									</div>
+								</fieldset>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="widget wcyan fluid-container">
-
 							<h3>Terms & Conditions</h3>
-							<textarea readonly class="col-xs-12" rows="20">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							<textarea readonly  rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 							</textarea>
 
 							<div class="checkbox">
@@ -118,9 +113,9 @@
 							</div>
 						</div>
 					</div>
-					</form>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-1"></div>
+</div>
+<div class="col-md-1"></div>
