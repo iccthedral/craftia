@@ -31,13 +31,11 @@ define ["./module"], (module) ->
 			$scope.tempJob = {}
 			$scope.editIndex = $scope.sizePerPage
 
-			$scope.showStars = showStars = (index) -> 
-				$("#rate-div-"+index).rateit { max: 5, step: 1, backingfld: "#rate-div-"+index}
-				.show()
-				return
+			$scope.hoveringOver = (value) ->
+				$scope.overStar = value
+				$scope.percent = 100 * (value / $scope.max)
 
 			$scope.editJob = editJob = (index) ->
-				
 				$scope.editIndex = index 
 
 			$scope.showRating = (index) ->
@@ -52,6 +50,17 @@ define ["./module"], (module) ->
 					prevEl.slideUp()
 					curEl.slideDown()
 				return	
+
+			$scope.rateJob = (job) ->
+				data = {
+					mark: job.rate.mark
+					comment: job.rate.comment
+					jobId: job._id
+				}
+				common.post API.rateJob, data
+				.success (data) ->
+					job = data
+					$state.reload()
 
 			$scope.saveJob = saveJob = (index, jobId) ->
 				jobId = $scope.filteredJobs[index]._id
@@ -90,14 +99,12 @@ define ["./module"], (module) ->
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
 				
-				
 			$scope.showMap = (index) ->
 				prevEl = ($ $scope.mapContainer)
 				job = $scope.filteredJobs[index];
 				$scope.mapContainer = "#gmaps-div-#{index}"
 				curEl = ($ $scope.mapContainer)
 				if prevEl.is curEl
-
 					prevEl.slideToggle()
 				else
 					prevEl.slideUp()
@@ -107,7 +114,7 @@ define ["./module"], (module) ->
 					$($scope.currentMap.el).empty()
 
 				$scope.currentMap = gmaps.showAddress {
-					address: job.address.city + job.address.line1
+					address: job.address.city.name + job.address.line1
 					container: $scope.mapContainer
 					done: ->
 						$scope.currentMap.refresh()

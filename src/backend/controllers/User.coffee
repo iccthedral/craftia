@@ -88,7 +88,7 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 	queryParams = 
 		status: jobStatus
 		author: mongoose.Types.ObjectId user._id
-	console.log queryParams
+
 	if jobStatus is "all"
 		delete queryParams.status
 	

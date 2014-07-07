@@ -60,16 +60,15 @@ schema = mongoose.Schema
 	
 	rating:
 		jobs: [
-			job: 
-				type: mongoose.Schema.Types.Mixed
-				default: {}
-			comment: 
+			job:
+				type: mongoose.Schema.Types.ObjectId
+				ref: "Job"
+			comment:
 				type: String
 				default: ""
-			rate:
+			mark:
 				type: Number
 				default: 0
-				min: 1
 				max: 5
 		]
 
@@ -80,7 +79,6 @@ schema = mongoose.Schema
 		avgRate: 
 			type: Number
 			default: 0
-			min: 0
 			max: 5
 
 	# expertise: 

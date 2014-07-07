@@ -107,7 +107,7 @@
 				    </td>
 
 				    <td class="bottom-2-dashed borderless yellow-tblock bookmark-star">
-				    	<img  ng-click="bidOnJob($index)" src="/img/bookmark_star_over.gif"/>
+				    	<img ng-hide="isBidder($index)" ng-click="bidOnJob($index)" src="/img/bookmark_star_over.gif"/>
 				    </td>
 				  </tr>
 
@@ -153,7 +153,6 @@
 							<th>End date </th>
 							<th>Material supplier</th>
 							<th>Budget</th>
-							<th ng-show="job.status === 'open'">Bid</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -165,16 +164,14 @@
 					    <td cr-date="{{job.dateTo}}"></td>
 					    <td>
 				    		<span  placeholder="{{job.materialProvider}}"> {{job.materialProvider}}
-                </span>
-              </td>
+	                		</span>
+	              		</td>
 					    <td>
 					    	<span>
 					    		{{job.materialProvider}}
 					    	</span>
 				    	</td>
-					    <td>
-
-					    </td>
+					   
 					  </tr>
 					</tbody>
 					</table>			

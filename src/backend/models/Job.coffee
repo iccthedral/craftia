@@ -58,10 +58,19 @@ schema = mongoose.Schema
 		type: mongoose.Schema.Types.ObjectId
 		ref: "User"
 		
-	rated:
+	isRated:
 		type: Boolean
 		default: false
 	
+	rate:
+		comment:
+			type: String
+			default: ""
+		mark:
+			type: Number
+			default: 0
+			max: 5
+
 	winner:
 		type: mongoose.Schema.Types.ObjectId
 		ref: "User"

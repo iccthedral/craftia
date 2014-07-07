@@ -80,7 +80,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.isBidder = isBidder = function(index) {
         var job;
         job = $scope.filteredJobs[index];
-        return _.findOne(job.bidders, "_id", appUser._id);
+        return _.findOne(job.bidders || [], "_id", appUser._id);
       };
       $scope.showMap = function(job, index) {
         var curEl, prevEl;

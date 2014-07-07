@@ -76,7 +76,7 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 
 			$scope.isBidder = isBidder = (index) ->
 				job = $scope.filteredJobs[index]
-				_.findOne job.bidders, "_id", appUser._id
+				_.findOne job.bidders or [], "_id", appUser._id
 
 			$scope.showMap = (job, index) ->
 				prevEl = ($ $scope.mapContainer)

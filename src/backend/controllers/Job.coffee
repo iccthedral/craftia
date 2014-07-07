@@ -18,33 +18,15 @@ UserCtrl				= require "../controllers/User"
 
 IMG_FOLDER = "#{process.cwd()}/www/img/"
 
-saveJobPhotos = (usr, job, photos, clb) ->
-	savePhoto = (photo, clb) ->
-		base64img = photo.src
-		base64img = base64img.split(";base64,")[1]
-		randPath = crypto.randomBytes(20).toString "hex"
-		path = "#{job.author}/#{randPath}"
-		photo.src = path
-		fs.writeFile "#{IMG_FOLDER}#{path}", base64img, {encoding: "base64"}, (err) ->
-			clb err, photo
-
-	photos = photos.filter (photo) -> return photo if photo?.src?
-	async.mapSeries photos, savePhoto, (err, photos) ->
-		job.jobPhotos = photos
-		job.save clb
-
-validateJobModel = ->
-	return true
-
 module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 	if not usr? or (usr.type isnt AuthLevels.CRAFTSMAN)
-		return clb "You're not authorized"
+		return clb throw "You're not authorized"
 	
 	JobModel
 	.findOne _id: jobId
 	.exec (err, job) ->
 		if job.status in [ "closed", "finished" ]
-			return clb "This job is finished"
+			return clb throw "This job is finished"
 		job.bidders.push usr
 		job.save (err) ->
 			return res.status(422).send(err.message) if err?
@@ -55,21 +37,31 @@ module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 				body: """
 Craftsman #{usr.username} just bidded on your job offering #{job.title} under #{job.category} category
 				"""
-			}, (err) -> clb err, job
+			}, (err, job) -> 
+				clb err, job
 
 module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 	if not user? or user.type isnt AuthLevels.CUSTOMER
-		return clb "You don't have permissions to pick winning bid"
+		return clb throw "You don't have permissions to pick winning bid"
 
 	JobModel
-	.findById jobId
-	.elemMatch("bidders", _id:user._id)
+	.findOne({
+		"_id": mongoose.Types.ObjectId jobId
+	})
+	.populate "bidders"
 	.exec (err, job) ->
-		return clb "You haven't bidded yet for this job" unless (job? and not err?)
+		return clb "No such job" if not job?
+		return clb err if err?
+		bidder = job.bidders.filter (bidder) ->
+			return bidder._id.equals(mongoose.Types.ObjectId winner)
+		
+		if not bidder?[0]?
+			return clb throw "You haven't bidded yet for this job"
+
 		UserModel
 		.findById winner
 		.exec (err, winUser) ->
-			return clb "No such user #{winner}" if err?
+			return clb throw "No such user #{winner}" if err?
 			job.winner = winUser
 			job.status = "closed"
 			job.save (err, job) ->
@@ -129,38 +121,43 @@ Craftsman #{usr.username} just canceled their bid on your job offering #{job.tit
 module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
 	if user.type isnt AuthLevels.CUSTOMER or not user?
 		return clb "You don't have permissions to rate"
-	if not (0 < mark < 6)
+	if not (1 < mark < 6)
 		return clb "Mark is out of range"
 
 	JobModel.findById jobId
+	.populate "winner"
 	.exec (err, job) ->
 		return clb err if err?
-		if job.author isnt user.id
-			return clb "You're not the creator of this job"
+		if not job.winner?
+			return clb throw "You don't have permission to rate"
+		if not job.author.equals user._id
+			return clb throw "You're not the creator of this job"
 		if job.status isnt "finished"
-			return clb "This job isn't finished and you can't rate the craftsman"
+			return clb throw "This job isn't finished and you can't rate the craftsman"
 
-		winner = job.winner
+		winnerUser = job.winner
 		
 		# Has the customer already rated this craftsman?
-		alreadyRated = job.rated
+		alreadyRated = job.isRated
 		if alreadyRated
-			return clb "You've already rated this job"
+			return clb throw "You've already rated this job"
 
-		job.rated = true
+		job.isRated = true
+		job.rate.mark = mark
+		job.rate.comment = comment
 
-		UserModel.findById winner._id, (err, winnerUser) ->
-			winnerUser.rating.jobs.push {
-				job: job
-				comment: comment
-				rate: mark
-			}
-
-			winnerUser.rating.totalVotes += 1
-			winnerUser.rating.avgRate += mark
-			winnerUser.rating.avgRate /= winnerUser.rating.totalVotes
-
-			async.series [ winnerUser.save.bind winnerUser, job.save.bind job ], clb
+		winnerUser.rating.jobs.push {
+			job: job
+			comment: comment
+			mark: mark
+		}
+		winnerUser.rating.totalVotes += 1
+		winnerUser.rating.avgRate += mark
+		winnerUser.rating.avgRate /= winnerUser.rating.totalVotes
+		winnerUser.save (err, winner) ->
+			return clb err if err?
+			job.save (err, job) ->
+				clb err, job
 
 module.exports.fetchOpenJobs = fetchOpenJobs = (user, clb) ->
 	jobs = user.createdJobs.filter (job) -> return job.status is "open"
@@ -180,26 +177,46 @@ deleteJob = (req, res) ->
 updateJob = (req, res) ->
 	usr     = req.user
 	jobData = req.body
-	
+
+	reserved = [
+		"status"
+		"author"
+		"winner"
+		"bidders"
+		"jobPhotos":
+			default: []
+	]
 	if not usr? or usr.type isnt AuthLevels.CUSTOMER 
 		return res.send(403)
 
-	id = req.params.id
-	JobModel
-	.findById(id)
-	.exec (err, job) ->
-		return res.status(422).send(err) if err? or not job?
-		delete jobData.bidders
-		delete jobData.status
-		for k, v of jobData
-			job[k] = v
-		job.save (err, job) ->
-			return res.status(422).send(err) if err? or not job?
-			res.send job
+	if jobData.address?.city? 
+		checkCity = findCity(jobData.address.city) 
+	else
+		checkCity = (clb) -> clb(null, null)
+
+	if jobData.category?.subcategory?
+		findCat = findCategory(jobDa03)
+	else 
+		findCat = (clb) -> clb(null, null)
+
+	async.series [
+		checkCity,
+		findCat
+	], (err, results) ->
+		id = req.params.id
+		JobModel.findByIdAndUpdate(id, jobData)
+		.exec (err, results) ->
+			return res.send(404) if err? or results < 1
+			JobModel
+			.findById(id)
+			.exec (err, job) ->
+				return res.status(422).send(err.message) if err?
+				res.send(job)
 
 bidOnJobHandler = (req, res, next) ->
 	user = req.user
 	jobId = req.params.id
+
 	bidOnJob user, jobId, (err, job) ->
 		return res.status(422).send(err) if err?
 		res.send job
@@ -222,13 +239,14 @@ cancelBidOnJobHandler = (req, res, next) ->
 		res.send job
 
 rateJobHandler = (req, res, next) -> 
-	jobId = req.params.id
-	mark = req.params.mark
-	comment = req.params.comment
+	jobId = req.body.jobId
+	mark = req.body.mark
+	comment = req.body.comment
 	user = req.user
 
 	rateJob user, jobId, mark, comment, (err, job) ->
-		return res.status(422).send(err) if err?
+		console.error err, job
+		return res.send(err) if err?
 		res.send(job)
 
 listOpenJobsHandler = (req, res) ->
@@ -295,7 +313,6 @@ queryHandler = (req, res) ->
 		select : "-password"
 		model : "User"
 	}
-	.select("-bidders")
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->
@@ -308,17 +325,12 @@ queryHandler = (req, res) ->
 			res.send out
 
 module.exports.setup = (app) ->
-	app.get "/job/list/:page", listOpenJobsHandler
-
-	app.all "/job/*", (req, res, next) ->
-		throw "User doesn't exist" if not req.user?
-		next()
-
 	app.post "/job/:id/bid", bidOnJobHandler
-	app.post "/job/:id/rate/:mark", rateJobHandler
+	app.post "/job/rate", rateJobHandler
 	app.post "/job/:id/:uid/cancelbid", cancelBidOnJobHandler
 	app.post "/job/:id/pickawinner/:winner", pickWinnerHandler
 	app.post "/job/new", createNewJobHandler
+	app.get "/job/list/:page", listOpenJobsHandler
 	app.post "/job/:id/delete", deleteJob
 	app.post "/job/:id/update", updateJob
 	app.post "/job/query", queryHandler

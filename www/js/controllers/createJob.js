@@ -19,7 +19,9 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       };
       $scope.categoryChanged = function() {
         var jsonFile;
-        jsonFile = categories[$scope.selectedCategory];
+        jsonFile = categories[$scope.job.category];
+        console.log(jsonFile);
+        console.log($scope.job.category);
         return $.get("shared/resources/categories/" + jsonFile + ".json", function(data) {
           console.log(data);
           $scope.subcategories = data.subcategories.slice();
