@@ -35,6 +35,9 @@ define(["./module"], function(module) {
               });
             }
             scope.inFocus = false;
+            scope.progressStyle = {
+              width: "0%"
+            };
             if ($window.FileReader == null) {
               scope.dndDisabled = true;
             } else {
@@ -44,6 +47,12 @@ define(["./module"], function(module) {
           };
           post = function(scope, element, attrs) {
             var cancel, setupClassic, setupDnD;
+            if (attrs["disableDesc"] == null) {
+              scope.descriptionEnabled = false;
+            } else {
+              scope.descriptionEnabled = true;
+            }
+            console.log(scope.descriptionEnabled, attrs["disableDesc"]);
             scope.onClick = function(photo) {
               if ((photo != null ? photo.src : void 0) == null) {
                 return;
@@ -60,9 +69,16 @@ define(["./module"], function(module) {
               return false;
             };
             setupDnD = function() {
-              var holders, parent, previewFile, readFile;
+              var holders, inputs, parent, previewFile, readFile;
               parent = $(element).find(".photo-uploader");
               holders = parent.find(".photo-holder");
+              inputs = parent.find("input");
+              inputs.change(function() {
+                var holder;
+                holder = $(this).parent();
+                console.debug(this.files);
+                return readFile(holder, this.files);
+              });
               previewFile = function(holder, file) {
                 var reader, _ref;
                 if (_ref = file.type, __indexOf.call(acceptedTypes, _ref) < 0) {

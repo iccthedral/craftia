@@ -44,12 +44,21 @@ module.exports.setup = (app) ->
 	app.post "/user/registerCraftsman", registerCrafsmanHandler
 	app.post "/user/registerCustomer", registerCustomerHandler
 
-module.exports.saveUser = saveUser = (user, res) ->
-	user.save (err, user) ->
-		return res.status(422).send "Registering failed!" if err?
-		fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
+module.exports.saveUser = saveUser = (user, res, picture) ->
+	saveMe = ->
+		user.save (err, user) ->
 			return res.status(422).send "Registering failed!" if err?
-			res.send {user: user, msg: "Registering succeeded!"}
+			console.error user._id
+			fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
+				return res.status(422).send "Registering failed!" if err?
+				res.send {user: user, msg: "Registering succeeded!"}
+
+	if picture?
+		fs.writeFile "#{IMG_FOLDER}pic#{user._id}", picture, {encoding: "base64"}, (err) ->
+			user.profilePic = "pic#{user._id}"
+			saveMe()
+	else
+		saveMe()
 
 module.exports.notificationsHandler = notificationsHandler = (req, res) ->
 	page = req.params.page or 0
@@ -59,7 +68,7 @@ module.exports.notificationsHandler = notificationsHandler = (req, res) ->
 	out = {}
 	queryParams = 
 		to : user
-
+  
 	NotificationsModel
 		.find queryParams
 		.limit perPage
@@ -155,32 +164,33 @@ module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
 module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, next) ->
 	data        = req.body
 	data.type   = AuthLevels.CRAFTSMAN
+	picture 		= data.picture
+
 	user        = new UserModel(data)
-	
+
 	resolveCity = (clb) -> clb()
 	if data.address?.city?
 		resolveCity = JobCtrl.findCity(data.address.city)
 
-	resolveCity((err, city) ->
+	resolveCity (err, city) ->
 		return next err if err?
 		data.address.zip = city.zip
-		saveUser(user, res)
-	)
+		saveUser(user, res, picture)
 
 module.exports.registerCustomerHandler = registerCustomerHandler = (req, res) ->
 	data        = req.body
 	data.type   = AuthLevels.CUSTOMER
 	user        = new UserModel(data)
+	picture			= data.picture
 
 	resolveCity = (clb) -> clb()
 	if data.address?.city?
 		resolveCity = JobCtrl.findCity(data.address.city)
 
-	resolveCity((err, city) ->
+	resolveCity (err, city) ->
 		return next err if err?
 		data.address.zip = city.zip
-		saveUser(user, res)
-	)
+		saveUser(user, res, picture)
 
 module.exports.getOwnFinishedJobs = getOwnFinishedJobs = (user, clb) ->
 	
