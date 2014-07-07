@@ -162,7 +162,7 @@ function compileFrontend(file, next) {
 	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
-	.end(next)
+	if (next) next()
 };
 
 function compileShared(file, next) {
@@ -176,7 +176,7 @@ function compileShared(file, next) {
 	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
-	.end(next)
+	if (next) next()
 };
 
 function throwError(err) {

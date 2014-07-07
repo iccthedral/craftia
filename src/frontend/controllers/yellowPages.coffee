@@ -23,7 +23,6 @@ define ["./module"], (module) ->
 			$scope.currentPage = 0
 			
 			getPage = (pageIndex = 0) ->
-				console.debug common
 				common.get API.craftsmen.format("#{pageIndex}")
 				.success (data) ->
 					$scope.totalCraftsmen = data.totalCraftsmen
@@ -31,12 +30,12 @@ define ["./module"], (module) ->
 					$scope.filteredCraftsmen = data.craftsmen.slice()
 			
 			$scope.pageSelected = (page) ->
-				getPage (page.page - 1)
-
+				console.log page
+				getPage(page - 1)
+				
 			$scope.showInfo = (job, index) ->
-				console.log job, index
 				($ $scope.infoContainer).slideToggle()
-
+				
 				$scope.infoContainer = "#pics-div-#{index}"
 				($ $scope.infoContainer).slideToggle();
 				return

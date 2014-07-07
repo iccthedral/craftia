@@ -52,14 +52,14 @@ module.exports.saveUser = saveUser = (user, res, picture) ->
 			fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
 				return res.status(422).send "Registering failed!" if err?
 				res.send {user: user, msg: "Registering succeeded!"}
-
+				
 	if picture?
 		fs.writeFile "#{IMG_FOLDER}pic#{user._id}", picture, {encoding: "base64"}, (err) ->
 			user.profilePic = "pic#{user._id}"
 			saveMe()
 	else
 		saveMe()
-
+		
 module.exports.notificationsHandler = notificationsHandler = (req, res) ->
 	page = req.params.page or 0
 	user = req.user

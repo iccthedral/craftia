@@ -42,7 +42,6 @@ define(["controllers/module", "angular"], function(module, ng) {
         return $scope.toggleSpinner(false);
       });
       return $rootScope.$on(config.events.ToggleSpinner, function(_, data) {
-        console.log("TOGGLING SPINNER", data.show);
         return $scope.toggleSpinner(data.show);
       });
     }

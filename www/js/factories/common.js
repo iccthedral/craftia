@@ -58,7 +58,6 @@ define(["factories/module"], function(module) {
         });
       };
       out.broadcast = function() {
-        console.log(arguments);
         return $rootScope.$broadcast.apply($rootScope, arguments);
       };
       return out;

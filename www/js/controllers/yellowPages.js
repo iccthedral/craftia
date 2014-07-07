@@ -14,7 +14,6 @@ define(["./module"], function(module) {
         if (pageIndex == null) {
           pageIndex = 0;
         }
-        console.debug(common);
         return common.get(API.craftsmen.format("" + pageIndex)).success(function(data) {
           $scope.totalCraftsmen = data.totalCraftsmen;
           $scope.craftsmen = data.craftsmen;
@@ -22,10 +21,10 @@ define(["./module"], function(module) {
         });
       };
       $scope.pageSelected = function(page) {
-        return getPage(page.page - 1);
+        console.log(page);
+        return getPage(page - 1);
       };
       $scope.showInfo = function(job, index) {
-        console.log(job, index);
         ($($scope.infoContainer)).slideToggle();
         $scope.infoContainer = "#pics-div-" + index;
         ($($scope.infoContainer)).slideToggle();

@@ -110,14 +110,7 @@
 			</tbody>
 			</table>
 			<div class="job-buttons peach-div row">
-				
-				<a ui-sref="register"  class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
-					<i class="fa fa-mail-forward fa-2x"></i>
-					<span class="small-span">
-						View photos
-					</span>
-				</a>
-				<a ui-sref="register" class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
+				<a class="job-button col-md-3 col-sm-3 hover-glow-white text-center">
 					<i  class="fa fa-info fa-2x"></i>
 					<span class="small-span">
 						More info
@@ -136,7 +129,7 @@
 
 <div class="row text-center">
 		<div class="clearfix"></div>
-			<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="totalCraftsmen - 1" on-select-page="pageSelected" page="currentPage" rotate="false">
+			<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="totalCraftsmen" on-select-page="pageSelected(page)" page="currentPage" rotate="false">
 			</pagination>
 		<div class="clearfix"></div>
 </div>

@@ -40,7 +40,6 @@ define ["factories/module"], (module) ->
 					out.broadcast config.events.ToggleSpinner, show:false
 					
 			out.broadcast = ->
-				console.log arguments
 				return $rootScope.$broadcast.apply $rootScope, arguments
 
 			return out

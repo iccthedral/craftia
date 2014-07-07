@@ -48,6 +48,5 @@ define ["controllers/module", "angular"], (module, ng) ->
 				$scope.toggleSpinner false
 				
 			$rootScope.$on config.events.ToggleSpinner, (_, data) ->
-				console.log "TOGGLING SPINNER", data.show
 				$scope.toggleSpinner data.show
 	]

@@ -69,7 +69,6 @@
 										<label class="col-md-9 control-label" for="telephone">Telephone</label>
 										<div class="col-md-9">
 											<input ng-model="userDetails.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
-
 										</div>
 									</div>
 
@@ -81,6 +80,7 @@
 										</div>
 									</div>
 									
+
 									<!-- Text input-->
 									<div class="form-group">
 										<label class="col-md-9 control-label" for="telephone">Address</label>
@@ -88,6 +88,14 @@
 											<input ng-model="userDetails.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
 										</div>
 									</div>
+
+									<div class="form-group">
+										<div class="col-md-9">
+									  <cc-upload-photos upload="photoUploaded(file, rawImg)" disableDesc photos="userDetails.picture" num="1">
+										</cc-upload-photos>
+										</div>
+									</div>
+  									
 								</fieldset>
 							</div>
 						</div>

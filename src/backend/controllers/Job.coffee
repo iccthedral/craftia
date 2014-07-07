@@ -131,7 +131,7 @@ module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
 		return clb "You don't have permissions to rate"
 	if not (0 < mark < 6)
 		return clb "Mark is out of range"
-
+	
 	JobModel.findById jobId
 	.exec (err, job) ->
 		return clb err if err?
@@ -155,7 +155,7 @@ module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
 				comment: comment
 				rate: mark
 			}
-
+			
 			winnerUser.rating.totalVotes += 1
 			winnerUser.rating.avgRate += mark
 			winnerUser.rating.avgRate /= winnerUser.rating.totalVotes
