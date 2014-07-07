@@ -7,6 +7,7 @@ define [
 	"app"
 	"gmaps"
 	"rateit"
+	"ngSelect2"
 	"ngRoutes"
 	"ngUiRouter"
 	"ngAnimate"
@@ -156,7 +157,7 @@ define [
 				(exception, cause) ->
 					$delegate exception, cause
 					msg = exception.message
-					return if prefix? and msg.startsWith prefix
+					return if prefix? and msg?.startsWith prefix
 					err = {exception, cause}
 					msg = "#{prefix} - #{msg}"
 					logger.error msg, err, true

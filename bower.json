@@ -12,6 +12,7 @@
     "angular-carousel": "~0.2.3",
     "gmaps": "~0.4.13",
     "holderjs": "~2.3.2",
-    "toastr": "~2.0.3"
+    "toastr": "~2.0.3",
+    "angular-ui-select2": "~0.0.5"
   }
 }

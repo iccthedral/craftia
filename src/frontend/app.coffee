@@ -19,6 +19,7 @@ define [
 		"ui.router"
 		"ui.bootstrap"
 		"ui.bootstrap.modal"
+		"ui.select2"
 		"app.customControllers"
 		"app.factories"
 		"app.services"

@@ -1,5 +1,5 @@
 "use strict";
-define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls"], function(ng, _, routes, app) {
+define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngSelect2", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls"], function(ng, _, routes, app) {
   var $http, $q, $timeout, addErrorClass, addLoadingClass, appInjector, bodyElement, bootstrap, checkConfig, config, createBootstrap, createInjector, errorClass, forEach, isArray, isFunction, isObject, isPromise, isString, loadingClass, ngInjector, removeLoadingClass;
   forEach = ng.forEach;
   isString = ng.isString;
@@ -153,7 +153,7 @@ define(["angular", "util", "routes", "app", "gmaps", "rateit", "ngRoutes", "ngUi
           var err, msg;
           $delegate(exception, cause);
           msg = exception.message;
-          if ((prefix != null) && msg.startsWith(prefix)) {
+          if ((prefix != null) && (msg != null ? msg.startsWith(prefix) : void 0)) {
             return;
           }
           err = {

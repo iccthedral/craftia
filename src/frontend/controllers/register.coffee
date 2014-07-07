@@ -1,33 +1,58 @@
-define ["./cmodule", "json!cities"], (cmodule, cities) ->
-	
-	class RegisterCtrl
-		constructor: ->
-			@userDetails = {}
-			@acceptedTOS = false
-			@images = [
+define ["./module", "json!cities", "json!categories"], (module, cities, categories) ->
+	module.controller "RegisterCtrl", [
+		"$scope"
+		"$http"
+		"$q"
+		"common"
+		"logger"
+		($scope, $http, $q, common, logger) ->
+			$scope.userDetails = {}
+			$scope.acceptedTOS = false
+			$scope.images = [
 				"img/quality.jpg"
 				"img/master.jpg"
 				"img/approved.jpg"
 			]
+			$scope.select2Options =
+				'multiple': true
+				'simple_tags': true
+				'tags': []
 
-		getCities: (val) ->
-			return cities
-		
-		register: ->
-			if not @acceptedTOS
-				@log.error "Please check whether you agree with the terms & conditions"
-				return
+			$scope.categories = categories
 
-			curState = @state.current.name
-			url = @API.registerCraftsman
-			if curState is "anon.register.customer"
-				url = @API.registerCustomer
+			# ($.get v for k, v of $scope.categories)
+			$scope.allTags = $scope.select2Options.tags
 			
-			@http.post url, @userDetails
-			.success =>
-				@log.success "You are now registered"
-				@state.transitionTo "anon.login"
-			.error (err) =>
-				@log.error err
+			$scope.fetchTags = ->
+				return $q.all ($http.get "shared/resources/categories/#{v}.json" for k, v of $scope.categories)
+				.then (data) =>
+					console.log data
+					data.forEach (cat) =>
+						catName = cat.data.category
+						tags = cat.data.subcategories.map (subcat) ->
+							return "#{catName} > #{subcat}"
+						$scope.allTags = $scope.allTags.concat tags
+					console.log $scope.allTags
+			$scope.getCities = (val) ->
+				return cities
+			
+			$scope.register = ->
+				if not $scope.acceptedTOS
+					$scope.log.error "Please check whether you agree with the terms & conditions"
+					return
 
-	return cmodule RegisterCtrl
+				curState = $scope.state.current.name
+				url = $scope.API.registerCraftsman
+				if curState is "anon.register.customer"
+					url = $scope.API.registerCustomer
+				
+				$scope.http.post url, $scope.userDetails
+				.success =>
+					$scope.log.success "You are now registered"
+					$scope.state.transitionTo "anon.login"
+				.error (err) =>
+					$scope.log.error err
+
+			do activate = ->
+				common.activateController [$scope.fetchTags()], "RegisterCtrl"
+	]

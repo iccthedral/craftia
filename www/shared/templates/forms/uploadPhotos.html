@@ -1,0 +1,32 @@
+<script src="holder.js">
+</script>
+
+<div class="fluid-container panel panel-default photo-uploader">
+	<div class="fluid-row panel-body">
+		<form class="form-horizontal">
+			<fieldset>
+				<header>
+					<h5>Drop or select a photo</h5>
+					<div class="progress ng-hide">
+					  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="progressStyle">
+					    <span class="sr-only">60%</span>
+					  </div>
+					</div>
+				</header>
+				
+			  <div ng-repeat="img in photos" class="">
+			    <div class="thumbnail photo-holder inputWrapper" ng-click="onClick(img)" photo-id="{{$index}}">
+			    	<input type="file" name="file-{{$index}}" class="fileInput hiddenInput">
+			      <img src="holder.js/200x200/text:Drop or click here..." alt="...">
+			    </div>
+			  </div>
+
+				<div class="row text-center"> 
+		    	<textarea ng-show="inFocus && descriptionEnabled" ng-model="focused.description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea">
+		    		{{focused.description}}
+		    	</textarea>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

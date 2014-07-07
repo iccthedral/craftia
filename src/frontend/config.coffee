@@ -37,7 +37,8 @@ require =
 		"ngCarousel": "../vendor/angular-carousel/dist/angular-carousel.min"
 		"ngTouch": "../vendor/angular-touch/angular-touch.min"
 		"ngAnimate": "../vendor/angular/angular-animate.min"
-
+		"select2": "../vendor/select2/select2.min"
+		"ngSelect2": "../vendor/angular-ui-select2/src/select2"
 	shim:
 		jquery:
 			exports: "jquery"
@@ -89,6 +90,12 @@ require =
 		
 		ngTouch: 
 			deps: ["angular"]
+
+		select2:
+			deps: ["jquery"]
+
+		ngSelect2:
+			deps: ["select2", "angular"]	
 
 	deps: ["jquery", "angular", "toastr", "bootstrap" ]
 

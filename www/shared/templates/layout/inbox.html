@@ -1,0 +1,62 @@
+<!--
+<div class="widget wcyan col-md-12">
+<div cc-widget-header title="Notifications" allow-collapse="true">
+
+</div>
+
+ <table class="table table-striped helvetica-neue widget-content">
+<thead><tr><th>Date sent</th><th>Type</th><th>Message</th></tr></thead>
+<tbody>
+  <tr ng-repeat="msg in notifications">
+    <td cr-date="{{msg.dateSent}}"></td>
+    <td>{{msg.type}}</td>
+    <td>{{msg.message}}</td>
+  </tr>
+</tbody>
+</table> 
+
+</div>
+-->
+
+<div class="row">
+	<div class="col-md-1 col-sm-1 col-lg-1">
+	</div>  
+	<div class="col-md-10 col-sm-10 col-lg-10">
+		<div class="widget wcyan">
+			<div class="widget-head">
+				<form class="form-inline" role="form">
+					
+					<div class="form-group">
+						<input class="form-control" data-ng-model="searchQuery" data-ng-keyup="search($event)" placeholder="live search...">
+					</div>
+
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary btn-lg" ng-click="showInbox()">
+							<i class="fa fa-arrow-circle-down fa-2x"></i> Inbox
+						</button>
+					</div>
+								
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary btn-lg" ng-click="showOutbox()">
+							<i class="fa fa-arrow-circle-up fa-2x"></i> Outbox
+						</button>
+					</div>
+
+				</form>
+			</div>
+			
+			<div ui-view="main" class="shellic">
+			</div>
+
+			<div class="row text-center">
+					<div class="clearfix"></div>
+					<pagination class="pagination-sm" boundary-links="true" max-size="3" items-per-page="sizePerPage" total-items="totalLength - 1" on-select-page="pageSelected" page="currentPage" rotate="false"></pagination>
+					<div class="clearfix"></div>
+			</div>
+		</div>
+		<div class="underConstruction" style="width:100%;">
+		</div>
+	</div>
+	<div class="col-md-1 col-sm-1 col-lg-1">
+	</div>  
+</div> 

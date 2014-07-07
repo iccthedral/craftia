@@ -1,0 +1,21 @@
+{
+	"category": "Car",
+	"subcategories" : [
+		"Auto Repair",
+		"Auto Tuning",
+		"Chauffeur",
+		"Driver",
+		"Fleet",
+		"Vehicle cleaning",
+		"Painting",
+		"Navigation & Car Audio and Video",
+		"Commercial vehicle repair",
+		"Tire Change",
+		"Other automotive service",
+		"Motorcycle Repair",
+		"Motorcycle overpass",
+		"Motorcycle Tuning",
+		"Other Services"
+	]
+}
+
