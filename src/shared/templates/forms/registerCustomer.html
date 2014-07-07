@@ -1,133 +1,120 @@
-<section>
-	<div class="row">
-		<div class="col-md-1">
-		</div>
-		<div class="col-md-10 widget wcyan">
-			<div cc-widget-header title="Register as a customer"></div>
-			<div class="widget-content user">
-				<div class="row">
-						<div class="widget wcyan col-md-5">
-							<div class="profile-details-widget ">
-								<form class="form-horizontal" ng-submit="register()">
-									<fieldset>
+<div class="col-md-1"></div>
+<div class="row col-md-10">
+	<div class="widget wcyan">
+		<div cc-widget-header title="Register as a customer"></div>
+		<div class="widget-content user">
+			<div class="row">
+				<form class="form-horizontal" ng-submit="register()">
+					<div class="col-md-6">
+						<div class="widget wcyan">
+							<div class="profile-details-widget fluid-container">
+								<fieldset>
+									<!-- Form Name -->
+									<h3>Profile Details</h3>
 
-										<!-- Form Name -->
-										<h3>Profile Details</h3>
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="email">E-mail</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="email">E-mail</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
-
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="username">Username</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
-											</div>
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="username">Username</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
 										</div>
+									</div>
 
-										<!-- Password input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="password">Password</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+									<!-- Password input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="password">Password</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.password" id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Password input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="rep-password">Repeat password</label>
-											<div class="col-md-9">
-												<input id="rep-password" name="rep-password" type="password" placeholder="repeat password" class="form-control input-md" required="">
-											</div>
+									<!-- Password input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="rep-password">Repeat password</label>
+										<div class="col-md-9">
+											<input id="rep-password" name="rep-password" type="password" placeholder="repeat password" class="form-control input-md" required="">
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="name">Name</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="name">Name</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="surname">Surname</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="surname">Surname</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="telephone">Telephone</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="telephone">Telephone</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
 
-											</div>
 										</div>
+									</div>
 
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="telephone">City</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
-											</div>
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="telephone">City</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.address.city"  placeholder="..." typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
 										</div>
-										
-
-										<!-- Text input-->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="telephone">Address</label>
-											<div class="col-md-9">
-												<input ng-model="userDetails.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
-											</div>
+									</div>
+									
+									<!-- Text input-->
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="telephone">Address</label>
+										<div class="col-md-9">
+											<input ng-model="userDetails.address.line1" name="telephone" type="text" placeholder="address of residence" class="form-control input-md" required="">
 										</div>
-
-
-										<!-- Multiple Checkboxes (inline) -->
-										<div class="form-group">
-											<label class="col-md-9 control-label" for="gtc">Accept Terms &amp; Conditions</label>
-											<div class="col-md-9">
-												<label class="checkbox-inline" for="gtc-0">
-													<input ng-model="acceptedTOS" type="checkbox" name="gtc" id="gtc-0" value="">
-												</label>
-											</div>
-										</div>
-
-										<!-- Button -->
-										<div class="form-group">
-											<div >
-												<input value="Register" type="submit" id="register-submit" name="register-submit" class="pull-left btn btn-black">
-											</div>
-										</div>
-
-									</fieldset>
-								</form>
-
-							</div>
-						</div>
-						<div class="col-md-6">
-						<div class="col-md-8 widget wcyan fluid-container">
-							<h3>Terms & Conditions</h3>
-							<textarea readonly  rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</textarea>
+									</div>
+								</fieldset>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-md-1">
-		</div>
-		</div>
+					<div class="col-md-6">
+						<div class="widget wcyan fluid-container">
+							<h3>Terms & Conditions</h3>
+							<textarea readonly  rows="20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							</textarea>
 
+							<div class="checkbox">
+								<label class="" for="gtc">
+									<input ng-model="acceptedTOS" type="checkbox" name="gtc" id="gtc-0" value="">Accept Terms &amp; Conditions
+								</label>
+							</div>
+							
+							<!-- Button -->
+							<div class="form-group">
+								<div class="col-md-9 col-md-offset-5">
+									<input value="Register" type="submit" id="register-submit" name="register-submit" class="btn btn-lg btn-primary">
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
-</section>
+</div>
+<div class="col-md-1"></div>

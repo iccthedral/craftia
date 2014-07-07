@@ -29,9 +29,9 @@ do jobUpdate = ->
 		async.map(results , (job, clb) ->
 			d = job.dateTo
 			expiredOrClosed = (Date.now() > d.getTime())
-			log "Job expired:", expiredOrClosed
-			log "Job status:", job.status
-			log "Job winner:", job.winner
+			# log "Job expired:", expiredOrClosed
+			# log "Job status:", job.status/
+			# log "Job winner:", job.winner
 		
 			if not expiredOrClosed or job.status is "finished"
 				return clb null, null
@@ -54,7 +54,7 @@ do jobUpdate = ->
 			
 			job.save (err, cnt) ->
 				return clb err, cnt if err?
-				log "Job updated!"
+				# log "Job updated!"
 				clb null, job
 		, (err, results) ->
 				log "Jobs updating finished"

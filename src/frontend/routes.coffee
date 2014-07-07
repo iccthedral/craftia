@@ -224,7 +224,6 @@ define ["app", "angular"], (app, ng) ->
 					"main@craftsman.messages":
 						templateUrl: "/shared/templates/layout/receivedMessages.html"
 			}
-
 			.state "craftsman.myJobs", {
 				url: "/myJobs"
 				views:
@@ -232,7 +231,6 @@ define ["app", "angular"], (app, ng) ->
 						templateUrl: "shared/templates/layout/craftsmanMyJobs.html"
 						controller: "CraftsmanMyJobsCtrl"
 			}
-
 			.state "craftsman.findJobs", {
 				url: "/findJobs"
 				views:
@@ -254,7 +252,6 @@ define ["app", "angular"], (app, ng) ->
 						templateUrl: "shared/templates/layout/notifications.html"
 						controller: "NotificationsCtrl"
 			}
-
 			.state "craftsman.profile", {
 				url: "/profile"
 				views:

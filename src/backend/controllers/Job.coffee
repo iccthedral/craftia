@@ -18,46 +18,23 @@ UserCtrl				= require "../controllers/User"
 
 IMG_FOLDER = "#{process.cwd()}/www/img/"
 
-module.exports.saveJob = saveJob = (usr, jobData, clb) ->
-	if usr.type isnt AuthLevels.CUSTOMER
-		return clb "You don't have permissions to create a new job"
-	
-	async.series [
-		findCity jobData.address.city
-		findCategory jobData
-	]
-	, (err, results) ->
-		return clb err if err?
-		delete jobData._id
-		
-		saveJobPhoto = (photo, clb) ->
-			base64img = photo.src
-			base64img = base64img.split(";base64,")[1]
+saveJobPhotos = (usr, job, photos, clb) ->
+	savePhoto = (photo, clb) ->
+		base64img = photo.src
+		base64img = base64img.split(";base64,")[1]
+		randPath = crypto.randomBytes(20).toString "hex"
+		path = "#{job.author}/#{randPath}"
+		photo.src = path
+		fs.writeFile "#{IMG_FOLDER}#{path}", base64img, {encoding: "base64"}, (err) ->
+			clb err, photo
 
-			randPath = crypto.randomBytes(20).toString "hex"
-			path = "#{usr._id}/#{randPath}"
-			fs.writeFile "#{IMG_FOLDER}#{path}", base64img, {encoding: "base64"}, (err) ->
-				clb err, path
+	photos = photos.filter (photo) -> return photo if photo?.src?
+	async.mapSeries photos, savePhoto, (err, photos) ->
+		job.jobPhotos = photos
+		job.save clb
 
-		finish = ->
-			job = new JobModel jobData
-			job.status = "open"
-			job.address.zip = results[0].zip
-			job.author = usr
-			job.save (err, job) ->
-				return clb err if err?
-				usr.save (err, cnt) ->
-					clb err, job, usr
-					
-		photos = jobData.jobPhotos.slice().filter (photo) -> photo if photo?.src?
-
-		if photos?.length > 0
-			async.mapSeries photos, saveJobPhoto, (err, urls) ->
-				jobData.jobPhotos = jobData.jobPhotos.map (photo) ->
-					photo.src = urls.shift()
-					return photo
-				finish()
-		else finish()
+validateJobModel = ->
+	return true
 
 module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 	if not usr? or (usr.type isnt AuthLevels.CRAFTSMAN)
@@ -83,7 +60,6 @@ Craftsman #{usr.username} just bidded on your job offering #{job.title} under #{
 module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 	if not user? or user.type isnt AuthLevels.CUSTOMER
 		return clb "You don't have permissions to pick winning bid"
-
 
 	JobModel
 	.findById jobId
@@ -153,7 +129,7 @@ Craftsman #{usr.username} just canceled their bid on your job offering #{job.tit
 module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
 	if user.type isnt AuthLevels.CUSTOMER or not user?
 		return clb "You don't have permissions to rate"
-	if not (1 < mark < 6)
+	if not (0 < mark < 6)
 		return clb "Mark is out of range"
 
 	JobModel.findById jobId
@@ -177,6 +153,7 @@ module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
 			winnerUser.rating.jobs.push {
 				job: job
 				comment: comment
+				rate: mark
 			}
 
 			winnerUser.rating.totalVotes += 1
@@ -203,46 +180,26 @@ deleteJob = (req, res) ->
 updateJob = (req, res) ->
 	usr     = req.user
 	jobData = req.body
-
-	reserved = [
-		"status"
-		"author"
-		"winner"
-		"bidders"
-		"jobPhotos":
-			default: []
-	]
+	
 	if not usr? or usr.type isnt AuthLevels.CUSTOMER 
 		return res.send(403)
 
-	if jobData.address?.city? 
-		checkCity = findCity(jobData.address.city) 
-	else
-		checkCity = (clb) -> clb(null, null)
-
-	if jobData.category?.subcategory?
-		findCat = findCategory(jobDa03)
-	else 
-		findCat = (clb) -> clb(null, null)
-
-	async.series [
-		checkCity,
-		findCat
-	], (err, results) ->
-		id = req.params.id
-		JobModel.findByIdAndUpdate(id, jobData)
-		.exec (err, results) ->
-			return res.send(404) if err? or results < 1
-			JobModel
-			.findById(id)
-			.exec (err, job) ->
-				return res.status(422).send(err.message) if err?
-				res.send(job)
+	id = req.params.id
+	JobModel
+	.findById(id)
+	.exec (err, job) ->
+		return res.status(422).send(err) if err? or not job?
+		delete jobData.bidders
+		delete jobData.status
+		for k, v of jobData
+			job[k] = v
+		job.save (err, job) ->
+			return res.status(422).send(err) if err? or not job?
+			res.send job
 
 bidOnJobHandler = (req, res, next) ->
 	user = req.user
 	jobId = req.params.id
-
 	bidOnJob user, jobId, (err, job) ->
 		return res.status(422).send(err) if err?
 		res.send job
@@ -296,10 +253,13 @@ listOpenJobsHandler = (req, res) ->
 			res.send out
 
 createNewJobHandler = (req, res, next) ->
-	jobData = req.body
-	usr     = req.user
-	return next "User doesn't exist" if not usr?
-	saveJob usr, jobData, (err, job, usr) ->
+	jobData 	= req.body
+	user     	= req.user
+	if user.type isnt AuthLevels.CUSTOMER
+		throw "You don't have permissions to create a new job"
+	jobData.author = user
+	job = new JobModel jobData
+	job.save (err, job) ->
 		return next err if err?
 		res.send job
 
@@ -348,12 +308,17 @@ queryHandler = (req, res) ->
 			res.send out
 
 module.exports.setup = (app) ->
+	app.get "/job/list/:page", listOpenJobsHandler
+
+	app.all "/job/*", (req, res, next) ->
+		throw "User doesn't exist" if not req.user?
+		next()
+
 	app.post "/job/:id/bid", bidOnJobHandler
 	app.post "/job/:id/rate/:mark", rateJobHandler
 	app.post "/job/:id/:uid/cancelbid", cancelBidOnJobHandler
 	app.post "/job/:id/pickawinner/:winner", pickWinnerHandler
 	app.post "/job/new", createNewJobHandler
-	app.get "/job/list/:page", listOpenJobsHandler
 	app.post "/job/:id/delete", deleteJob
 	app.post "/job/:id/update", updateJob
 	app.post "/job/query", queryHandler

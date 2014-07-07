@@ -20,7 +20,7 @@ define ["./module"], (module) ->
 				scope: 
 					num: "="
 					onUpload: "&upload"
-					photos: "="	
+					photos: "="
 
 				templateUrl: "shared/templates/forms/uploadPhotos.html"
 				compile: (element, attrs, transclude) ->
@@ -33,7 +33,9 @@ define ["./module"], (module) ->
 								description: ""
 							}
 						scope.inFocus = false
-
+						scope.progressStyle = {
+							width: "0%"
+						}
 						if not $window.FileReader?
 							scope.dndDisabled = true
 						else
@@ -41,6 +43,12 @@ define ["./module"], (module) ->
 						dndDisabled = scope.dndDisabled
 
 					post = (scope, element, attrs) ->
+						if not attrs["disableDesc"]?
+							scope.descriptionEnabled = false
+						else
+							scope.descriptionEnabled = true
+
+						console.log scope.descriptionEnabled, attrs["disableDesc"]
 
 						scope.onClick = (photo) ->
 							return if not photo?.src?
@@ -56,6 +64,13 @@ define ["./module"], (module) ->
 						setupDnD = ->
 							parent = $(element).find(".photo-uploader")
 							holders = parent.find(".photo-holder")
+							inputs = parent.find("input")
+
+							inputs.change ->
+								holder = $(@).parent()
+								console.debug @files
+								readFile(holder, @files)
+
 							previewFile = (holder, file) ->
 								return if file.type not in acceptedTypes
 								reader = new FileReader()
