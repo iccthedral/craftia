@@ -21,7 +21,14 @@ define ["factories/module"], (module) ->
 				defer.finally ->
 					out.broadcast config.events.ToggleSpinner, show:false
 				return defer
-				
+
+			out.post = (url, data) ->
+				out.broadcast config.events.ToggleSpinner, show:true
+				defer = $http.post url, data
+				defer.finally ->
+					out.broadcast config.events.ToggleSpinner, show:false
+				return defer
+
 			out.activateController = (promises, controllerId) ->
 				out.broadcast config.events.ToggleSpinner, show:true
 				logger.log "Activating #{controllerId} controller"

@@ -1,0 +1,17 @@
+<div class="fluid-container panel panel-default photo-uploader">
+  <script src="holder.js">
+  </script>
+  <div class="row panel-body lightbox-tiles text-center">
+          <div data-ng-repeat="i in images" ng-click="displayImage(i)" class="col-xs-6 col-md-3">
+            <div class="thumbnail photo-holder lightbox-photo">
+              <img src="holder.js/200x200/text:Photo" ng-src="img/{{i.src}}" alt="..." >
+            </div>
+          </div>
+
+          <div class="row text-center"> 
+            <textarea ng-show="inFocus" ng-model="focused.description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea">
+              {{focused.description}}
+            </textarea>
+          </div>
+  </div>
+</div>

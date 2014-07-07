@@ -1,12 +1,12 @@
-define(["./module"], function(module) {
+define(["./module", "json!cities", "json!categories"], function(module, cities, categories) {
   return module.controller("CraftsmanFindJobsCtrl", [
     "$scope", "$http", "$state", "cAPI", "appUser", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, API, appUser, logger, common, config, categoryPictures, gmaps, dialog) {
-      var activate, bidOnJob, getPage, isBidder, sendMessage, showInfo, showPics, showProfile, state;
+      var activate, bidOnJob, getCities, getPage, isBidder, sendMessage, showInfo, showPics, showProfile, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
       $scope.totalJobs = 0;
-      $scope.searchQueries = {};
+      $scope.searchQuery = "";
       $scope.sizePerPage = 5;
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
@@ -14,6 +14,22 @@ define(["./module"], function(module) {
       $scope.picsContainer = "#pics-div-0";
       $scope.infoContainer = "#info-div-0";
       $scope.profileContainer = "#profile-div-0";
+      $scope.subcategories = [];
+      $scope.categories = Object.keys(categories);
+      $scope.cities = cities;
+      $scope.searchCriterion = {};
+      (getCities = function() {
+        return $scope.cities = cities;
+      })();
+      $scope.categoryChanged = function() {
+        var jsonFile;
+        jsonFile = categories[$scope.selectedCategory];
+        return $.get("shared/resources/categories/" + jsonFile + ".json", function(data) {
+          console.log(data);
+          $scope.subcategories = data.subcategories.slice();
+          return $scope.$digest();
+        });
+      };
       $scope.getPage = getPage = function(pageIndex, ignore) {
         if (ignore) {
           return;
@@ -22,17 +38,16 @@ define(["./module"], function(module) {
           show: true
         });
         return $http.get(API.getPagedOpenJobs.format("" + pageIndex)).success(function(data) {
-          var job, _i, _len, _ref;
+          var job, _i, _len, _ref, _ref1, _ref2;
           _ref = data.jobs;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             job = _ref[_i];
-            job.jobPhotos = job.jobPhotos.filter(function(img) {
+            job.jobPhotos = (_ref1 = job.jobPhotos) != null ? _ref1.filter(function(img) {
               return img.img != null;
-            });
+            }) : void 0;
           }
           $scope.totalJobs = data.totalJobs;
-          $scope.jobs = data.jobs;
-          return $scope.filteredJobs = data.jobs.slice();
+          return $scope.filteredJobs = (_ref2 = data.jobs) != null ? _ref2.slice() : void 0;
         })["finally"](function() {
           return common.broadcast(config.events.ToggleSpinner, {
             show: false
@@ -157,7 +172,16 @@ define(["./module"], function(module) {
           onCancel: function() {}
         });
       };
-      $scope.search = function() {};
+      $scope.search = function() {
+        $scope.searchCriterion.category = $scope.selectedCategory;
+        $scope.searchCriterion.subcategory = $scope.selectedSubcategory;
+        $scope.searchCriterion.page = $scope.currentPage;
+        return common.post(API.queryJobs, $scope.searchCriterion).success(function(data) {
+          var _ref;
+          $scope.totalJobs = data.totalJobs;
+          return $scope.filteredJobs = (_ref = data.jobs) != null ? _ref.slice() : void 0;
+        });
+      };
       return (activate = function() {
         return common.activateController([getPage(0)], "CraftsmanFindJobsCtrl");
       })();

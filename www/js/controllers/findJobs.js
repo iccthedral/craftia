@@ -1,7 +1,7 @@
-define(["./module"], function(module) {
+define(["./module", "json!cities", "json!categories"], function(module, cities, categories) {
   return module.controller("FindJobsCtrl", [
     "$scope", "$http", "$state", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", function($scope, $http, $state, API, logger, common, config, categoryPictures, gmaps) {
-      var activate, getPage, state;
+      var activate, getCities, getPage, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -10,6 +10,9 @@ define(["./module"], function(module) {
       $scope.sizePerPage = 5;
       $scope.selectedPage = 0;
       $scope.currentPage = 0;
+      $scope.subcategories = [];
+      $scope.categories = Object.keys(categories);
+      $scope.cities = cities;
       getPage = function(pageIndex) {
         if (pageIndex == null) {
           pageIndex = 0;
@@ -47,6 +50,19 @@ define(["./module"], function(module) {
           }
         });
       };
+      getCities = function() {
+        debugger;
+        return $scope.cities = cities;
+      };
+      $scope.categoryChanged = function(cat) {
+        var jsonFile;
+        jsonFile = categories[job.category];
+        console.log(jsonFile, job);
+        return require(["json!" + jsonFile], function(data) {
+          $scope.subcategories = data.subcategories.slice();
+          return $scope.$digest();
+        });
+      };
       $scope.showInfo = function(job, index) {
         ($($scope.infoContainer)).slideUp();
         $scope.infoContainer = "#pics-div-" + index;
@@ -54,7 +70,7 @@ define(["./module"], function(module) {
       };
       $scope.search = function() {};
       return (activate = function() {
-        return common.activateController([getPage], "FindJobsCtrl");
+        return common.activateController([getPage, getCities], "FindJobsCtrl");
       })();
     }
   ]);

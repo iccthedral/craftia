@@ -55,7 +55,6 @@ module.exports.notificationsHandler = notificationsHandler = (req, res) ->
 	page = req.params.page or 0
 	user = req.user
 	perPage = 5
-	user = req.user
 	out = {}
 	queryParams = 
 		to : user
@@ -80,7 +79,7 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 	queryParams = 
 		status: jobStatus
 		author: mongoose.Types.ObjectId user._id
-
+	console.log queryParams
 	if jobStatus is "all"
 		delete queryParams.status
 	

@@ -17,11 +17,11 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.getCities = function() {
         return cities;
       };
-      $scope.categoryChanged = function(cat) {
+      $scope.categoryChanged = function() {
         var jsonFile;
-        jsonFile = categories[job.category];
-        console.log(jsonFile, job);
-        return require(["json!" + jsonFile], function(data) {
+        jsonFile = categories[$scope.selectedCategory];
+        return $.get("shared/resources/categories/" + jsonFile + ".json", function(data) {
+          console.log(data);
           $scope.subcategories = data.subcategories.slice();
           return $scope.$digest();
         });

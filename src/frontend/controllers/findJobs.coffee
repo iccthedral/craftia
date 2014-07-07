@@ -1,4 +1,4 @@
-define ["./module"], (module) ->
+define ["./module", "json!cities", "json!categories"], (module, cities, categories) ->
 
 	module.controller "FindJobsCtrl" , [
 		"$scope"
@@ -21,6 +21,9 @@ define ["./module"], (module) ->
 			$scope.sizePerPage = 5
 			$scope.selectedPage = 0
 			$scope.currentPage = 0
+			$scope.subcategories = []
+			$scope.categories = Object.keys(categories)
+			$scope.cities = cities
 			
 			getPage = (pageIndex = 0) ->
 				common.get API.getPagedOpenJobs.format("#{pageIndex}")
@@ -51,6 +54,17 @@ define ["./module"], (module) ->
 						console.log 'iamdone'
 				}
 
+			getCities = ->
+				debugger
+				return $scope.cities = cities
+			
+			$scope.categoryChanged = (cat) ->
+				jsonFile = categories[job.category]
+				console.log jsonFile, job
+				require [ "json!#{jsonFile}" ], (data) ->
+					$scope.subcategories = data.subcategories.slice()
+					$scope.$digest()
+
 			$scope.showInfo = (job, index) ->
 				($ $scope.infoContainer).slideUp()
 				$scope.infoContainer = "#pics-div-#{index}"
@@ -64,5 +78,5 @@ define ["./module"], (module) ->
 				# 	msg.subject.indexOf(text) isnt -1 or msg.message.indexOf(text) isnt -1
 						
 			do activate = ->
-				common.activateController [getPage], "FindJobsCtrl"
+				common.activateController [getPage, getCities], "FindJobsCtrl"
 	]

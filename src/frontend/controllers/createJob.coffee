@@ -26,10 +26,10 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.getCities = ->
 				return cities
 			
-			$scope.categoryChanged = (cat) ->
-				jsonFile = categories[job.category]
-				console.log jsonFile, job
-				require [ "json!#{jsonFile}" ], (data) ->
+			$scope.categoryChanged = ->
+				jsonFile = categories[$scope.selectedCategory]
+				$.get "shared/resources/categories/#{jsonFile}.json", (data) ->
+					console.log data
 					$scope.subcategories = data.subcategories.slice()
 					$scope.$digest()
 

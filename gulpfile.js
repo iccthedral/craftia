@@ -29,7 +29,7 @@ var spawn = require("child_process").spawn
 	, dbPathDir = "./data/db/"
 	, jsDir = "./www/js/"
 	, sharedDir = "./src/shared/"
-	,	frontendDir = "./src/frontend/"
+	, frontendDir = "./src/frontend/"
 	, serverFile = "server.coffee"
 	, args = {
 			mongo: [
@@ -162,6 +162,7 @@ function compileFrontend(file, next) {
 	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
+	.end(next)
 };
 
 function compileShared(file, next) {
@@ -175,6 +176,7 @@ function compileShared(file, next) {
 	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
+	.end(next)
 };
 
 function throwError(err) {
@@ -211,7 +213,6 @@ gulp.task("default", [
 	"compile-frontend",
 	"serve-mongo",
 	"serve-express",
-	"job-process",
 	"watch-frontend",
 	"watch-shared"
 ], function(next) {
@@ -396,30 +397,32 @@ gulp.task("create-dbpath", function(next) {
 /**
 	Default dev tasks
 */
-gulp.task("serve-express", function(next) {
+gulp.task("serve-express", function() {
 	var serverInstance = null;
 	var spawnServer = function() {
 		serverInstance = spawn(binCoffee, args.server);
 		pipeOut(serverInstance, "EXPRESS", "red", logFiles.server.out);
-		pipeErr(serverInstance, logFiles.server.err);
+		pipeErr(serverInstance, logFiles.server.out);
+		serverInstance.stdout.on("data", function(data) {
+			util.log(data.toString());
+		});
 		serverInstance.stdout.once("data", function() {
 			util.log("Express is up!".green.bold);
-			next();
 		});
-		serverInstance.on("close", function() {
-			util.log("Server exited!".white.bold);
-			spawnServer();
+		serverInstance.stderr.on("data", function(data) {
+			util.log(data.toString());
 		});
 	};
 
 	var restartServer = function() {
 		if (serverInstance) {
+			util.log("I watched u")
 			serverInstance.kill();
-		} else {
-			spawnServer();
 		}
+		spawnServer();
 	};
-	restartServer();
+	
+	spawnServer();
 	gulp.watch([backendDir + "**/*.coffee", serverFile], restartServer);
 });
 

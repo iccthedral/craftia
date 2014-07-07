@@ -28,6 +28,19 @@ define(["factories/module"], function(module) {
         });
         return defer;
       };
+      out.post = function(url, data) {
+        var defer;
+        out.broadcast(config.events.ToggleSpinner, {
+          show: true
+        });
+        defer = $http.post(url, data);
+        defer["finally"](function() {
+          return out.broadcast(config.events.ToggleSpinner, {
+            show: false
+          });
+        });
+        return defer;
+      };
       out.activateController = function(promises, controllerId) {
         out.broadcast(config.events.ToggleSpinner, {
           show: true

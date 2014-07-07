@@ -6,3 +6,4 @@ module.exports = (app, passport) ->
 		return cntrl.endsWith(".coffee")
 	.forEach (cntl) ->
 		require("./controllers/#{cntl}").setup(app)
+	

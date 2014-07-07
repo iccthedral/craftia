@@ -7,14 +7,15 @@
 					<span class="small-span bold-span yellow-span">
 						CITY
 					</span>
-					<select class="menu-select" data-ng-model="jobCitySearch" data-ng-options="city as city.name for city in cities">
+					<select class="menu-select" data-ng-model="searchCriterion.city" data-ng-options="city.name for city in cities" >
+					<option value=""></option>
 					</select>
 				</div>
 				<div class="col-md-2 col-sm-2">
 					<span class="small-span bold-span yellow-span">
 						DISTANCE
 					</span>
-					<input class="menu-input" data-ng-model="jobDistanceSearch"
+					<input class="menu-input" data-ng-model="searchCriterion.distance"
 					data-ng-keyup="search($event)"
 					placeholder="search by distance...">
 				</div>    
@@ -24,25 +25,30 @@
 					<span class="small-span bold-span yellow-span">
 						CATEGORY
 					</span>
-					<select ng-change="attachSubcategories2(selectedCategory);" class="menu-select" data-ng-model="selectedCategory" data-ng-options="cat as cat.name for cat in categories">
+					<select ng-change="categoryChanged()" class="menu-select" data-ng-model="selectedCategory" data-ng-options="cat for cat in categories">
+						<option value=""></option>
 					</select>
 				</div>
 			</div>    
 			<div class="col-sm-6">
 			</div>
 			<div class="col-sm-6 col-md-6 row">
-				<div class="col-md-6 col-sm-12">
+				<div class="col-md-5 col-sm-12">
 					<span class="small-span bold-span yellow-span">
 						SUBCATEGORY
 					</span>
-					<select class="menu-select" data-ng-model="selectedSubcategory" data-ng-options="subcat as subcat.name for subcat in subcategories" type="text" placeholder="subcategory">
+					<select class="menu-select" data-ng-model="selectedSubcategory" data-ng-options="subcat for subcat in subcategories" type="text" placeholder="subcategory">
+						<option value=""></option>
 					</select>
 				</div>
-				<div class="col-md-6 col-sm-12">
+				<div class="col-md-4 col-sm-12">
 					<span class="small-span bold-span yellow-span">
-						SEARCH
+						TITLE
 					</span>
-					<input class="menu-input" type="text" placeholder="serach">
+					<input ng-model="searchCriterion.title" class="menu-input" type="text" placeholder="serach">
+				</div>
+				<div class="col-md-3 col-sm-12">
+					<button ng-click="search()" class="btn btn-yellow btn-sm menu-btn menu-btn"> SEARCH</button>
 				</div>
 			</div>    
 		</div>
@@ -101,7 +107,7 @@
 				    </td>
 
 				    <td class="bottom-2-dashed borderless yellow-tblock bookmark-star">
-				    	<img ng-hide="isBidder($index)" ng-click="bidOnJob($index)" src="/img/bookmark_star_over.gif"/>
+				    	<img  ng-click="bidOnJob($index)" src="/img/bookmark_star_over.gif"/>
 				    </td>
 				  </tr>
 
@@ -167,9 +173,7 @@
 					    	</span>
 				    	</td>
 					    <td>
-					    	<button class="btn btn-black" ng-hide="isBidder($index)" ng-click="bidOnJob($index)" >
-					    		 Bid on job
-				    		</button>
+
 					    </td>
 					  </tr>
 					</tbody>

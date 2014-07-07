@@ -1,0 +1,113 @@
+<div class="widget wcyan" title="">
+    <div data-cc-widget-header title="{{title1}}"
+         allow-collapse="true"></div>
+
+    <div class="widget-content right-partial-view fluid-container">
+        <form class="form-horizontal">
+            <fieldset>
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="textinput">Job title</label>
+                    <div class="col-md-8">
+                        <input ng-model="job.title" id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                
+
+                <!-- Select Basic -->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="selectbasic">Who provides the material?</label>
+                    <div class="col-md-8">
+                        <select ng-model="job.materialProvider" id="selectbasic" name="selectbasic" class="form-control">
+                            <option ng-selected="selected" value="Customer">Customer</option>
+                            <option value="Craftsman">Craftsman</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Appended Input-->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="appendedtext">Desired budget:</label>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input ng-model="job.budget" id="appendedtext" name="appendedtext" class="form-control" placeholder="" type="text" required="">
+                            <span class="input-group-addon">RSD</span>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="textinput">ZIP/City</label>
+                    <div class="col-md-8">
+                        <input type="text" ng-model="job.address.city" placeholder="" typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
+                    </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="textinput">Address</label>
+                    <div class="col-md-8">
+                        <input ng-model="job.address.line1" id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="category">Category</label>
+                    <div class="col-md-8">
+                        <select id="category" name="category" class="form-control" ng-model="job.category"
+                        ng-options="cat for cat in categories" ng-change="categoryChanged()">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Select Basic -->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="subcategory">Subcategory</label>
+                    <div class="col-md-8">
+                        <select id="subcategory" name="subcategory" class="form-control" ng-model="job.subcategory"
+                        ng-options="subcat for subcat in subcategories">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="textinput">From</label>
+                    <div class="col-md-8">
+                        <input id="datefrom" name="textinput" type="date" ng-model="job.dateFrom" placeholder="" class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="textinput">To</label>
+                    <div class="col-md-8">
+                        <input id="dateto" ng-model="job.dateTo" name="textinput" type="date" placeholder="" class="form-control input-md" required="">
+
+                    </div>
+                </div>
+
+                <!-- Textarea -->
+                <div class="form-group">
+                    <label class="col-md-8 control-label" for="textarea">Job description</label>
+                    <div class="col-md-8">
+                        <textarea ng-model="job.description" class="form-control" id="textarea" name="textarea"></textarea>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-5">
+                        <button id="register-submit" name="register-submit" class="btn btn-black" ng-click="nextStep()"><i class="fa fa-arrow-right"></i> Next</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</div>
+

@@ -51,6 +51,11 @@ app.use (err, req, res, next) ->
 
 app.use express.static "www/"
 
+process.on "uncaughtException", (err) ->
+	console.error err
+	process.exit()
+	server.close()
+
 linkDir cwd + "/src/shared", cwd + "/www/shared", ->
 	console.error err if err?
 	createCatsAndCities = require "./src/backend/modules/ExportToDB.coffee"
@@ -58,6 +63,6 @@ linkDir cwd + "/src/shared", cwd + "/www/shared", ->
 		console.error err if err?
 		server = app.listen PORT
 		console.log "Running on: #{PORT}"
-
 		# Start Job update process 
 		jobProcess = require "./src/backend/modules/JobUpdate.coffee"
+

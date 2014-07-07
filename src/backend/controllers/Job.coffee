@@ -303,6 +303,50 @@ createNewJobHandler = (req, res, next) ->
 		return next err if err?
 		res.send job
 
+queryHandler = (req, res) ->
+	data = req.body
+
+	page = data.page
+	query = {
+		"status": "open"
+	}
+	if data.city?
+		console.error "city"
+		query["address.city"] = data.city.name 
+		query["address.zip"] = data.city.zip
+	if data.category? 
+		console.error "cat"
+		query.category = data.category
+	if data.subcategory? 
+		console.error "subcat"
+		query.subcategory = data.subcategory
+	title = data.title
+	if title?
+		console.error "title", title
+		re = new RegExp("^.*#{title}.*$", "i")
+		query.title = re
+
+	perPage = 5
+	console.error "query", query
+	JobModel
+	.find query
+	.populate {
+		path: "author"
+		select : "-password"
+		model : "User"
+	}
+	.select("-bidders")
+	.limit perPage
+	.skip perPage * page
+	.exec (err, jobs) ->
+		return res.status(422).send err if err?
+		out = {}
+		out.jobs = jobs
+		JobModel.count query, (err, cnt) ->
+			return res.status(422).send err if err?
+			out.totalJobs = cnt
+			res.send out
+
 module.exports.setup = (app) ->
 	app.post "/job/:id/bid", bidOnJobHandler
 	app.post "/job/:id/rate/:mark", rateJobHandler
@@ -312,6 +356,8 @@ module.exports.setup = (app) ->
 	app.get "/job/list/:page", listOpenJobsHandler
 	app.post "/job/:id/delete", deleteJob
 	app.post "/job/:id/update", updateJob
+	app.post "/job/query", queryHandler
+	
 	app.post "/job/:id", findJob
 
 	# app.get "/job/list/open", listOpenJobsHandler

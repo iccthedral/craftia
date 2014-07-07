@@ -1,4 +1,4 @@
-define ["./module"], (module) ->
+define ["./module", "json!cities", "json!categories"], (module, cities, categories) ->
 	module.controller "CraftsmanFindJobsCtrl" , [
 		"$scope"
 		"$http"
@@ -17,7 +17,7 @@ define ["./module"], (module) ->
 			$scope.categoryPictures = categoryPictures
 			$scope.filteredJobs = []
 			$scope.totalJobs = 0
-			$scope.searchQueries = {}
+			$scope.searchQuery = ""
 			$scope.sizePerPage = 5
 			$scope.selectedPage = 0
 			$scope.currentPage = 0
@@ -25,6 +25,20 @@ define ["./module"], (module) ->
 			$scope.picsContainer = "#pics-div-0"
 			$scope.infoContainer = "#info-div-0"
 			$scope.profileContainer = "#profile-div-0"
+			$scope.subcategories = []
+			$scope.categories = Object.keys(categories)
+			$scope.cities = cities
+			$scope.searchCriterion = {}
+
+			do getCities = ->
+				return $scope.cities = cities
+			
+			$scope.categoryChanged = ->
+				jsonFile = categories[$scope.selectedCategory]
+				$.get "shared/resources/categories/#{jsonFile}.json", (data) ->
+					console.log data
+					$scope.subcategories = data.subcategories.slice()
+					$scope.$digest()
 
 			$scope.getPage = getPage = (pageIndex, ignore) ->
 				if ignore
@@ -33,10 +47,9 @@ define ["./module"], (module) ->
 				$http.get API.getPagedOpenJobs.format("#{pageIndex}")
 				.success (data) ->
 					for job in data.jobs
-						job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
+						job.jobPhotos = job.jobPhotos?.filter (img) -> img.img?
 					$scope.totalJobs = data.totalJobs
-					$scope.jobs = data.jobs
-					$scope.filteredJobs = data.jobs.slice()
+					$scope.filteredJobs = data.jobs?.slice()
 				.finally ->
 					common.broadcast config.events.ToggleSpinner, show:false
 					
@@ -155,11 +168,14 @@ define ["./module"], (module) ->
 				}	
 
 			$scope.search = ->
-				return
-				# text = $scope.searchQuery
-				# $scope.filteredMessages = $scope.messages.filter (msg) ->
-				# 	msg.subject.indexOf(text) isnt -1 or msg.message.indexOf(text) isnt -1
+				$scope.searchCriterion.category = $scope.selectedCategory
+				$scope.searchCriterion.subcategory = $scope.selectedSubcategory
+				$scope.searchCriterion.page = $scope.currentPage
+				common.post API.queryJobs, $scope.searchCriterion
+				.success (data) ->
+					$scope.totalJobs = data.totalJobs
+					$scope.filteredJobs = data.jobs?.slice()
 				
 			do activate = ->
-				common.activateController [ getPage 0 ], "CraftsmanFindJobsCtrl"
+				common.activateController [ getPage 0,], "CraftsmanFindJobsCtrl"
 	]
