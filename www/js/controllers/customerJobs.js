@@ -1,7 +1,7 @@
 define(["./module"], function(module) {
   return module.controller("CustomerJobsCtrl", [
     "$scope", "$http", "$state", "$timeout", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, $timeout, API, logger, common, config, categoryPictures, gmaps, dialog) {
-      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, showStars, state;
+      var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, state;
       state = $state.current.name;
       $scope.categoryPictures = categoryPictures;
       $scope.filteredJobs = [];
@@ -17,12 +17,9 @@ define(["./module"], function(module) {
       $scope.ratingContainer = "#rating-div-0";
       $scope.tempJob = {};
       $scope.editIndex = $scope.sizePerPage;
-      $scope.showStars = showStars = function(index) {
-        $("#rate-div-" + index).rateit({
-          max: 5,
-          step: 1,
-          backingfld: "#rate-div-" + index
-        }).show();
+      $scope.hoveringOver = function(value) {
+        $scope.overStar = value;
+        return $scope.percent = 100 * (value / $scope.max);
       };
       $scope.editJob = editJob = function(index) {
         return $scope.editIndex = index;
@@ -39,6 +36,18 @@ define(["./module"], function(module) {
           prevEl.slideUp();
           curEl.slideDown();
         }
+      };
+      $scope.rateJob = function(job) {
+        var data;
+        data = {
+          mark: job.rate.mark,
+          comment: job.rate.comment,
+          jobId: job._id
+        };
+        return common.post(API.rateJob, data).success(function(data) {
+          job = data;
+          return $state.reload();
+        });
       };
       $scope.saveJob = saveJob = function(index, jobId) {
         jobId = $scope.filteredJobs[index]._id;
@@ -104,7 +113,7 @@ define(["./module"], function(module) {
           $($scope.currentMap.el).empty();
         }
         return $scope.currentMap = gmaps.showAddress({
-          address: job.address.city + job.address.line1,
+          address: job.address.city.name + job.address.line1,
           container: $scope.mapContainer,
           done: function() {
             $scope.currentMap.refresh();

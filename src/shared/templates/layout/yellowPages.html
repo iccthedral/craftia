@@ -52,10 +52,10 @@
 	</div>
 </div>
 <div id="{{$index}}" data-ng-repeat="craftsman in filteredCraftsmen">
-	<div class="row" style="clear:both;margin-top:10px">
+	<div class="row" style="clear:both;margin-top:10px panel-collapse collapse">
 		<div class="col-md-2 col-sm-2 col-lg-2">
 		</div>
-		<div class="col-md-8 col-sm-8 col-lg-8">
+		<div class="col-md-8 col-sm-8 col-lg-8 panel-body">
 			<table class="table helvetica-neue widget-content ">
 			<tbody class="height: 30%">
 			  <tr>
@@ -68,7 +68,6 @@
 	              	<rating data-toggle="tooltip" title="{{craftsman.rating.avgRate}}" readonly="true" value="craftsman.rating.avgRate"></rating>
 	            	</span>
 			    			<p class="bold-span small-span">
-			    				<!-- {{craftsman.name}} {{craftsman.surname}} -->
 				    			<i class="fa fa-envelope hover-glow-white">
 			    				</i>
 			    				{{craftsman.username}}
@@ -81,15 +80,14 @@
 			  <tr>
 			    <td class="borderless yellow-tblock text-center bottom-2-dashed" colspan="4">
 			    </td>
-
 			    <td class="bottom-2-dashed borderless yellow-tblock" colspan="4">
 		    		<p class="bold-span" style="height: 30%">
 							<!-- CRAFTSMAN'S RATING:  -->
-					</p>
+			    		{{craftsman.name}} {{craftsman.surname}}
+						</p>
 			    </td>
-			 
 			  </tr>
-
+			  
 			  <tr>
 			    <td class="borderless yellow-tblock text-center" colspan="4">
 			    	<span class="black-div white-span helvetica-neue bold-span padding-4x">
@@ -98,7 +96,6 @@
 			    </td>
 
 			    <td colspan="4" rowspan="2" class="borderless yellow-tblock left-2-dashed">
-			
 			    </td>
 			  </tr>
 			  
@@ -123,8 +120,6 @@
 		<div class="col-md-2 col-sm-2 col-lg-2">
 		</div>
 	</div>
-
-	
 </div>
 
 <div class="row text-center">

@@ -1,8 +1,8 @@
 	var cs = require("coffee-script/register")
 	, UserModel = require("./src/backend/models/User")
+	, JobModel = require("./src/backend/models/Job")
 	, JobCtrl = require("./src/backend/controllers/Job")
 	, fs = require("fs")
-	, saveJob = JobCtrl.saveJob
 	, bidOnJob = JobCtrl.bidOnJob
 	, async = require("async")
 	, carCategory = require("./src/shared/resources/categories/car.json")
@@ -110,8 +110,9 @@ function createJob(customer, clb) {
 		;
 
 	job.address = {
-		city: city.name,
-		zip: city.zip,
+		city: {
+			name: city.name
+		},
 		line1: addrLine
 	};
 	
@@ -126,8 +127,9 @@ function createJob(customer, clb) {
 	while (numPhotos-- > 0) {
 		//job.jobPhotos.push("img/" + jobPhotos[numPhotos] + ".jpg");
 	}
-	
-	saveJob(customer, job, clb);
+	job.author = customer;
+	jobInst = new JobModel(job);
+	jobInst.save(clb);
 }
 
 function createJobs(customers, clb) {

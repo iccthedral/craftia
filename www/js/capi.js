@@ -17,7 +17,7 @@ define([], function() {
     bidOnJob: "/job/{0}/bid",
     pickWinner: "job/{0}/pickawinner/{1}",
     getNotifications: "/user/getNotifications/{0}",
-    rateJob: "/job/{0}/rateJob/{1}",
+    rateJob: "/job/rate",
     updateProfile: "/user/update",
     queryJobs: "/job/query"
   };

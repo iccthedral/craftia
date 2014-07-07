@@ -176,7 +176,7 @@ function compileShared(file, next) {
 	.pipe(coffee({bare: true}).on("error", throwError))
 	.pipe(rename(name))
 	.pipe(gulp.dest(jsDir))
-	if (next) next()
+	if(next) next();
 };
 
 function throwError(err) {

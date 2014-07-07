@@ -48,14 +48,14 @@ module.exports.saveUser = saveUser = (user, res, picture) ->
 	saveMe = ->
 		user.save (err, user) ->
 			return res.status(422).send "Registering failed!" if err?
-			console.error user._id
 			fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
 				return res.status(422).send "Registering failed!" if err?
 				res.send {user: user, msg: "Registering succeeded!"}
 				
-	if picture?
+	if picture? and picture[0]?.src?
+		picture = picture[0].src.split(";base64,")[1]
 		fs.writeFile "#{IMG_FOLDER}pic#{user._id}", picture, {encoding: "base64"}, (err) ->
-			user.profilePic = "pic#{user._id}"
+			user.profilePic = "/www/img/#{user._id}"
 			saveMe()
 	else
 		saveMe()
@@ -88,7 +88,7 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 	queryParams = 
 		status: jobStatus
 		author: mongoose.Types.ObjectId user._id
-	console.log queryParams
+
 	if jobStatus is "all"
 		delete queryParams.status
 	
@@ -282,7 +282,7 @@ uploadProfilePicHandler = (req, res) ->
 		#console.log req.files
 		file = req.files.file
 		fs.readFile file.path, (err, data) ->
-			imguri  = "img/#{usr.username}.png"
+			imguri  = "img/#{usr._id}"
 			newPath = "www/#{imguri}"
 			fs.writeFile newPath, data, (err) =>
 				return res.send(422) if err?

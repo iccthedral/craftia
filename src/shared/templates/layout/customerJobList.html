@@ -131,7 +131,7 @@
 				  <tr>
 				    <td class="borderless yellow-tblock text-center" colspan="4">
 				    	<i ng-click="showMap($index)" class="fa fa-map-marker map-marker-3x fa-3x"></i>
-				    	<span class="bold-span">{{job.address.city}}, {{job.address.line1}}</span>
+				    	<span class="bold-span">{{job.address.city.name}}, {{job.address.line1}}</span>
 				    </td>
 				  </tr>
 				</tbody>
@@ -143,16 +143,21 @@
 		</div>
 
 		<div id="rating-div-{{$index}}" style="display: none" class="peach-div row">
-			<form class="form">
+			<label class="medium-span" for="rating" ng-if="job.status != 'finished'">
+				This job has not finished yet!
+			</label>
+			<form ng-if="job.status == 'finished'" class="form" ng-submit="rateJob(job)">
+				<textarea readonly="job.isRated" ng-model="job.rate.comment" rows="10">
+				</textarea>
 				<div class="form-group">
-					<label for="rating" >Rating
+					<label class="medium-span" for="rating" >Rate
 					</label>
-					<rating name="rating" class="" ng-model="currentRating" max="5" readonly="isReadonly($index)" on-hover="hoveringOver(value)" on-leave="overStar = null">
+					<rating value="job.rate.mark" max="5" readonly="job.isRated" on-hover="hoveringOver(value)" on-leave="overStar = null"
+					state-on="'fa fa-star fa-3x'" state-off="'fa fa-star-o fa-3x'">
 					</rating>
 				</div>
-				<textarea ng-model="currentComment">
-				</textarea>
-			</form>		
+				<input ng-if="!job.isRated" class="btn btn-black btn-lg" type="submit" value="Rate this job"/>
+			</form>
 		</div>
 
 		<div id="pics-div-{{$index}}" style="display: none" class="peach-div row">
@@ -213,7 +218,7 @@
 		</div>
 		
 		<div class="job-buttons peach-div row">
-			<a class="job-button col-md-3 col-sm-3 hover-glow-white text-center" ng-click="showRating($index)">
+			<a ng-if="job.winner != undefined" class="job-button col-md-3 col-sm-3 hover-glow-white text-center" ng-click="showRating($index)">
 				<i class="fa fa-star fa-2x"></i>
 				<span class="small-span">
 					Rate job
