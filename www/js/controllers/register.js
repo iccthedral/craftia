@@ -1,6 +1,6 @@
 define(["./module", "json!cities", "json!categories"], function(module, cities, categories) {
   return module.controller("RegisterCtrl", [
-    "$scope", "$http", "$q", "common", "logger", function($scope, $http, $q, common, logger) {
+    "$scope", "$http", "$q", "$state", "cAPI", "common", "logger", function($scope, $http, $q, $state, API, common, logger) {
       var activate;
       $scope.userDetails = {};
       $scope.acceptedTOS = false;
@@ -11,8 +11,16 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         'tags': []
       };
       $scope.categories = categories;
+      $scope.multi = {
+        multiple: true,
+        query: function(query) {
+          return query.callback({
+            results: categories
+          });
+        }
+      };
       $scope.allTags = $scope.select2Options.tags;
-      $scope.fetchTags = function() {
+      ($scope.fetchTags = function() {
         var k, v;
         return $q.all((function() {
           var _ref, _results;
@@ -25,8 +33,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
           return _results;
         })()).then((function(_this) {
           return function(data) {
-            console.log(data);
-            data.forEach(function(cat) {
+            return data.forEach(function(cat) {
               var catName, tags;
               catName = cat.data.category;
               tags = cat.data.subcategories.map(function(subcat) {
@@ -34,35 +41,59 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
               });
               return $scope.allTags = $scope.allTags.concat(tags);
             });
-            return console.log($scope.allTags);
           };
         })(this));
-      };
+      })();
       $scope.getCities = function(val) {
         return cities;
       };
       $scope.register = function() {
         var curState, url;
         if (!$scope.acceptedTOS) {
-          $scope.log.error("Please check whether you agree with the terms & conditions");
+          logger.error("Please check whether you agree with the terms & conditions");
           return;
         }
-        curState = $scope.state.current.name;
-        url = $scope.API.registerCraftsman;
+        curState = $state.current.name;
+        url = API.registerCraftsman;
         if (curState === "anon.register.customer") {
-          url = $scope.API.registerCustomer;
+          url = API.registerCustomer;
         }
-        return $scope.http.post(url, $scope.userDetails).success((function(_this) {
-          return function() {
-            $scope.log.success("You are now registered");
-            return $scope.state.transitionTo("anon.login");
+        return common.post(url, $scope.userDetails).success((function(_this) {
+          return function(data) {
+            logger.success("You are now registered");
+            logger.log(data.msg);
+            return $state.transitionTo("anon.login");
           };
         })(this)).error((function(_this) {
           return function(err) {
-            return $scope.log.error(err);
+            return logger.error(err);
           };
         })(this));
       };
+      $("input").bind("keyup change", function() {
+        var $par, $t, match, min, pattern;
+        $t = $(this);
+        $par = $t.parent();
+        min = $t.attr("data-valid-min");
+        match = $t.attr("data-valid-match");
+        pattern = $t.attr("pattern");
+        if (typeof match !== "undefined") {
+          if ($t.val() !== $('#' + match).val()) {
+            $par.removeClass('has-success').addClass('has-error');
+          } else {
+            $par.removeClass('has-error').addClass('has-success');
+          }
+        } else if (!this.checkValidity()) {
+          $par.removeClass('has-success').addClass('has-error');
+        } else {
+          $par.removeClass('has-error').addClass('has-success');
+        }
+        if ($par.hasClass("has-success")) {
+          return $par.find('.form-control-feedback').removeClass('fade');
+        } else {
+          return $par.find('.form-control-feedback').addClass('fade');
+        }
+      });
       return (activate = function() {
         return common.activateController([$scope.fetchTags()], "RegisterCtrl");
       })();

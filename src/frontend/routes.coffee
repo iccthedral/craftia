@@ -8,7 +8,37 @@ define ["app", "angular"], (app, ng) ->
 				$state.go appUser.getType
 			]
 		}
-		
+
+		$stateProvider
+		.state "activated", {
+			url: "/activated"
+			views:
+				"":
+					template: """
+					<div class="page-splash dissolve-animation">
+						<div class="jumbotron" style="height:100%">
+							<div class="fluid-container">
+							  <h1>Welcome to Craftia, {{appUser.name}}!</h1>
+							  <br>
+								<div class="fluid-container">
+									<hr>
+							  	<h3>
+							  		Your account <span class="page-header" style="font-weight: bold;"> {{appUser.email}} </span> is now activated
+							  	</h3>
+							  	<br><br><hr>
+							  	<div class="fluid-row pull-right" style="right: 100px; bottom: 100px; position: fixed;">
+							  		<p>
+							  			<a class="btn btn-black btn-lg" ui-sref="anon.howto" role="button">Learn more</a>
+							  			or
+							  			<a class="btn btn-lg" ui-sref="{{appUser.getType}}.profile" role="button">Continue</a>
+							  	</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					"""
+		}
+
 		$stateProvider
 		.state "anon", {
 			url: "/anon"
@@ -29,6 +59,13 @@ define ["app", "angular"], (app, ng) ->
 					templateUrl: "shared/templates/layout/anonMainShell.html"
 					controller: "AnonCtrl"
 		}
+			.state "anon.reset", {
+				url: "/reset/:token"
+				views:
+					"shell@anon":
+						templateUrl: "/shared/templates/forms/resetPassword.html"
+						controller: "ResetPasswordCtrl"
+			}
 			.state "anon.createJob", {
 				url: "/createJob"
 				views:
@@ -52,6 +89,13 @@ define ["app", "angular"], (app, ng) ->
 					"shell@anon": 
 						templateUrl: "shared/templates/forms/login.html"
 						controller: "LoginCtrl"
+			}			
+			.state "anon.forgot", {
+				url: "/forgot"
+				views:
+					"shell@anon": 
+						templateUrl: "shared/templates/forms/forgotPassword.html"
+						controller: "ForgotPassCtrl"
 			}
 			.state "anon.register", {
 				url: "/register"
@@ -287,8 +331,9 @@ define ["app", "angular"], (app, ng) ->
 				$(".shellic").fadeIn 500
 				
 				#logger.log "lastState: #{lastState}, isLogged: #{isLoggedIn}, utype: #{type}, #{fromState} -> #{toState.name}"
-
-				if not typeRe.test nextState #or nextState isnt "index"
+				if nextState in ["activated"]
+					return
+				else if not typeRe.test nextState
 					logger.log "Access denied to state #{nextState}"
 					ev.preventDefault()
 					if lastState isnt nextState

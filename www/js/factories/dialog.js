@@ -14,7 +14,6 @@ define(["./module"], function(module) {
           $scope.template = template || "basic";
           $scope.ok = function() {
             $modalInstance.close("ok");
-            console.log($scope.msgContent, $scope.emailTo);
             return typeof onOk === "function" ? onOk() : void 0;
           };
           return $scope.cancel = function() {
@@ -42,6 +41,26 @@ define(["./module"], function(module) {
                   cancelText: cancelText,
                   onOk: onOk,
                   onCancel: onCancel
+                };
+              }
+            }
+          };
+          return $modal.open(modalOptions).result;
+        },
+        errorDialog: function(_arg) {
+          var message, modalOptions, onOk, title;
+          message = _arg.message, onOk = _arg.onOk;
+          title = "Error";
+          modalOptions = {
+            templateUrl: "shared/templates/dialogs/error.html",
+            controller: ModalController,
+            keyboard: true,
+            resolve: {
+              options: function() {
+                return {
+                  title: title,
+                  message: message,
+                  onOk: onOk
                 };
               }
             }

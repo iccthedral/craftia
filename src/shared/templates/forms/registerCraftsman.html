@@ -13,13 +13,10 @@
 									<h3>Profile Details</h3>
 
 									<div class="form-group">
-										<label class="col-md-8 control-label" for="textinput"></label>
-										<div class="col-md-8">
-										<input
-										data-ui-select2="select2Options"
-										ng-model="list_of_string"
-										>
-										</div>
+										<label class="col-md-8 control-label" for="textinput">Categories</label>
+										<select id="mySel2" class="form-control" multiple="multiple">
+						          <option ng-repeat="cat in allTags" ng-selected="item.selected" ng-model="cat.tag">{{cat}}</option>
+						        </select>
 									</div>
 
 									<!-- Text input-->
@@ -126,7 +123,7 @@
 							<!-- Button -->
 							<div class="form-group">
 								<div class="col-md-9 col-md-offset-5">
-									<input value="Register" type="submit" id="register-submit" name="register-submit" class="btn btn-lg btn-primary">
+									<input value="Register" type="submit" id="register-submit" name="register-submit" class="btn btn-lg btn-black">
 								</div>
 							</div>
 						</div>

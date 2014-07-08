@@ -5,8 +5,8 @@ define [ "./module" ], (module) -> module.controller "LoginCtrl", [
 	"cAPI"
 	"appUser"
 	"logger"
-	
-	($scope, $http, $state, cAPI, appUser, logger) ->
+	"dialog"
+	($scope, $http, $state, cAPI, appUser, logger, dialog) ->
 		$scope.loginDetails =
 			email: ""
 			password: ""
@@ -15,7 +15,11 @@ define [ "./module" ], (module) -> module.controller "LoginCtrl", [
 			$http.post cAPI.login, $scope.loginDetails
 			.error (err) =>
 				logger.error err
-				$state.transitionTo "anon"
+				dialog.errorDialog {
+					message: err
+					onOk: ->
+						$state.transitionTo "anon"
+				}
 			.success (data) =>
 				appUser.load data
 				if data.type is "Customer"

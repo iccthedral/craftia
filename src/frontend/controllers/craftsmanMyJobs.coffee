@@ -35,11 +35,11 @@ define ["./module"], (module) ->
 					common.broadcast config.events.ToggleSpinner, show:true
 					$http.get API.getBiddedJobs.format("#{pageIndex}","#{$scope.jobStatus}")
 					.success (data) ->
-						for job in data.jobs
-							job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
-						$scope.totalJobs = data.totalJobs
-						$scope.jobs = data.jobs
-						$scope.filteredJobs = data.jobs.slice()
+							for job in data.jobs
+								job.jobPhotos = job.jobPhotos.filter (img) -> img.img?
+							$scope.totalJobs = data.totalJobs
+							$scope.jobs = data.jobs
+							$scope.filteredJobs = data.jobs.slice()
 					.finally ->
 						common.broadcast config.events.ToggleSpinner, show:false
 					

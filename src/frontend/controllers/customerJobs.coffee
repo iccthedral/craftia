@@ -59,7 +59,7 @@ define ["./module"], (module) ->
 				}
 				common.post API.rateJob, data
 				.success (data) ->
-					job = data
+					angular.copy(data, job)
 					$state.reload()
 
 			$scope.saveJob = saveJob = (index, jobId) ->

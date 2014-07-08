@@ -16,16 +16,15 @@
 				
 			  <div ng-repeat="img in photos" class="">
 			    <div class="thumbnail photo-holder inputWrapper" ng-click="onClick(img)" photo-id="{{$index}}">
-			    	<input type="file" name="file-{{$index}}" class="fileInput hiddenInput">
 			      <img src="holder.js/200x200/text:Drop or click here..." alt="...">
+			    	<input type="file" name="file-{{$index}}" class="fileInput hiddenInput">
 			    </div>
+					<div class="row"> 
+			    	<textarea ng-show="inFocus && descriptionEnabled" ng-model="focused.description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea">
+			    		{{focused.description}}
+			    	</textarea>
+					</div>
 			  </div>
-
-				<div class="row text-center"> 
-		    	<textarea ng-show="inFocus && descriptionEnabled" ng-model="focused.description" class="form-control ng-pristine ng-valid" id="textarea" name="textarea">
-		    		{{focused.description}}
-		    	</textarea>
-				</div>
 			</fieldset>
 		</form>
 	</div>

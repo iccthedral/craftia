@@ -46,15 +46,10 @@ app.configure ->
 	router = require "./src/backend/Router"
 	router app, passport
 
-app.use (err, req, res, next) ->
-	res.send err
+	app.use (err, req, res, next) ->
+		res.send err.message
 
 app.use express.static "www/"
-
-process.on "uncaughtException", (err) ->
-	console.error err
-	process.exit()
-	server.close()
 
 linkDir cwd + "/src/shared", cwd + "/www/shared", ->
 	console.error err if err?

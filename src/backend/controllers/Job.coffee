@@ -290,8 +290,8 @@ queryHandler = (req, res) ->
 	}
 	if data.city?
 		console.error "city"
-		query["address.city"] = data.city.name 
-		query["address.zip"] = data.city.zip
+		query["address.city.name"] = data.city.name 
+		query["address.city.zip"] = data.city.zip
 	if data.category? 
 		console.error "cat"
 		query.category = data.category

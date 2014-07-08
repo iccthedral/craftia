@@ -24,7 +24,9 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.categories = Object.keys(categories)
 			
 			$scope.getCities = ->
+				console.log "HEY", cities 
 				return cities
+
 			
 			$scope.categoryChanged = ->
 				jsonFile = categories[$scope.job.category]

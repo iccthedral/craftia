@@ -27,8 +27,13 @@ Passport.deserializeUser (token, done) ->
 strat = new Local.Strategy usernameField: "email", (email, password, done) ->
   UserModel.findOne email:email, (err, user) ->
     return done err if err?    
-    if not user
+    if not user or not user?
       return done null, false, message: "User doesn't exist"
+    if not user.isActive
+      return done null, false, message: """
+      Your account is not activated! 
+      Check the email you got from Craftia on how to activate your account.
+      """
     user.comparePassword password, (err, isMatch) ->
       return done err if err?
       if isMatch

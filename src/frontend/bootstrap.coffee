@@ -7,6 +7,7 @@ define [
 	"app"
 	"gmaps"
 	"rateit"
+	"select2"
 	"ngSelect2"
 	"ngRoutes"
 	"ngUiRouter"

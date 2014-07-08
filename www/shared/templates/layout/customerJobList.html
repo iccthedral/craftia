@@ -147,7 +147,7 @@
 				This job has not finished yet!
 			</label>
 			<form ng-if="job.status == 'finished'" class="form" ng-submit="rateJob(job)">
-				<textarea readonly="job.isRated" ng-model="job.rate.comment" rows="10">
+				<textarea ng-readonly="job.isRated" ng-model="job.rate.comment" rows="10">
 				</textarea>
 				<div class="form-group">
 					<label class="medium-span" for="rating" >Rate

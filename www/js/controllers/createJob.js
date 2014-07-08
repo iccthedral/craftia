@@ -15,6 +15,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.subcategories = [];
       $scope.categories = Object.keys(categories);
       $scope.getCities = function() {
+        console.log("HEY", cities);
         return cities;
       };
       $scope.categoryChanged = function() {

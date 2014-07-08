@@ -1,8 +1,10 @@
 mongoose = require "mongoose"
 bcrypt = require "bcrypt-nodejs"
+crypto = require "crypto"
 JobModel = require "./Job"
 MessageModel = require "./Message"
 async = require "async"
+nodemailer = require "nodemailer"
 
 schema = mongoose.Schema
 	username:
@@ -46,18 +48,6 @@ schema = mongoose.Schema
 		type: String
 		required: true
 
-	# createdJobs: [
-	# 	type: mongoose.Schema.Types.ObjectId
-	# 	ref: "Job"
-	# 	default: []
-	# ]
-
-	# biddedJobs: [
-	# 	type: mongoose.Schema.Types.ObjectId
-	# 	ref: "Job"
-	# 	default: []
-	# ]
-	
 	rating:
 		jobs: [
 			job:
@@ -81,55 +71,67 @@ schema = mongoose.Schema
 			default: 0
 			max: 5
 
-	# expertise: 
-	# 	categories: [
-	# 		category: 
-	# 			type: String
-	# 			subcategories: [
-	# 				subcategory: 
-	# 					type: String
-	# 			]
-	# 	]
+	expertise: [
+		category: 
+			type: String
+		subcategory: 
+			type: String
+	]
 
+	passwordResetExpiry: Date
+	passwordResetToken: String
+
+	activationToken: String
+	isActive:
+		type: Boolean
+		default: false
 
 	profilePic:
 		type: String
 		default: "img/default_user.jpg"
-		
-	# notif: [
-	# 	type: mongoose.Schema.Types.ObjectId
-	# 	ref: "Notification"
-	# ]
-
-	# inbox:
-	# 	received: [
-	# 		type: mongoose.Schema.Types.ObjectId
-	# 		ref: "Message"
-	# 	]
-	
-	# 	sent: [
-	# 		type: mongoose.Schema.Types.ObjectId
-	# 		ref: "Message"
-	# 	]
 
 schema.pre "save", (next) ->
 	user = @
-	if not user.isModified("password")
-		return next()
+	if user.isNew?
+		crypto.randomBytes 20, (err, buff) ->
+			next throw err if err?
+			user.activationToken = buff.toString "hex"
+			smtpTransport = nodemailer.createTransport "SMTP", {
+				service: "GMAIL",
+				auth: {
+					user: "aleksandar.milic@yquince.com",
+					pass: "zaboravnisale"
+				}
+			}
+			mailOptions = {
+				to: user.email
+				from: "mail-delivery@craftia.com"
+				subject: "Craftia - Activate your account"
+				text: """
+					Click on the following link http://localhost/user/activate/#{user.activationToken} to activate your account.
+				"""
+			}
+			smtpTransport.sendMail mailOptions, (err) ->
+				next throw err if err?
+				finish()
+	else finish()
 
-	bcrypt.genSalt 10
-		, (err, salt) ->
-				return next err if err?
-				bcrypt.hash user.password
-					, salt
-					, (-> return)
-					, (err, hash) ->
-						return next err if err?
-						user.password = hash
-						next()
+	finish = ->
+		if not user.isModified "password"
+			return next()
+
+		bcrypt.genSalt 10, (err, salt) ->
+			return next err if err?
+			bcrypt.hash user.password
+				, salt
+				, (-> return)
+				, (err, hash) ->
+					return next err if err?
+					user.password = hash
+					next()
 
 schema.methods.comparePassword = (password, cb) ->
-	bcrypt.compare(password, this.password, (err, isMatch) ->
+	bcrypt.compare(password, @password, (err, isMatch) ->
 		if err?
 			return cb(err)
 		cb(null, isMatch)
@@ -151,30 +153,17 @@ schema.statics.sendMessage = (type, msg, fromId, toId, callb) ->
 	.exec (err, sender) ->
 		UserModel.findById(toId)
 		.exec (err, receiver) ->
-			msg = new MessageModel(
+			msg = new MessageModel {
 				type: type
 				msg: msg
 				from: myself
-			)
+			}
 			receiver.inbox[type].push(msg)
 			sender.inbox.sent.push(msg)
-
 			async.series [
 				receiver.save.bind receiver
 				sender.save.bind sender
 			], (err, res) ->
 				callb(err, res)
 
-# schema.methods.createNewJob = (job) ->
-#   try
-#       @createdJobs.push(JobModel.newJob(job))
-#       @save()
-#   catch e
-#       throw new Error(e)
-
 module.exports = UserModel
-
-# cfixtures()
-# login("cumoks")
-# pickwinner("crgogs", "Job from cumoks")
-# rate("Job from cumoks", 5, "Hi mark")

@@ -50,8 +50,10 @@ function createCustomer(name, clb) {
 	out.type = "Customer";
 	out.telephone = "333-333-333";
 	out.address = {
-		zip: randCity.zip,
-		city: randCity.name,
+		city: {
+			zip: randCity.zip,
+			name: randCity.name,
+		},
 		line1: addresses[Math.round(Math.random()*2)]
 	};
 	out.profilePic = "img/" + pics[Math.round(Math.random())] + ".jpg";
@@ -111,7 +113,8 @@ function createJob(customer, clb) {
 
 	job.address = {
 		city: {
-			name: city.name
+			name: city.name,
+			zip: city.zip
 		},
 		line1: addrLine
 	};

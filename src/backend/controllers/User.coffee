@@ -2,9 +2,11 @@ mongoose        		= require "mongoose"
 passport        		= require "passport"
 colors          		= require "colors"
 util            		= require "util"
+crypto							= require "crypto"
 async           		= require "async"
 fs              		= require "fs"
 _ 									= require "underscore"
+nodemailer					= require "nodemailer"
 
 AuthLevels 					= require "../config/AuthLevels"
 UserModel       		= require "../models/User"
@@ -23,7 +25,7 @@ module.exports.setup = (app) ->
 
 	app.get "/user/getMyJobs/:page/:jobStatus", getMyJobsHandler
 
-	app.get "/user/getBiddedJobs/:page/:jobStatus", getBiddedJobsHandler
+	app.get "/user/:page/getBiddedJobs/:jobStatus", getBiddedJobsHandler
 
 	app.get "/user/craftsmen/:page", listCraftsmenHandler
 
@@ -43,6 +45,122 @@ module.exports.setup = (app) ->
 	
 	app.post "/user/registerCraftsman", registerCrafsmanHandler
 	app.post "/user/registerCustomer", registerCustomerHandler
+	app.post "/user/forgot", forgotPasswordHandler
+	app.post "/user/reset/:token", passwordUpdateHandler
+	app.get "/user/activate/:token", activateAccountHandler
+	app.get "/reset/:token", passwordResetHandler
+
+module.exports.passwordUpdateHandler = passwordUpdateHandler = (req, res, next) ->
+	async.waterfall [
+		(done) ->
+			UserModel.findOne {
+				passwordResetToken: req.params.token
+				passwordResetExpiry: $gt : Date.now()
+			}, (err, user) ->
+				user.password = req.body.password
+				user.passwordResetToken = null
+				user.passwordResetExpiry = null
+				user.save (err) ->
+					req.logIn user, (err) ->
+						done err, user
+		(user, done) ->
+			smtpTransport = nodemailer.createTransport "SMTP", {
+				service: "GMAIL",
+				auth: {
+					user: "aleksandar.milic@yquince.com",
+					pass: "zaboravnisale"
+				}
+			}
+			mailOptions = {
+				to: user.email
+				from: "mail-delivery@craftia.com"
+				subject: "Your password has been changed"
+				text: "Hello,\n\n" +
+					"This is a confirmation that the password for your account #{user.email} has just been changed.\n"
+			}
+			smtpTransport.sendMail mailOptions, (err) ->
+				if not err?
+					return res.send "Success! Your password has been changed."
+				done err
+	], (err) ->
+		return next err if err?
+		res.redirect "/"
+
+module.exports.activateAccountHandler = activateAccountHandler = (req, res, next) ->
+	UserModel.findOne {
+		activationToken: req.params.token
+	}, (err, user) ->
+		return next err if err?
+		return res.status(422).send "Activation token is invalid or it has expired." if not user?
+		user.isActive = true
+		user.activationToken = null
+		smtpTransport = nodemailer.createTransport "SMTP", {
+			service: "GMAIL",
+			auth: {
+				user: "aleksandar.milic@yquince.com",
+				pass: "zaboravnisale"
+			}
+		}
+		mailOptions = {
+			to: user.email
+			from: "mail-delivery@craftia.com"
+			subject: "Your Craftia account is activated!"
+			text: "Hello, #{user.name}\n\n" +
+				"This is a confirmation that your Craftia account assigned with #{user.email} has just been activated.\n"
+		}
+		smtpTransport.sendMail mailOptions, (err) ->
+			return next err if err?
+			user.save (err) ->
+				return next err if err?
+				req.logIn user, (err) ->
+					return next err if err?
+					res.redirect "/#/activated"
+
+module.exports.passwordResetHandler = passwordResetHandler = (req, res, next) ->
+	UserModel.findOne {
+		passwordResetToken: req.params.token
+		passwordResetExpiry: $gt : Date.now()
+	}, (err, user) ->
+		return next err if err?
+		return res.status(422).send "Password reset token is invalid or has expired." if not user?
+		res.redirect "/#/anon/reset/#{req.params.token}"
+
+module.exports.forgotPasswordHandler = forgotPasswordHandler = (req, res, next) ->
+	async.waterfall [
+		(done) ->
+			crypto.randomBytes 20, (err, buff) ->
+				done err, buff.toString "hex"
+		(token, done) ->
+			UserModel.findOne email:req.body.email, (err, user) ->
+				if not user?
+					return res.status(422).send "An account with that email address does not exist."
+				user.passwordResetToken = token
+				user.passwordResetExpiry = Date.now() + 3600000
+				user.save (err) ->
+					done err, token, user
+		(token, user, done) ->
+			smtpTransport = nodemailer.createTransport "SMTP", {
+				service: "GMAIL",
+				auth: {
+					user: "aleksandar.milic@yquince.com",
+					pass: "zaboravnisale"
+				}
+			}
+			mailOptions = {
+				to: user.email
+				from: "mail-delivery@craftia.com"
+				subject: "Craftia - Password Reset"
+				text: "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+					"Please click on the following link, or paste this into your browser to complete the process:\n\n" +
+					"http://#{req.headers.host}/reset/#{token}\n\n" +
+					"If you did not request this, please ignore this email and your password will remain unchanged.\n"
+			}
+			smtpTransport.sendMail mailOptions, (err) ->
+				if not err?
+					return res.send "An e-mail has been sent to #{user.email} with further instructions."
+				done err
+	], (err) ->
+		return next err if err?
 
 module.exports.saveUser = saveUser = (user, res, picture) ->
 	saveMe = ->
@@ -50,8 +168,13 @@ module.exports.saveUser = saveUser = (user, res, picture) ->
 			return res.status(422).send "Registering failed!" if err?
 			fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
 				return res.status(422).send "Registering failed!" if err?
-				res.send {user: user, msg: "Registering succeeded!"}
-				
+				res.send {
+					user: user
+					msg: """
+						Registering succeeded!
+						Check your email for an activation link!
+					"""
+				}
 	if picture? and picture[0]?.src?
 		picture = picture[0].src.split(";base64,")[1]
 		fs.writeFile "#{IMG_FOLDER}pic#{user._id}", picture, {encoding: "base64"}, (err) ->
@@ -67,7 +190,7 @@ module.exports.notificationsHandler = notificationsHandler = (req, res) ->
 	out = {}
 	queryParams = 
 		to : user
-  
+	
 	NotificationsModel
 		.find queryParams
 		.limit perPage
@@ -99,7 +222,6 @@ module.exports.getMyJobsHandler = getMyJobsHandler = (req, res) ->
 		select: "-password"
 		model: "User"
 	}
-	.select("-bidders.password")
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->
@@ -126,20 +248,20 @@ module.exports.getBiddedJobsHandler = getBiddedJobsHandler = (req, res) ->
 	
 	JobModel
 	.find queryParams
-	.elemMatch("bidders", _id:user._id)
+	.where("bidders").equals(user._id)
 	.populate {
-		path: "author"
+		path: "bidders"
 		select: "-password"
 		model: "User"
 	}
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->
-		return res.status(422).send err if err?
+		return res.send err if err?
 		out = {}
 		out.jobs = jobs
 		JobModel.count queryParams, (err, cnt) ->
-			return res.status(422).send err if err?
+			return res.send err if err?
 			out.totalJobs = cnt
 			res.send out
 
@@ -215,7 +337,6 @@ module.exports.getNotifications = getNotifications = (usr, clb) ->
 
 module.exports.populateUser = populateUser = (usr, clb) ->
 	out = {}
-	
 	getBiddedJobs usr, (err, jobs) ->
 		return clb err if err?
 		out.biddedJobs = jobs

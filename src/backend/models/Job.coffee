@@ -74,11 +74,10 @@ schema = mongoose.Schema
 	winner:
 		type: mongoose.Schema.Types.ObjectId
 		ref: "User"
-
+		
 	bidders: [
 		type: mongoose.Schema.Types.ObjectId
 		ref: "User"
-		default: []
 	]
 	
 	jobPhotos:

@@ -45,7 +45,7 @@ define(["./module"], function(module) {
           jobId: job._id
         };
         return common.post(API.rateJob, data).success(function(data) {
-          job = data;
+          angular.copy(data, job);
           return $state.reload();
         });
       };

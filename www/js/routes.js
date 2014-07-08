@@ -8,6 +8,14 @@ define(["app", "angular"], function(app, ng) {
         }
       ]
     });
+    $stateProvider.state("activated", {
+      url: "/activated",
+      views: {
+        "": {
+          template: "<div class=\"page-splash dissolve-animation\">\n	<div class=\"jumbotron\" style=\"height:100%\">\n		<div class=\"fluid-container\">\n		  <h1>Welcome to Craftia, {{appUser.name}}!</h1>\n		  <br>\n			<div class=\"fluid-container\">\n				<hr>\n		  	<h3>\n		  		Your account <span class=\"page-header\" style=\"font-weight: bold;\"> {{appUser.email}} </span> is now activated\n		  	</h3>\n		  	<br><br><hr>\n		  	<div class=\"fluid-row pull-right\" style=\"right: 100px; bottom: 100px; position: fixed;\">\n		  		<p>\n		  			<a class=\"btn btn-black btn-lg\" ui-sref=\"anon.howto\" role=\"button\">Learn more</a>\n		  			or\n		  			<a class=\"btn btn-lg\" ui-sref=\"{{appUser.getType}}.profile\" role=\"button\">Continue</a>\n		  	</div>\n			</div>\n		</div>\n	</div>\n</div>"
+        }
+      }
+    });
     $stateProvider.state("anon", {
       url: "/anon",
       views: {
@@ -26,6 +34,14 @@ define(["app", "angular"], function(app, ng) {
         "shell@anon": {
           templateUrl: "shared/templates/layout/anonMainShell.html",
           controller: "AnonCtrl"
+        }
+      }
+    }).state("anon.reset", {
+      url: "/reset/:token",
+      views: {
+        "shell@anon": {
+          templateUrl: "/shared/templates/forms/resetPassword.html",
+          controller: "ResetPasswordCtrl"
         }
       }
     }).state("anon.createJob", {
@@ -50,6 +66,14 @@ define(["app", "angular"], function(app, ng) {
         "shell@anon": {
           templateUrl: "shared/templates/forms/login.html",
           controller: "LoginCtrl"
+        }
+      }
+    }).state("anon.forgot", {
+      url: "/forgot",
+      views: {
+        "shell@anon": {
+          templateUrl: "shared/templates/forms/forgotPassword.html",
+          controller: "ForgotPassCtrl"
         }
       }
     }).state("anon.register", {
@@ -295,7 +319,9 @@ define(["app", "angular"], function(app, ng) {
         fromState = fromState.name;
         $(".shellic").fadeOut(500);
         $(".shellic").fadeIn(500);
-        if (!typeRe.test(nextState)) {
+        if (nextState === "activated") {
+
+        } else if (!typeRe.test(nextState)) {
           logger.log("Access denied to state " + nextState);
           ev.preventDefault();
           if (lastState !== nextState) {

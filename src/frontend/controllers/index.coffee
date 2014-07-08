@@ -15,6 +15,9 @@ define [
 	"controllers/yellowPages"
 	"controllers/craftsmanFindJobs"
 	"controllers/craftsmanMyJobs"
+	"controllers/footer"
+	"controllers/forgotPassword"
+	"controllers/resetPassword"
 ], ->
 	
 	return

@@ -18,7 +18,6 @@ define ["./module"], (module) ->
 
 					$scope.ok = ->
 						$modalInstance.close "ok"
-						console.log $scope.msgContent, $scope.emailTo
 						onOk?()
 
 					$scope.cancel = ->
@@ -40,10 +39,24 @@ define ["./module"], (module) ->
 								okText
 								template
 								cancelText
-								onOk: onOk
-								onCancel: onCancel
+								onOk
+								onCancel
 							}
 
+					return $modal.open(modalOptions).result
+				
+				errorDialog: ({message, onOk}) ->
+					title = "Error"
+					modalOptions =
+						templateUrl: "shared/templates/dialogs/error.html"
+						controller: ModalController
+						keyboard: true
+						resolve: options: ->
+							return {
+								title
+								message
+								onOk
+							}
 					return $modal.open(modalOptions).result
 
 				deleteDialog: (itemName) ->

@@ -41,6 +41,7 @@
     "mkdirp": "^0.5.0",
     "mongoose": "3.8.12",
     "node-notifier": "^3.0.6",
+    "nodemailer": "^0.7.0",
     "passport": "0.2.0",
     "passport-local": "1.0.0",
     "rimraf": "^2.2.8",

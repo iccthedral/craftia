@@ -1,6 +1,6 @@
 define(["./module"], function(module) {
   return module.controller("LoginCtrl", [
-    "$scope", "$http", "$state", "cAPI", "appUser", "logger", function($scope, $http, $state, cAPI, appUser, logger) {
+    "$scope", "$http", "$state", "cAPI", "appUser", "logger", "dialog", function($scope, $http, $state, cAPI, appUser, logger, dialog) {
       $scope.loginDetails = {
         email: "",
         password: "",
@@ -10,7 +10,12 @@ define(["./module"], function(module) {
         return $http.post(cAPI.login, $scope.loginDetails).error((function(_this) {
           return function(err) {
             logger.error(err);
-            return $state.transitionTo("anon");
+            return dialog.errorDialog({
+              message: err,
+              onOk: function() {
+                return $state.transitionTo("anon");
+              }
+            });
           };
         })(this)).success((function(_this) {
           return function(data) {
