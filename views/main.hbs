@@ -20,9 +20,22 @@
             document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
         }
     </script>
-
+    
     {{#if production}}
-        <link rel="stylesheet" type="text/css" href="css/bundle.min.css">
+        <link href="css/ie10mobile.css" rel="stylesheet" />
+        <link href="css/angular-carousel.css" rel="stylesheet" />
+        <link href="css/bootstrap.css" rel="stylesheet" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/toastr.css" rel="stylesheet" />
+        <link href="css/customtheme.css" rel="stylesheet">
+        <link href="css/styles.css" rel="stylesheet" />
+        <!-- <link href="css/screen.css" rel="stylesheet" /> -->
+        <link href="css/craftia-theme.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/select2.css">
+        <link href="css/lightbox.css" rel="stylesheet" />
+        <link href="css/animate.min.css" rel="stylesheet" />
+        <link href="css/craftia-topmenu.css" rel="stylesheet" />
+        <link href="css/off-canvas.css" rel="stylesheet"/>
     {{else}}
         <link href="css/ie10mobile.css" rel="stylesheet" />
         <link href="css/angular-carousel.css" rel="stylesheet" />
