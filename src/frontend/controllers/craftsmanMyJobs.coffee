@@ -84,7 +84,7 @@ define ["./module"], (module) ->
 					$($scope.currentMap.el).empty()
 
 				$scope.currentMap = gmaps.showAddress {
-					address: job.address.city + ", " + job.address.line1
+					address: job.address.city.name + ", " + job.address.line1
 					container: $scope.mapContainer
 					done: ->
 						$scope.currentMap.refresh()

@@ -92,29 +92,6 @@ schema = mongoose.Schema
 
 schema.pre "save", (next) ->
 	user = @
-	if user.isNew?
-		crypto.randomBytes 20, (err, buff) ->
-			next throw err if err?
-			user.activationToken = buff.toString "hex"
-			smtpTransport = nodemailer.createTransport "SMTP", {
-				service: "GMAIL",
-				auth: {
-					user: "aleksandar.milic@yquince.com",
-					pass: "zaboravnisale"
-				}
-			}
-			mailOptions = {
-				to: user.email
-				from: "mail-delivery@craftia.com"
-				subject: "Craftia - Activate your account"
-				text: """
-					Click on the following link http://localhost/user/activate/#{user.activationToken} to activate your account.
-				"""
-			}
-			smtpTransport.sendMail mailOptions, (err) ->
-				next throw err if err?
-				finish()
-	else finish()
 
 	finish = ->
 		if not user.isModified "password"
@@ -129,6 +106,34 @@ schema.pre "save", (next) ->
 					return next err if err?
 					user.password = hash
 					next()
+	
+	if user.isNew?
+		if user.isNew
+			console.error user.isNew , "blas"
+			crypto.randomBytes 20, (err, buff) ->
+				next throw err if err?
+				user.activationToken = buff.toString "hex"
+				smtpTransport = nodemailer.createTransport "SMTP", {
+					service: "GMAIL",
+					auth: {
+						user: "aleksandar.milic@yquince.com",
+						pass: "zaboravnisale"
+					}
+				}
+				mailOptions = {
+					to: user.email
+					from: "mail-delivery@craftia.com"
+					subject: "Craftia - Activate your account"
+					text: """
+						Click on the following link http://localhost:3000/user/activate/#{user.activationToken} to activate your account.
+					"""
+				}
+				smtpTransport.sendMail mailOptions, (err) ->
+					next throw err if err?
+					finish()
+		else finish()
+
+	
 
 schema.methods.comparePassword = (password, cb) ->
 	bcrypt.compare(password, @password, (err, isMatch) ->

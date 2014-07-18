@@ -20,5 +20,6 @@ define [], -> {
 	updateProfile: "/user/update"
 	queryJobs: "/job/query"
 	forgotPassword: "/user/forgot"
-	resetPassword: "/user/reset/{0}"
+	resetPassword: "/user/reset"
+	findJob: "/job/{0}"
 }

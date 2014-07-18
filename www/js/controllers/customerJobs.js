@@ -1,4 +1,4 @@
-define(["./module"], function(module) {
+define(["./module", "moment"], function(module, moment) {
   return module.controller("CustomerJobsCtrl", [
     "$scope", "$http", "$state", "$timeout", "cAPI", "logger", "common", "config", "categoryPictures", "gmaps", "dialog", function($scope, $http, $state, $timeout, API, logger, common, config, categoryPictures, gmaps, dialog) {
       var activate, editJob, getPage, pickWinner, saveJob, sendMessage, showInfo, showPics, state;
@@ -17,6 +17,10 @@ define(["./module"], function(module) {
       $scope.ratingContainer = "#rating-div-0";
       $scope.tempJob = {};
       $scope.editIndex = $scope.sizePerPage;
+      $scope.ratings = [];
+      $scope.biddersJobs = [];
+      $scope.profile = {};
+      $scope.buttonText = "";
       $scope.hoveringOver = function(value) {
         $scope.overStar = value;
         return $scope.percent = 100 * (value / $scope.max);
@@ -42,11 +46,13 @@ define(["./module"], function(module) {
         data = {
           mark: job.rate.mark,
           comment: job.rate.comment,
-          jobId: job._id
+          jobId: job._id,
+          winner: job.winner
         };
-        return common.post(API.rateJob, data).success(function(data) {
+        console.log(data);
+        return $http.post(API.rateJob, data).success(function(data) {
           angular.copy(data, job);
-          return $state.reload();
+          return getPage(0, "all");
         });
       };
       $scope.saveJob = saveJob = function(index, jobId) {
@@ -55,7 +61,7 @@ define(["./module"], function(module) {
         return $http.post(API.updateJob.format("" + jobId), $scope.tempJob).success(function(data) {
           angular.copy(data, $scope.filteredJobs[index]);
           logger.success("Job updated!");
-          return $state.transitionTo("customer.jobs");
+          return getPage(0, "all");
         }).error(function(err) {
           logger.error(err);
           return $state.transitionTo("customer");
@@ -74,7 +80,7 @@ define(["./module"], function(module) {
         });
         return $http.get(API.getMyJobs.format("" + pageIndex, "" + jobStatus)).success(function(data) {
           var job, _i, _len, _ref;
-          _ref = data.jobs;
+          _ref = data.jobs != null;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             job = _ref[_i];
             job.jobPhotos = job.jobPhotos.filter(function(img) {
@@ -196,6 +202,67 @@ define(["./module"], function(module) {
         } else {
           prevEl.slideUp();
           curEl.slideDown();
+        }
+      };
+      $scope.viewProfile = function(profileId) {
+        if ($scope.profile._id === void 0) {
+          $scope.profile._id = profileId;
+          $scope.buttonText = " - hide profile";
+        } else {
+          $scope.buttonText = "";
+          $scope.profile = {};
+        }
+      };
+      $scope.hideJob = function(jobId) {
+        $scope.biddersJob = {};
+        $scope.profile = {};
+        return $scope.buttonText = "";
+      };
+      $scope.viewJob = function(jobId) {
+        var job, _i, _len, _ref, _ref1;
+        if ($scope.biddersJobs.length !== 0) {
+          _ref = $scope.biddersJobs;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            job = _ref[_i];
+            if (job._id === jobId) {
+              $scope.biddersJob = angular.copy(job);
+            }
+          }
+        }
+        if (((_ref1 = $scope.biddersJob) != null ? _ref1._id : void 0) === jobId) {
+          $scope.dateFrom = moment($scope.biddersJob.dateFrom).format("DD/MM/YY");
+          return $scope.dateTo = moment($scope.biddersJob.dateTo).format("DD/MM/YY");
+        } else {
+          return $http.get(API.findJob.format("" + jobId)).success(function(data) {
+            logger.success("Job fetched!");
+            $scope.biddersJob = angular.copy(data[0]);
+            $scope.dateFrom = moment(data[0].dateFrom).format("DD/MM/YY");
+            $scope.dateTo = moment(data[0].dateTo).format("DD/MM/YY");
+            return $scope.biddersJobs.push($scope.biddersJob);
+          }).error(function(e) {
+            return logger.error(e);
+          });
+        }
+      };
+      $scope.viewRatings = function(bidderId, job) {
+        var bidder, _i, _len, _ref;
+        if ($scope.tempBidder == null) {
+          _ref = job.bidders;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            bidder = _ref[_i];
+            if (bidder._id === bidderId) {
+              $scope.tempBidder = angular.copy(bidder);
+            }
+          }
+          if ($scope.tempBidder.rating.jobs != null) {
+            return $scope.ratings = $scope.tempBidder.rating.jobs;
+          }
+        } else {
+          $scope.tempBidder = null;
+          $scope.ratings = [];
+          $scope.biddersJob = {};
+          $scope.profile = {};
+          return $scope.buttonText = "";
         }
       };
       $scope.search = function() {};

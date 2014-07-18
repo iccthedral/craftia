@@ -1,4 +1,5 @@
-wrench 		= require("wrench")
+wrench = require("wrench")
+
 module.exports = (app, passport) ->
 	# Loads all controllers recursively!
 	wrench.readdirSyncRecursive("./src/backend/controllers")

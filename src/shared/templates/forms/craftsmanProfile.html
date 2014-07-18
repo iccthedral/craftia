@@ -1,26 +1,51 @@
 <div class="col-md-1">
 </div>
-<div class="widget wcyan col-md-5">
+
+<div class="col-md-4">
+	<div class="fluid-container  widget wcyan">
+		<div data-cc-widget-header title="Photo and rating">
+		</div>
+
+		<div class="widget-content fluid-container">
+			<div class="fileinput fileinput-new" data-provides="fileinput">
+				<div class="fileinput-new thumbnail profile-picture">
+					<img ng-src="{{appUser.profilePic}}"/>
+					<br>
+					<div class="user-rating-box rating-stars">
+						<rating readonly="true" value="appUser.rating.avgRate"></rating>
+					</div>
+					<form class="form-horizontal upload-picture-form">
+						 <div class="fileUpload btn btn-black">
+							<span>Upload</span>
+							<input ng-file-select="uploadPhoto($files)" id="uploadBtn" type="file" class="upload" />
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="widget wcyan fluid-container">
 	<div data-cc-widget-header title="Private details">
 	</div>
 
-	<div class="widget-content right-partial-view fluid-container">
+	<div class="widget-content fluid-container">
 
 			<form class="form-horizontal">
 				<fieldset>
 
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-8 control-label" for="email">E-mail</label>
-						<div class="col-md-8">
+						<label class="col-md-12 control-label" for="email">E-mail</label>
+						<div class="col-md-12">
 							<input ng-disabled="!editable" ng-model="appUser.email" id="email" name="email" type="text" placeholder="email" class="form-control input-md" required="">
 						</div>
 					</div>
 					
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-8 control-label" for="username">Username</label>
-						<div class="col-md-8">
+						<label class="col-md-12 control-label" for="username">Username</label>
+						<div class="col-md-12">
 							<input ng-disabled="!editable" ng-model="appUser.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
 						</div>
 					</div>
@@ -28,51 +53,62 @@
 
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-8 control-label" for="name">Name</label>
-						<div class="col-md-8">
+						<label class="col-md-12 control-label" for="name">Name</label>
+						<div class="col-md-12">
 							<input ng-disabled="!editing" ng-model="appUser.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
 						</div>
 					</div>
 
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-8 control-label" for="surname">Surname</label>
-						<div class="col-md-8">
+						<label class="col-md-12 control-label" for="surname">Surname</label>
+						<div class="col-md-12">
 							<input ng-disabled="!editing" ng-model="appUser.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
 						</div>
 					</div>
 
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-8 control-label" for="telephone">Telephone</label>
-						<div class="col-md-8">
+						<label class="col-md-12 control-label" for="telephone">Telephone</label>
+						<div class="col-md-12">
 							<input ng-disabled="!editing" ng-model="appUser.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
 						</div>
 					</div>
 					
 				</fieldset>
 			</form>
-		<button class="btn" ng-disabled="editing" ng-click="editProfile()"> Update profile</button>
-		<button class="btn" ng-disabled="!editing" ng-click="updateProfile()"> Save changes</button>
-	</div>
-</div>
-<div class="fluid-container col-md-5 widget wcyan">
-	<div class="fileinput fileinput-new" data-provides="fileinput">
-		<div class="fileinput-new thumbnail profile-picture">
-			<img ng-src="{{appUser.profilePic}}"/>
-			<br>
-			<div class="user-rating-box rating-stars">
-				<rating readonly="true" value="appUser.rating.avgRate"></rating>
-			</div>
-			<form class="form-horizontal upload-picture-form">
-				 <div class="fileUpload btn btn-black">
-					<span>Upload</span>
-					<input ng-file-select="uploadPhoto($files)" id="uploadBtn" type="file" class="upload" />
-				</div>
-			</form>
+			<button class="btn btn-black" ng-disabled="editing" ng-click="editProfile()"> Update profile</button>
+			<button class="btn btn-black" ng-disabled="!editing" ng-click="updateProfile()"> Save changes</button>
 		</div>
 	</div>
 </div>
 <div class="col-md-1">
 </div>
+
+<div class="col-md-4">
+	<div class="widget wcyan fluid-container ">
+		<div data-cc-widget-header title="Reputation: {{appUser.rating.avgRate}}, total votes: {{appUser.rating.totalVotes}}">
+		</div>
+		<div class="widget-content fluid-container">
+			<ul class="example-animate-container">
+		    <li class="animate-repeat" ng-repeat="rating in ratings">
+		      <div>
+						<div style="text-align:left" class="user-rating-box rating-stars">
+								<span>Mark: </span>
+								<rating readonly="true" value="rating.mark"></rating>
+								<button class="btn btn-black" ng-show="rating.job !== job._id" ng-click="viewJob(rating.job)"> View job</button>
+								<button class="btn btn-black" ng-show="rating.job === job._id" ng-click="hideJob(rating.job)"> Hide job</button>
+						</div>
+						<span>Comment: </span><br>
+						<span>{{rating.comment}}</span>
+					</div>
+					<div class="clearfix"></div>
+					<div  ng-show="rating.job === job._id"  data-ng-include="'/shared/templates/layout/singleJob.html'">
+					</div>
+		    </li>
+		  </ul>
+		</div>
+	</div>
+</div>
+
 

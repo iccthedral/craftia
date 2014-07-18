@@ -7,7 +7,9 @@ define(["./module", "moment"], function(module, moment) {
         var crDate;
         crDate = attrs["crDate"];
         return attrs.$observe("crDate", function() {
-          console.log(crDate);
+          if (typeof crDate !== "string") {
+            crDate = JSON.stringify(crDate);
+          }
           return element.text(moment(crDate).format("DD/MM/YY"));
         });
       }

@@ -68,8 +68,14 @@ module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 				clb err, job
 
 module.exports.findJob = findJob = (req, res, next) ->
+	query = {"_id": mongoose.Types.ObjectId req.params.id}
 	JobModel
-	.findOne _id: req.params.id
+	.find query
+	.populate ({
+		path: "author"
+		select : "-password"
+		model : "User"
+	})
 	.exec (err, job) ->
 		return next err if err?
 		res.send job
@@ -118,15 +124,20 @@ Craftsman #{usr.username} just canceled their bid on your job offering #{job.tit
 			}, (err) ->
 				clb err, job
 
-module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
+module.exports.rateJob = rateJob = (user, jobId, mark, comment, winner, clb) ->
+	console.error "AAAAAAAAAAAAAAA"
 	if user.type isnt AuthLevels.CUSTOMER or not user?
 		return clb "You don't have permissions to rate"
 	if not (1 < mark < 6)
 		return clb "Mark is out of range"
-	
 	JobModel.findById jobId
-	.populate "winner"
+	# .populate {
+	# 	path:"winner"
+	# 	select: "-password"
+	# 	model: "User"
+	# }
 	.exec (err, job) ->
+		console.error err if err?
 		return clb err if err?
 		if not job.winner?
 			return clb throw "You don't have permission to rate"
@@ -134,30 +145,33 @@ module.exports.rateJob = rateJob = (user, jobId, mark, comment, clb) ->
 			return clb throw "You're not the creator of this job"
 		if job.status isnt "finished"
 			return clb throw "This job isn't finished and you can't rate the craftsman"
-
-		winnerUser = job.winner
-		
-		# Has the customer already rated this craftsman?
-		alreadyRated = job.isRated
-		if alreadyRated
-			return clb throw "You've already rated this job"
-
-		job.isRated = true
-		job.rate.mark = mark
-		job.rate.comment = comment
-
-		winnerUser.rating.jobs.push {
-			job: job
-			comment: comment
-			mark: mark
-		}
-		winnerUser.rating.totalVotes += 1
-		winnerUser.rating.avgRate += mark
-		winnerUser.rating.avgRate /= winnerUser.rating.totalVotes
-		winnerUser.save (err, winner) ->
+		UserModel.findById job.winner
+		.exec (err, winnerUser) ->
+			console.error err if err?
 			return clb err if err?
-			job.save (err, job) ->
-				clb err, job
+			# Has the customer already rated this craftsman?
+			alreadyRated = job.isRated
+			if alreadyRated
+				return clb throw "You've already rated this job"
+
+			job.isRated = true
+			job.rate.mark = mark
+			job.rate.comment = comment
+			winnerUser.rating.jobs.push {
+				job: job
+				comment: comment
+				mark: mark
+			}
+			winnerUser.rating.totalVotes += 1
+			winnerUser.rating.avgRate += mark
+			winnerUser.rating.avgRate /= winnerUser.rating.totalVotes
+			winnerUser.save (err, winnerUser) ->
+				console.error err if err?
+				return clb err if err?
+				job.save (err, job) ->
+					console.error err if err?
+					clb err, job
+
 
 module.exports.fetchOpenJobs = fetchOpenJobs = (user, clb) ->
 	jobs = user.createdJobs.filter (job) -> return job.status is "open"
@@ -239,26 +253,35 @@ cancelBidOnJobHandler = (req, res, next) ->
 		res.send job
 
 rateJobHandler = (req, res, next) -> 
+	console.error "CCCCCCCCCCCCC"
 	jobId = req.body.jobId
 	mark = req.body.mark
 	comment = req.body.comment
 	user = req.user
-
-	rateJob user, jobId, mark, comment, (err, job) ->
-		console.error err, job
-		return res.send(err) if err?
+	winner = req.winner
+	
+	rateJob user, jobId, mark, comment, winner, (err, job) ->
+		console.error "BBBBBBBBBBBBBBB"
+		# return res.send(err) if err?
 		res.send(job)
 
 listOpenJobsHandler = (req, res) ->
 	page = req.params.page or 0
 	perPage = 5
+	populateQuery = [
+		{
+			path: "author",
+			select:"-password",
+			model:"User"
+		},
+		{
+			path:"bidders",
+			select:"-password",
+			model:"User"}
+	]	
 	JobModel
 	.find status: "open"
-	.populate {
-		path: "author"
-		select: "-password"
-		model: "User"
-	}
+	.populate populateQuery
 	.limit perPage
 	.skip perPage * page
 	.exec (err, jobs) ->
@@ -333,4 +356,4 @@ module.exports.setup = (app) ->
 	app.post "/job/:id/delete", deleteJob
 	app.post "/job/:id/update", updateJob
 	app.post "/job/query", queryHandler
-	app.post "/job/:id", findJob
+	app.get "/job/:id", findJob

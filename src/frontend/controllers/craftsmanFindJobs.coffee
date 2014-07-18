@@ -46,7 +46,7 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				common.broadcast config.events.ToggleSpinner, show:true
 				$http.get API.getPagedOpenJobs.format("#{pageIndex}")
 				.success (data) ->
-					for job in data.jobs
+					for job in data.jobs?
 						job.jobPhotos = job.jobPhotos?.filter (img) -> img.img?
 					$scope.totalJobs = data.totalJobs
 					$scope.filteredJobs = data.jobs?.slice()
@@ -75,8 +75,8 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					}
 
 			$scope.isBidder = isBidder = (index) ->
-				job = $scope.filteredJobs[index]
-				_.findOne job.bidders or [], "_id", appUser._id
+				job = $scope.filteredJobs[index] or []
+				_.findOne job.bidders , "_id", appUser._id
 
 			$scope.showMap = (job, index) ->
 				prevEl = ($ $scope.mapContainer)
@@ -94,7 +94,7 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					$($scope.currentMap.el).empty()
 
 				$scope.currentMap = gmaps.showAddress {
-					address: job.address.city + ", " + job.address.line1
+					address: job.address.city.name + ", " + job.address.line1
 					container: $scope.mapContainer
 					done: ->
 						$scope.currentMap.refresh()

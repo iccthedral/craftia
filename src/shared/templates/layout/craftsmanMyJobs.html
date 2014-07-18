@@ -127,9 +127,7 @@
 				    	
 				    </td>
 
-				    <td class="bottom-2-dashed borderless yellow-tblock bookmark-star">
-				    	<img ng-hide="isBidder($index) && job.status !=='open'" ng-click="bidOnJob($index)" src="/img/bookmark_star_over.gif"/>
-				    </td>
+				
 				  </tr>
 
 				  <tr>
@@ -148,7 +146,7 @@
 				  <tr>
 				    <td class="borderless yellow-tblock text-center" colspan="4">
 				    	<i ng-click="showMap(job, $index)" class="fa fa-map-marker map-marker-3x fa-3x"></i>
-				    	<span class="bold-span">{{job.address.city}}, {{job.address.line1}}</span>
+				    	<span class="bold-span">{{job.address.city.name}}, {{job.address.line1}}</span>
 				    </td>
 				  </tr>
 				</tbody>

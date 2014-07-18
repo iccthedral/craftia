@@ -97,7 +97,7 @@
 										<th>Username</th>
 										<th>Name</th>
 										<th>Surname</th>
-										<th>Rating</th>
+										<th>Average rating</th>
 										<th>Send message </th>
 										<th ng-show="job.status==='open'">Pick winner </th>
 									</tr>
@@ -108,9 +108,12 @@
 								    <td>{{bidder.name}}</td>
 								    <td>{{bidder.surname}}</td>
 								    <td>
-								    	<div class="user-rating-box rating-stars">
-		 										<rating readonly="true" value="bidder.rating.avgRate"></rating>
-											</div>
+								    	<button ng-click="viewRatings(bidder._id, job)" class="btn btn-white">
+									    	<div style="text-align:left" class="user-rating-box rating-stars">
+			 										<rating ng-show="bidder._id !== tempBidder._id" readonly="true" value="bidder.rating.avgRate"></rating>
+			 										<span ng-show="bidder._id === tempBidder._id" class="black-span">Hide ratings</span>
+												</div>
+											</button>
 								    </td>
 								    <td>
 								    	<button class="btn btn-black" ng-click="sendMessage(bidder.username)" >
@@ -216,7 +219,25 @@
 					</tbody>
 					</table>			
 		</div>
-		
+		<div class="peach-div fluid-container">
+			<ul class="example-animate-container">
+	    	<li class="animate-repeat" ng-repeat="rating in ratings">
+		      <div>
+						<div style="text-align:left" class="user-rating-box rating-stars">
+								<span>Mark: </span>
+								<rating readonly="true" value="rating.mark"></rating>
+								<button class="btn btn-black" ng-show="rating.job !== biddersJob._id" ng-click="viewJob(rating.job)"> View job</button>
+								<button class="btn btn-black" ng-show="rating.job === biddersJob._id" ng-click="hideJob(rating.job)"> Hide job</button>
+						</div>
+						<span>Comment: </span><br>
+						<span>{{rating.comment}}</span>
+					</div>
+					<div class="clearfix"></div>
+					<div  ng-show="rating.job === biddersJob._id"  data-ng-include="'/shared/templates/layout/singleJob.html'">
+					</div>
+		    </li>
+	  	</ul>
+		</div> 
 		<div class="job-buttons peach-div row">
 			<a ng-if="job.winner != undefined" class="job-button col-md-3 col-sm-3 hover-glow-white text-center" ng-click="showRating($index)">
 				<i class="fa fa-star fa-2x"></i>

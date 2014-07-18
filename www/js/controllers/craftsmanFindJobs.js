@@ -39,7 +39,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         });
         return $http.get(API.getPagedOpenJobs.format("" + pageIndex)).success(function(data) {
           var job, _i, _len, _ref, _ref1, _ref2;
-          _ref = data.jobs;
+          _ref = data.jobs != null;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             job = _ref[_i];
             job.jobPhotos = (_ref1 = job.jobPhotos) != null ? _ref1.filter(function(img) {
@@ -79,8 +79,8 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       };
       $scope.isBidder = isBidder = function(index) {
         var job;
-        job = $scope.filteredJobs[index];
-        return _.findOne(job.bidders || [], "_id", appUser._id);
+        job = $scope.filteredJobs[index] || [];
+        return _.findOne(job.bidders, "_id", appUser._id);
       };
       $scope.showMap = function(job, index) {
         var curEl, prevEl;
@@ -97,7 +97,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
           $($scope.currentMap.el).empty();
         }
         return $scope.currentMap = gmaps.showAddress({
-          address: job.address.city + ", " + job.address.line1,
+          address: job.address.city.name + ", " + job.address.line1,
           container: $scope.mapContainer,
           done: function() {
             return $scope.currentMap.refresh();

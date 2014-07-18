@@ -1,4 +1,4 @@
-define ["./module"], (module) ->
+define ["./module", "moment"], (module, moment) ->
 
 	module.controller "CustomerJobsCtrl" , [
 		"$scope"
@@ -30,6 +30,10 @@ define ["./module"], (module) ->
 			$scope.ratingContainer = "#rating-div-0"
 			$scope.tempJob = {}
 			$scope.editIndex = $scope.sizePerPage
+			$scope.ratings = []
+			$scope.biddersJobs = []
+			$scope.profile = {}
+			$scope.buttonText = ""
 
 			$scope.hoveringOver = (value) ->
 				$scope.overStar = value
@@ -56,11 +60,13 @@ define ["./module"], (module) ->
 					mark: job.rate.mark
 					comment: job.rate.comment
 					jobId: job._id
+					winner: job.winner
 				}
-				common.post API.rateJob, data
+				console.log data
+				$http.post API.rateJob, data
 				.success (data) ->
 					angular.copy(data, job)
-					$state.reload()
+					getPage(0, "all")
 
 			$scope.saveJob = saveJob = (index, jobId) ->
 				jobId = $scope.filteredJobs[index]._id
@@ -69,7 +75,7 @@ define ["./module"], (module) ->
 				.success (data) ->
 					angular.copy data, $scope.filteredJobs[index]
 					logger.success "Job updated!"
-					$state.transitionTo "customer.jobs"
+					getPage 0, "all"
 				.error (err) ->
 					logger.error err
 					$state.transitionTo "customer"
@@ -84,7 +90,7 @@ define ["./module"], (module) ->
 				common.broadcast config.events.ToggleSpinner, show:true
 				$http.get API.getMyJobs.format("#{pageIndex}","#{jobStatus}")
 				.success (data) ->
-					for job in data.jobs
+					for job in data.jobs?
 						job.jobPhotos = job.jobPhotos.filter (img) -> img?.src?
 					$scope.totalJobs = data.totalJobs
 					$scope.jobs = data.jobs
@@ -192,6 +198,51 @@ define ["./module"], (module) ->
 					prevEl.slideUp()
 					curEl.slideDown()
 				return
+
+			$scope.viewProfile = (profileId) ->
+				if $scope.profile._id is undefined
+					$scope.profile._id = profileId
+					$scope.buttonText = " - hide profile"
+					return
+				else 
+					$scope.buttonText = ""
+					$scope.profile = {}
+					return
+
+			$scope.hideJob = (jobId) -> 
+				$scope.biddersJob = {}
+				$scope.profile = {}
+				$scope.buttonText = ""
+
+			$scope.viewJob = (jobId) ->
+				if $scope.biddersJobs.length isnt 0
+					for job in $scope.biddersJobs when job._id is jobId
+						$scope.biddersJob = angular.copy job
+				if $scope.biddersJob?._id is jobId
+					$scope.dateFrom = moment($scope.biddersJob.dateFrom).format("DD/MM/YY")
+					$scope.dateTo = moment($scope.biddersJob.dateTo).format("DD/MM/YY")
+				else 
+					$http.get API.findJob.format("#{jobId}")
+					.success (data) ->
+						logger.success "Job fetched!"
+						$scope.biddersJob = angular.copy data[0]
+						$scope.dateFrom = moment(data[0].dateFrom).format("DD/MM/YY")
+						$scope.dateTo = moment(data[0].dateTo).format("DD/MM/YY")
+						$scope.biddersJobs.push $scope.biddersJob
+					.error (e) ->
+						logger.error (e)	
+
+			$scope.viewRatings = (bidderId, job) ->	
+				if not $scope.tempBidder?
+					for bidder in job.bidders when bidder._id is bidderId
+						$scope.tempBidder = angular.copy bidder
+					$scope.ratings = $scope.tempBidder.rating.jobs if $scope.tempBidder.rating.jobs?
+				else
+					$scope.tempBidder = null	
+					$scope.ratings = []
+					$scope.biddersJob = {}
+					$scope.profile = {}
+					$scope.buttonText = ""
 
 			$scope.search = ->
 				return

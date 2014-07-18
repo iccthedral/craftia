@@ -46,7 +46,7 @@ module.exports.setup = (app) ->
 	app.post "/user/registerCraftsman", registerCrafsmanHandler
 	app.post "/user/registerCustomer", registerCustomerHandler
 	app.post "/user/forgot", forgotPasswordHandler
-	app.post "/user/reset/:token", passwordUpdateHandler
+	app.post "/user/reset", passwordUpdateHandler
 	app.get "/user/activate/:token", activateAccountHandler
 	app.get "/reset/:token", passwordResetHandler
 
@@ -54,9 +54,11 @@ module.exports.passwordUpdateHandler = passwordUpdateHandler = (req, res, next) 
 	async.waterfall [
 		(done) ->
 			UserModel.findOne {
-				passwordResetToken: req.params.token
+				passwordResetToken: req.body.token
 				passwordResetExpiry: $gt : Date.now()
 			}, (err, user) ->
+				console.error "STIGAO"
+				console.error req.body.password
 				user.password = req.body.password
 				user.passwordResetToken = null
 				user.passwordResetExpiry = null
@@ -91,6 +93,7 @@ module.exports.activateAccountHandler = activateAccountHandler = (req, res, next
 		activationToken: req.params.token
 	}, (err, user) ->
 		return next err if err?
+		console.error user
 		return res.status(422).send "Activation token is invalid or it has expired." if not user?
 		user.isActive = true
 		user.activationToken = null
