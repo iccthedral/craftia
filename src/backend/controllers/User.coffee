@@ -165,11 +165,13 @@ module.exports.forgotPasswordHandler = forgotPasswordHandler = (req, res, next) 
 	], (err) ->
 		return next err if err?
 
-module.exports.saveUser = saveUser = (user, res, picture) ->
+module.exports.saveUser = saveUser = (user, res, picture, categories) ->
 	saveMe = ->
 		user.save (err, user) ->
+			console.error err if err?
 			return res.status(422).send "Registering failed!" if err?
 			fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
+				console.error err, "blas" if err?
 				return res.status(422).send "Registering failed!" if err?
 				res.send {
 					user: user
@@ -185,6 +187,7 @@ module.exports.saveUser = saveUser = (user, res, picture) ->
 			saveMe()
 	else
 		saveMe()
+
 		
 module.exports.notificationsHandler = notificationsHandler = (req, res) ->
 	page = req.params.page or 0
@@ -287,9 +290,10 @@ module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
 
 module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, next) ->
 	data        = req.body
+	console.log data.categories 
 	data.type   = AuthLevels.CRAFTSMAN
 	picture 		= data.picture
-
+	categories  = data.categories
 	user        = new UserModel(data)
 
 	resolveCity = (clb) -> clb()
@@ -299,7 +303,7 @@ module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, ne
 	resolveCity (err, city) ->
 		return next err if err?
 		data.address.zip = city.zip
-		saveUser(user, res, picture)
+		saveUser(user, res, picture, categories)
 
 module.exports.registerCustomerHandler = registerCustomerHandler = (req, res) ->
 	data        = req.body

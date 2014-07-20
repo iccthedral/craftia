@@ -24,7 +24,7 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.subcategories = []
 			$scope.categories = Object.keys(categories)
 			$scope.cities = cities
-			
+		
 			getPage = (pageIndex = 0) ->
 				common.get API.getPagedOpenJobs.format("#{pageIndex}")
 				.success (data) ->

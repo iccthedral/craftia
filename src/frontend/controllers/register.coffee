@@ -1,4 +1,4 @@
-define ["./module", "json!cities", "json!categories"], (module, cities, categories) ->
+define ["./module", "json!cities", "json!categories", "select2"], (module, cities, categories, select2) ->
 	module.controller "RegisterCtrl", [
 		"$scope"
 		"$http"
@@ -15,30 +15,17 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				"img/master.jpg"
 				"img/approved.jpg"
 			]
+			$scope.selection = "aa"
+			$scope.availableCategories = Object.keys(categories)
+				
+		
+				
 
-			$scope.select2Options =
-				'multiple': true
-				'simple_tags': true
-				'tags': []
+			findCategory = (value) ->
+				if $scope.categories?
+					for cat in $scope.categories when cat is value
+						return value
 
-			$scope.categories = categories
-
-			$scope.multi = 
-				multiple: true
-				query: (query) -> 
-					query.callback({ results: categories })
-
-			$scope.allTags = $scope.select2Options.tags
-
-			do $scope.fetchTags = ->
-				return $q.all ($http.get "shared/resources/categories/#{v}.json" for k, v of $scope.categories)
-				.then (data) =>
-					data.forEach (cat) =>
-						catName = cat.data.category
-						tags = cat.data.subcategories.map (subcat) ->
-							return "#{catName} > #{subcat}"
-						$scope.allTags = $scope.allTags.concat tags
-						
 			$scope.getCities = (val) ->
 				return cities
 			
@@ -60,7 +47,14 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				.error (err) =>
 					logger.error err
 
-			$("input").bind "keyup change", -> 
+			
+			 $scope.placeholders = {
+			 		placeholders: "Select a category"
+			 }
+			 $scope.selectedCategory = ""
+
+			$("input").bind "keyup", -> 
+				console.log $scope.categories
 				$t = $(this)
 				$par = $t.parent()
 				min = $t.attr("data-valid-min")
@@ -84,5 +78,5 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					$par.find('.form-control-feedback').addClass('fade')
 
 			do activate = ->
-				common.activateController [$scope.fetchTags()], "RegisterCtrl"
+				common.activateController [], "RegisterCtrl"
 	]

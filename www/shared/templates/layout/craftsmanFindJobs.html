@@ -7,7 +7,7 @@
 					<span class="small-span bold-span yellow-span">
 						CITY
 					</span>
-					<select class="menu-select" data-ng-model="searchCriterion.city" data-ng-options="city.name for city in cities" >
+					<select ng-change="showBigMap(bigMapVisible)" class="menu-select" data-ng-model="searchCriterion.city" data-ng-options="city.name for city in cities" >
 					<option value=""></option>
 					</select>
 				</div>
@@ -25,9 +25,11 @@
 					<span class="small-span bold-span yellow-span">
 						CATEGORY
 					</span>
-					<select ng-change="categoryChanged()" class="menu-select" data-ng-model="selectedCategory" data-ng-options="cat for cat in categories">
-						<option value=""></option>
-					</select>
+					<br>
+					
+					<select ng-change="categoryChanged()" name="categories" id="multi-select" ui-select2 multiple ng-model="selectedCategories" data-placeholder="Pick your categories">
+				    <option ng-repeat="cat in categories" value="{{cat}}">{{cat}}</option>
+				</select>
 				</div>
 			</div>    
 			<div class="col-sm-6">
@@ -37,7 +39,7 @@
 					<span class="small-span bold-span yellow-span">
 						SUBCATEGORY
 					</span>
-					<select class="menu-select" data-ng-model="selectedSubcategory" data-ng-options="subcat for subcat in subcategories" type="text" placeholder="subcategory">
+					<select ng-disabled="selectedCategories.length !== 1"  class="menu-select" data-ng-model="selectedSubcategory" data-ng-options="subcat for subcat in subcategories" type="text" placeholder="subcategory">
 						<option value=""></option>
 					</select>
 				</div>
@@ -49,6 +51,8 @@
 				</div>
 				<div class="col-md-3 col-sm-12">
 					<button ng-click="search()" class="btn btn-yellow btn-sm menu-btn menu-btn"> SEARCH</button>
+					<button ng-show="!bigMapVisible" ng-click="showBigMap(true)" class="btn btn-yellow btn-sm menu-btn menu-btn"> SHOW MAP</button>
+					<button ng-show="bigMapVisible" ng-click="showBigMap(false)" class="btn btn-yellow btn-sm menu-btn menu-btn"> HIDE MAP</button>
 				</div>
 			</div>    
 		</div>
@@ -64,6 +68,8 @@
 	<br>
 	<p style="border-top: 1px dashed #ccc;"></p>
 	<br>
+	<div id="big-map-div" style="height:800px; display: none" class="peach-div row">
+	</div>
 
 	<div id="{{$index}}" data-ng-repeat="job in filteredJobs">
 

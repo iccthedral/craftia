@@ -1,4 +1,4 @@
-define [ "./module", "moment" ], (module, moment) ->
+define [ "./module", "moment", "json!categories" ], (module, moment, categories) ->
 
 	module.controller "CraftsmanProfileCtrl", [ 
 		"$scope"
@@ -18,6 +18,9 @@ define [ "./module", "moment" ], (module, moment) ->
 			$scope.jobs = []
 			$scope.profile = {}
 			$scope.buttonText = ""
+			$scope.categories = appUser.categories
+			$scope.availableCategories = Object.keys(categories)
+			$scope.tempProfile = {}
 
 			$scope.uploadPhoto = (files) ->
 				common.broadcast spinnerEv, show:true
@@ -31,13 +34,16 @@ define [ "./module", "moment" ], (module, moment) ->
 					common.broadcast spinnerEv, show:false
 			
 			$scope.editProfile = ->
-				$scope.editing = true
+				$scope.editing = !$scope.editing
+				$scope.tempProfile = angular.copy appUser
 
 			$scope.updateProfile = ->
 				$scope.editing = false
-				$http.post API.updateProfile, appUser
+				$scope.categories = $scope.tempProfile.categories
+				$http.post API.updateProfile, $scope.tempProfile
 				.success ->
 					log.success "Profile updated"
+					appUser = angular.copy $scope.tempProfile
 				.error (e) ->
 					log.error e
 				return	

@@ -34,6 +34,9 @@
 			<form class="form-horizontal">
 				<fieldset>
 
+
+					
+
 					<!-- Text input-->
 					<div class="form-group">
 						<label class="col-md-12 control-label" for="email">E-mail</label>
@@ -46,7 +49,7 @@
 					<div class="form-group">
 						<label class="col-md-12 control-label" for="username">Username</label>
 						<div class="col-md-12">
-							<input ng-disabled="!editable" ng-model="appUser.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+							<input ng-disabled="true" ng-model="appUser.username" id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
 						</div>
 					</div>
 
@@ -55,7 +58,7 @@
 					<div class="form-group">
 						<label class="col-md-12 control-label" for="name">Name</label>
 						<div class="col-md-12">
-							<input ng-disabled="!editing" ng-model="appUser.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
+							<input ng-disabled="true" ng-model="tempProfile.name" id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="">
 						</div>
 					</div>
 
@@ -63,7 +66,7 @@
 					<div class="form-group">
 						<label class="col-md-12 control-label" for="surname">Surname</label>
 						<div class="col-md-12">
-							<input ng-disabled="!editing" ng-model="appUser.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
+							<input ng-disabled="!editing" ng-model="tempProfile.surname" id="surname" name="surname" type="text" placeholder="surname" class="form-control input-md" required="">
 						</div>
 					</div>
 
@@ -71,7 +74,29 @@
 					<div class="form-group">
 						<label class="col-md-12 control-label" for="telephone">Telephone</label>
 						<div class="col-md-12">
-							<input ng-disabled="!editing" ng-model="appUser.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+							<input ng-disabled="!editing" ng-model="tempProfile.telephone" name="telephone" type="text" placeholder="telephone number" class="form-control input-md" required="">
+						</div>
+					</div>
+
+					<div ng-hide="editing" class="form-group">
+						<label class="col-md-9 control-label">
+							Categories:
+						</label>
+						<div class="col-md-9">
+							<ul>
+								<li ng-repeat="cat in categories">
+									<span class="tiny-span">{{cat}}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div ng-show="editing" class="form-group">
+						<label class="col-md-9 control-label" for="categories">Categories:</label>
+						<div class="col-md-9">
+							<select ng-disabled="!editing" name="categories" id="multi-select" ui-select2 multiple ng-model="tempProfile.categories" data-placeholder="Pick your categories">
+							    <option ng-repeat="cat in availableCategories" value="{{cat}}">{{cat}}</option>
+							</select>
 						</div>
 					</div>
 					
@@ -79,6 +104,7 @@
 			</form>
 			<button class="btn btn-black" ng-disabled="editing" ng-click="editProfile()"> Update profile</button>
 			<button class="btn btn-black" ng-disabled="!editing" ng-click="updateProfile()"> Save changes</button>
+			<button class="btn btn-black" ng-show="editing" ng-click="editProfile()"> Cancel</button>
 		</div>
 	</div>
 </div>

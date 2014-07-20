@@ -71,11 +71,8 @@ schema = mongoose.Schema
 			default: 0
 			max: 5
 
-	expertise: [
-		category: 
-			type: String
-		subcategory: 
-			type: String
+	categories: [
+		type: String
 	]
 
 	passwordResetExpiry: Date

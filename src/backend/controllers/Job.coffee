@@ -315,9 +315,8 @@ queryHandler = (req, res) ->
 		console.error "city"
 		query["address.city.name"] = data.city.name 
 		query["address.city.zip"] = data.city.zip
-	if data.category? 
-		console.error "cat"
-		query.category = data.category
+	if data.categories? 
+		console.error "cat", data.categories
 	if data.subcategory? 
 		console.error "subcat"
 		query.subcategory = data.subcategory
@@ -328,8 +327,10 @@ queryHandler = (req, res) ->
 		query.title = re
 
 	perPage = 5
+	console.error query
 	JobModel
 	.find query
+	.where ({category: {$in: data.categories}})
 	.populate {
 		path: "author"
 		select : "-password"

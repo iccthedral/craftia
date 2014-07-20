@@ -1,49 +1,24 @@
-define(["./module", "json!cities", "json!categories"], function(module, cities, categories) {
+define(["./module", "json!cities", "json!categories", "select2"], function(module, cities, categories, select2) {
   return module.controller("RegisterCtrl", [
     "$scope", "$http", "$q", "$state", "cAPI", "common", "logger", function($scope, $http, $q, $state, API, common, logger) {
-      var activate;
+      var activate, findCategory;
       $scope.userDetails = {};
       $scope.acceptedTOS = false;
       $scope.images = ["img/quality.jpg", "img/master.jpg", "img/approved.jpg"];
-      $scope.select2Options = {
-        'multiple': true,
-        'simple_tags': true,
-        'tags': []
-      };
-      $scope.categories = categories;
-      $scope.multi = {
-        multiple: true,
-        query: function(query) {
-          return query.callback({
-            results: categories
-          });
+      $scope.selection = "aa";
+      $scope.availableCategories = Object.keys(categories);
+      findCategory = function(value) {
+        var cat, _i, _len, _ref;
+        if ($scope.categories != null) {
+          _ref = $scope.categories;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            cat = _ref[_i];
+            if (cat === value) {
+              return value;
+            }
+          }
         }
       };
-      $scope.allTags = $scope.select2Options.tags;
-      ($scope.fetchTags = function() {
-        var k, v;
-        return $q.all((function() {
-          var _ref, _results;
-          _ref = $scope.categories;
-          _results = [];
-          for (k in _ref) {
-            v = _ref[k];
-            _results.push($http.get("shared/resources/categories/" + v + ".json"));
-          }
-          return _results;
-        })()).then((function(_this) {
-          return function(data) {
-            return data.forEach(function(cat) {
-              var catName, tags;
-              catName = cat.data.category;
-              tags = cat.data.subcategories.map(function(subcat) {
-                return "" + catName + " > " + subcat;
-              });
-              return $scope.allTags = $scope.allTags.concat(tags);
-            });
-          };
-        })(this));
-      })();
       $scope.getCities = function(val) {
         return cities;
       };
@@ -58,7 +33,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         if (curState === "anon.register.customer") {
           url = API.registerCustomer;
         }
-        return common.post(url, $scope.userDetails).success((function(_this) {
+        common.post(url, $scope.userDetails).success((function(_this) {
           return function(data) {
             logger.success("You are now registered");
             logger.log(data.msg);
@@ -69,9 +44,14 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
             return logger.error(err);
           };
         })(this));
+        $scope.placeholders = {
+          placeholders: "Select a category"
+        };
+        return $scope.selectedCategory = "";
       };
-      $("input").bind("keyup change", function() {
+      $("input").bind("keyup", function() {
         var $par, $t, match, min, pattern;
+        console.log($scope.categories);
         $t = $(this);
         $par = $t.parent();
         min = $t.attr("data-valid-min");
@@ -95,7 +75,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         }
       });
       return (activate = function() {
-        return common.activateController([$scope.fetchTags()], "RegisterCtrl");
+        return common.activateController([], "RegisterCtrl");
       })();
     }
   ]);

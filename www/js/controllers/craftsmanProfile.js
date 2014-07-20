@@ -1,4 +1,4 @@
-define(["./module", "moment"], function(module, moment) {
+define(["./module", "moment", "json!categories"], function(module, moment, categories) {
   return module.controller("CraftsmanProfileCtrl", [
     "$scope", "$http", "$upload", "appUser", "common", "config", "logger", "cAPI", function($scope, $http, $upload, appUser, common, config, log, API) {
       var spinnerEv;
@@ -8,6 +8,9 @@ define(["./module", "moment"], function(module, moment) {
       $scope.jobs = [];
       $scope.profile = {};
       $scope.buttonText = "";
+      $scope.categories = appUser.categories;
+      $scope.availableCategories = Object.keys(categories);
+      $scope.tempProfile = {};
       $scope.uploadPhoto = function(files) {
         common.broadcast(spinnerEv, {
           show: true
@@ -24,12 +27,15 @@ define(["./module", "moment"], function(module, moment) {
         });
       };
       $scope.editProfile = function() {
-        return $scope.editing = true;
+        $scope.editing = !$scope.editing;
+        return $scope.tempProfile = angular.copy(appUser);
       };
       $scope.updateProfile = function() {
         $scope.editing = false;
-        $http.post(API.updateProfile, appUser).success(function() {
-          return log.success("Profile updated");
+        $scope.categories = $scope.tempProfile.categories;
+        $http.post(API.updateProfile, $scope.tempProfile).success(function() {
+          log.success("Profile updated");
+          return appUser = angular.copy($scope.tempProfile);
         }).error(function(e) {
           return log.error(e);
         });

@@ -14,16 +14,19 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.picsContainer = "#pics-div-0";
       $scope.infoContainer = "#info-div-0";
       $scope.profileContainer = "#profile-div-0";
+      $scope.bigMapContainer = "#big-map-div";
       $scope.subcategories = [];
       $scope.categories = Object.keys(categories);
       $scope.cities = cities;
       $scope.searchCriterion = {};
+      $scope.selectedCategories = appUser.categories;
+      $scope.bigMapVisible = false;
       (getCities = function() {
         return $scope.cities = cities;
       })();
       $scope.categoryChanged = function() {
         var jsonFile;
-        jsonFile = categories[$scope.selectedCategory];
+        jsonFile = categories[$scope.selectedCategories[0]];
         return $.get("shared/resources/categories/" + jsonFile + ".json", function(data) {
           console.log(data);
           $scope.subcategories = data.subcategories.slice();
@@ -55,7 +58,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         });
       };
       $scope.pageSelected = function(page) {
-        return getPage(page.page - 1);
+        return fPage(page.page - 1);
       };
       $scope.bidOnJob = bidOnJob = function(index) {
         var jobId;
@@ -103,6 +106,58 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
             return $scope.currentMap.refresh();
           }
         });
+      };
+      $scope.showBigMap = function(bool) {
+        var curEl, dish, i, infowindow, marker, _i, _len, _results;
+        if (bool === $scope.bigMapVisible) {
+          if (!bool) {
+            return;
+          }
+        }
+        curEl = $($scope.bigMapContainer);
+        if ($scope.searchCriterion.city == null) {
+          if (!$scope.bigMapVisible) {
+            logger.warning("Pick a city");
+          } else {
+            $scope.bigMapVisible = false;
+            curEl.slideUp();
+          }
+          return;
+        }
+        $scope.bigMapVisible = bool;
+        if (bool) {
+          curEl.slideDown();
+        } else {
+          curEl.slideUp();
+        }
+        if ($scope.bigMap != null) {
+          $($scope.bigMap.el).empty();
+        }
+        if ($scope.searchCriterion.city != null) {
+          $scope.bigMap = gmaps.showAddress({
+            address: $scope.searchCriterion.city.name,
+            container: $scope.bigMapContainer,
+            done: function() {
+              return $scope.bigMap.refresh();
+            }
+          });
+          infowindow = new google.maps.InfoWindow();
+          _results = [];
+          for (i = _i = 0, _len = locations.length; _i < _len; i = ++_i) {
+            dish = locations[i];
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+              map: $scope.bigMap
+            });
+            _results.push(google.maps.event.addListener(marker, 'click', (function(marker, i) {
+              return function() {
+                infowindow.setContent(locations[i][0]);
+                return infowindow.open(map, marker);
+              };
+            })(marker, i)));
+          }
+          return _results;
+        }
       };
       $scope.showPics = showPics = function(job, index) {
         var curEl, prevEl;
@@ -173,7 +228,11 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         });
       };
       $scope.search = function() {
-        $scope.searchCriterion.category = $scope.selectedCategory;
+        $scope.searchCriterion.categories = $scope.selectedCategories;
+        if ($scope.searchCriterion.categories.length === 0) {
+          debugger;
+          $scope.searchCriterion.categories = $scope.categories;
+        }
         $scope.searchCriterion.subcategory = $scope.selectedSubcategory;
         $scope.searchCriterion.page = $scope.currentPage;
         return common.post(API.queryJobs, $scope.searchCriterion).success(function(data) {
@@ -183,7 +242,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         });
       };
       return (activate = function() {
-        return common.activateController([getPage(0)], "CraftsmanFindJobsCtrl");
+        return common.activateController([$scope.search()], "CraftsmanFindJobsCtrl");
       })();
     }
   ]);

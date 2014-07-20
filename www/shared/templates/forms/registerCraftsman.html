@@ -12,13 +12,16 @@
 									<!-- Form Name -->
 									<h3>Profile Details</h3>
 
-									<div class="form-group">
-										<label class="col-md-8 control-label" for="textinput">Categories</label>
-										<select id="mySel2" class="form-control" multiple="multiple">
-						          <option ng-repeat="cat in allTags" ng-selected="item.selected" ng-model="cat.tag">{{cat}}</option>
-						        </select>
-									</div>
 
+
+									<div class="form-group">
+										<label class="col-md-9 control-label" for="categories">Categories:</label>
+										<div class="col-md-9">
+											<select name="categories" id="multi-select" ui-select2 multiple ng-model="userDetails.categories" data-placeholder="Pick your categories">
+											    <option ng-repeat="cat in availableCategories" value="{{cat}}">{{cat}}</option>
+											</select>
+										</div>
+									</div>
 									<!-- Text input-->
 									<div class="form-group">
 										<label class="col-md-9 control-label" for="email">E-mail</label>

@@ -25,16 +25,22 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.picsContainer = "#pics-div-0"
 			$scope.infoContainer = "#info-div-0"
 			$scope.profileContainer = "#profile-div-0"
+			$scope.bigMapContainer = "#big-map-div"
 			$scope.subcategories = []
 			$scope.categories = Object.keys(categories)
 			$scope.cities = cities
 			$scope.searchCriterion = {}
+			$scope.selectedCategories = appUser.categories
+			$scope.bigMapVisible = false
+
+
+
 
 			do getCities = ->
 				return $scope.cities = cities
 			
 			$scope.categoryChanged = ->
-				jsonFile = categories[$scope.selectedCategory]
+				jsonFile = categories[$scope.selectedCategories[0]]
 				$.get "shared/resources/categories/#{jsonFile}.json", (data) ->
 					console.log data
 					$scope.subcategories = data.subcategories.slice()
@@ -54,7 +60,7 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					common.broadcast config.events.ToggleSpinner, show:false
 					
 			$scope.pageSelected = (page) ->
-				getPage (page.page - 1)
+				fPage (page.page - 1)
 				
 			$scope.bidOnJob = bidOnJob = (index) -> 
 				jobId = $scope.filteredJobs[index]._id
@@ -100,6 +106,47 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 						$scope.currentMap.refresh()
 				}
 
+			$scope.showBigMap = (bool) ->
+				if bool is $scope.bigMapVisible
+					if not bool
+						return
+				curEl = ($ $scope.bigMapContainer)
+				if not $scope.searchCriterion.city? 
+					if not $scope.bigMapVisible
+						logger.warning("Pick a city")
+					else
+						$scope.bigMapVisible = false
+						curEl.slideUp()
+					return		
+				$scope.bigMapVisible = bool
+				if bool
+					curEl.slideDown()
+				else 
+					curEl.slideUp()
+				if $scope.bigMap?
+					$($scope.bigMap.el).empty()
+				if $scope.searchCriterion.city?	
+					$scope.bigMap = gmaps.showAddress {
+						address: $scope.searchCriterion.city.name
+						container: $scope.bigMapContainer
+						done: ->
+							$scope.bigMap.refresh()
+							
+					}
+					infowindow = new google.maps.InfoWindow()
+					for dish, i in locations 
+						marker = new google.maps.Marker({
+							position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+							map: $scope.bigMap
+						});
+
+						google.maps.event.addListener(marker, 'click', ((marker, i) ->
+							return () ->
+								infowindow.setContent(locations[i][0])
+								infowindow.open(map, marker)
+						)(marker, i))
+			    
+
 			$scope.showPics = showPics = (job, index) ->
 				prevEl = ($ $scope.mapContainer)
 				
@@ -112,7 +159,6 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					prevEl.slideUp()
 					curEl.slideDown()
 				return
-
 			$scope.showProfile = showProfile = (index) ->
 				prevEl = ($ $scope.profileContainer)
 				$scope.profileContainer = "#profile-div-#{index}"
@@ -168,7 +214,11 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				}	
 
 			$scope.search = ->
-				$scope.searchCriterion.category = $scope.selectedCategory
+				$scope.searchCriterion.categories = $scope.selectedCategories
+				if $scope.searchCriterion.categories.length is 0
+					debugger
+					$scope.searchCriterion.categories = $scope.categories
+
 				$scope.searchCriterion.subcategory = $scope.selectedSubcategory
 				$scope.searchCriterion.page = $scope.currentPage
 				common.post API.queryJobs, $scope.searchCriterion
@@ -177,5 +227,5 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					$scope.filteredJobs = data.jobs?.slice()
 				
 			do activate = ->
-				common.activateController [ getPage 0,], "CraftsmanFindJobsCtrl"
+				common.activateController [$scope.search()], "CraftsmanFindJobsCtrl"
 	]
