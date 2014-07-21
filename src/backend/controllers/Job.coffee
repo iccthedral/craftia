@@ -13,12 +13,13 @@ CategoryModel   = require "../models/Category"
 Messaging       = require "../modules/Messaging"
 _ 							= require "underscore"
 
-AuthLevels      = require "../config/AuthLevels"
+AuthLevels			= require "../config/AuthLevels"
 UserCtrl				= require "../controllers/User"
+nodemailer			= require "nodemailer"
 
 IMG_FOLDER = "#{process.cwd()}/www/img/"
 
-module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
+module.exports.bidOnJob = bidOnJob = (usr, jobId, email, clb) ->
 	if not usr? or (usr.type isnt AuthLevels.CRAFTSMAN)
 		return clb throw "You're not authorized"
 	
@@ -30,6 +31,7 @@ module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 		job.bidders.push usr
 		job.save (err) ->
 			return res.status(422).send(err.message) if err?
+			console.error email
 			Messaging.sendNotification {
 				receiver: job.author
 				subject: "Someone bidded on your offering"
@@ -38,9 +40,26 @@ module.exports.bidOnJob = bidOnJob = (usr, jobId, clb) ->
 Craftsman #{usr.username} just bidded on your job offering #{job.title} under #{job.category} category
 				"""
 			}, (err, job) -> 
+				smtpTransport = nodemailer.createTransport "SMTP", {
+					service: "GMAIL",
+					auth: {
+						user: "aleksandar.milic@yquince.com",
+						pass: "zaboravnisale"
+					}
+				}
+				mailOptions = {
+					to: email
+					from: "mail-delivery@craftia.com"
+					subject: "A user bidded on your job titled #{job.title} "
+					text: "Hello,\n\n" +
+						"This is an automated notificaton email updating you on the status of your job. You have a new bidder"
+				}
+				smtpTransport.sendMail mailOptions, (err) ->
+					# if not err?
+						# res.send "The author has been notified!"
 				clb err, job
 
-module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
+module.exports.pickWinner = pickWinner = (user, winner, jobId, email, clb) ->
 	if not user? or user.type isnt AuthLevels.CUSTOMER
 		return clb throw "You don't have permissions to pick winning bid"
 
@@ -54,7 +73,6 @@ module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 		return clb err if err?
 		bidder = job.bidders.filter (bidder) ->
 			return bidder._id.equals(mongoose.Types.ObjectId winner)
-		
 		if not bidder?[0]?
 			return clb throw "You haven't bidded yet for this job"
 
@@ -64,7 +82,23 @@ module.exports.pickWinner = pickWinner = (user, winner, jobId, clb) ->
 			return clb throw "No such user #{winner}" if err?
 			job.winner = winUser
 			job.status = "closed"
+			console.error bidder.email
 			job.save (err, job) ->
+				smtpTransport = nodemailer.createTransport "SMTP", {
+					service: "GMAIL",
+					auth: {
+						user: "aleksandar.milic@yquince.com",
+						pass: "zaboravnisale"
+					}
+				}
+				mailOptions = {
+					to: email
+					from: "mail-delivery@craftia.com"
+					subject: "You have been picked as a winner for a job"
+					text: "Hello,\n\n" +
+						"Congratulations!!"
+				}
+				smtpTransport.sendMail mailOptions, (err) ->
 				clb err, job
 
 module.exports.findJob = findJob = (req, res, next) ->
@@ -124,20 +158,20 @@ Craftsman #{usr.username} just canceled their bid on your job offering #{job.tit
 			}, (err) ->
 				clb err, job
 
-module.exports.rateJob = rateJob = (user, jobId, mark, comment, winner, clb) ->
-	console.error "AAAAAAAAAAAAAAA"
+module.exports.rateJob = rateJob = (user, jobId, mark, comment, winner, email, clb) ->
+	# console.error "AAAAAAAAAAAAAAA"
 	if user.type isnt AuthLevels.CUSTOMER or not user?
 		return clb "You don't have permissions to rate"
 	if not (1 < mark < 6)
 		return clb "Mark is out of range"
 	JobModel.findById jobId
-	# .populate {
-	# 	path:"winner"
-	# 	select: "-password"
-	# 	model: "User"
-	# }
+	.populate ({
+		path:"winner"
+		select: "-password"
+		model: "User"
+	})
 	.exec (err, job) ->
-		console.error err if err?
+		console.error winner
 		return clb err if err?
 		if not job.winner?
 			return clb throw "You don't have permission to rate"
@@ -147,7 +181,7 @@ module.exports.rateJob = rateJob = (user, jobId, mark, comment, winner, clb) ->
 			return clb throw "This job isn't finished and you can't rate the craftsman"
 		UserModel.findById job.winner
 		.exec (err, winnerUser) ->
-			console.error err if err?
+			# console.error err if err?
 			return clb err if err?
 			# Has the customer already rated this craftsman?
 			alreadyRated = job.isRated
@@ -166,10 +200,26 @@ module.exports.rateJob = rateJob = (user, jobId, mark, comment, winner, clb) ->
 			winnerUser.rating.avgRate += mark
 			winnerUser.rating.avgRate /= winnerUser.rating.totalVotes
 			winnerUser.save (err, winnerUser) ->
-				console.error err if err?
+				smtpTransport = nodemailer.createTransport "SMTP", {
+					service: "GMAIL",
+					auth: {
+						user: "aleksandar.milic@yquince.com",
+						pass: "zaboravnisale"
+					}
+				}
+				mailOptions = {
+					to: winnerUser.email
+					from: "mail-delivery@craftia.com"
+					subject: "You have been rated for a job you performed, with a rank ok #{mark} by user #{user.username}"
+					text: "Hello,\n\n" +
+						"Congratulations!!"
+				}
+				smtpTransport.sendMail mailOptions, (err) ->
+				# console.error err if err?
 				return clb err if err?
 				job.save (err, job) ->
-					console.error err if err?
+					
+					# console.error err if err?
 					clb err, job
 
 
@@ -230,8 +280,8 @@ updateJob = (req, res) ->
 bidOnJobHandler = (req, res, next) ->
 	user = req.user
 	jobId = req.params.id
-
-	bidOnJob user, jobId, (err, job) ->
+	email = req.params.email
+	bidOnJob user, jobId, email, (err, job) ->
 		return res.status(422).send(err) if err?
 		res.send job
 
@@ -239,8 +289,8 @@ pickWinnerHandler = (req, res, next) ->
 	user        = req.user
 	winnerId    = req.params.winner
 	jobId 			= req.params.id
-	
-	pickWinner user, winnerId, jobId, (err, job) -> 
+	email				= req.params.email
+	pickWinner user, winnerId, jobId, email, (err, job) -> 
 		return next err if err?
 		res.send job
 
@@ -258,9 +308,10 @@ rateJobHandler = (req, res, next) ->
 	mark = req.body.mark
 	comment = req.body.comment
 	user = req.user
-	winner = req.winner
+	winner = req.body.winner
+	email = req.body.email
 	
-	rateJob user, jobId, mark, comment, winner, (err, job) ->
+	rateJob user, jobId, mark, comment, winner, email, (err, job) ->
 		console.error "BBBBBBBBBBBBBBB"
 		# return res.send(err) if err?
 		res.send(job)
@@ -296,6 +347,31 @@ listOpenJobsHandler = (req, res) ->
 createNewJobHandler = (req, res, next) ->
 	jobData 	= req.body
 	user     	= req.user
+	query = {
+		"address.city": jobData.address.city.name
+		"categories": jobData.category
+	}
+	 
+	UserModel
+	.find query
+	.exec (err, subscribers) ->
+		console.error subscribers
+		for sub in subscribers
+			smtpTransport = nodemailer.createTransport "SMTP", {
+				service: "GMAIL",
+				auth: {
+					user: "aleksandar.milic@yquince.com",
+					pass: "zaboravnisale"
+				}
+			}
+			mailOptions = {
+				to: sub.email
+				from: "mail-delivery@craftia.com"
+				subject: "A new job appeared in your city"
+				text: "Hello,\n\n" +
+					"The new job is in the category #{jobData.category}"
+			}
+			smtpTransport.sendMail mailOptions, (err) ->
 	if user.type isnt AuthLevels.CUSTOMER
 		throw "You don't have permissions to create a new job"
 	jobData.author = user
@@ -348,10 +424,10 @@ queryHandler = (req, res) ->
 			res.send out
 
 module.exports.setup = (app) ->
-	app.post "/job/:id/bid", bidOnJobHandler
+	app.post "/job/:id/bid/:email", bidOnJobHandler
 	app.post "/job/rate", rateJobHandler
 	app.post "/job/:id/:uid/cancelbid", cancelBidOnJobHandler
-	app.post "/job/:id/pickawinner/:winner", pickWinnerHandler
+	app.post "/job/:id/pick/:winner/winner/:email", pickWinnerHandler
 	app.post "/job/new", createNewJobHandler
 	app.get "/job/list/:page", listOpenJobsHandler
 	app.post "/job/:id/delete", deleteJob

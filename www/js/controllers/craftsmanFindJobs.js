@@ -21,6 +21,8 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.searchCriterion = {};
       $scope.selectedCategories = appUser.categories;
       $scope.bigMapVisible = false;
+      $scope.locations = [];
+      $scope.bigMapCity = {};
       (getCities = function() {
         return $scope.cities = cities;
       })();
@@ -61,15 +63,16 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         return fPage(page.page - 1);
       };
       $scope.bidOnJob = bidOnJob = function(index) {
-        var jobId;
+        var email, jobId;
         jobId = $scope.filteredJobs[index]._id;
+        email = $scope.filteredJobs[index].author.email;
         if (jobId) {
           return dialog.confirmationDialog({
             title: "Bid for this job?",
             template: "confirm",
             okText: "Yes",
             onOk: function() {
-              return $http.post(API.bidOnJob.format("" + jobId)).success(function() {
+              return $http.post(API.bidOnJob.format("" + jobId, "" + email)).success(function() {
                 getPage($scope.currentPage);
                 return logger.success("nBid successful!");
               }).error(function(err) {
@@ -107,58 +110,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
           }
         });
       };
-      $scope.showBigMap = function(bool) {
-        var curEl, dish, i, infowindow, marker, _i, _len, _results;
-        if (bool === $scope.bigMapVisible) {
-          if (!bool) {
-            return;
-          }
-        }
-        curEl = $($scope.bigMapContainer);
-        if ($scope.searchCriterion.city == null) {
-          if (!$scope.bigMapVisible) {
-            logger.warning("Pick a city");
-          } else {
-            $scope.bigMapVisible = false;
-            curEl.slideUp();
-          }
-          return;
-        }
-        $scope.bigMapVisible = bool;
-        if (bool) {
-          curEl.slideDown();
-        } else {
-          curEl.slideUp();
-        }
-        if ($scope.bigMap != null) {
-          $($scope.bigMap.el).empty();
-        }
-        if ($scope.searchCriterion.city != null) {
-          $scope.bigMap = gmaps.showAddress({
-            address: $scope.searchCriterion.city.name,
-            container: $scope.bigMapContainer,
-            done: function() {
-              return $scope.bigMap.refresh();
-            }
-          });
-          infowindow = new google.maps.InfoWindow();
-          _results = [];
-          for (i = _i = 0, _len = locations.length; _i < _len; i = ++_i) {
-            dish = locations[i];
-            marker = new google.maps.Marker({
-              position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-              map: $scope.bigMap
-            });
-            _results.push(google.maps.event.addListener(marker, 'click', (function(marker, i) {
-              return function() {
-                infowindow.setContent(locations[i][0]);
-                return infowindow.open(map, marker);
-              };
-            })(marker, i)));
-          }
-          return _results;
-        }
-      };
+      $scope.showBigMap = function(bool) {};
       $scope.showPics = showPics = function(job, index) {
         var curEl, prevEl;
         prevEl = $($scope.mapContainer);

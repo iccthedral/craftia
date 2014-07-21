@@ -401,8 +401,8 @@ gulp.task("serve-express", function() {
 	var serverInstance = null;
 	var spawnServer = function() {
 		serverInstance = spawn(binCoffee, args.server);
-		pipeOut(serverInstance, "EXPRESS", "red", logFiles.server.out);
-		pipeErr(serverInstance, logFiles.server.out);
+		// pipeOut(serverInstance, "EXPRESS", "red", logFiles.server.out);
+		// pipeErr(serverInstance, logFiles.server.out);
 		serverInstance.stdout.on("data", function(data) {
 			util.log(data.toString());
 		});

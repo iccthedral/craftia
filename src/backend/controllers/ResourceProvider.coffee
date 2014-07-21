@@ -24,7 +24,7 @@ module.exports.setup = (app) ->
 		else
 			findCriteria = { name: new RegExp('.*'+id+'.*', 'ig') }
 		
-		console.dir findCriteria
+		# console.dir findCriteria
 
 		CityModel
 		.find(findCriteria)

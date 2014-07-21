@@ -57,8 +57,8 @@ module.exports.passwordUpdateHandler = passwordUpdateHandler = (req, res, next) 
 				passwordResetToken: req.body.token
 				passwordResetExpiry: $gt : Date.now()
 			}, (err, user) ->
-				console.error "STIGAO"
-				console.error req.body.password
+				# console.error "STIGAO"
+				# console.error req.body.password
 				user.password = req.body.password
 				user.passwordResetToken = null
 				user.passwordResetExpiry = null
@@ -93,7 +93,7 @@ module.exports.activateAccountHandler = activateAccountHandler = (req, res, next
 		activationToken: req.params.token
 	}, (err, user) ->
 		return next err if err?
-		console.error user
+		# console.error user
 		return res.status(422).send "Activation token is invalid or it has expired." if not user?
 		user.isActive = true
 		user.activationToken = null
@@ -168,10 +168,10 @@ module.exports.forgotPasswordHandler = forgotPasswordHandler = (req, res, next) 
 module.exports.saveUser = saveUser = (user, res, picture, categories) ->
 	saveMe = ->
 		user.save (err, user) ->
-			console.error err if err?
+			# console.error err if err?
 			return res.status(422).send "Registering failed!" if err?
 			fs.mkdir "#{IMG_FOLDER}#{user._id}", (err) ->
-				console.error err, "blas" if err?
+				# console.error err, "blas" if err?
 				return res.status(422).send "Registering failed!" if err?
 				res.send {
 					user: user
@@ -290,7 +290,6 @@ module.exports.listCraftsmenHandler = listCraftsmenHandler = (req, res) ->
 
 module.exports.registerCrafsmanHandler = registerCrafsmanHandler = (req, res, next) ->
 	data        = req.body
-	console.log data.categories 
 	data.type   = AuthLevels.CRAFTSMAN
 	picture 		= data.picture
 	categories  = data.categories

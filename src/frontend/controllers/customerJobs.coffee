@@ -61,6 +61,7 @@ define ["./module", "moment"], (module, moment) ->
 					comment: job.rate.comment
 					jobId: job._id
 					winner: job.winner
+					email: job.winner.email
 				}
 				console.log data
 				$http.post API.rateJob, data
@@ -170,13 +171,15 @@ define ["./module", "moment"], (module, moment) ->
 					curEl.slideDown()
 				return	
 
-			$scope.pickWinner = pickWinner = (bidderId, job) ->
+			$scope.pickWinner = pickWinner = (bidder, job) ->
+				bidderId = bidder._id
+				email = bidder.email
 				dialog.confirmationDialog {
 					title: "Pick winner?"
 					template: "confirm"
 					okText: "Accept"
 					onOk: ->
-						$http.post API.pickWinner.format("#{job._id}","#{bidderId}")
+						$http.post API.pickWinner.format("#{job._id}","#{bidderId}","#{email}")
 						.success ->
 							getPage($scope.currentPage, 'finished')
 						.error (err) ->

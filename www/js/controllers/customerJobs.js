@@ -47,7 +47,8 @@ define(["./module", "moment"], function(module, moment) {
           mark: job.rate.mark,
           comment: job.rate.comment,
           jobId: job._id,
-          winner: job.winner
+          winner: job.winner,
+          email: job.winner.email
         };
         console.log(data);
         return $http.post(API.rateJob, data).success(function(data) {
@@ -174,13 +175,16 @@ define(["./module", "moment"], function(module, moment) {
           curEl.slideDown();
         }
       };
-      $scope.pickWinner = pickWinner = function(bidderId, job) {
+      $scope.pickWinner = pickWinner = function(bidder, job) {
+        var bidderId, email;
+        bidderId = bidder._id;
+        email = bidder.email;
         return dialog.confirmationDialog({
           title: "Pick winner?",
           template: "confirm",
           okText: "Accept",
           onOk: function() {
-            return $http.post(API.pickWinner.format("" + job._id, "" + bidderId)).success(function() {
+            return $http.post(API.pickWinner.format("" + job._id, "" + bidderId, "" + email)).success(function() {
               return getPage($scope.currentPage, 'finished');
             }).error(function(err) {
               return logger.error(err);

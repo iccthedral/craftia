@@ -32,8 +32,8 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.searchCriterion = {}
 			$scope.selectedCategories = appUser.categories
 			$scope.bigMapVisible = false
-
-
+			$scope.locations = []
+			$scope.bigMapCity = {}
 
 
 			do getCities = ->
@@ -64,13 +64,14 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				
 			$scope.bidOnJob = bidOnJob = (index) -> 
 				jobId = $scope.filteredJobs[index]._id
+				email = $scope.filteredJobs[index].author.email
 				if jobId
 					dialog.confirmationDialog {
 						title: "Bid for this job?"
 						template: "confirm"
 						okText: "Yes"
 						onOk: ->
-							$http.post API.bidOnJob.format("#{jobId}")
+							$http.post API.bidOnJob.format("#{jobId}","#{email}")
 							.success ->
 								getPage($scope.currentPage)
 								logger.success "nBid successful!"
@@ -107,45 +108,82 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				}
 
 			$scope.showBigMap = (bool) ->
-				if bool is $scope.bigMapVisible
-					if not bool
-						return
-				curEl = ($ $scope.bigMapContainer)
-				if not $scope.searchCriterion.city? 
-					if not $scope.bigMapVisible
-						logger.warning("Pick a city")
-					else
-						$scope.bigMapVisible = false
-						curEl.slideUp()
-					return		
-				$scope.bigMapVisible = bool
-				if bool
-					curEl.slideDown()
-				else 
-					curEl.slideUp()
-				if $scope.bigMap?
-					$($scope.bigMap.el).empty()
-				if $scope.searchCriterion.city?	
-					$scope.bigMap = gmaps.showAddress {
-						address: $scope.searchCriterion.city.name
-						container: $scope.bigMapContainer
-						done: ->
-							$scope.bigMap.refresh()
-							
-					}
-					infowindow = new google.maps.InfoWindow()
-					for dish, i in locations 
-						marker = new google.maps.Marker({
-							position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-							map: $scope.bigMap
-						});
+				# if bool is $scope.bigMapVisible
+				# 	if not bool
+				# 		return
+				# curEl = ($ $scope.bigMapContainer)
+				# if not $scope.searchCriterion.city? 
+				# 	if not $scope.bigMapVisible
+				# 		logger.warning("Pick a city")
+				# 	else
+				# 		$scope.bigMapVisible = false
+				# 		curEl.slideUp()
+				# 	return		
+				# $scope.bigMapVisible = bool
+				# if bool
+				# 	curEl.slideDown()
+				# else 
+				# 	curEl.slideUp()
+				# # if $scope.bigMap?
+				# # 	$($scope.bigMap.el).empty()
 
-						google.maps.event.addListener(marker, 'click', ((marker, i) ->
-							return () ->
-								infowindow.setContent(locations[i][0])
-								infowindow.open(map, marker)
-						)(marker, i))
-			    
+
+
+				# if $scope.searchCriterion.city?
+
+				# 	do initialize = () ->
+				# 		$.ajax
+				# 			url:"http://maps.googleapis.com/maps/api/geocode/json?address=#{$scope.searchCriterion.city.name}&sensor=false",
+				# 			type: "POST",
+				# 			success:(res) -> 
+				# 				$scope.bigMapCity.lat =  res.results[0].geometry.location.lat
+				# 				$scope.bigMapCity.lng = res.results[0].geometry.location.lng
+				# 				$scope.bigMapOptions = 
+				# 					zoom: 10,
+				# 					center: new google.maps.LatLng($scope.bigMapCity.lat.lat, $scope.bigMapCity.lat.lng),
+				# 					mapTypeControl: true
+				# 					mapTypeControlOptions: {
+				# 						style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+				# 					}
+				# 					navigationControl: true
+				# 					mapTypeId: google.maps.MapTypeId.ROADMAP
+
+				# 		$scope.searchCriterion.paged = false
+				# 		$scope.searchCriterion.categories = $scope.selectedCategories
+				# 		if $scope.searchCriterion.categories.length is 0
+				# 			$scope.searchCriterion.categories = $scope.categories
+				# 		common.post API.queryJobs, $scope.searchCriterion
+				# 		.success (data) ->
+				# 			$scope.totalJobs = data.totalJobs
+				# 			$scope.allJobs = data.jobs
+
+				# 			infowindow = new google.maps.InfoWindow()
+
+				# 			for job,i in $scope.allJobs 
+				# 				address = job.address.line1  + " , " +  job.address.city.name
+				# 				alert address
+				# 				$.ajax
+				# 					url:"http://maps.googleapis.com/maps/api/geocode/json?address=#{address}&sensor=false",
+				# 					type: "POST",
+				# 					success:(res) -> 
+				# 						loc = {}
+				# 						loc.lat = res.results[0].geometry.location.lat
+				# 						loc.lng = res.results[0].geometry.location.lng
+				# 						$scope.locations.push loc
+				# 						return
+				# 				if i is $scope.allJobs.length-1
+				# 					$scope.bigMap = new google.maps.Map($scope.bigMapContainer, $scope.bigMapOptions)	
+				# 					for loc in $scope.locations 
+				# 						marker = new google.maps.Marker
+				# 							position: new google.maps.LatLng(loc.lat,loc.lng)
+				# 						marker.setMap $scope.bigMap	
+				# 						google.maps.event.addListener(marker, 'click', () ->
+				# 							infowindow.setContent(contentString)
+				# 							infowindow.open(map, marker)
+				# 						)
+				# 					infowindow = new google.maps.InfoWindow(
+				# 						size: new google.maps.Size(150, 50)
+				# 					)			
 
 			$scope.showPics = showPics = (job, index) ->
 				prevEl = ($ $scope.mapContainer)
@@ -213,7 +251,8 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 						return
 				}	
 
-			$scope.search = ->
+
+			$scope.search = ()->
 				$scope.searchCriterion.categories = $scope.selectedCategories
 				if $scope.searchCriterion.categories.length is 0
 					debugger

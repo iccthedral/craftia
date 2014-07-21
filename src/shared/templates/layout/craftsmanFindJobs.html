@@ -32,8 +32,6 @@
 				</select>
 				</div>
 			</div>    
-			<div class="col-sm-6">
-			</div>
 			<div class="col-sm-6 col-md-6 row">
 				<div class="col-md-5 col-sm-12">
 					<span class="small-span bold-span yellow-span">
@@ -43,16 +41,16 @@
 						<option value=""></option>
 					</select>
 				</div>
-				<div class="col-md-4 col-sm-12">
+				<div class="col-md-3 col-sm-12">
 					<span class="small-span bold-span yellow-span">
 						TITLE
 					</span>
 					<input ng-model="searchCriterion.title" class="menu-input" type="text" placeholder="serach">
 				</div>
-				<div class="col-md-3 col-sm-12">
-					<button ng-click="search()" class="btn btn-yellow btn-sm menu-btn menu-btn"> SEARCH</button>
-					<button ng-show="!bigMapVisible" ng-click="showBigMap(true)" class="btn btn-yellow btn-sm menu-btn menu-btn"> SHOW MAP</button>
-					<button ng-show="bigMapVisible" ng-click="showBigMap(false)" class="btn btn-yellow btn-sm menu-btn menu-btn"> HIDE MAP</button>
+				<div class="col-md-4 col-sm-12">
+					<button ng-click="search()" class="btn btn-yellow btn-sm menu-btn menu-btn">SEARCH</button>
+					<button ng-show="!bigMapVisible" ng-click="showBigMap(true)" class="btn btn-yellow btn-sm menu-btn menu-btn">VIEW MAP</button>
+					<button ng-show="bigMapVisible" ng-click="showBigMap(false)" class="btn btn-yellow btn-sm menu-btn menu-btn">HIDE MAP</button>
 				</div>
 			</div>    
 		</div>
