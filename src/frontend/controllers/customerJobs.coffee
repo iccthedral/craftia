@@ -95,7 +95,8 @@ define ["./module", "moment"], (module, moment) ->
 					$scope.totalJobs = data.totalJobs
 					$scope.jobs = data.jobs
 					$scope.filteredJobs = data.jobs.slice()
-				.error ->
+				.error (err)->
+					console.log err
 				.finally ->
 					common.broadcast config.events.ToggleSpinner, show:false
 			

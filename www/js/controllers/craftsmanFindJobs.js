@@ -182,7 +182,6 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.search = function() {
         $scope.searchCriterion.categories = $scope.selectedCategories;
         if ($scope.searchCriterion.categories.length === 0) {
-          debugger;
           $scope.searchCriterion.categories = $scope.categories;
         }
         $scope.searchCriterion.subcategory = $scope.selectedSubcategory;

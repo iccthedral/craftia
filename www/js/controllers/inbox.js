@@ -63,7 +63,7 @@ define(["./module"], function(module) {
           okText: "Send",
           scope: scope,
           onOk: function() {
-            $http.post(API.sendMessage, scope).success(function() {
+            return $http.post(API.sendMessage, scope).success(function() {
               common.broadcast(config.events.ToggleSpinner, {
                 show: true
               });
@@ -75,11 +75,8 @@ define(["./module"], function(module) {
                 show: false
               });
             });
-            return console.log("Send", scope);
           },
-          onCancel: function() {
-            return console.log("Cancel", scope);
-          }
+          onCancel: function() {}
         });
       };
       return $scope.showInbox();

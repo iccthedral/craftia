@@ -66,7 +66,6 @@ define(["./module", "moment", "json!categories"], function(module, moment, categ
           prevEl.slideUp();
           curEl.slideDown();
         }
-        console.log($scope.ratings, "RATINGS");
         if ($scope.jobs.length !== 0) {
           _ref = $scope.jobs;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -83,7 +82,6 @@ define(["./module", "moment", "json!categories"], function(module, moment, categ
           $http.get(API.findJob.format("" + jobId)).success(function(data) {
             alert($scope.currentJob);
             log.success("Job fetched!");
-            debugger;
             $scope.currentJob = angular.copy(data[0]);
             alert($scope.currentJob);
             $scope.dateFrom = moment(data[0].dateFrom).format("DD/MM/YY");
@@ -93,8 +91,7 @@ define(["./module", "moment", "json!categories"], function(module, moment, categ
             return log.error(e);
           });
         }
-        console.log($scope.currentJob, "CURRENT JOB");
-        console.log(typeof $scope.jobs === "function" ? $scope.jobs("JOBS") : void 0);
+        coole.log(typeof $scope.jobs === "function" ? $scope.jobs("JOBS") : void 0);
       };
     }
   ]);

@@ -15,14 +15,11 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.subcategories = [];
       $scope.categories = Object.keys(categories);
       $scope.getCities = function() {
-        console.log("HEY", cities);
         return cities;
       };
       $scope.categoryChanged = function() {
         var jsonFile;
         jsonFile = categories[$scope.job.category];
-        console.log(jsonFile);
-        console.log($scope.job.category);
         return $.get("shared/resources/categories/" + jsonFile + ".json", function(data) {
           console.log(data);
           $scope.subcategories = data.subcategories.slice();
@@ -31,11 +28,9 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       };
       $scope.create = function() {
         return $http.post(API.createJob, job).success(function(data) {
-          console.log(data);
           log.success("Job created!");
           appUser.createdJobs || (appUser.createdJobs = []);
           appUser.createdJobs.push(data);
-          console.log(appUser, appUser.createJobs);
           return $state.transitionTo("customer.jobs");
         }).error(function(err) {
           log.error(err);

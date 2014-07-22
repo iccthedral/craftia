@@ -45,13 +45,11 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
           address: job.address.city,
           container: $scope.mapContainer,
           done: function() {
-            $scope.currentMap.refresh();
-            return console.log('iamdone');
+            return $scope.currentMap.refresh();
           }
         });
       };
       getCities = function() {
-        debugger;
         return $scope.cities = cities;
       };
       $scope.categoryChanged = function(cat) {

@@ -1,7 +1,3 @@
 define(["directives/module"], function(module) {
-  return module.directive("testDirective", [
-    function($scope) {
-      return console.log("Evo nas");
-    }
-  ]);
+  return module.directive("testDirective", [function($scope) {}]);
 });

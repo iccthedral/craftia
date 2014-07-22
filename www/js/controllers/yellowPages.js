@@ -21,7 +21,6 @@ define(["./module"], function(module) {
         });
       };
       $scope.pageSelected = function(page) {
-        console.log(page);
         return getPage(page - 1);
       };
       $scope.showInfo = function(job, index) {

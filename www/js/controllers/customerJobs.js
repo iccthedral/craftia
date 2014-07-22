@@ -50,7 +50,6 @@ define(["./module", "moment"], function(module, moment) {
           winner: job.winner,
           email: job.winner.email
         };
-        console.log(data);
         return $http.post(API.rateJob, data).success(function(data) {
           angular.copy(data, job);
           return getPage(0, "all");
@@ -90,12 +89,10 @@ define(["./module", "moment"], function(module, moment) {
           }
           $scope.totalJobs = data.totalJobs;
           $scope.jobs = data.jobs;
-          $scope.filteredJobs = data.jobs.slice();
-          return console.log("hmmm");
-        }).error(function() {
-          return console.log("err");
+          return $scope.filteredJobs = data.jobs.slice();
+        }).error(function(err) {
+          return console.log(err);
         })["finally"](function() {
-          console.log("aaam");
           return common.broadcast(config.events.ToggleSpinner, {
             show: false
           });
@@ -123,8 +120,7 @@ define(["./module", "moment"], function(module, moment) {
           address: job.address.city.name + job.address.line1,
           container: $scope.mapContainer,
           done: function() {
-            $scope.currentMap.refresh();
-            return console.log('iamdone');
+            return $scope.currentMap.refresh();
           },
           error: function(err) {
             return logger.error(err);
@@ -144,7 +140,7 @@ define(["./module", "moment"], function(module, moment) {
           okText: "Send",
           scope: scope,
           onOk: function() {
-            $http.post(API.sendMessage, scope).success(function() {
+            return $http.post(API.sendMessage, scope).success(function() {
               common.broadcast(config.events.ToggleSpinner, {
                 show: true
               });
@@ -156,11 +152,8 @@ define(["./module", "moment"], function(module, moment) {
                 show: false
               });
             });
-            return console.log("Send", scope);
           },
-          onCancel: function() {
-            return console.log("Cancel", scope);
-          }
+          onCancel: function() {}
         });
       };
       $scope.showPics = showPics = function(index) {
