@@ -11,6 +11,7 @@ define(["./module", "moment", "json!categories"], function(module, moment, categ
       $scope.categories = appUser.categories;
       $scope.availableCategories = Object.keys(categories);
       $scope.tempProfile = {};
+      $scope.jobContainer = "#job-div-0";
       $scope.uploadPhoto = function(files) {
         common.broadcast(spinnerEv, {
           show: true
@@ -50,35 +51,50 @@ define(["./module", "moment", "json!categories"], function(module, moment, categ
         }
       };
       $scope.hideJob = function(jobId) {
-        $scope.job = {};
+        $scope.currentJob = {};
         $scope.profile = {};
         return $scope.buttonText = "";
       };
-      $scope.viewJob = function(jobId) {
-        var job, _i, _len, _ref, _ref1;
+      $scope.viewJob = function(jobId, index) {
+        var curEl, job, prevEl, _i, _len, _ref, _ref1;
+        prevEl = $($scope.jobContainer);
+        $scope.jobContainer = "#job-div-" + index;
+        curEl = $($scope.jobContainer);
+        if (prevEl.is(curEl)) {
+          prevEl.slideToggle();
+        } else {
+          prevEl.slideUp();
+          curEl.slideDown();
+        }
+        console.log($scope.ratings, "RATINGS");
         if ($scope.jobs.length !== 0) {
           _ref = $scope.jobs;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             job = _ref[_i];
             if (job._id === jobId) {
-              $scope.job = angular.copy(job);
+              $scope.currentJob = angular.copy(job);
             }
           }
         }
-        if (((_ref1 = $scope.job) != null ? _ref1._id : void 0) === jobId) {
-          $scope.dateFrom = moment($scope.job.dateFrom).format("DD/MM/YY");
-          return $scope.dateTo = moment($scope.job.dateTo).format("DD/MM/YY");
+        if (((_ref1 = $scope.currentJob) != null ? _ref1._id : void 0) === jobId) {
+          $scope.dateFrom = moment($scope.currentJob.dateFrom).format("DD/MM/YY");
+          $scope.dateTo = moment($scope.currentJob.dateTo).format("DD/MM/YY");
         } else {
-          return $http.get(API.findJob.format("" + jobId)).success(function(data) {
+          $http.get(API.findJob.format("" + jobId)).success(function(data) {
+            alert($scope.currentJob);
             log.success("Job fetched!");
-            $scope.job = angular.copy(data[0]);
+            debugger;
+            $scope.currentJob = angular.copy(data[0]);
+            alert($scope.currentJob);
             $scope.dateFrom = moment(data[0].dateFrom).format("DD/MM/YY");
             $scope.dateTo = moment(data[0].dateTo).format("DD/MM/YY");
-            return $scope.jobs.push($scope.job);
+            return $scope.jobs.push($scope.currentJob);
           }).error(function(e) {
             return log.error(e);
           });
         }
+        console.log($scope.currentJob, "CURRENT JOB");
+        console.log(typeof $scope.jobs === "function" ? $scope.jobs("JOBS") : void 0);
       };
     }
   ]);

@@ -21,6 +21,8 @@ define [ "./module", "moment", "json!categories" ], (module, moment, categories)
 			$scope.categories = appUser.categories
 			$scope.availableCategories = Object.keys(categories)
 			$scope.tempProfile = {}
+			$scope.jobContainer = "#job-div-0"
+
 
 			$scope.uploadPhoto = (files) ->
 				common.broadcast spinnerEv, show:true
@@ -59,26 +61,44 @@ define [ "./module", "moment", "json!categories" ], (module, moment, categories)
 					return
 
 			$scope.hideJob = (jobId) -> 
-				$scope.job = {}
+				$scope.currentJob = {}
 				$scope.profile = {}
 				$scope.buttonText = ""
 
-			$scope.viewJob = (jobId) ->
+			$scope.viewJob = (jobId, index) ->
+				prevEl = ($ $scope.jobContainer)
+				
+				$scope.jobContainer = "#job-div-#{index}"
+				curEl = ($ $scope.jobContainer)
+				if prevEl.is curEl
+					prevEl.slideToggle()
+				else
+					prevEl.slideUp()
+					curEl.slideDown()
+
+
+				console.log $scope.ratings , "RATINGS"
 				if $scope.jobs.length isnt 0
 					for job in $scope.jobs when job._id is jobId
-						$scope.job = angular.copy job
-				if $scope.job?._id is jobId
-					$scope.dateFrom = moment($scope.job.dateFrom).format("DD/MM/YY")
-					$scope.dateTo = moment($scope.job.dateTo).format("DD/MM/YY")
+						$scope.currentJob = angular.copy job
+				if $scope.currentJob?._id is jobId
+					$scope.dateFrom = moment($scope.currentJob.dateFrom).format("DD/MM/YY")
+					$scope.dateTo = moment($scope.currentJob.dateTo).format("DD/MM/YY")
 				else 
 					$http.get API.findJob.format("#{jobId}")
 					.success (data) ->
+						alert $scope.currentJob
 						log.success "Job fetched!"
-						$scope.job = angular.copy data[0]
+						debugger
+						$scope.currentJob = angular.copy data[0]
+						alert $scope.currentJob
 						$scope.dateFrom = moment(data[0].dateFrom).format("DD/MM/YY")
 						$scope.dateTo = moment(data[0].dateTo).format("DD/MM/YY")
-						$scope.jobs.push $scope.job
+						$scope.jobs.push $scope.currentJob
 					.error (e) ->
 						log.error (e)	
+				console.log $scope.currentJob , "CURRENT JOB"
+				console.log $scope.jobs?	"JOBS"
+				return
 			return	
 	]

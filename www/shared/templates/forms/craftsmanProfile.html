@@ -122,14 +122,14 @@
 						<div style="text-align:left" class="user-rating-box rating-stars">
 								<span>Mark: </span>
 								<rating readonly="true" value="rating.mark"></rating>
-								<button class="btn btn-black" ng-show="rating.job !== job._id" ng-click="viewJob(rating.job)"> View job</button>
-								<button class="btn btn-black" ng-show="rating.job === job._id" ng-click="hideJob(rating.job)"> Hide job</button>
+								<button class="btn btn-black" ng-show="rating.job !== currentJob.id" ng-click="viewJob(rating.job, $index)"> View job</button>
+								<button class="btn btn-black" ng-show="rating.job === currentJob.id" ng-click="hideJob(rating.job, $index)"> Hide job</button>
 						</div>
 						<span>Comment: </span><br>
 						<span>{{rating.comment}}</span>
 					</div>
 					<div class="clearfix"></div>
-					<div  ng-show="rating.job === job._id"  data-ng-include="'/shared/templates/layout/singleJob.html'">
+					<div  style="display:none" id="job-div-{{$index}}"  data-ng-include="'/shared/templates/layout/singleJob.html'">
 					</div>
 		    </li>
 		  </ul>

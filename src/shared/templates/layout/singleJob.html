@@ -1,7 +1,7 @@
 <table  class="table bidders-table table-striped helvetica-neue widget-content">
 	<thead>
 		<tr>
-			<th ng-show="appUser._id !== job.author._id">Author</th>
+			<th ng-show="appUser._id !== currentJob.author._id">Author</th>
 			<th>Title</th>
 			<th>Budget</th>
 			<th>Start date</th>
@@ -10,13 +10,13 @@
 	</thead>
 	<tbody>
 	  <tr>
-	  	<td ng-show="appUser._id !== job.author._id">
-	  		<button class="btn btn-sm btn-black" ng-click="viewProfile(job.author._id)">{{job.author.username}}{{buttonText}}</button>
+	  	<td ng-show="appUser._id !== currentJob.author._id">
+	  		<button class="btn btn-sm btn-black" ng-click="viewProfile(currentJob.author._id)">{{currentJob.author.username}}{{buttonText}}</button>
 	  	</td>
-	  	<td><span class="small-span">{{job.title}}</span></td>
+	  	<td><span class="small-span">{{currentJob.title}}</span></td>
 	    <td>
 	    	<span class="small-span">
-	    		{{job.budget}}
+	    		{{currentJob.budget}}
 	    	</span>
     	</td>
     	<td><span class="small-span">{{dateFrom}}</span></td>
@@ -25,15 +25,15 @@
 	  </tr>
 	</tbody>
 </table>
-<div ng-show="job.author._id === profile._id"  data-ng-include="'/shared/templates/layout/singleProfile.html'">
+<div ng-show="currentJob.author._id === profile._id"  data-ng-include="'/shared/templates/layout/singleProfile.html'">
 </div>
 <div class="peach-div">
 	<span class="small-span">Category: </span>
-	<span>{{job.category}}</span><br>
+	<span>{{currentJob.category}}</span><br>
 	<span class="small-span">Subcategory: </span>
-	<span>{{job.subcategory}}</span><br><br>
+	<span>{{currentJob.subcategory}}</span><br><br>
 	<div class="clearfix"></div>
 	<div class="clearfix"></div>
 	<span class="small-span">Description: </span>
-	<span>{{job.description}}</span>
+	<span>{{currentJob.description}}</span>
 </div>

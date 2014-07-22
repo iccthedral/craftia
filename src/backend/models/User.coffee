@@ -122,7 +122,7 @@ schema.pre "save", (next) ->
 					from: "mail-delivery@craftia.com"
 					subject: "Craftia - Activate your account"
 					text: """
-						Click on the following link http://localhost:3000/user/activate/#{user.activationToken} to activate your account.
+						Click on the following link http://craftia.jit.su/user/activate/#{user.activationToken} to activate your account.
 					"""
 				}
 				smtpTransport.sendMail mailOptions, (err) ->
