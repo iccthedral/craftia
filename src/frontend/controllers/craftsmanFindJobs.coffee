@@ -255,7 +255,6 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.search = ()->
 				$scope.searchCriterion.categories = $scope.selectedCategories
 				if $scope.searchCriterion.categories.length is 0
-					debugger
 					$scope.searchCriterion.categories = $scope.categories
 
 				$scope.searchCriterion.subcategory = $scope.selectedSubcategory

@@ -24,14 +24,11 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.categories = Object.keys(categories)
 			
 			$scope.getCities = ->
-				console.log "HEY", cities 
 				return cities
 
 			
 			$scope.categoryChanged = ->
 				jsonFile = categories[$scope.job.category]
-				console.log jsonFile
-				console.log $scope.job.category
 				$.get "shared/resources/categories/#{jsonFile}.json", (data) ->
 					console.log data
 					$scope.subcategories = data.subcategories.slice()
@@ -40,11 +37,9 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.create = ->
 				$http.post API.createJob, job
 				.success (data) ->
-					console.log data
 					log.success "Job created!"
 					appUser.createdJobs or= []
 					appUser.createdJobs.push data
-					console.log appUser, appUser.createJobs
 					$state.transitionTo "customer.jobs"
 				.error (err) ->
 					log.error err

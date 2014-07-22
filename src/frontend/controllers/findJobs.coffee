@@ -51,11 +51,9 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 					container: $scope.mapContainer
 					done: ->
 						$scope.currentMap.refresh()
-						console.log 'iamdone'
 				}
 
 			getCities = ->
-				debugger
 				return $scope.cities = cities
 			
 			$scope.categoryChanged = (cat) ->

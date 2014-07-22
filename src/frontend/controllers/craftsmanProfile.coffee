@@ -77,7 +77,6 @@ define [ "./module", "moment", "json!categories" ], (module, moment, categories)
 					curEl.slideDown()
 
 
-				console.log $scope.ratings , "RATINGS"
 				if $scope.jobs.length isnt 0
 					for job in $scope.jobs when job._id is jobId
 						$scope.currentJob = angular.copy job
@@ -89,7 +88,6 @@ define [ "./module", "moment", "json!categories" ], (module, moment, categories)
 					.success (data) ->
 						alert $scope.currentJob
 						log.success "Job fetched!"
-						debugger
 						$scope.currentJob = angular.copy data[0]
 						alert $scope.currentJob
 						$scope.dateFrom = moment(data[0].dateFrom).format("DD/MM/YY")
@@ -97,8 +95,7 @@ define [ "./module", "moment", "json!categories" ], (module, moment, categories)
 						$scope.jobs.push $scope.currentJob
 					.error (e) ->
 						log.error (e)	
-				console.log $scope.currentJob , "CURRENT JOB"
-				console.log $scope.jobs?	"JOBS"
+				coole.log $scope.jobs?	"JOBS"
 				return
 			return	
 	]

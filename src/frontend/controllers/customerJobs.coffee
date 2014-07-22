@@ -63,7 +63,6 @@ define ["./module", "moment"], (module, moment) ->
 					winner: job.winner
 					email: job.winner.email
 				}
-				console.log data
 				$http.post API.rateJob, data
 				.success (data) ->
 					angular.copy(data, job)
@@ -96,11 +95,8 @@ define ["./module", "moment"], (module, moment) ->
 					$scope.totalJobs = data.totalJobs
 					$scope.jobs = data.jobs
 					$scope.filteredJobs = data.jobs.slice()
-					console.log "hmmm"
 				.error ->
-					console.log "err"
 				.finally ->
-					console.log "aaam"
 					common.broadcast config.events.ToggleSpinner, show:false
 			
 			$scope.pageSelected = (page) ->
@@ -125,7 +121,6 @@ define ["./module", "moment"], (module, moment) ->
 					container: $scope.mapContainer
 					done: ->
 						$scope.currentMap.refresh()
-						console.log 'iamdone'
 					error: (err)->
 						logger.error err 	
 				}
@@ -152,10 +147,8 @@ define ["./module", "moment"], (module, moment) ->
 							logger.error err
 						.finally ->
 							common.broadcast config.events.ToggleSpinner, show:false
-						console.log "Send", scope
 						
 					onCancel: ->
-						console.log "Cancel", scope
 				}	
 
 			$scope.showPics = showPics = (index) ->

@@ -30,7 +30,6 @@ define ["./module"], (module) ->
 					$scope.filteredCraftsmen = data.craftsmen.slice()
 			
 			$scope.pageSelected = (page) ->
-				console.log page
 				getPage(page - 1)
 				
 			$scope.showInfo = (job, index) ->

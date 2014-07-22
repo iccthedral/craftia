@@ -80,10 +80,8 @@ define [ "./module" ], (module) ->
 							log.error err
 						.finally ->
 							common.broadcast config.events.ToggleSpinner, show:false
-						console.log "Send", scope
 						
 					onCancel: ->
-						console.log "Cancel", scope
 				}
 
 			$scope.showInbox()
