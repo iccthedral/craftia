@@ -11,8 +11,6 @@
 									<!-- Form Name -->
 									<h3>Profile Details</h3>
 
-
-
 									<div class="form-grou col-md-9">
 										<label class="col-md-9 control-label" for="categories">Categories:</label>
 											<select name="categories" id="multi-select" ui-select2 multiple ng-model="userDetails.categories" data-placeholder="Pick your categories">
@@ -44,7 +42,7 @@
 									<!-- Password input-->
 									<div class="form-group col-md-9" ng-class="{'has-success': reppass === userDetails.password, 'has-error' : userDetails.password !== reppass && !userForm.reppassword.$pristine}">
 										<label class="col-md-9 control-label" for="reppassword">Repeat password</label>
-											<input id="rep-password" name="reppassword" ng-model="reppass" type="password" placeholder="repeat password" class="form-control input-md" ng-required="true"><br>
+											<input id="rep-password" name="reppassword" ng-model="reppass" type="password" name="reppassword" placeholder="repeat password" class="form-control input-md" ng-required="true"><br>
 											<p ng-show="userDetails.password !== reppass && !userForm.reppassword.$pristine" class="help-block">Passwords must match!</p>
 									</div>
 

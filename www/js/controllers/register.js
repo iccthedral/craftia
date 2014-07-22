@@ -7,7 +7,6 @@ define(["./module", "json!cities", "json!categories", "select2"], function(modul
       $scope.images = ["img/quality.jpg", "img/master.jpg", "img/approved.jpg"];
       $scope.selection = "aa";
       $scope.availableCategories = Object.keys(categories);
-      $scope.reppass = "";
       findCategory = function(value) {
         var cat, _i, _len, _ref;
         if ($scope.categories != null) {
@@ -26,7 +25,6 @@ define(["./module", "json!cities", "json!categories", "select2"], function(modul
       $scope.register = function() {
         var curState, url;
         if (!$scope.acceptedTOS) {
-          logger.error("Please check whether you agree with the terms & conditions");
           return;
         }
         curState = $state.current.name;
@@ -36,6 +34,7 @@ define(["./module", "json!cities", "json!categories", "select2"], function(modul
         }
         common.post(url, $scope.userDetails).success((function(_this) {
           return function(data) {
+            $scope.reppass = "";
             logger.success("You are now registered");
             logger.log(data.msg);
             return $state.transitionTo("anon.login");
