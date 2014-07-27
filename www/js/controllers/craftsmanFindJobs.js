@@ -30,7 +30,6 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         var jsonFile;
         jsonFile = categories[$scope.selectedCategories[0]];
         return $.get("shared/resources/categories/" + jsonFile + ".json", function(data) {
-          console.log(data);
           $scope.subcategories = data.subcategories.slice();
           return $scope.$digest();
         });

@@ -1,19 +1,49 @@
 define(["./module", "json!cities", "json!categories"], function(module, cities, categories) {
   return module.controller("CreateJobCtrl", [
-    "$scope", "$state", "$http", "appUser", "logger", "cAPI", function($scope, $state, $http, appUser, log, API) {
-      var job;
+    "$scope", "$state", "$http", "appUser", "logger", "cAPI", "gmaps", function($scope, $state, $http, appUser, log, API, gmaps) {
+      var gm, job;
       $scope.title1 = "Enter job details";
       $scope.title2 = "Upload job photos";
+      $scope.mapContainer = "#gmaps-div";
       $scope.firstStep = true;
       $scope.secondStep = false;
       job = {
         dateFrom: new Date,
         dateTo: new Date
       };
+      gm = google.maps;
       job.jobPhotos = [];
       $scope.job = job;
       $scope.subcategories = [];
       $scope.categories = Object.keys(categories);
+      $scope.showMap = function() {
+        var curEl;
+        if ((job.address == null) || (job.address.line1 == null) || (job.address.city == null)) {
+          return;
+        }
+        curEl = $($scope.mapContainer);
+        curEl.slideToggle();
+        if ($scope.currentMap != null) {
+          $($scope.currentMap.el).empty();
+        }
+        return $scope.currentMap = gmaps.showAddress({
+          address: job.address.line1 + ", " + job.address.city.name,
+          container: $scope.mapContainer,
+          done: function() {
+            var oms;
+            $scope.currentMap.refresh();
+            oms = new OverlappingMarkerSpiderfier($scope.currentMap.map);
+            return $scope.currentMap = gmaps.newMarker({
+              address: appUser.address.line1 + ", " + appUser.address.city,
+              map: $scope.currentMap,
+              done: function() {
+                $scope.currentMap.refresh();
+                return alert($scope.currentMap.lat);
+              }
+            });
+          }
+        });
+      };
       $scope.getCities = function() {
         return cities;
       };

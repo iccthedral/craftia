@@ -99,7 +99,8 @@ define ["./module", "moment"], (module, moment) ->
 					console.log err
 				.finally ->
 					common.broadcast config.events.ToggleSpinner, show:false
-			
+					console.log $scope.jobs
+
 			$scope.pageSelected = (page) ->
 				getPage (page.page - 1)
 				

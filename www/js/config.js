@@ -40,7 +40,8 @@ require = {
     "ngTouch": "../vendor/angular-touch/angular-touch.min",
     "ngAnimate": "../vendor/angular/angular-animate.min",
     "select2": "../vendor/select2/select2.min",
-    "ngSelect2": "../vendor/angular-ui-select2/src/select2"
+    "ngSelect2": "../vendor/angular-ui-select2/src/select2",
+    "oms": "../vendor/oms.min"
   },
   shim: {
     jquery: {
@@ -49,6 +50,9 @@ require = {
     toastr: {
       deps: ["jquery"],
       exports: "toastr"
+    },
+    oms: {
+      exports: "OMS"
     },
     rateit: {
       deps: ["jquery"]

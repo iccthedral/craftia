@@ -91,7 +91,7 @@
 
 				    <td colspan="4" rowspan="2" class="borderless yellow-tblock left-2-dashed">
 
-							<table ng-show="job.status==='open'" class="table bidders-table table-striped helvetica-neue widget-content">
+							<table ng-show="job.status==='open' && job.bidders.length >0 " class="table bidders-table table-striped helvetica-neue widget-content">
 								<thead>
 									<tr>
 										<th>Username</th>
@@ -128,6 +128,12 @@
 								  </tr>
 								</tbody>
 							</table>
+							<span class="bold-span" ng-show="job.status==='open' && job.bidders.length === 0">
+								No bidders yet.
+							</span>
+							<span class="bold-span" ng-show="job.status==='open' && job.bidders.length === 0 && job.jobPhotos.length === 0">
+								Try uploading some photos to make your offer more interesting.
+							</span>
 				    </td>
 				  </tr>
 				  

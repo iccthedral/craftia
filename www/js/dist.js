@@ -1340,7 +1340,6 @@ define('controllers/customerJobs',["./module", "moment"], function(module, momen
           winner: job.winner,
           email: job.winner.email
         };
-        console.log(data);
         return $http.post(API.rateJob, data).success(function(data) {
           angular.copy(data, job);
           return getPage(0, "all");
@@ -1380,12 +1379,10 @@ define('controllers/customerJobs',["./module", "moment"], function(module, momen
           }
           $scope.totalJobs = data.totalJobs;
           $scope.jobs = data.jobs;
-          $scope.filteredJobs = data.jobs.slice();
-          return console.log("hmmm");
-        }).error(function() {
-          return console.log("err");
+          return $scope.filteredJobs = data.jobs.slice();
+        }).error(function(err) {
+          return console.log(err);
         })["finally"](function() {
-          console.log("aaam");
           return common.broadcast(config.events.ToggleSpinner, {
             show: false
           });
@@ -1413,8 +1410,7 @@ define('controllers/customerJobs',["./module", "moment"], function(module, momen
           address: job.address.city.name + job.address.line1,
           container: $scope.mapContainer,
           done: function() {
-            $scope.currentMap.refresh();
-            return console.log('iamdone');
+            return $scope.currentMap.refresh();
           },
           error: function(err) {
             return logger.error(err);
@@ -1434,7 +1430,7 @@ define('controllers/customerJobs',["./module", "moment"], function(module, momen
           okText: "Send",
           scope: scope,
           onOk: function() {
-            $http.post(API.sendMessage, scope).success(function() {
+            return $http.post(API.sendMessage, scope).success(function() {
               common.broadcast(config.events.ToggleSpinner, {
                 show: true
               });
@@ -1446,11 +1442,8 @@ define('controllers/customerJobs',["./module", "moment"], function(module, momen
                 show: false
               });
             });
-            return console.log("Send", scope);
           },
-          onCancel: function() {
-            return console.log("Cancel", scope);
-          }
+          onCancel: function() {}
         });
       };
       $scope.showPics = showPics = function(index) {
@@ -2119,13 +2112,11 @@ define('controllers/findJobs',["./module", "json!cities", "json!categories"], fu
           address: job.address.city,
           container: $scope.mapContainer,
           done: function() {
-            $scope.currentMap.refresh();
-            return console.log('iamdone');
+            return $scope.currentMap.refresh();
           }
         });
       };
       getCities = function() {
-        debugger;
         return $scope.cities = cities;
       };
       $scope.categoryChanged = function(cat) {
@@ -2167,14 +2158,11 @@ define('controllers/createJob',["./module", "json!cities", "json!categories"], f
       $scope.subcategories = [];
       $scope.categories = Object.keys(categories);
       $scope.getCities = function() {
-        console.log("HEY", cities);
         return cities;
       };
       $scope.categoryChanged = function() {
         var jsonFile;
         jsonFile = categories[$scope.job.category];
-        console.log(jsonFile);
-        console.log($scope.job.category);
         return $.get("shared/resources/categories/" + jsonFile + ".json", function(data) {
           console.log(data);
           $scope.subcategories = data.subcategories.slice();
@@ -2183,11 +2171,9 @@ define('controllers/createJob',["./module", "json!cities", "json!categories"], f
       };
       $scope.create = function() {
         return $http.post(API.createJob, job).success(function(data) {
-          console.log(data);
           log.success("Job created!");
           appUser.createdJobs || (appUser.createdJobs = []);
           appUser.createdJobs.push(data);
-          console.log(appUser, appUser.createJobs);
           return $state.transitionTo("customer.jobs");
         }).error(function(err) {
           log.error(err);
@@ -2314,7 +2300,6 @@ define('controllers/craftsmanProfile',["./module", "moment", "json!categories"],
           prevEl.slideUp();
           curEl.slideDown();
         }
-        console.log($scope.ratings, "RATINGS");
         if ($scope.jobs.length !== 0) {
           _ref = $scope.jobs;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -2331,7 +2316,6 @@ define('controllers/craftsmanProfile',["./module", "moment", "json!categories"],
           $http.get(API.findJob.format("" + jobId)).success(function(data) {
             alert($scope.currentJob);
             log.success("Job fetched!");
-            debugger;
             $scope.currentJob = angular.copy(data[0]);
             alert($scope.currentJob);
             $scope.dateFrom = moment(data[0].dateFrom).format("DD/MM/YY");
@@ -2341,8 +2325,7 @@ define('controllers/craftsmanProfile',["./module", "moment", "json!categories"],
             return log.error(e);
           });
         }
-        console.log($scope.currentJob, "CURRENT JOB");
-        console.log(typeof $scope.jobs === "function" ? $scope.jobs("JOBS") : void 0);
+        coole.log(typeof $scope.jobs === "function" ? $scope.jobs("JOBS") : void 0);
       };
     }
   ]);
@@ -2507,7 +2490,7 @@ define('controllers/inbox',["./module"], function(module) {
           okText: "Send",
           scope: scope,
           onOk: function() {
-            $http.post(API.sendMessage, scope).success(function() {
+            return $http.post(API.sendMessage, scope).success(function() {
               common.broadcast(config.events.ToggleSpinner, {
                 show: true
               });
@@ -2519,11 +2502,8 @@ define('controllers/inbox',["./module"], function(module) {
                 show: false
               });
             });
-            return console.log("Send", scope);
           },
-          onCancel: function() {
-            return console.log("Cancel", scope);
-          }
+          onCancel: function() {}
         });
       };
       return $scope.showInbox();
@@ -2554,7 +2534,6 @@ define('controllers/yellowPages',["./module"], function(module) {
         });
       };
       $scope.pageSelected = function(page) {
-        console.log(page);
         return getPage(page - 1);
       };
       $scope.showInfo = function(job, index) {
@@ -2752,7 +2731,6 @@ define('controllers/craftsmanFindJobs',["./module", "json!cities", "json!categor
       $scope.search = function() {
         $scope.searchCriterion.categories = $scope.selectedCategories;
         if ($scope.searchCriterion.categories.length === 0) {
-          debugger;
           $scope.searchCriterion.categories = $scope.categories;
         }
         $scope.searchCriterion.subcategory = $scope.selectedSubcategory;
@@ -2915,7 +2893,7 @@ define('controllers/craftsmanMyJobs',["./module"], function(module) {
           okText: "Send",
           scope: scope,
           onOk: function() {
-            $http.post(API.sendMessage, scope).success(function() {
+            return $http.post(API.sendMessage, scope).success(function() {
               common.broadcast(config.events.ToggleSpinner, {
                 show: true
               });
@@ -2927,7 +2905,6 @@ define('controllers/craftsmanMyJobs',["./module"], function(module) {
                 show: false
               });
             });
-            return console.log("Send", scope);
           },
           onCancel: function() {}
         });
@@ -3462,11 +3439,7 @@ define('filters/module',["angular"], function(ng) {
 });
 
 define('filters/testFilter',["filters/module"], function(module) {
-  return module.filter("testFilter", [
-    function($scope) {
-      return console.log("Evo nas");
-    }
-  ]);
+  return module.filter("testFilter", [function($scope) {}]);
 });
 
 define('filters/index',["filters/testFilter"], function() {});

@@ -5,7 +5,7 @@
              allow-collapse="true"></div>
 
         <div class="widget-content right-partial-view fluid-container">
-            <form class="form-horizontal">
+            <form novalidate name="newJobForm1" class="form-horizontal">
                 <fieldset>
                
 
@@ -42,19 +42,28 @@
                     </div>
                     
                     <!-- Text input-->
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-success':newJobForm1.city.$valid, 'has-error' : newJobForm1.city.$invalid && !newJobForm1.city.$pristine}">
                         <label class="col-md-8 control-label" for="textinput">ZIP/City</label>
                         <div class="col-md-8">
-                            <input type="text" ng-model="job.address.city.name" placeholder="" typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" required="">
+                            <input type="text" ng-model="job.address.city.name" placeholder="" name="city" typeahead="address.name for address in getCities($viewValue) | filter:$viewValue | limitTo:8" typeahead-loading="true" class="form-control input-md" ng-required="true"><br>
+                            <p ng-show="newJobForm1.city.$invalid !== newJobForm1.city.$pristine" class="help-block">City is required</p>
                         </div>
                     </div>
                     
                     <!-- Text input-->
-                    <div class="form-group">
+                    <div class="form-group" ng-class="{'has-success':newJobForm1.address.$valid, 'has-error' : newJobForm1.address.$invalid && !newJobForm1.address.$pristine}">
                         <label class="col-md-8 control-label" for="textinput">Address</label>
                         <div class="col-md-8">
-                            <input ng-model="job.address.line1" id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
-                        </div>
+                            <div class="input-group">
+                                <input ng-model="job.address.line1" id="textinput" name="address" type="text" placeholder="" class="form-control" ng-required="true">
+                                <span ng-disabled="newJobForm1.city.$invalid"class="input-group-addon" ng-click="showMap()" style="cursor: pointer;"><i class="fa fa-globe"></i>Show map</span>
+                            </div>
+                        </div><br>
+                        <p ng-show="newJobForm1.address.$invalid !== newJobForm1.address.$pristine" class="help-block">Address is required</p><br>
+                        <p ng-show="newJobForm1.address.$pristine" class="help-block">Note that your job will be listed in the map overview only if the address is valid! Click on the "Show map" button to fetch google map coordin</p>
+                    </div>
+                   
+                    <div id="gmaps-div" style="height:250px; display: none" class="peach-div row">
                     </div>
 
                     <!-- Select Basic -->
@@ -105,7 +114,7 @@
                     <!-- Button -->
                     <div class="form-group">
                         <div class="text-center">
-                            <button id="register-submit" name="register-submit" class="btn btn-black" ng-click="nextStep()"><i class="fa fa-arrow-right"></i> Next</button>
+                            <button id="register-submit" name="register-submit" ng-disabled="newJobForm1.$invalid" class="btn btn-black" ng-click="nextStep()"><i class="fa fa-arrow-right"></i> Next</button>
                         </div>
                     </div>
 

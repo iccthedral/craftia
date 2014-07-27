@@ -42,7 +42,6 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.categoryChanged = ->
 				jsonFile = categories[$scope.selectedCategories[0]]
 				$.get "shared/resources/categories/#{jsonFile}.json", (data) ->
-					console.log data
 					$scope.subcategories = data.subcategories.slice()
 					$scope.$digest()
 

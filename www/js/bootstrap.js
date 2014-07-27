@@ -1,5 +1,5 @@
 "use strict";
-define(["angular", "util", "routes", "app", "gmaps", "rateit", "select2", "ngSelect2", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls"], function(ng, _, routes, app) {
+define(["angular", "util", "routes", "app", "gmaps", "oms", "rateit", "select2", "ngSelect2", "ngRoutes", "ngUiRouter", "ngAnimate", "ngCarousel", "ngFileUpload", "ngBootstrap", "ngBootstrapTpls"], function(ng, _, routes, app) {
   var $http, $q, $timeout, addErrorClass, addLoadingClass, appInjector, bodyElement, bootstrap, checkConfig, config, createBootstrap, createInjector, errorClass, forEach, isArray, isFunction, isObject, isPromise, isString, loadingClass, ngInjector, removeLoadingClass;
   forEach = ng.forEach;
   isString = ng.isString;

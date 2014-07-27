@@ -93,9 +93,10 @@ define(["./module", "moment"], function(module, moment) {
         }).error(function(err) {
           return console.log(err);
         })["finally"](function() {
-          return common.broadcast(config.events.ToggleSpinner, {
+          common.broadcast(config.events.ToggleSpinner, {
             show: false
           });
+          return console.log($scope.jobs);
         });
       };
       $scope.pageSelected = function(page) {

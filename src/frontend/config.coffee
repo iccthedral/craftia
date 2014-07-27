@@ -39,6 +39,7 @@ require =
 		"ngAnimate": "../vendor/angular/angular-animate.min"
 		"select2": "../vendor/select2/select2.min"
 		"ngSelect2": "../vendor/angular-ui-select2/src/select2"
+		"oms": "../vendor/oms.min"
 	shim:
 		jquery:
 			exports: "jquery"
@@ -46,6 +47,9 @@ require =
 		toastr:
 			deps: [ "jquery" ]
 			exports: "toastr"
+
+		oms:
+			exports: "OMS"	
 
 		rateit: 
 			deps: [ "jquery" ]
@@ -95,7 +99,8 @@ require =
 			deps: ["jquery"]
 
 		ngSelect2:
-			deps: ["select2", "angular"]	
+			deps: ["select2", "angular"]
+
 
 	deps: ["jquery", "angular", "toastr", "bootstrap" ]
 

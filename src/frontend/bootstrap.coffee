@@ -6,6 +6,7 @@ define [
 	"routes"
 	"app"
 	"gmaps"
+	"oms"
 	"rateit"
 	"select2"
 	"ngSelect2"

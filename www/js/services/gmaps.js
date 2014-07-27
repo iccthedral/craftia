@@ -3,6 +3,24 @@ define(["./module", "gmaps"], function(module, GMaps) {
   map = null;
   return module.service("gmaps", function() {
     return {
+      getCoordinate: function(_arg) {
+        var address, container, done;
+        address = _arg.address, container = _arg.container, done = _arg.done;
+        return GMaps.geocode({
+          address: address,
+          callback: function(results, status) {
+            var coordinates, latlng;
+            if (status !== "OK") {
+              return typeof done === "function" ? done(status) : void 0;
+            }
+            latlng = results[0].geometry.location;
+            coordinates = {};
+            coordinates.lat = latlng.lat();
+            coordinates.lng = latlng.lng();
+            return coordinates;
+          }
+        });
+      },
       showAddress: function(_arg) {
         var address, container, done;
         address = _arg.address, container = _arg.container, done = _arg.done;
@@ -14,19 +32,57 @@ define(["./module", "gmaps"], function(module, GMaps) {
         GMaps.geocode({
           address: address,
           callback: function(results, status) {
-            var lat, latlng, long;
+            var lat, latlng, lng;
             if (status !== "OK") {
               return typeof done === "function" ? done(status) : void 0;
             }
             latlng = results[0].geometry.location;
             lat = latlng.lat();
-            long = latlng.lng();
-            return map.setCenter(lat, long, function() {
+            lng = latlng.lng();
+            map.lat = lat;
+            map.lng = lng;
+            console.log(address, "Job address");
+            console.log(map.lat, "Job lat");
+            console.log(map.lng, "Job lat");
+            alert("The coordinates for your address are: \n" + lat + "\n" + lng);
+            return map.setCenter(lat, lng, function() {
               map.addMarker({
                 lat: lat,
-                lng: long
+                lng: lng,
+                title: 'Job',
+                infoWindow: {
+                  content: '<p>Is this the right location?</p>'
+                }
               });
               return typeof done === "function" ? done(status, map) : void 0;
+            });
+          }
+        });
+        console.log(map.lat);
+        return map;
+      },
+      newMarker: function(_arg) {
+        var address, done, map;
+        address = _arg.address, map = _arg.map, done = _arg.done;
+        GMaps.geocode({
+          address: address,
+          callback: function(results, status) {
+            var lat, latlng, lng;
+            if (status !== "OK") {
+              return typeof done === "function" ? done(status) : void 0;
+            }
+            latlng = results[0].geometry.location;
+            lat = latlng.lat();
+            lng = latlng.lng();
+            console.log(address, "Home address");
+            console.log(lat, "Home lat");
+            console.log(lng, "Home long");
+            return map.addMarker({
+              lat: lat,
+              lng: lng,
+              infoWindow: {
+                content: '<p>This is your address</p>'
+              }
             });
           }
         });

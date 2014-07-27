@@ -7,10 +7,12 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 		"appUser"
 		"logger"
 		"cAPI"
-		($scope, $state, $http, appUser, log, API) ->
+		"gmaps"
+
+		($scope, $state, $http, appUser, log, API, gmaps) ->
 			$scope.title1 = "Enter job details"
 			$scope.title2 = "Upload job photos"
-			
+			$scope.mapContainer = "#gmaps-div"
 			$scope.firstStep = true
 			$scope.secondStep = false
 
@@ -18,11 +20,36 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 				dateFrom: new Date
 				dateTo: new Date
 
+			gm = google.maps
 			job.jobPhotos = []
 			$scope.job = job
 			$scope.subcategories = []
 			$scope.categories = Object.keys(categories)
 			
+			$scope.showMap = () ->
+				if !job.address?  or !job.address.line1?	or !job.address.city?
+						return
+					curEl = ($ $scope.mapContainer)
+					curEl.slideToggle()
+					if $scope.currentMap?
+						$($scope.currentMap.el).empty()
+					$scope.currentMap = gmaps.showAddress {
+						address: job.address.line1 + ", " + job.address.city.name
+						container: $scope.mapContainer
+						done: ->
+							$scope.currentMap.refresh()
+							oms = new OverlappingMarkerSpiderfier($scope.currentMap.map)
+
+							$scope.currentMap = gmaps.newMarker {
+								address: appUser.address.line1 + ", " +  appUser.address.city
+								map : $scope.currentMap
+								done: ->
+									$scope.currentMap.refresh()
+									alert $scope.currentMap.lat
+							}
+
+					}
+
 			$scope.getCities = ->
 				return cities
 

@@ -4,6 +4,8 @@ CategoryModel 	= require "./Category"
 async 					= require "async"
 fs 							= require "fs"
 AuthLevels			= require "../config/AuthLevels"
+crypto 					= require "crypto"
+IMG_FOLDER = "#{process.cwd()}/www/img/"
 
 schema = mongoose.Schema
 	title:
@@ -34,6 +36,8 @@ schema = mongoose.Schema
 
 		line1: String
 		line2: String
+		lng: Number
+		lat: Number
 
 	category:
 		type: String
@@ -112,7 +116,9 @@ schema.pre "save", true, (next, done) ->
 		base64img = photo.src
 		base64img = base64img.split(";base64,")[1]
 		randPath = crypto.randomBytes(20).toString "hex"
-		path = "#{@author._id}/#{randPath}"
+		console.error "DONDE ESTA SANTA CLAUS?"
+		console.error @author
+		path = "#{@author}/#{randPath}"
 		photo.src = path
 		fs.writeFile "#{IMG_FOLDER}#{path}", base64img, {encoding: "base64"}, (err) ->
 			clb err, photo
