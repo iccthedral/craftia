@@ -49,6 +49,12 @@ schema = mongoose.Schema
 		type: Date
 		required: true
 
+	coordinates:
+		lat:
+			type: Number
+		lng:
+			type: Number
+
 	dateTo:
 		type: Date
 		required: true

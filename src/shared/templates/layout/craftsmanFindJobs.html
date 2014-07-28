@@ -48,9 +48,9 @@
 					<input ng-model="searchCriterion.title" class="menu-input" type="text" placeholder="serach">
 				</div>
 				<div class="col-md-4 col-sm-12">
-					<button ng-click="search()" class="btn btn-yellow btn-sm menu-btn menu-btn">SEARCH</button>
-					<button ng-show="!bigMapVisible" ng-click="showBigMap(true)" class="btn btn-yellow btn-sm menu-btn menu-btn">VIEW MAP</button>
-					<button ng-show="bigMapVisible" ng-click="showBigMap(false)" class="btn btn-yellow btn-sm menu-btn menu-btn">HIDE MAP</button>
+					<button ng-click="search(true)" class="btn btn-yellow btn-sm menu-btn menu-btn">SEARCH</button>
+					<button ng-show="!bigMapShown" ng-click="showBigMap(true)" class="btn btn-yellow btn-sm menu-btn menu-btn">VIEW MAP</button>
+					<button ng-show="bigMapShown" ng-click="showBigMap(false)" class="btn btn-yellow btn-sm menu-btn menu-btn">HIDE MAP</button>
 				</div>
 			</div>    
 		</div>
@@ -69,7 +69,7 @@
 	<div id="big-map-div" style="height:800px; display: none" class="peach-div row">
 	</div>
 
-	<div id="{{$index}}" data-ng-repeat="job in filteredJobs">
+	<div ng-hide="bigMapShown" id="{{$index}}" data-ng-repeat="job in filteredJobs">
 
 		<div class="row" style="clear:both;margin-top:10px">
 			<div class="col-md-12 col-sm-12 col-lg-12">

@@ -20,9 +20,6 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       $scope.cities = cities;
       $scope.searchCriterion = {};
       $scope.selectedCategories = appUser.categories;
-      $scope.bigMapVisible = false;
-      $scope.locations = [];
-      $scope.bigMapCity = {};
       (getCities = function() {
         return $scope.cities = cities;
       })();
@@ -109,7 +106,52 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
           }
         });
       };
-      $scope.showBigMap = function(bool) {};
+      $scope.showBigMap = function(bool) {
+        var curEl;
+        $scope.bigMapShown = bool;
+        curEl = $($scope.bigMapContainer);
+        if (!bool) {
+          curEl.slideToggle();
+          return;
+        }
+        $scope.searchCriterion.categories = $scope.selectedCategories;
+        $scope.searchCriterion.paged = false;
+        if ($scope.searchCriterion.categories.length === 0) {
+          $scope.searchCriterion.categories = $scope.categories;
+        }
+        $scope.searchCriterion.subcategory = $scope.selectedSubcategory;
+        $scope.searchCriterion.page = $scope.currentPage;
+        return common.post(API.queryJobs, $scope.searchCriterion).success(function(data) {
+          var _ref;
+          $scope.mappedJobs = (_ref = data.jobs) != null ? _ref.slice() : void 0;
+          curEl.slideToggle();
+          if ($scope.bigMap != null) {
+            $($scope.bigMap.el).empty();
+          }
+          return $scope.bigMap = gmaps.showAddress({
+            address: appUser.address.line1 + ", " + appUser.address.city,
+            container: $scope.bigMapContainer,
+            done: function() {
+              var job, oms, _i, _len, _ref1;
+              oms = new OverlappingMarkerSpiderfier($scope.bigMap.map);
+              _ref1 = $scope.mappedJobs;
+              for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+                job = _ref1[_i];
+                if (job.coordinates != null) {
+                  $scope.bigMap.addMarker({
+                    lat: job.coordinates.lat,
+                    lng: job.coordinates.lng,
+                    infoWindow: {
+                      content: '<div class="info-window-div"><p>' + job.address.line1 + '</p> <p>We will soon have more job infos here and some interactivity</p></div>'
+                    }
+                  });
+                }
+              }
+              return $scope.bigMap.refresh();
+            }
+          });
+        });
+      };
       $scope.showPics = showPics = function(job, index) {
         var curEl, prevEl;
         prevEl = $($scope.mapContainer);
@@ -180,6 +222,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
       };
       $scope.search = function() {
         $scope.searchCriterion.categories = $scope.selectedCategories;
+        $scope.searchCriterion.paged = true;
         if ($scope.searchCriterion.categories.length === 0) {
           $scope.searchCriterion.categories = $scope.categories;
         }
@@ -192,7 +235,7 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
         });
       };
       return (activate = function() {
-        return common.activateController([$scope.search()], "CraftsmanFindJobsCtrl");
+        return common.activateController([$scope.search(true)], "CraftsmanFindJobsCtrl");
       })();
     }
   ]);

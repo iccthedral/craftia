@@ -31,17 +31,14 @@ define ["./module", "gmaps"], (module, GMaps) ->
 						lng = latlng.lng()
 						map.lat = lat
 						map.lng = lng
-						console.log address, "Job address"
-						console.log map.lat, "Job lat"
-						console.log map.lng, "Job lat"
-						alert "The coordinates for your address are: \n" + lat+ "\n" + lng
+
 						map.setCenter lat, lng, ->
 							map.addMarker {
 								lat:lat, 
 								lng: lng, 
 								title: 'Job', 
 								infoWindow: {
-									content: '<p>Is this the right location?</p>'
+									content: '<div class="info-window-div"><p>Map center</p></div>'
 								}	
 							}
 							done? status, map
@@ -57,11 +54,8 @@ define ["./module", "gmaps"], (module, GMaps) ->
 						latlng = results[0].geometry.location
 						lat = latlng.lat()
 						lng = latlng.lng()
-						console.log address, "Home address"
-						console.log lat, "Home lat"
-						console.log lng, "Home long"
 						map.addMarker {lat:lat, lng: lng, infoWindow: {
-							content: '<p>This is your address</p>'
+							content: '<p>{{address}}</p>'
 						}}
 				}
 				return map

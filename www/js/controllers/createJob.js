@@ -33,14 +33,16 @@ define(["./module", "json!cities", "json!categories"], function(module, cities, 
             var oms;
             $scope.currentMap.refresh();
             oms = new OverlappingMarkerSpiderfier($scope.currentMap.map);
-            return $scope.currentMap = gmaps.newMarker({
+            $scope.currentMap = gmaps.newMarker({
               address: appUser.address.line1 + ", " + appUser.address.city,
               map: $scope.currentMap,
               done: function() {
-                $scope.currentMap.refresh();
-                return alert($scope.currentMap.lat);
+                return $scope.currentMap.refresh();
               }
             });
+            $scope.job.coordinates = {};
+            $scope.job.coordinates.lat = $scope.currentMap.lat;
+            return $scope.job.coordinates.lng = $scope.currentMap.lng;
           }
         });
       };

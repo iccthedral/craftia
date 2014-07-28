@@ -382,7 +382,7 @@ createNewJobHandler = (req, res, next) ->
 
 queryHandler = (req, res) ->
 	data = req.body
-
+	queryIsPaged = data.paged
 	page = data.page
 	query = {
 		"status": "open"
@@ -402,7 +402,9 @@ queryHandler = (req, res) ->
 		re = new RegExp("^.*#{title}.*$", "i")
 		query.title = re
 
-	perPage = 5
+	perPage = 0
+	if queryIsPaged
+		perPage = 5
 	console.error query
 	JobModel
 	.find query

@@ -29,26 +29,28 @@ define ["./module", "json!cities", "json!categories"], (module, cities, categori
 			$scope.showMap = () ->
 				if !job.address?  or !job.address.line1?	or !job.address.city?
 						return
-					curEl = ($ $scope.mapContainer)
-					curEl.slideToggle()
-					if $scope.currentMap?
-						$($scope.currentMap.el).empty()
-					$scope.currentMap = gmaps.showAddress {
-						address: job.address.line1 + ", " + job.address.city.name
-						container: $scope.mapContainer
-						done: ->
-							$scope.currentMap.refresh()
-							oms = new OverlappingMarkerSpiderfier($scope.currentMap.map)
 
-							$scope.currentMap = gmaps.newMarker {
-								address: appUser.address.line1 + ", " +  appUser.address.city
-								map : $scope.currentMap
-								done: ->
-									$scope.currentMap.refresh()
-									alert $scope.currentMap.lat
-							}
+				curEl = ($ $scope.mapContainer)
+				curEl.slideToggle()
+				if $scope.currentMap?
+					$($scope.currentMap.el).empty()
+				$scope.currentMap = gmaps.showAddress {
+					address: job.address.line1 + ", " + job.address.city.name
+					container: $scope.mapContainer
+					done: ->
+						$scope.currentMap.refresh()
+						oms = new OverlappingMarkerSpiderfier($scope.currentMap.map)
 
-					}
+						$scope.currentMap = gmaps.newMarker {
+							address: appUser.address.line1 + ", " +  appUser.address.city
+							map : $scope.currentMap
+							done: ->
+								$scope.currentMap.refresh()
+						}
+						$scope.job.coordinates = {}
+						$scope.job.coordinates.lat = $scope.currentMap.lat
+						$scope.job.coordinates.lng = $scope.currentMap.lng
+				}
 
 			$scope.getCities = ->
 				return cities
